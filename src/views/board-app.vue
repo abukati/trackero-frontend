@@ -1,21 +1,44 @@
 <template>
    <section class="board-app" v-if="board">
-      <div class="board-group" v-for="(group, idx) in board.groups" :key="idx">
-         <group-preview :group="group" />
-      </div>
+      <draggable v-model="groupsList" @change="draggedGroup">
+         <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
+            {{idx}}
+            <group-preview :group="group" />
+         </div>
+      </draggable>
    </section>
 </template>
 
 <script>
 import groupPreview from '@/cmps/group-preview'
+import draggable from 'vuedraggable'
+
 export default {
    name: 'board-app',
    components: {
       groupPreview,
+      draggable
    },
    data() {
       return {
          board: null,
+         groups: null
+      }
+   },
+   computed: {
+      groupsList: {
+         get() {
+            return this.groups
+         },
+         set(groups) {
+            console.log(groups);
+            this.$store.dispatch({ type: 'updateGroup', groups })
+         }
+      }
+   },
+   methods: {
+      draggedGroup(ev) {
+         console.log(ev);
       }
    },
    watch: {
@@ -24,9 +47,12 @@ export default {
          async handler() {
             try {
                let boardId = this.$route.params.boardId
-               this.board = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+               const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+               this.board = currBoard
+               this.groups = this.board.groups
+               this.$store.dispatch({ type: 'setCurrBoard', currBoard })
             } catch (err) {
-               console.log(err)
+               window.open(`https://stackoverflow.com/search?q=${err.message}`)
             }
          },
       },
