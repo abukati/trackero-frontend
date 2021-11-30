@@ -47,9 +47,12 @@ export const boardStore = {
       async removeBoard({ commit }, { boardId }) {
          try {
             const removedBoardId = await boardService.remove(boardId)
-            if (removedBoardId) commit({ type: 'removeBoard', boardId })
+            // Might need this after adding httpService
+            // if (removedBoardId) commit({ type: 'removeBoard', boardId })
+            commit({ type: 'removeBoard', boardId })
             return removedBoardId
          } catch (err) {
+            // window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
             console.log(err)
          }
       },
@@ -61,10 +64,11 @@ export const boardStore = {
             console.log(err)
          }
       },
-      async addBoard({ commit }, { board }) {
+      async addBoard({ commit }, { boardTitle }) {
          try {
-            await boardService.save(board)
-            commit({ type: 'addBoard', board })
+            const newBoard = await boardService.createBoard(boardTitle)
+            const savedBoard = await boardService.save(newBoard)
+            commit({ type: 'addBoard', savedBoard })
          } catch (err) {
             console.log(err)
          }

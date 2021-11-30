@@ -11,6 +11,7 @@ export const boardService = {
    save,
    getEmptyBoard,
    getCurrBoard,
+   createBoard,
 }
 
 var gBoards = _createBoards()
@@ -29,6 +30,7 @@ function remove(boardId) {
 }
 
 function save(board) {
+   console.log('save', board)
    const savedBoard = board._id ? _update(board) : _add(board)
    return savedBoard
 }
@@ -42,39 +44,28 @@ function _update(board) {
 }
 
 function getEmptyBoard() {
-   const board = _createBoard('Create Board', { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' })
+   const board = createBoard('Create Board', { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' })
    return board
 }
 
 function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
-      boards = [
-         _createBoard('Software development', {
-            _id: 'u101',
-            username: 'BaselB',
-            fullname: 'Basel Boulos',
-            imgUrl: '',
-         }),
-         _createBoard('Project management', {
-            _id: 'u102',
-            username: 'ArtiomB',
-            fullname: 'Artiom Bukati',
-            imgUrl: '',
-         }),
-         _createBoard('Business board', {
-            _id: 'u103',
-            username: 'NoaN',
-            fullname: 'Noa Nissim',
-            imgUrl: '',
-         }),
-      ]
+      boards = [createBoard('Software development'), createBoard('Project management'), createBoard('Business board')]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
    return boards
 }
 
-function _createBoard(title, user) {
+function createBoard(
+   title,
+   user = {
+      _id: 'u101',
+      username: 'BaselB',
+      fullname: 'Basel Boulos',
+      imgUrl: '',
+   }
+) {
    return {
       _id: utilService.makeId(),
       title,
