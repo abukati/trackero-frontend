@@ -1,0 +1,7 @@
+.board-app {
+   @include flex-row-center;
+   .board-group {
+      background-color: gray;
+      padding: 10px;
+   }
+}
