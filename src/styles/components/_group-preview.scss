@@ -1,6 +1,6 @@
 .group-task {
    @include flex-column-center;
-   background-color: lightblue;
+   background-color: rgb(234, 250, 255);
    padding: 5px;
-   margin: 5px;
+   margin-block: 10px;
 }
