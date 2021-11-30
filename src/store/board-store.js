@@ -4,7 +4,7 @@ export const boardStore = {
    state: {
       boards: [],
       currBoardId: null,
-      currBoard: boardService.getCurrBoard(),
+      currBoard: null,
    },
    getters: {
       boardsForDisplay(state) {
@@ -34,6 +34,9 @@ export const boardStore = {
          const idx = state.boards.findIndex((currBoard) => currBoard._id === board._id)
          state.boards.splice(idx, 1, board)
       },
+      setCurrBoard(state, { board }) {
+         state.currBoard = board
+      }
    },
    actions: {
       async loadBoards({ state, commit }) {
@@ -41,7 +44,7 @@ export const boardStore = {
             const boards = await boardService.query()
             commit({ type: 'setBoards', boards })
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
       async removeBoard({ commit }, { boardId }) {
@@ -50,7 +53,7 @@ export const boardStore = {
             if (removedBoardId) commit({ type: 'removeBoard', boardId })
             return removedBoardId
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
       async updateBoard({ commit }, { board }) {
@@ -58,7 +61,7 @@ export const boardStore = {
             await boardService.save(board)
             commit({ type: 'updateBoard', board })
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
       async addBoard({ commit }, { board }) {
@@ -66,22 +69,29 @@ export const boardStore = {
             await boardService.save(board)
             commit({ type: 'addBoard', board })
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
       async getBoardbyId({ commit }, { boardId }) {
          try {
             return await boardService.getById(boardId)
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-      getEmptyBoard({ commit }) {
+      async getEmptyBoard({ commit }) {
          try {
             return boardService.getEmptyBoard()
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
+      async setCurrBoard({ commit }, { board }) {
+         try {
+            commit({ type: 'setCurrBoard', board })
+         } catch (err) {
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+         }
+      }
    },
 }
