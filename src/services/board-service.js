@@ -14,16 +14,21 @@ export const boardService = {
 }
 
 var gBoards = _createBoards()
+let currBoard = null
 
 function query() {
    return storageService.query(KEY)
 }
 
-function getCurrBoard() {}
+function getCurrBoard() {
+   return currBoard
+}
 
 function getById(boardId) {
-   return storageService.get(KEY, boardId)
+   currBoard = storageService.get(KEY, boardId)
+   return currBoard
 }
+
 function remove(boardId) {
    return storageService.remove(KEY, boardId)
 }
