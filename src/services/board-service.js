@@ -1,6 +1,8 @@
 import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
+
 const KEY = 'boardsDB'
+
 // const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
 // const axios = require('axios')
 
@@ -23,14 +25,12 @@ function query() {
 }
 
 function getCurrBoard() {
-   console.log('currBoard', currBoard)
    return currBoard
 }
 
 async function getById(boardId) {
    try {
       currBoard = await storageService.get(KEY, boardId)
-      console.log('currBoard', currBoard)
       return currBoard
    } catch (err) {
       console.log(err)
@@ -42,10 +42,7 @@ function remove(boardId) {
 }
 
 function removeGroup(groupId) {
-   console.log('groupId')
-   console.log(gBoards)
    let currBoard = getCurrBoard()
-   console.log('currBoard', currBoard)
    const idx = currBoard.groups.findIndex((group) => group.id === groupId)
    currBoard.groups.splice(idx, 1)
    save(currBoard)

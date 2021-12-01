@@ -1,33 +1,14 @@
 import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
 import { boardService } from './board-service.js'
+
 export const groupService = {
-   save,
    remove,
-   removeGroup,
-   saveSortedGroups,
+   saveGroups,
 }
 
 const KEY = 'boardsDB'
 var gGroups
-
-function _add(group) {
-   return storageService.post(KEY, group)
-}
-
-function _update(group) {
-   return storageService.put(KEY, group)
-}
-
-function _getCurrGroup() {
-   gGroups = storageService.query(KEY).map()
-}
-
-function removeGroup(boardId) {
-   console.log('here')
-   console.log(gBoards)
-   console.log('boardId', boardId)
-}
 
 async function remove(id) {
    gGroups = storageService.query(KEY).groups
@@ -37,13 +18,8 @@ async function remove(id) {
    return id
 }
 
-function save(group) {
-   const savedGroup = group.id ? _update(group) : _add(group)
-   return savedGroup
-}
-
-async function saveSortedGroups(groups) {
+async function saveGroups(groups) {
    const board = await boardService.getCurrBoard()
-   board.groups = groups
+   board.groups = JSON.parse(JSON.stringify(groups))
    return board
 }

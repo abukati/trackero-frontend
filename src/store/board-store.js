@@ -112,9 +112,9 @@ export const boardStore = {
          }
       },
 
-      async updateSortedGroups({ dispatch }, { groups }) {
+      async updateGroups({ dispatch }, { groups }) {
          try {
-            const board = await groupService.saveSortedGroups(groups)
+            const board = await groupService.saveGroups(groups)
             dispatch({ type: 'updateBoard', board })
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')

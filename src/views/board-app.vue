@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import groupPreview from "@/cmps/group-preview";
-import draggable from "vuedraggable";
+import groupPreview from "@/cmps/group-preview"
+import draggable from "vuedraggable"
 
 export default {
    name: "board-app",
@@ -27,16 +27,16 @@ export default {
    computed: {
       groupsList: {
          get() {
-            return this.$store.getters.boardGroups;
+            return this.$store.getters.boardGroups
          },
          set(groups) {
-            this.$store.dispatch({ type: "updateSortedGroups", groups });
+            this.$store.dispatch({ type: "updateGroups", groups })
          },
       },
    },
    methods: {
       draggedGroup(ev) {
-         console.log(ev);
+         console.log(ev)
       },
    },
    watch: {
@@ -50,12 +50,12 @@ export default {
                   boardId,
                });
                this.board = currBoard;
-               this.$store.dispatch({ type: "setCurrBoard", currBoard });
+               this.$store.dispatch({ type: "setCurrBoard", currBoard })
             } catch (err) {
-               window.open(`https://stackoverflow.com/search?q=${err.message}`);
+               window.open(`https://stackoverflow.com/search?q=${err.message}`)
             }
-         },
-      },
-   },
+         }
+      }
+   }
 };
 </script>

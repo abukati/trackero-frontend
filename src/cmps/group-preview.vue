@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { showMsg } from "@/services/event-bus-service.js";
+import { showMsg } from "@/services/event-bus-service.js"
 
 export default {
    props: ["group"],
@@ -34,8 +34,8 @@ export default {
    methods: {
       toggleOptions() {
          if (this.isListOpen) {
-            this.isListOpen = false;
-         } else this.isListOpen = true;
+            this.isListOpen = false
+         } else this.isListOpen = true
       },
       async deleteGroup() {
          try {
@@ -44,10 +44,10 @@ export default {
                type: "removeGroup",
                groupId,
             });
-            if (deletedId) showMsg(`group removed ${deletedId}`);
-            else showMsg(`Yoy are not allowed to remove`, "danger");
+            if (deletedId) showMsg(`group removed ${deletedId}`)
+            else showMsg(`Yoy are not allowed to remove`, "danger")
          } catch (err) {
-            console.log(err);
+            console.log(err)
          }
       },
    },
