@@ -109,10 +109,10 @@ async function _createBoards() {
 
 async function addGroup(group) {
    try {
-      const currBoardGroups = await getCurrBoard().groups
-      currBoardGroups.push(group)
-      saveGroups(currBoardGroups)
-      return currBoardGroups
+      const currBoard = await getCurrBoard()
+      currBoard.groups.push(group)
+      saveGroups(currBoard.groups)
+      return currBoard.groups
    } catch (err) {
       console.log(err)
    }
