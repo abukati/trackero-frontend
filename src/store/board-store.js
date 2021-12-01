@@ -29,6 +29,9 @@ export const boardStore = {
       boardGroups(state) {
          return state.currBoard.groups
       },
+      boardMembers(state) {
+         return state.currBoard.members
+      },
    },
 
    mutations: {
@@ -56,7 +59,7 @@ export const boardStore = {
       //********************GROUPS*******************************
       //----------------------------------------------------------- */
       removeGroup(state, { groupId }) {
-         const idx = state.groups.findIndex(group => group._id === groupId)
+         const idx = state.groups.findIndex(group => group.id === groupId)
          state.groups.splice(idx, 1)
       },
       addGroup(state, { group }) {
@@ -64,14 +67,22 @@ export const boardStore = {
       },
 
       //----------------------------------------------------------- */
-      //********************GROUPS*******************************
+      //***********************TASKS********************************
       //----------------------------------------------------------- */
 
       updateTaskPositions(state, { tasks, updatedGroup }) {
          const groupIdx = state.groups.findIndex(group => group.id === updatedGroup.id)
          console.log(state.groups);
          console.log(groupIdx);
-      }
+      },
+      addTask(state, { savedTask, groupId }) {
+         console.log('groupId', groupId)
+         const idx = state.groups.findIndex((group) => group.id === groupId)
+         const group1 = state.groups.find((group) => group.id === groupId)
+         console.log(group1)
+         // group1.tasks.push(savedTask)
+         state.groups.splice(idx, 1, group1)
+      },
    },
 
    actions: {
@@ -133,7 +144,6 @@ export const boardStore = {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-
       //----------------------------------------------------------- */
       //***********************GROUPS********************************
       //----------------------------------------------------------- */
@@ -179,6 +189,19 @@ export const boardStore = {
          } catch(err) {
 
          }
-      }
+      },
+      async addTask({ commit }, { groupId, title }) {
+         try {
+            console.log('groupId', groupId)
+            console.log('title', title)
+            const newTask = await boardService.createTask(title)
+            console.log('newTask', newTask)
+            const savedTask = await boardService.saveTask(newTask, groupId)
+            commit({ type: 'addTask', savedTask, groupId })
+            return newTask
+         } catch (err) {
+            console.log(err)
+         }
+      },
    },
 }
