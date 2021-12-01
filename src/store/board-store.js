@@ -8,7 +8,7 @@ export const boardStore = {
       currBoard: null,
 
       groups: [],
-      currGroup: null,
+      currGroup: null
    },
    getters: {
       //----------------------------------------------------------- */
@@ -24,7 +24,7 @@ export const boardStore = {
          return state.currBoard
       },
       boardsIds(state) {
-         return state.boards.map((board) => board._id)
+         return state.boards.map(board => board._id)
       },
       boardGroups(state) {
          return state.currBoard.groups
@@ -34,7 +34,7 @@ export const boardStore = {
       //----------------------------------------------------------- */
       boardMembers(state) {
          return state.currBoard.members
-      },
+      }
    },
 
    mutations: {
@@ -48,10 +48,10 @@ export const boardStore = {
          state.boards.push(board)
       },
       removeBoard(state, { boardId }) {
-         state.boards = state.boards.filter((board) => board._id !== boardId)
+         state.boards = state.boards.filter(board => board._id !== boardId)
       },
       updateBoard(state, { board }) {
-         const idx = state.boards.findIndex((currBoard) => currBoard._id === board._id)
+         const idx = state.boards.findIndex(currBoard => currBoard._id === board._id)
          state.boards.splice(idx, 1, board)
       },
       setCurrBoard(state, { currBoard }) {
@@ -62,7 +62,7 @@ export const boardStore = {
       //********************GROUPS*******************************
       //----------------------------------------------------------- */
       removeGroup(state, { groupId }) {
-         const idx = state.groups.findIndex((group) => group.id === groupId)
+         const idx = state.groups.findIndex(group => group.id === groupId)
          state.groups.splice(idx, 1)
       },
       addGroup(state, { group }) {
@@ -72,13 +72,14 @@ export const boardStore = {
       //***********************TASKS********************************
       //----------------------------------------------------------- */
       updateTaskPositions(state, { tasks, updatedGroup }) {
-         const idx = state.groups.findIndex((group) => group.id === updatedGroup.id)
+         const idx = state.groups.findIndex(group => group.id === updatedGroup.id)
          state.currBoard.groups.splice(idx, 1, updatedGroup)
       },
       addTask(state, { savedTask, groupId }) {
-         const idx = state.groups.findIndex((group) => group.id === groupId)
-         const group1 = state.groups.find((group) => group.id === groupId)
-         state.groups.splice(idx, 1, group1)
+         const idx = state.groups.findIndex(group => group.id === groupId)
+         const currGroup = state.groups.find(group => group.id === groupId)
+         currGroup.tasks.push(savedTask)
+         state.groups.splice(idx, 1, currGroup)
       },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
@@ -87,9 +88,9 @@ export const boardStore = {
          state.currBoard.members.push(user)
       },
       removeMember(state, { user }) {
-         const idx = state.currBoard.members.findIndex((member) => member._id === user._id)
+         const idx = state.currBoard.members.findIndex(member => member._id === user._id)
          state.currBoard.members.splice(idx, 1)
-      },
+      }
    },
 
    actions: {
@@ -224,6 +225,6 @@ export const boardStore = {
          } catch (err) {
             console.log(err)
          }
-      },
-   },
+      }
+   }
 }

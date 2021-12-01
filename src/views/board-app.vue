@@ -1,37 +1,45 @@
 <template>
    <section class="board-app" :style="getBoardBgc" v-if="board">
-      <div class="secondary-navbar">
-         <h3>All web members</h3>
-         <ul class="clean-list" v-if="getUsers.length">
-            <li v-for="user in getUsers" :key="user._id">
-               {{ user.fullname }}
-               <button @click="addMember(user)">+</button>
-            </li>
-         </ul>
-         <h3>Board members</h3>
-         <ul class="clean-list" v-if="board.members.length">
-            <li v-for="user in board.members" :key="user._id">
-               {{ user.fullname }}
-               <button @click="removeMember(user)">-</button>
-            </li>
-         </ul>
-         <label>
-            <span>Update bgc</span>
-            <input
-               type="color"
-               v-model="board.style.bgColor"
-               @change="changeBoardBgc"
-            />
-         </label>
-      </div>
+      <div class="board-wrapper">
+         <div class="board-container">
+            <div class="secondary-navbar">
+               <h3>All web members</h3>
+               <ul class="clean-list" v-if="getUsers.length">
+                  <li v-for="user in getUsers" :key="user._id">
+                     {{ user.fullname }}
+                     <button @click="addMember(user)">+</button>
+                  </li>
+               </ul>
+               <h3>Board members</h3>
+               <ul class="clean-list" v-if="board.members.length">
+                  <li v-for="user in board.members" :key="user._id">
+                     {{ user.fullname }}
+                     <button @click="removeMember(user)">-</button>
+                  </li>
+               </ul>
+               <label>
+                  <span>Update bgc</span>
+                  <input
+                     type="color"
+                     v-model="board.style.bgColor"
+                     @change="changeBoardBgc"
+                  />
+               </label>
+            </div>
 
-      <draggable class="groups-container" v-model="groupsList">
-         <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
-            {{ group.id }}
-            <group-preview :group="group" :board="board" />
+            <draggable class="groups-container" v-model="groupsList">
+               <div
+                  class="board-group"
+                  v-for="(group, idx) in groupsList"
+                  :key="idx"
+               >
+                  {{ group.id }}
+                  <group-preview :group="group" :board="board" />
+               </div>
+               <button @click="addGroup()">Add another group</button>
+            </draggable>
          </div>
-         <button @click="addGroup()">Add another group</button>
-      </draggable>
+      </div>
    </section>
 </template>
 

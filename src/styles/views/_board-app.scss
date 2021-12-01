@@ -2,7 +2,7 @@
    scroll-behavior: smooth;
    // overflow-x: scroll;
    .secondary-navbar {
-      height: 5vh;
+      @include flex-row-center;
    }
 
    .groups-container {
