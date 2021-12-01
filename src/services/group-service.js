@@ -4,6 +4,7 @@ import { boardService } from './board-service.js'
 export const groupService = {
    save,
    remove,
+   saveSortedGroups
 }
 
 const KEY = 'boardsDB'
@@ -12,9 +13,11 @@ var gGroups
 function _add(group) {
    return storageService.post(KEY, group)
 }
+
 function _update(group) {
    return storageService.put(KEY, group)
 }
+
 function _getCurrGroup() {
    gGroups = storageService.query(KEY).map()
 }
@@ -30,6 +33,13 @@ async function remove(id) {
 function save(group) {
    const savedGroup = group.id ? _update(group) : _add(group)
    return savedGroup
+}
+
+async function saveSortedGroups(groups) {
+   const board = await boardService.getCurrBoard()
+   board.groups = groups
+   boardService.save(board)
+   return board
 }
 
 // function save(group) {

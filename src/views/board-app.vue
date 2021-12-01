@@ -31,8 +31,7 @@ export default {
             return this.groups
          },
          set(groups) {
-            console.log(groups);
-            this.$store.dispatch({ type: 'updateGroup', groups })
+            this.$store.dispatch({ type: 'updateSortedGroups', groups })
          }
       }
    },

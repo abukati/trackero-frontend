@@ -12,9 +12,10 @@ export const groupStore = {
       },
    },
    actions: {
-      updateGroup({ commit }, { value }) {
+      async updateSortedGroups({ commit }, { groups }) {
          try {
-            // await groupService.save(value)
+            const board = await groupService.saveSortedGroups(groups)
+            commit({ type: 'updateBoard', board, root: true })
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }

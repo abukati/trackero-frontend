@@ -33,9 +33,10 @@ export const boardStore = {
       updateBoard(state, { board }) {
          const idx = state.boards.findIndex((currBoard) => currBoard._id === board._id)
          state.boards.splice(idx, 1, board)
-      },
-      setCurrBoard(state, { board }) {
          state.currBoard = board
+      },
+      setCurrBoard(state, { currBoard }) {
+         state.currBoard = currBoard
       },
    },
    actions: {
@@ -89,9 +90,9 @@ export const boardStore = {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-      async setCurrBoard({ commit }, { board }) {
+      async setCurrBoard({ commit }, { currBoard }) {
          try {
-            commit({ type: 'setCurrBoard', board })
+            commit({ type: 'setCurrBoard', currBoard })
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
