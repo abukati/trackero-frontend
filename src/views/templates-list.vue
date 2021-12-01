@@ -6,8 +6,8 @@
          <button>Create board</button>
       </form>
       <ul v-if="boardsIds">
-         <li v-for="(boardId, idx) in boardsIds" :key="boardId">
-            <router-link :to="`board/${boardId}`">Board - {{ idx }}</router-link>
+         <li v-for="boardId in boardsIds" :key="boardId">
+            <router-link :to="`board/${boardId}`">Board </router-link>
             <button @click="removeBoard(boardId)">Delete</button>
          </li>
       </ul>

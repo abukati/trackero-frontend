@@ -68,9 +68,12 @@ export const boardStore = {
       },
       async addBoard({ commit }, { boardTitle }) {
          try {
-            const newBoard = await boardService.createBoard(boardTitle)
+            // After generating a newBoard and then saving
+            // it think it has to update since it already got an _id
+            // const newBoard = await boardService.createBoard(boardTitle)
+            const newBoard = await boardService.getClonedBoard(boardTitle)
             const savedBoard = await boardService.save(newBoard)
-            commit({ type: 'addBoard', savedBoard })
+            commit({ type: 'addBoard', board: savedBoard })
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
