@@ -13,7 +13,7 @@
             <div class="nav-user-links">
                <router-link class="nav-item" to="/user">
                   <span>
-                     <img src="../../public/img/icons/bell-regular.svg" alt="notifications center icon">
+                     <img src="@/assets/img/bell-regular.svg" alt="notifications center icon">
                   </span>
                </router-link>
                <router-link class="nav-item" to="/user">user</router-link>
