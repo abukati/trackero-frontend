@@ -2,7 +2,7 @@
    <section class="board-app" v-if="board">
       <draggable v-model="groupsList" @change="draggedGroup">
          <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
-            {{idx}}
+            {{ group.id }}
             <group-preview :group="group" />
          </div>
       </draggable>
@@ -10,52 +10,52 @@
 </template>
 
 <script>
-import groupPreview from '@/cmps/group-preview'
-import draggable from 'vuedraggable'
+import groupPreview from "@/cmps/group-preview";
+import draggable from "vuedraggable";
 
 export default {
-   name: 'board-app',
+   name: "board-app",
    components: {
       groupPreview,
-      draggable
+      draggable,
    },
    data() {
       return {
          board: null,
-         groups: null
-      }
+      };
    },
    computed: {
       groupsList: {
          get() {
-            return this.groups
+            return this.$store.getters.boardGroups;
          },
          set(groups) {
-            console.log(groups);
-            this.$store.dispatch({ type: 'updateGroup', groups })
-         }
-      }
+            this.$store.dispatch({ type: "updateSortedGroups", groups });
+         },
+      },
    },
    methods: {
       draggedGroup(ev) {
          console.log(ev);
-      }
+      },
    },
    watch: {
-      '$route.params.boardId': {
+      "$route.params.boardId": {
          immediate: true,
          async handler() {
             try {
-               let boardId = this.$route.params.boardId
-               const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
-               this.board = currBoard
-               this.groups = this.board.groups
-               this.$store.dispatch({ type: 'setCurrBoard', currBoard })
+               let boardId = this.$route.params.boardId;
+               const currBoard = await this.$store.dispatch({
+                  type: "getBoardbyId",
+                  boardId,
+               });
+               this.board = currBoard;
+               this.$store.dispatch({ type: "setCurrBoard", currBoard });
             } catch (err) {
-               window.open(`https://stackoverflow.com/search?q=${err.message}`)
+               window.open(`https://stackoverflow.com/search?q=${err.message}`);
             }
          },
       },
    },
-}
+};
 </script>

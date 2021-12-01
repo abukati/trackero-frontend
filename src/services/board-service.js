@@ -11,8 +11,8 @@ export const boardService = {
    save,
    getEmptyBoard,
    getCurrBoard,
-   createBoard,
    getClonedBoard,
+   removeGroup,
 }
 
 var gBoards = _createBoards()
@@ -23,16 +23,32 @@ function query() {
 }
 
 function getCurrBoard() {
+   console.log('currBoard', currBoard)
    return currBoard
 }
 
-function getById(boardId) {
-   currBoard = storageService.get(KEY, boardId)
-   return currBoard
+async function getById(boardId) {
+   try {
+      currBoard = await storageService.get(KEY, boardId)
+      console.log('currBoard', currBoard)
+      return currBoard
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 function remove(boardId) {
    return storageService.remove(KEY, boardId)
+}
+
+function removeGroup(groupId) {
+   console.log('groupId')
+   console.log(gBoards)
+   let currBoard = getCurrBoard()
+   console.log('currBoard', currBoard)
+   const idx = currBoard.groups.findIndex((group) => group.id === groupId)
+   currBoard.groups.splice(idx, 1)
+   save(currBoard)
 }
 
 function save(board) {
@@ -49,20 +65,20 @@ function _update(board) {
 }
 
 function getEmptyBoard() {
-   const board = createBoard('Create Board', { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' })
+   const board = _createBoard('Create Board', { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' })
    return board
 }
 
 function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
-      boards = [createBoard('Software development'), createBoard('Project management'), createBoard('Business board')]
+      boards = [_createBoard('Software development'), _createBoard('Project management'), _createBoard('Business board')]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
    return boards
 }
 
-function createBoard(
+function _createBoard(
    title,
    user = {
       _id: 'u101',
@@ -260,7 +276,7 @@ function createBoard(
             title: 'Develop trackero',
             tasks: [
                {
-                  id: 't102',
+                  id: 't103',
                   title: 'Project trackero task',
                   style: {
                      bgColor: '#ffffff',
@@ -314,8 +330,8 @@ function createBoard(
                   ],
                },
                {
-                  id: 't103',
-                  title: 'Project trackero task 103',
+                  id: 't104',
+                  title: 'Project trackero task 104',
                   style: {
                      bgColor: '#ffffff',
                   },

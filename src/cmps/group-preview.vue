@@ -11,11 +11,10 @@
       <section v-if="isListOpen" class="list-actions">
          <h3>List actions</h3>
          <button @click="toggleOptions">X</button>
-         <h3 @click="deleteGroup">Delete Card</h3>
+         <button @click="deleteGroup">Delete Card</button>
       </section>
-      <div class="group-task" v-for="task in group.tasks" :key="task.id">
-         {{ task }}
-         <hr />
+      <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
+         <router-link class="group task" :to="``">{{task}}</router-link>
       </div>
    </section>
 </template>
@@ -34,7 +33,6 @@ export default {
    created() {},
    methods: {
       toggleOptions() {
-         console.log(this.isListOpen);
          if (this.isListOpen) {
             this.isListOpen = false;
          } else this.isListOpen = true;

@@ -1,4 +1,6 @@
 import { groupService } from '@/services/group-service.js'
+import { boardService } from '../services/board-service.js'
+
 export const groupStore = {
    state: {
       groups: [],
@@ -22,7 +24,7 @@ export const groupStore = {
       async removeGroup({ commit }, { groupId }) {
          console.log('groupId', groupId)
          try {
-            const deletedId = await groupService.remove(groupId)
+            const deletedId = await boardService.removeGroup(groupId)
             console.log('deletedId', deletedId)
             if (deletedId) {
                commit({ type: 'removeGroup', groupId })
