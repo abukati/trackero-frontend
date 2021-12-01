@@ -6,11 +6,13 @@ export const groupService = {
    remove,
    removeGroup,
    saveSortedGroups,
+   getClonedGroup,
 }
 
 const KEY = 'boardsDB'
 var gGroups
 
+// current doesn't save a new group, only replaces the whole board
 function _add(group) {
    return storageService.post(KEY, group)
 }
@@ -46,4 +48,125 @@ async function saveSortedGroups(groups) {
    const board = await boardService.getCurrBoard()
    board.groups = groups
    return board
+}
+
+function getClonedGroup() {
+   const group = {
+      id: utilService.makeId(),
+      title: 'Develop trackero Cloned',
+      tasks: [
+         {
+            id: 't101',
+            title: 'Project trackero task',
+            style: {
+               bgColor: '#ffffff',
+            },
+            members: [
+               {
+                  _id: 'u103',
+                  username: 'NoaN',
+                  fullname: 'Noa Nissim',
+                  imgUrl: '',
+               },
+               {
+                  _id: 'u101',
+                  username: 'BaselB',
+                  fullname: 'Basel Boulos',
+                  imgUrl: '',
+               },
+            ],
+            labels: [
+               {
+                  id: 'l102',
+                  title: '',
+                  color: 'yellow',
+               },
+               {
+                  id: 'l103',
+                  title: 'Flexible',
+                  color: 'orange',
+               },
+            ],
+            byUser: {
+               _id: 'u100',
+               fullname: 'Guest',
+               username: 'guest',
+               imgUrl: '',
+            },
+            dueDate: {
+               date: '14 Dec 2021',
+               isComplete: false,
+            },
+            comments: [
+               {
+                  txt: 'Please work on trackero',
+                  id: 'c100',
+                  createdAt: Date.now(),
+                  byMember: {
+                     fullname: 'Matan Crispel',
+                     _id: 'u104',
+                  },
+               },
+            ],
+         },
+         {
+            id: 't102',
+            title: 'Project trackero task 102',
+            style: {
+               bgColor: '#ffffff',
+            },
+            members: [
+               {
+                  _id: 'u103',
+                  username: 'NoaN',
+                  fullname: 'Noa Nissim',
+                  imgUrl: '',
+               },
+               {
+                  _id: 'u101',
+                  username: 'BaselB',
+                  fullname: 'Basel Boulos',
+                  imgUrl: '',
+               },
+            ],
+            labels: [
+               {
+                  id: 'l102',
+                  title: '',
+                  color: 'yellow',
+               },
+               {
+                  id: 'l103',
+                  title: 'Flexible',
+                  color: 'orange',
+               },
+            ],
+            byUser: {
+               _id: 'u100',
+               fullname: 'Guest',
+               username: 'guest',
+               imgUrl: '',
+            },
+            dueDate: {
+               date: '15 Dec 2021',
+               isComplete: false,
+            },
+            comments: [
+               {
+                  txt: 'Please work on trackero task',
+                  id: 'c101',
+                  createdAt: Date.now(),
+                  byMember: {
+                     fullname: 'Matan Crispel',
+                     _id: 'u104',
+                  },
+               },
+            ],
+         },
+      ],
+      style: {
+         bgColor: '#ebecf0',
+      },
+   }
+   return group
 }

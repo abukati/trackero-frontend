@@ -72,7 +72,11 @@ function getEmptyBoard() {
 function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
-      boards = [_createBoard('Software development'), _createBoard('Project management'), _createBoard('Business board')]
+      boards = [
+         _createBoard('Software development'),
+         _createBoard('Project management'),
+         _createBoard('Business board'),
+      ]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
    return boards

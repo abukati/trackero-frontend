@@ -25,7 +25,7 @@ export const boardStore = {
       },
       boardGroups(state) {
          return state.currBoard.groups
-      }
+      },
    },
    mutations: {
       setBoards(state, { boards }) {
@@ -44,7 +44,9 @@ export const boardStore = {
       setCurrBoard(state, { currBoard }) {
          state.currBoard = currBoard
       },
-
+      addGroup(state, { group }) {
+         // state.groups.push(group)
+      },
       removeGroup(state, { groupId }) {
          const idx = state.groups.findIndex((group) => group._id === groupId)
          state.groups.splice(idx, 1)
@@ -111,13 +113,21 @@ export const boardStore = {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-
       async updateSortedGroups({ dispatch }, { groups }) {
          try {
             const board = await groupService.saveSortedGroups(groups)
             dispatch({ type: 'updateBoard', board })
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+         }
+      },
+      async addGroup({ commit }) {
+         try {
+            const newGroup = await groupService.getClonedGroup()
+            // const savedGroup = await boardService.save(newGroup)
+            // commit({ type: 'addGroup', group: newGroup })
+         } catch (err) {
+            console.log(err)
          }
       },
       async removeGroup({ commit }, { groupId }) {
@@ -133,5 +143,5 @@ export const boardStore = {
             console.log(err)
          }
       },
-   }
+   },
 }
