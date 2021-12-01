@@ -22,17 +22,15 @@ export default {
    data() {
       return {
          board: null,
-         groups: null,
       };
    },
    computed: {
       groupsList: {
          get() {
-            return this.groups;
+            return this.$store.getters.boardGroups;
          },
          set(groups) {
-            console.log(groups);
-            this.$store.dispatch({ type: "updateGroup", groups });
+            this.$store.dispatch({ type: "updateSortedGroups", groups });
          },
       },
    },
@@ -52,7 +50,6 @@ export default {
                   boardId,
                });
                this.board = currBoard;
-               this.groups = this.board.groups;
                this.$store.dispatch({ type: "setCurrBoard", currBoard });
             } catch (err) {
                window.open(`https://stackoverflow.com/search?q=${err.message}`);

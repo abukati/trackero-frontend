@@ -13,9 +13,8 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <div class="group-task" v-for="task in group.tasks" :key="task.id">
-         {{ task }}
-         <hr />
+      <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
+         <router-link class="group task" :to="``">{{task}}</router-link>
       </div>
    </section>
 </template>

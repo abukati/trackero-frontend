@@ -5,6 +5,7 @@ export const groupService = {
    save,
    remove,
    removeGroup,
+   saveSortedGroups,
 }
 
 const KEY = 'boardsDB'
@@ -13,9 +14,11 @@ var gGroups
 function _add(group) {
    return storageService.post(KEY, group)
 }
+
 function _update(group) {
    return storageService.put(KEY, group)
 }
+
 function _getCurrGroup() {
    gGroups = storageService.query(KEY).map()
 }
@@ -39,21 +42,8 @@ function save(group) {
    return savedGroup
 }
 
-// function save(group) {
-//    const board = boardService.getCurrBoard()
-//    if (group.id) {
-//       const idx = _getGroupIdx(group.id)
-//       board.groups[idx] = group
-//       boardService.save(board)
-//    }
-// }
-
-// function _getGroupIdx(groupId) {
-//    const board = boardService.getCurrBoard()
-//    const idx = board.groups.findIndex(group => group.id === groupId)
-//    return idx
-// }
-
-// function _getCurrGroup() {
-//    return boardService.getCurrBoard()
-// }
+async function saveSortedGroups(groups) {
+   const board = await boardService.getCurrBoard()
+   board.groups = groups
+   return board
+}

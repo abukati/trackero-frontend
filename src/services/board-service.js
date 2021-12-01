@@ -52,7 +52,6 @@ function removeGroup(groupId) {
 }
 
 function save(board) {
-   console.log('save', board)
    const savedBoard = board._id ? _update(board) : _add(board)
    return savedBoard
 }
