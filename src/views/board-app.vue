@@ -1,10 +1,10 @@
 <template>
    <section class="board-app" v-if="board">
       <button @click="addGroup()">Add another group</button>
-      <draggable v-model="groupsList" @change="draggedGroup">
+      <draggable v-model="groupsList">
          <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
             {{ group.id }}
-            <group-preview :group="group" />
+            <group-preview :group="group" :board="board" />
          </div>
       </draggable>
    </section>
@@ -18,7 +18,7 @@ export default {
    name: 'board-app',
    components: {
       groupPreview,
-      draggable,
+      draggable
    },
    data() {
       return {
@@ -32,16 +32,13 @@ export default {
          },
          set(groups) {
             this.$store.dispatch({ type: "updateGroups", groups })
-         },
-      },
+         }
+      }
    },
    methods: {
-      draggedGroup(ev) {
-         console.log(ev)
-      },
       addGroup() {
          this.$store.dispatch({ type: 'addGroup' })
-      },
+      }
    },
    watch: {
       '$route.params.boardId': {
@@ -49,10 +46,7 @@ export default {
          async handler() {
             try {
                let boardId = this.$route.params.boardId
-               const currBoard = await this.$store.dispatch({
-                  type: 'getBoardbyId',
-                  boardId,
-               })
+               const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                this.board = currBoard
             } catch (err) {
                window.open(`https://stackoverflow.com/search?q=${err.message}`)
