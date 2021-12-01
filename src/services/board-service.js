@@ -13,7 +13,12 @@ export const boardService = {
    getCurrBoard,
    getClonedBoard,
    removeGroup,
+   saveGroups,
 }
+
+//----------------------------------------------------------- */
+//********************BOARD*********************************
+//----------------------------------------------------------- */
 
 var gBoards = _createBoards()
 let currBoard = null
@@ -41,16 +46,6 @@ function remove(boardId) {
    return storageService.remove(KEY, boardId)
 }
 
-function removeGroup(groupId) {
-   console.log('groupId')
-   console.log(gBoards)
-   let currBoard = getCurrBoard()
-   console.log('currBoard', currBoard)
-   const idx = currBoard.groups.findIndex((group) => group.id === groupId)
-   currBoard.groups.splice(idx, 1)
-   save(currBoard)
-}
-
 function save(board) {
    const savedBoard = board._id ? _update(board) : _add(board)
    return savedBoard
@@ -72,10 +67,31 @@ function getEmptyBoard() {
 function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
-      boards = [_createBoard('Software development'), _createBoard('Project management'), _createBoard('Business board')]
+      boards = [
+         _createBoard('Software development'),
+         _createBoard('Project management'),
+         _createBoard('Business board'),
+      ]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
    return boards
+}
+
+//----------------------------------------------------------- */
+//***********************GROUPS********************************
+//----------------------------------------------------------- */
+async function removeGroup(id) {
+   const currBoardGroups = getCurrBoard().groups
+   console.log('currBoardGroups', currBoardGroups)
+   let filtered = currBoardGroups.map((group) => group.id !== id)
+   saveGroups(filtered)
+}
+
+async function saveGroups(groups) {
+   const board = await getCurrBoard()
+   board.groups = JSON.parse(JSON.stringify(groups))
+   save(board)
+   return board
 }
 
 function _createBoard(

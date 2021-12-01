@@ -1,49 +1,35 @@
-import { storageService } from './async-storage-service.js'
-import { utilService } from './util-service.js'
-import { boardService } from './board-service.js'
-export const groupService = {
-   save,
-   remove,
-   removeGroup,
-   saveSortedGroups,
-}
+// import { storageService } from './async-storage-service.js'
+// import { utilService } from './util-service.js'
+// import { boardService } from './board-service.js'
+// export const groupService = {
+//    remove,
+//    saveSortedGroups,
+// }
 
-const KEY = 'boardsDB'
-var gGroups
+// const KEY = 'boardsDB'
+// var gGroups
 
-function _add(group) {
-   return storageService.post(KEY, group)
-}
+// async function remove(id) {
+//    gGroups = storageService.query(KEY).groups
+//    console.log('gGroups', gGroups)
+//    let filtered = gGroups.map((group) => group.id !== id)
+//    gGroups = filtered
+//    return id
+// }
 
-function _update(group) {
-   return storageService.put(KEY, group)
-}
+// async function saveSortedGroups(groups) {
+//    const board = await boardService.getCurrBoard()
+//    board.groups = groups
+//    return board
+// }
 
-function _getCurrGroup() {
-   gGroups = storageService.query(KEY).map()
-}
-
-function removeGroup(boardId) {
-   console.log('here')
-   console.log(gBoards)
-   console.log('boardId', boardId)
-}
-
-async function remove(id) {
-   gGroups = storageService.query(KEY).groups
-   console.log('gGroups', gGroups)
-   let filtered = gGroups.map((group) => group.id !== id)
-   gGroups = filtered
-   return id
-}
-
-function save(group) {
-   const savedGroup = group.id ? _update(group) : _add(group)
-   return savedGroup
-}
-
-async function saveSortedGroups(groups) {
-   const board = await boardService.getCurrBoard()
-   board.groups = groups
-   return board
-}
+// function removeGroup(groupId) {
+//     console.log('groupId')
+//     console.log(gBoards)
+//     let currBoard = getCurrBoard()
+//     console.log('currBoard', currBoard)
+//     const idx = currBoard.groups.findIndex((group) => group.id === groupId)
+//     currBoard.groups.splice(idx, 1)
+//     save(currBoard)
+//     return currBoard
+//  }
