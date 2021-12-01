@@ -43,12 +43,8 @@ export default {
             const deletedId = this.$store.dispatch({
                type: "removeGroup",
                groupId,
-<<<<<<< HEAD
-            });
-=======
             })
             this.isListOpen = false
->>>>>>> 97537fdae026ad5f53691e73d7f1b6521b2cd769
             if (deletedId) showMsg(`group removed ${deletedId}`)
             else showMsg(`Yoy are not allowed to remove`, "danger")
          } catch (err) {
