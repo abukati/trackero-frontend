@@ -59,7 +59,7 @@ export const boardStore = {
          state.groups.splice(idx, 1)
       },
       addGroup(state, { group }) {
-         // state.groups.push(group)
+         state.groups.push(group)
       },
    },
 
@@ -136,9 +136,9 @@ export const boardStore = {
       },
       async addGroup({ commit }) {
          try {
-            const newGroup = await groupService.getClonedGroup()
-            // const savedGroup = await boardService.save(newGroup)
-            // commit({ type: 'addGroup', group: newGroup })
+            const newGroup = await boardService.getClonedGroup()
+            const savedGroup = await boardService.addGroup(newGroup)
+            commit({ type: 'addGroup', group: savedGroup })
          } catch (err) {
             console.log(err)
          }

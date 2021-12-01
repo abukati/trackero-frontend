@@ -20,17 +20,17 @@
 </template>
 
 <script>
-import { showMsg } from "@/services/event-bus-service.js"
+import { showMsg } from '@/services/event-bus-service.js'
 
 export default {
-   props: ["group"],
-   name: "groupPreview",
+   props: ['group'],
+   name: 'groupPreview',
    data() {
       return {
          isListOpen: false,
       }
    },
-   created() { },
+   created() {},
    methods: {
       toggleOptions() {
          if (this.isListOpen) {
@@ -41,21 +41,17 @@ export default {
          try {
             const groupId = this.group.id
             const deletedId = this.$store.dispatch({
-               type: "removeGroup",
+               type: 'removeGroup',
                groupId,
-<<<<<<< HEAD
-            });
-=======
             })
             this.isListOpen = false
->>>>>>> 97537fdae026ad5f53691e73d7f1b6521b2cd769
             if (deletedId) showMsg(`group removed ${deletedId}`)
-            else showMsg(`Yoy are not allowed to remove`, "danger")
+            else showMsg(`Yoy are not allowed to remove`, 'danger')
          } catch (err) {
             console.log(err)
          }
       },
    },
    computed: {},
-};
+}
 </script>

@@ -14,6 +14,7 @@ export const boardService = {
    getEmptyBoard,
    getCurrBoard,
    getClonedBoard,
+   addGroup,
    removeGroup,
    saveGroups,
    getClonedGroup,
@@ -81,6 +82,17 @@ function _createBoards() {
 //----------------------------------------------------------- */
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
+
+async function addGroup(group) {
+   try {
+      const currBoardGroups = await getCurrBoard().groups
+      currBoardGroups.push(group)
+      saveGroups(currBoardGroups)
+      return currBoardGroups
+   } catch (err) {
+      console.log(err)
+   }
+}
 
 async function removeGroup(id) {
    const currBoardGroups = getCurrBoard().groups
