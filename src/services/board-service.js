@@ -25,7 +25,7 @@ export const boardService = {
    //TASK
    createTask,
    saveTask,
-   updateTasksIdx
+   updateTasks,
 }
 
 //----------------------------------------------------------- */
@@ -117,7 +117,7 @@ async function _createBoards() {
 async function getCurrGroup(groupId) {
    try {
       const currBoard = await getCurrBoard()
-      const currGroup = currBoard.groups.find(group => group.id === groupId)
+      const currGroup = currBoard.groups.find((group) => group.id === groupId)
       return currGroup
    } catch (err) {
       console.log(err)
@@ -138,7 +138,7 @@ async function addGroup(group) {
 async function updateGroup(updatedGroup, groupId) {
    try {
       const currBoard = await getCurrBoard()
-      currBoard.groups.forEach(group => {
+      currBoard.groups.forEach((group) => {
          if (group.id === groupId) group = JSON.parse(JSON.stringify(updatedGroup))
       })
       saveGroups(currBoard.groups)
@@ -152,7 +152,7 @@ async function removeGroup(id) {
    try {
       const currBoard = await getCurrBoard()
       let currGroups = currBoard.groups
-      let idx = currGroups.findIndex(group => group.id === id)
+      let idx = currGroups.findIndex((group) => group.id === id)
       currGroups.splice(idx, 1)
       saveGroups(currGroups)
       return idx
@@ -1000,7 +1000,7 @@ async function saveTask(task, groupId) {
    }
 }
 
-async function updateTasksIdx(tasks, group) {
+async function updateTasks(tasks, group) {
    try {
       const currGroup = await getCurrGroup(group.id)
       currGroup.tasks = JSON.parse(JSON.stringify(tasks))

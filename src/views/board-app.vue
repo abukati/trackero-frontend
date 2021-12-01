@@ -3,17 +3,31 @@
       <!-- <el-select v-if="membersNames" v-model="membersNames" multiple placeholder="Select" @change="handleBoardMembers">
          <el-option v-for="(member, idx) in membersNames" :key="idx" :value="member"> </el-option>
       </el-select> -->
-      <label>
-         <span>Update bgc</span>
-         <input type="color" v-model="board.style.bgColor" @change="changeBoardBgc" />
-      </label>
-      <button @click="addGroup()">Add another group</button>
-      <draggable v-model="groupsList">
-         <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
-            {{ group.id }}
-            <group-preview :group="group" :board="board" />
-         </div>
-      </draggable>
+      <div class="secondary-navbar">
+         <label>
+            <span>Update bgc</span>
+            <input
+               type="color"
+               v-model="board.style.bgColor"
+               @change="changeBoardBgc"
+            />
+         </label>
+      </div>
+
+      <div>
+         <draggable class="groups-container" v-model="groupsList">
+            <div
+               class="board-group"
+               v-for="(group, idx) in groupsList"
+               :key="idx"
+            >
+               <group-preview :group="group" :board="board" />
+            </div>
+            <button class="add-group-btn" @click="addGroup()">
+               Add another group
+            </button>
+         </draggable>
+      </div>
    </section>
 </template>
 

@@ -1,11 +1,13 @@
 <template>
-   <section>
-      <section class="header-section">
+   <section class="group-preview-container">
+      <section class="group-header-section">
          <div class="title-section">
-            <h3>{{ group.title }}</h3>
+            <h3>{{ group.title }}, Id: {{ group.id }}</h3>
          </div>
          <div class="title-actions-section">
-            <button @click="toggleOptions">***</button>
+            <button @click="toggleOptions">
+               <img :src="require(`@/assets/img/option.png`)" />
+            </button>
          </div>
       </section>
       <section v-if="isListOpen" class="list-actions">
@@ -13,17 +15,25 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <draggable v-model="tasksList" >
+      <draggable v-model="tasksList">
          <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
-            <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task">
-               {{task.id}}
-               <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }">dd</div>
+            <router-link
+               :to="`/board/${board._id}/${group.id}/${task.id}`"
+               class="group-task"
+            >
+               {{ task.id }}
+               <div
+                  class="task-cover"
+                  :style="{ backgroundColor: task.style.bgColor }"
+               >
+                  dd
+               </div>
                <span class="group-task-options"></span>
                <div class="group-task-preview">
                   <div class="group-task-labels">{{ task.labels }}</div>
                   <div class="group-task-title">{{ task.title }}</div>
-                  <div class="group-task-badges"></div>
-                  <div class="group-task-members">{{ task.members }}</div>
+                  <!-- <div class="group-task-badges"></div>
+                  <div class="group-task-members">{{ task.members }}</div> -->
                </div>
             </router-link>
          </div>
@@ -31,7 +41,12 @@
       <div class="add-task-section">
          <div @click="toggleInput">+ Add a task</div>
          <div v-if="isTaskInputOpen" class="task-add">
-            <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
+            <input
+               type="text"
+               class="add-task-input"
+               v-model="taskInput"
+               placeholder="Enter a title for this task"
+            />
             <button @click="addTask">Add task</button>
             <button @click="toggleInput">X</button>
          </div>

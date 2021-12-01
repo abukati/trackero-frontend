@@ -1,6 +1,44 @@
-.group-task {
-   @include flex-column-center;
-   background-color: rgb(234, 250, 255);
-   padding: 5px;
-   margin-block: 10px;
+.group-preview-container {
+   .group-header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #172b4d;
+
+      .title-actions-section {
+         position: relative;
+         button {
+            height: 32px;
+            width: 32px;
+            background-color: rgba(255, 255, 255, 0);
+            border: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+               background-color: rgb(216, 216, 216);
+               border-radius: 3px;
+            }
+         }
+      }
+   }
+
+   .group-tasks {
+      .group-task {
+         @include flex-column-center;
+         background-color: rgb(255, 255, 255);
+         width: em(256px);
+         padding: 6px 8px 2px;
+         margin: 0 auto 8px;
+         overflow: hidden;
+         position: relative;
+         border-radius: 3px;
+         cursor: pointer;
+         max-width: 300px;
+         min-height: 20px;
+         text-decoration: none;
+         color: #172b4d;
+      }
+   }
 }

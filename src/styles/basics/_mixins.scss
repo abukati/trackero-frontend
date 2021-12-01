@@ -10,3 +10,21 @@
    align-items: center;
    flex-direction: column;
 }
+
+// custom scroll-bar
+@mixin custom-scroll-bar() {
+   &::-webkit-scrollbar {
+      border-radius: 10px;
+      height: 15px;
+      width: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: rgba(153, 153, 153, 0.582);
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 10px;
+   }
+}

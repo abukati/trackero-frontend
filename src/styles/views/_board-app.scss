@@ -1,8 +1,50 @@
 .board-app {
-   @include flex-row-center;
-   .board-group {
-      background-color: gray;
-      padding: 10px;
-      margin: 5px;
+   scroll-behavior: smooth;
+   // overflow-x: scroll;
+   .secondary-navbar {
+      height: 5vh;
+   }
+
+   .groups-container {
+      @include custom-scroll-bar;
+      display: grid;
+      grid-auto-flow: column;
+      // grid-template-columns: repeat(auto, 256px);
+      // grid-auto-flow: row;
+      // grid-auto-rows: 1;
+      // min-width: 100%;
+      // bottom: 0;
+      // left: 0;
+      // right: 0;
+      // top: 0;
+      height: 85vh;
+      margin-bottom: 8px;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 0 0 8px;
+      // position: absolute;
+
+      .add-group-btn {
+         display: flex;
+         align-self: baseline;
+      }
+      .board-group {
+         // @include flex-row-center;
+         @include custom-scroll-bar;
+         background-color: #ebecf0;
+         padding: 0 4px;
+         margin: 0 4px;
+         width: em(272px);
+         border-radius: 3px;
+         display: flex;
+         flex-direction: column;
+         justify-content: flex-start;
+         position: relative;
+         flex-wrap: nowrap;
+         display: inline-flex;
+         height: 100%;
+         overflow-y: scroll;
+         overflow-x: hidden;
+      }
    }
 }
