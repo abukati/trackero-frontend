@@ -1,8 +1,8 @@
 <template>
    <section class="board-app" :style="getBoardBgc" v-if="board">
-      <!-- <el-select v-if="membersNames" v-model="membersNames" multiple placeholder="Select" @change="handleBoardMembers">
+      <el-select v-if="membersNames" v-model="membersNames" multiple placeholder="Select" @change="handleBoardMembers">
          <el-option v-for="(member, idx) in membersNames" :key="idx" :value="member"> </el-option>
-      </el-select> -->
+      </el-select>
       <label>
          <span>Update bgc</span>
          <input type="color" v-model="board.style.bgColor" @change="changeBoardBgc" />
@@ -49,9 +49,6 @@ export default {
       //    return this.$store.getters.boardMembers
       // },
    },
-   created() {
-      // this.membersNames = this.boardMembers.map((member) => member.fullname)
-   },
    methods: {
       draggedGroup(ev) {
          console.log(ev)
@@ -77,6 +74,7 @@ export default {
                   boardId,
                })
                this.board = currBoard
+               this.membersNames = currBoard.members.map((member) => member.fullname)
             } catch (err) {
                window.open(`https://stackoverflow.com/search?q=${err.message}`)
             }
