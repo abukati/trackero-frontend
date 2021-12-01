@@ -13,7 +13,7 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <draggable v-model="tasksList" >
+      <draggable v-model="tasksList" group="group">
          <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
             <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task">
                {{task.id}}

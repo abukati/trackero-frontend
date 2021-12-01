@@ -25,7 +25,7 @@ export const boardService = {
    //TASK
    createTask,
    saveTask,
-   updateTasksIdx
+   updateTasks
 }
 
 //----------------------------------------------------------- */
@@ -1000,7 +1000,7 @@ async function saveTask(task, groupId) {
    }
 }
 
-async function updateTasksIdx(tasks, group) {
+async function updateTasks(tasks, group) {
    try {
       const currGroup = await getCurrGroup(group.id)
       currGroup.tasks = JSON.parse(JSON.stringify(tasks))

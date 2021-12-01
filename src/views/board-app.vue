@@ -30,7 +30,7 @@ export default {
    data() {
       return {
          board: null,
-         membersNames: [],
+         membersNames: []
       }
    },
    computed: {
@@ -58,6 +58,7 @@ export default {
       },
       changeBoardBgc() {
          this.$store.dispatch({ type: 'updateBoard', board: { ...this.board } })
+         // this.$emit('boardBgChange', this.board.style.bgColor)
       },
       handleBoardMembers() {
          console.log('test')
@@ -72,7 +73,7 @@ export default {
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                this.board = currBoard
             } catch (err) {
-               window.open(`https://stackoverflow.com/search?q=${err.message}`)
+               console.log(err)
             }
          },
       },
