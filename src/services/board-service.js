@@ -255,7 +255,7 @@ function getClonedBoard(
                   id: 't101',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -309,7 +309,7 @@ function getClonedBoard(
                   id: 't102',
                   title: 'Project trackero task 102',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -372,7 +372,7 @@ function getClonedBoard(
                   id: 't102',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -426,7 +426,7 @@ function getClonedBoard(
                   id: 't103',
                   title: 'Project trackero task 103',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -496,7 +496,7 @@ function getClonedBoard(
                id: 't100',
                title: 'Finalize Campaign Name: WeTaskBigger',
                style: {
-                  bgColor: '#ffffff',
+                  bgColor: '#000',
                },
                labels: [],
                members: [
@@ -598,7 +598,7 @@ function _createBoard(
                   id: 't101',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -652,7 +652,7 @@ function _createBoard(
                   id: 't102',
                   title: 'Project trackero task 102',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -715,7 +715,7 @@ function _createBoard(
                   id: 't103',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -769,7 +769,7 @@ function _createBoard(
                   id: 't104',
                   title: 'Project trackero task 104',
                   style: {
-                     bgColor: '#ffffff',
+                     bgColor: '#000',
                   },
                   members: [
                      {
@@ -839,7 +839,7 @@ function _createBoard(
                id: 't100',
                title: 'Finalize Campaign Name: WeTaskBigger',
                style: {
-                  bgColor: '#ffffff',
+                  bgColor: '#000',
                },
                labels: [],
                members: [
@@ -866,7 +866,7 @@ function getClonedGroup() {
             id: 't101',
             title: 'Project trackero task',
             style: {
-               bgColor: '#ffffff',
+               bgColor: '#000',
             },
             members: [
                {
@@ -920,7 +920,7 @@ function getClonedGroup() {
             id: 't102',
             title: 'Project trackero task 102',
             style: {
-               bgColor: '#ffffff',
+               bgColor: '#000',
             },
             members: [
                {

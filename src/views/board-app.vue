@@ -8,10 +8,10 @@
          <input type="color" v-model="board.style.bgColor" @change="changeBoardBgc" />
       </label>
       <button @click="addGroup()">Add another group</button>
-      <draggable v-model="groupsList" @change="draggedGroup">
+      <draggable v-model="groupsList">
          <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
             {{ group.id }}
-            <group-preview :group="group" />
+            <group-preview :group="group" :board="board" />
          </div>
       </draggable>
    </section>
@@ -25,7 +25,7 @@ export default {
    name: 'board-app',
    components: {
       groupPreview,
-      draggable,
+      draggable
    },
    data() {
       return {
@@ -50,9 +50,6 @@ export default {
       // },
    },
    methods: {
-      draggedGroup(ev) {
-         console.log(ev)
-      },
       addGroup() {
          this.$store.dispatch({ type: 'addGroup' })
       },
@@ -69,10 +66,7 @@ export default {
          async handler() {
             try {
                let boardId = this.$route.params.boardId
-               const currBoard = await this.$store.dispatch({
-                  type: 'getBoardbyId',
-                  boardId,
-               })
+               const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                this.board = currBoard
                this.membersNames = currBoard.members.map((member) => member.fullname)
             } catch (err) {
