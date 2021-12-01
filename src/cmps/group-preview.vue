@@ -33,9 +33,7 @@ export default {
    created() { },
    methods: {
       toggleOptions() {
-         if (this.isListOpen) {
-            this.isListOpen = false
-         } else this.isListOpen = true
+         this.isListOpen = !this.isListOpen
       },
       async deleteGroup() {
          try {
