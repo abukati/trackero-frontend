@@ -24,11 +24,14 @@ export const boardStore = {
          return state.currBoard
       },
       boardsIds(state) {
-         return state.boards.map(board => board._id)
+         return state.boards.map((board) => board._id)
       },
       boardGroups(state) {
          return state.currBoard.groups
       },
+      //----------------------------------------------------------- */
+      //************************MEMBERS*****************************
+      //----------------------------------------------------------- */
       boardMembers(state) {
          return state.currBoard.members
       },
@@ -45,10 +48,10 @@ export const boardStore = {
          state.boards.push(board)
       },
       removeBoard(state, { boardId }) {
-         state.boards = state.boards.filter(board => board._id !== boardId)
+         state.boards = state.boards.filter((board) => board._id !== boardId)
       },
       updateBoard(state, { board }) {
-         const idx = state.boards.findIndex(currBoard => currBoard._id === board._id)
+         const idx = state.boards.findIndex((currBoard) => currBoard._id === board._id)
          state.boards.splice(idx, 1, board)
       },
       setCurrBoard(state, { currBoard }) {
@@ -59,21 +62,19 @@ export const boardStore = {
       //********************GROUPS*******************************
       //----------------------------------------------------------- */
       removeGroup(state, { groupId }) {
-         const idx = state.groups.findIndex(group => group.id === groupId)
+         const idx = state.groups.findIndex((group) => group.id === groupId)
          state.groups.splice(idx, 1)
       },
       addGroup(state, { group }) {
          state.groups.push(group)
       },
-
       //----------------------------------------------------------- */
       //***********************TASKS********************************
       //----------------------------------------------------------- */
-
       updateTaskPositions(state, { tasks, updatedGroup }) {
-         const groupIdx = state.groups.findIndex(group => group.id === updatedGroup.id)
-         console.log(state.groups);
-         console.log(groupIdx);
+         const groupIdx = state.groups.findIndex((group) => group.id === updatedGroup.id)
+         console.log(state.groups)
+         console.log(groupIdx)
       },
       addTask(state, { savedTask, groupId }) {
          console.log('groupId', groupId)
@@ -83,12 +84,23 @@ export const boardStore = {
          // group1.tasks.push(savedTask)
          state.groups.splice(idx, 1, group1)
       },
+      //----------------------------------------------------------- */
+      //***********************MEMBERS********************************
+      //----------------------------------------------------------- */
+      addMember(state, { user }) {
+         state.currBoard.members.push(user)
+      },
+      removeMember(state, { user }) {
+         const idx = state.currBoard.members.findIndex((member) => member._id === user._id)
+         state.currBoard.members.splice(idx, 1)
+      },
    },
 
    actions: {
       //----------------------------------------------------------- */
       //********************BOARD*********************************
       //----------------------------------------------------------- */
+
       async loadBoards({ state, commit }) {
          try {
             const boards = await boardService.query()
@@ -118,9 +130,6 @@ export const boardStore = {
       },
       async addBoard({ commit }, { boardTitle }) {
          try {
-            // After generating a newBoard and then saving
-            // it think it has to update since it already got an _id
-            // const newBoard = await boardService.createBoard(boardTitle)
             const newBoard = await boardService.getClonedBoard(boardTitle)
             const savedBoard = await boardService.save(newBoard)
             commit({ type: 'addBoard', board: savedBoard })
@@ -131,22 +140,24 @@ export const boardStore = {
       async getBoardbyId({ commit }, { boardId }) {
          try {
             const board = await boardService.getById(boardId)
-            commit({ type: 'setCurrBoard', currBoard: board })
+            commit({ type: 'setCurrBoard', currBoard: JSON.parse(JSON.stringify(board)) })
             return board
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-      async getEmptyBoard({ commit }) {
+      async getEmptyBoard() {
          try {
             return boardService.getEmptyBoard()
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
+
       //----------------------------------------------------------- */
       //***********************GROUPS********************************
       //----------------------------------------------------------- */
+
       async updateGroups({ commit }, { groups }) {
          try {
             const board = await boardService.saveGroups(groups)
@@ -161,11 +172,10 @@ export const boardStore = {
             const savedGroup = await boardService.addGroup(newGroup)
             commit({ type: 'addGroup', group: savedGroup })
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
       async removeGroup({ commit }, { groupId }) {
-         console.log('groupId', groupId)
          try {
             const deletedId = await boardService.removeGroup(groupId)
             console.log('deletedId', deletedId)
@@ -174,7 +184,7 @@ export const boardStore = {
                return deletedId
             }
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
 
@@ -184,10 +194,9 @@ export const boardStore = {
 
       async updateTaskPositions({ commit }, { tasks, group }) {
          try {
-            
             commit({ type: 'updateTaskPositions', tasks, updatedGroup: group })
-         } catch(err) {
-
+         } catch (err) {
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
       async addTask({ commit }, { groupId, title }) {
@@ -200,7 +209,28 @@ export const boardStore = {
             commit({ type: 'addTask', savedTask, groupId })
             return newTask
          } catch (err) {
-            console.log(err)
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+         }
+      },
+
+      //----------------------------------------------------------- */
+      //***********************MEMBERS********************************
+      //----------------------------------------------------------- */
+
+      async addMember({ commit }, { user }) {
+         try {
+            await boardService.addMember(user)
+            commit({ type: 'addMember', user })
+         } catch (err) {
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+         }
+      },
+      async removeMember({ commit }, { user }) {
+         try {
+            await boardService.removeMember(user)
+            commit({ type: 'removeMember', user })
+         } catch (err) {
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
    },

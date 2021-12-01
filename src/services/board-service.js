@@ -25,6 +25,9 @@ export const boardService = {
    //TASK
    createTask,
    saveTask,
+   //MEMBER
+   addMember,
+   removeMember,
 }
 
 //----------------------------------------------------------- */
@@ -1022,5 +1025,32 @@ function _createEmptyTask() {
          isComplete: false,
       },
       comments: [],
+   }
+}
+
+//----------------------------------------------------------- */
+//***********************MEMBERS********************************
+//----------------------------------------------------------- */
+
+async function addMember(user) {
+   try {
+      const board = await getCurrBoard()
+      const idx = board.members.findIndex((member) => member._id === user._id)
+      if (idx !== -1) console.log('Member is already in the board')
+      else board.members.push(user)
+      save(board)
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+async function removeMember(user) {
+   try {
+      const board = await getCurrBoard()
+      const idx = board.members.findIndex((member) => member._id === user._id)
+      board.members.splice(idx, 1)
+      save(board)
+   } catch (err) {
+      console.log(err)
    }
 }

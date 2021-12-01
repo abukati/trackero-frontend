@@ -13,10 +13,10 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <draggable v-model="tasksList" >
+      <draggable v-model="tasksList">
          <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
             <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task">
-               {{task.id}}
+               {{ task.id }}
                <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }">dd</div>
                <span class="group-task-options"></span>
                <div class="group-task-preview">
@@ -31,12 +31,7 @@
       <div class="add-task-section">
          <div @click="toggleInput">+ Add a task</div>
          <div v-if="isTaskInputOpen" class="task-add">
-            <input
-               type="text"
-               class="add-task-input"
-               v-model="taskInput"
-               placeholder="Enter a title for this task"
-            />
+            <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
             <button @click="addTask">Add task</button>
             <button @click="toggleInput">X</button>
          </div>
@@ -46,7 +41,7 @@
 
 <script>
 import { showMsg } from '@/services/event-bus-service.js'
-import draggable from "vuedraggable"
+import draggable from 'vuedraggable'
 
 export default {
    props: ['group', 'board'],
@@ -58,10 +53,10 @@ export default {
       return {
          isListOpen: false,
          isTaskInputOpen: false,
-         taskInput: ''
+         taskInput: '',
       }
    },
-   created() { },
+   created() {},
    methods: {
       toggleOptions() {
          this.isListOpen = !this.isListOpen
@@ -73,9 +68,8 @@ export default {
          try {
             const groupId = this.group.id
             const newTask = this.$store.dispatch('addTask', {
-
                groupId,
-               title: this.taskInput
+               title: this.taskInput,
             })
 
             this.isTaskInputOpen = false
@@ -104,9 +98,9 @@ export default {
             return this.group.tasks
          },
          set(tasks) {
-            this.$store.dispatch('updateTaskPositions', { tasks, group: this.group } )
-         }
-      }
-   }
+            this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
+         },
+      },
+   },
 }
 </script>

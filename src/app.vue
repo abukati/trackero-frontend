@@ -9,7 +9,7 @@
 import appHeader from '@/cmps/app-header.vue'
 export default {
    components: {
-      appHeader
-   }
+      appHeader,
+   },
 }
 </script>

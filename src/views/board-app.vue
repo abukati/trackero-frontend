@@ -1,8 +1,19 @@
 <template>
    <section class="board-app" :style="getBoardBgc" v-if="board">
-      <el-select v-if="membersNames" v-model="membersNames" multiple placeholder="Select" @change="handleBoardMembers">
-         <el-option v-for="(member, idx) in membersNames" :key="idx" :value="member"> </el-option>
-      </el-select>
+      <h3>All web members</h3>
+      <ul v-if="getUsers.length">
+         <li v-for="user in getUsers" :key="user._id">
+            {{ user.fullname }}
+            <button @click="addMember(user)">+</button>
+         </li>
+      </ul>
+      <h3>Board members</h3>
+      <ul v-if="board.members.length">
+         <li v-for="user in board.members" :key="user._id">
+            {{ user.fullname }}
+            <button @click="removeMember(user)">-</button>
+         </li>
+      </ul>
       <label>
          <span>Update bgc</span>
          <input type="color" v-model="board.style.bgColor" @change="changeBoardBgc" />
@@ -25,12 +36,11 @@ export default {
    name: 'board-app',
    components: {
       groupPreview,
-      draggable
+      draggable,
    },
    data() {
       return {
          board: null,
-         membersNames: [],
       }
    },
    computed: {
@@ -45,9 +55,9 @@ export default {
       getBoardBgc() {
          return { backgroundColor: this.board.style.bgColor }
       },
-      // boardMembers() {
-      //    return this.$store.getters.boardMembers
-      // },
+      getUsers() {
+         return this.$store.getters.users
+      },
    },
    methods: {
       addGroup() {
@@ -56,8 +66,11 @@ export default {
       changeBoardBgc() {
          this.$store.dispatch({ type: 'updateBoard', board: { ...this.board } })
       },
-      handleBoardMembers() {
-         console.log('test')
+      addMember(user) {
+         this.$store.dispatch({ type: 'addMember', user })
+      },
+      removeMember(user) {
+         this.$store.dispatch({ type: 'removeMember', user })
       },
    },
    watch: {
@@ -68,7 +81,6 @@ export default {
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                this.board = currBoard
-               this.membersNames = currBoard.members.map((member) => member.fullname)
             } catch (err) {
                window.open(`https://stackoverflow.com/search?q=${err.message}`)
             }
