@@ -4,6 +4,7 @@ import { boardService } from './board-service.js'
 export const groupService = {
    save,
    remove,
+   removeGroup,
 }
 
 const KEY = 'boardsDB'
@@ -17,6 +18,12 @@ function _update(group) {
 }
 function _getCurrGroup() {
    gGroups = storageService.query(KEY).map()
+}
+
+function removeGroup(boardId) {
+   console.log('here')
+   console.log(gBoards)
+   console.log('boardId', boardId)
 }
 
 async function remove(id) {

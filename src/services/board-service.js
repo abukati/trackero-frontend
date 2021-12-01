@@ -12,6 +12,7 @@ export const boardService = {
    getEmptyBoard,
    getCurrBoard,
    createBoard,
+   removeGroup,
 }
 
 var gBoards = _createBoards()
@@ -22,16 +23,32 @@ function query() {
 }
 
 function getCurrBoard() {
+   console.log('currBoard', currBoard)
    return currBoard
 }
 
-function getById(boardId) {
-   currBoard = storageService.get(KEY, boardId)
-   return currBoard
+async function getById(boardId) {
+   try {
+      currBoard = await storageService.get(KEY, boardId)
+      console.log('currBoard', currBoard)
+      return currBoard
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 function remove(boardId) {
    return storageService.remove(KEY, boardId)
+}
+
+function removeGroup(groupId) {
+   console.log('groupId')
+   console.log(gBoards)
+   let currBoard = getCurrBoard()
+   console.log('currBoard', currBoard)
+   const idx = currBoard.groups.findIndex((group) => group.id === groupId)
+   currBoard.groups.splice(idx, 1)
+   save(currBoard)
 }
 
 function save(board) {
@@ -260,7 +277,7 @@ function createBoard(
             title: 'Develop trackero',
             tasks: [
                {
-                  id: 't102',
+                  id: 't103',
                   title: 'Project trackero task',
                   style: {
                      bgColor: '#ffffff',
@@ -314,8 +331,8 @@ function createBoard(
                   ],
                },
                {
-                  id: 't103',
-                  title: 'Project trackero task 103',
+                  id: 't104',
+                  title: 'Project trackero task 104',
                   style: {
                      bgColor: '#ffffff',
                   },
