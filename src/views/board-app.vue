@@ -1,14 +1,14 @@
 <template>
    <section class="board-app" :style="getBoardBgc" v-if="board">
       <h3>All web members</h3>
-      <ul v-if="getUsers.length">
+      <ul class="clean-list" v-if="getUsers.length">
          <li v-for="user in getUsers" :key="user._id">
             {{ user.fullname }}
             <button @click="addMember(user)">+</button>
          </li>
       </ul>
       <h3>Board members</h3>
-      <ul v-if="board.members.length">
+      <ul class="clean-list" v-if="board.members.length">
          <li v-for="user in board.members" :key="user._id">
             {{ user.fullname }}
             <button @click="removeMember(user)">-</button>
@@ -80,6 +80,7 @@ export default {
             try {
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+               await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
             } catch (err) {
                window.open(`https://stackoverflow.com/search?q=${err.message}`)

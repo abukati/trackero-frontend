@@ -1036,8 +1036,12 @@ async function addMember(user) {
    try {
       const board = await getCurrBoard()
       const idx = board.members.findIndex((member) => member._id === user._id)
-      if (idx !== -1) console.log('Member is already in the board')
-      else board.members.push(user)
+      if (idx !== -1) {
+         console.log('Member is already in the board')
+         return
+      } else {
+         board.members.push(user)
+      }
       save(board)
    } catch (err) {
       console.log(err)
