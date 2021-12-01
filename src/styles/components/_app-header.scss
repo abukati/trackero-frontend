@@ -1,21 +1,33 @@
-// .header-section {
-//    width: 100%;
-//    .main-header {
-//       background-color: rgba(0, 0, 0, 0.45);
-//       display: flex;
-//       flex-direction: row;
-//       align-items: center;
-//       justify-content: space-between;
-//       width: 100%;
+header {
+   height: 44px;
+   background-color: rgba(0, 0, 0, 0.15);
+   backdrop-filter: blur(6px);
 
-//       h2 {
-//          font-family: Tahoma, Geneva, Verdana, sans-serif;
-//          text-align: center;
-//          font-size: rem(40px);
-//       }
-//    }
-// }
+   nav {
+      @include flex-row-center;
+      justify-content: space-between;
+      height: 100%;
+      padding: 0 15px;
 
-.header-section {
-   height: 10vh;
+      .logo-container {
+         @include flex-row-center;
+         width: 100px;
+         height: 100%;
+      }
+
+      .nav-links {
+         @include flex-row-center;
+         justify-content: space-between;
+         width: 100%;
+
+         .nav-board-links > *,
+         .nav-user-links > *:not(last-child) {
+            margin-inline-end: 15px;
+         }
+      }
+
+      img {
+         width: 20px;
+      }
+   }
 }

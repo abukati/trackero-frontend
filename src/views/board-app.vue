@@ -1,9 +1,20 @@
 <template>
    <section class="board-app" :style="getBoardBgc" v-if="board">
-      <!-- <el-select v-if="membersNames" v-model="membersNames" multiple placeholder="Select" @change="handleBoardMembers">
-         <el-option v-for="(member, idx) in membersNames" :key="idx" :value="member"> </el-option>
-      </el-select> -->
       <div class="secondary-navbar">
+         <h3>All web members</h3>
+         <ul class="clean-list" v-if="getUsers.length">
+            <li v-for="user in getUsers" :key="user._id">
+               {{ user.fullname }}
+               <button @click="addMember(user)">+</button>
+            </li>
+         </ul>
+         <h3>Board members</h3>
+         <ul class="clean-list" v-if="board.members.length">
+            <li v-for="user in board.members" :key="user._id">
+               {{ user.fullname }}
+               <button @click="removeMember(user)">-</button>
+            </li>
+         </ul>
          <label>
             <span>Update bgc</span>
             <input
@@ -14,20 +25,13 @@
          </label>
       </div>
 
-      <div>
-         <draggable class="groups-container" v-model="groupsList">
-            <div
-               class="board-group"
-               v-for="(group, idx) in groupsList"
-               :key="idx"
-            >
-               <group-preview :group="group" :board="board" />
-            </div>
-            <button class="add-group-btn" @click="addGroup()">
-               Add another group
-            </button>
-         </draggable>
-      </div>
+      <draggable class="groups-container" v-model="groupsList">
+         <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
+            {{ group.id }}
+            <group-preview :group="group" :board="board" />
+         </div>
+         <button @click="addGroup()">Add another group</button>
+      </draggable>
    </section>
 </template>
 
@@ -39,12 +43,11 @@ export default {
    name: 'board-app',
    components: {
       groupPreview,
-      draggable
+      draggable,
    },
    data() {
       return {
          board: null,
-         membersNames: [],
       }
    },
    computed: {
@@ -59,12 +62,9 @@ export default {
       getBoardBgc() {
          return { backgroundColor: this.board.style.bgColor }
       },
-      // boardMembers() {
-      //    return this.$store.getters.boardMembers
-      // },
-   },
-   created() {
-      // this.membersNames = this.boardMembers.map((member) => member.fullname)
+      getUsers() {
+         return this.$store.getters.users
+      },
    },
    methods: {
       addGroup() {
@@ -72,9 +72,13 @@ export default {
       },
       changeBoardBgc() {
          this.$store.dispatch({ type: 'updateBoard', board: { ...this.board } })
+         // this.$emit('boardBgChange', this.board.style.bgColor)
       },
-      handleBoardMembers() {
-         console.log('test')
+      addMember(user) {
+         this.$store.dispatch({ type: 'addMember', user })
+      },
+      removeMember(user) {
+         this.$store.dispatch({ type: 'removeMember', user })
       },
    },
    watch: {
@@ -84,9 +88,10 @@ export default {
             try {
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+               await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
             } catch (err) {
-               window.open(`https://stackoverflow.com/search?q=${err.message}`)
+               console.log(err)
             }
          },
       },

@@ -15,7 +15,7 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <draggable v-model="tasksList">
+      <draggable v-model="tasksList" group="group">
          <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
             <router-link
                :to="`/board/${board._id}/${group.id}/${task.id}`"
@@ -56,13 +56,13 @@
 
 <script>
 import { showMsg } from '@/services/event-bus-service.js'
-import draggable from "vuedraggable"
+import draggable from 'vuedraggable'
 
 export default {
    props: ['group', 'board'],
    name: 'groupPreview',
    components: {
-      draggable,
+      draggable
    },
    data() {
       return {
@@ -83,7 +83,6 @@ export default {
          try {
             const groupId = this.group.id
             const newTask = this.$store.dispatch('addTask', {
-
                groupId,
                title: this.taskInput
             })
@@ -106,7 +105,7 @@ export default {
          } catch (err) {
             console.log(err)
          }
-      },
+      }
    },
    computed: {
       tasksList: {
