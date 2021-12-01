@@ -1,10 +1,14 @@
 import { boardService } from '@/services/board-service.js'
+import { groupService } from '@/services/group-service.js'
 
 export const boardStore = {
    state: {
       boards: [],
       currBoardId: null,
       currBoard: null,
+
+      groups: [],
+      currGroup: null,
    },
    getters: {
       boardsForDisplay(state) {
@@ -19,6 +23,9 @@ export const boardStore = {
       boardsIds(state) {
          return state.boards.map((board) => board._id)
       },
+      boardGroups(state) {
+         return state.currBoard.groups
+      }
    },
    mutations: {
       setBoards(state, { boards }) {
@@ -33,10 +40,14 @@ export const boardStore = {
       updateBoard(state, { board }) {
          const idx = state.boards.findIndex((currBoard) => currBoard._id === board._id)
          state.boards.splice(idx, 1, board)
-         state.currBoard = board
       },
       setCurrBoard(state, { currBoard }) {
          state.currBoard = currBoard
+      },
+
+      removeGroup(state, { groupId }) {
+         const idx = state.groups.findIndex((group) => group._id === groupId)
+         state.groups.splice(idx, 1)
       },
    },
    actions: {
@@ -97,5 +108,27 @@ export const boardStore = {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-   },
+
+      async updateSortedGroups({ dispatch }, { groups }) {
+         try {
+            const board = await groupService.saveSortedGroups(groups)
+            dispatch({ type: 'updateBoard', board })
+         } catch (err) {
+            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+         }
+      },
+      async removeGroup({ commit }, { groupId }) {
+         console.log('groupId', groupId)
+         try {
+            const deletedId = await groupService.remove(groupId)
+            console.log('deletedId', deletedId)
+            if (deletedId) {
+               commit({ type: 'removeGroup', groupId })
+               return deletedId
+            }
+         } catch (err) {
+            console.log(err)
+         }
+      },
+   }
 }

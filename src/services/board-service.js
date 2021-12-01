@@ -35,7 +35,6 @@ function remove(boardId) {
 }
 
 function save(board) {
-   console.log('save', board)
    const savedBoard = board._id ? _update(board) : _add(board)
    return savedBoard
 }
@@ -45,7 +44,6 @@ function _add(board) {
 }
 
 function _update(board) {
-   console.log(board);
    return storageService.put(KEY, board)
 }
 
