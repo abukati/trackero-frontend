@@ -27,12 +27,20 @@ export const boardService = {
 var gBoards = _createBoards()
 let currBoard = null
 
-function query() {
-   return storageService.query(KEY)
+async function query() {
+   try {
+      return await storageService.query(KEY)
+   } catch (err) {
+      console.log(err)
+   }
 }
 
-function getCurrBoard() {
-   return currBoard
+async function getCurrBoard() {
+   try {
+      return currBoard
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function getById(boardId) {
@@ -44,21 +52,37 @@ async function getById(boardId) {
    }
 }
 
-function remove(boardId) {
-   return storageService.remove(KEY, boardId)
+async function remove(boardId) {
+   try {
+      return await storageService.remove(KEY, boardId)
+   } catch (err) {
+      console.log(err)
+   }
 }
 
-function save(board) {
-   const savedBoard = board._id ? _update(board) : _add(board)
-   return savedBoard
+async function save(board) {
+   try {
+      const savedBoard = board._id ? await _update(board) : await _add(board)
+      return savedBoard
+   } catch (err) {
+      console.log(err)
+   }
 }
 
-function _add(board) {
-   return storageService.post(KEY, board)
+async function _add(board) {
+   try {
+      return await storageService.post(KEY, board)
+   } catch (err) {
+      console.log(err)
+   }
 }
 
-function _update(board) {
-   return storageService.put(KEY, board)
+async function _update(board) {
+   try {
+      return await storageService.put(KEY, board)
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 function getEmptyBoard() {
@@ -66,7 +90,7 @@ function getEmptyBoard() {
    return board
 }
 
-function _createBoards() {
+async function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
       boards = [
@@ -95,17 +119,27 @@ async function addGroup(group) {
 }
 
 async function removeGroup(id) {
-   const currBoardGroups = getCurrBoard().groups
-   console.log('currBoardGroups', currBoardGroups)
-   let filtered = currBoardGroups.map((group) => group.id !== id)
-   saveGroups(filtered)
+   try {
+      const currBoard = await getCurrBoard()
+      let currGroups = currBoard.groups
+      let idx = currGroups.findIndex((group) => group.id === id)
+      currGroups.splice(idx, 1)
+      saveGroups(currGroups)
+      return idx
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function saveGroups(groups) {
-   const board = await getCurrBoard()
-   board.groups = JSON.parse(JSON.stringify(groups))
-   save(board)
-   return board
+   try {
+      const board = await getCurrBoard()
+      board.groups = JSON.parse(JSON.stringify(groups))
+      save(board)
+      return board
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 function getClonedBoard(
