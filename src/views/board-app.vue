@@ -31,7 +31,7 @@ export default {
             return this.$store.getters.boardGroups
          },
          set(groups) {
-            this.$store.dispatch({ type: 'updateSortedGroups', groups })
+            this.$store.dispatch({ type: 'updateGroups', groups })
          },
       },
    },
@@ -54,7 +54,6 @@ export default {
                   boardId,
                })
                this.board = currBoard
-               this.$store.dispatch({ type: 'setCurrBoard', currBoard })
             } catch (err) {
                window.open(`https://stackoverflow.com/search?q=${err.message}`)
             }
