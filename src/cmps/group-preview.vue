@@ -31,12 +31,7 @@
       <div class="add-task-section">
          <div @click="toggleInput">+ Add a task</div>
          <div v-if="isTaskInputOpen" class="task-add">
-            <input
-               type="text"
-               class="add-task-input"
-               v-model="taskInput"
-               placeholder="Enter a title for this task"
-            />
+            <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
             <button @click="addTask">Add task</button>
             <button @click="toggleInput">X</button>
          </div>
@@ -104,7 +99,7 @@ export default {
             return this.group.tasks
          },
          set(tasks) {
-            this.$store.dispatch('updateTaskPositions', { tasks, group: this.group } )
+            this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
          }
       }
    }
