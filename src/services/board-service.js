@@ -7,6 +7,7 @@ const KEY = 'boardsDB'
 // const axios = require('axios')
 
 export const boardService = {
+   //BOARD
    query,
    getById,
    remove,
@@ -14,10 +15,16 @@ export const boardService = {
    getEmptyBoard,
    getCurrBoard,
    getClonedBoard,
+   //GROUP
+   getCurrGroup,
    addGroup,
    removeGroup,
    saveGroups,
    getClonedGroup,
+   updateGroup,
+   //TASK
+   createTask,
+   saveTask,
 }
 
 //----------------------------------------------------------- */
@@ -106,6 +113,15 @@ async function _createBoards() {
 //----------------------------------------------------------- */
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
+async function getCurrGroup(groupId) {
+   try {
+      const currBoard = await getCurrBoard()
+      const currGroup = currBoard.groups.find((group) => group.id === groupId)
+      return currGroup
+   } catch (err) {
+      console.log(err)
+   }
+}
 
 async function addGroup(group) {
    try {
@@ -113,6 +129,19 @@ async function addGroup(group) {
       currBoard.groups.push(group)
       saveGroups(currBoard.groups)
       return currBoard.groups
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+async function updateGroup(updatedGroup, groupId) {
+   try {
+      const currBoard = await getCurrBoard()
+      currBoard.groups.forEach((group) => {
+         if (group.id === groupId) group = JSON.parse(JSON.stringify(updatedGroup))
+      })
+      saveGroups(currBoard.groups)
+      return updatedGroup
    } catch (err) {
       console.log(err)
    }
@@ -947,4 +976,51 @@ function getClonedGroup() {
       },
    }
    return group
+}
+
+//----------------------------------------------------------- */
+//***********************TASKS********************************
+//----------------------------------------------------------- */
+
+function createTask(title) {
+   let task = _createEmptyTask()
+   task.title = title
+   return task
+}
+
+async function saveTask(task, groupId) {
+   try {
+      console.log('task', task)
+      const currGroup = await getCurrGroup(groupId)
+      console.log(currGroup.tasks)
+      currGroup.tasks.push(task)
+      updateGroup(currGroup, groupId)
+      console.log(currGroup.tasks)
+      return task
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+function _createEmptyTask() {
+   return {
+      id: utilService.makeId(),
+      title: '',
+      style: {
+         bgColor: '#ffffff',
+      },
+      members: [],
+      labels: [],
+      byUser: {
+         _id: 'u100',
+         fullname: 'Guest',
+         username: 'guest',
+         imgUrl: '',
+      },
+      dueDate: {
+         date: '14 Dec 2021',
+         isComplete: false,
+      },
+      comments: [],
+   }
 }

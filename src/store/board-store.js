@@ -53,16 +53,28 @@ export const boardStore = {
       },
       setCurrBoard(state, { currBoard }) {
          state.currBoard = currBoard
+         state.groups = currBoard.groups
       },
       //----------------------------------------------------------- */
       //********************GROUPS*******************************
       //----------------------------------------------------------- */
       removeGroup(state, { groupId }) {
-         const idx = state.groups.findIndex((group) => group._id === groupId)
+         const idx = state.groups.findIndex((group) => group.id === groupId)
          state.groups.splice(idx, 1)
       },
       addGroup(state, { group }) {
          state.groups.push(group)
+      },
+      //----------------------------------------------------------- */
+      //***********************TASKS********************************
+      //----------------------------------------------------------- */
+      addTask(state, { savedTask, groupId }) {
+         console.log('groupId', groupId)
+         const idx = state.groups.findIndex((group) => group.id === groupId)
+         const group1 = state.groups.find((group) => group.id === groupId)
+         console.log(group1)
+         // group1.tasks.push(savedTask)
+         state.groups.splice(idx, 1, group1)
       },
    },
 
@@ -154,6 +166,22 @@ export const boardStore = {
                commit({ type: 'removeGroup', groupId })
                return deletedId
             }
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      //----------------------------------------------------------- */
+      //***********************TASKS********************************
+      //----------------------------------------------------------- */
+      async addTask({ commit }, { groupId, title }) {
+         try {
+            console.log('groupId', groupId)
+            console.log('title', title)
+            const newTask = await boardService.createTask(title)
+            console.log('newTask', newTask)
+            const savedTask = await boardService.saveTask(newTask, groupId)
+            commit({ type: 'addTask', savedTask, groupId })
+            return newTask
          } catch (err) {
             console.log(err)
          }
