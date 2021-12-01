@@ -72,16 +72,12 @@ export const boardStore = {
       //***********************TASKS********************************
       //----------------------------------------------------------- */
       updateTaskPositions(state, { tasks, updatedGroup }) {
-         const groupIdx = state.groups.findIndex((group) => group.id === updatedGroup.id)
-         console.log(state.groups)
-         console.log(groupIdx)
+         const idx = state.groups.findIndex((group) => group.id === updatedGroup.id)
+         state.currBoard.groups.splice(idx, 1, updatedGroup)
       },
       addTask(state, { savedTask, groupId }) {
-         console.log('groupId', groupId)
          const idx = state.groups.findIndex((group) => group.id === groupId)
          const group1 = state.groups.find((group) => group.id === groupId)
-         console.log(group1)
-         // group1.tasks.push(savedTask)
          state.groups.splice(idx, 1, group1)
       },
       //----------------------------------------------------------- */
@@ -106,7 +102,7 @@ export const boardStore = {
             const boards = await boardService.query()
             commit({ type: 'setBoards', boards })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async removeBoard({ commit }, { boardId }) {
@@ -117,7 +113,7 @@ export const boardStore = {
             commit({ type: 'removeBoard', boardId })
             return removedBoardId
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async updateBoard({ commit }, { board }) {
@@ -125,7 +121,7 @@ export const boardStore = {
             await boardService.save(board)
             commit({ type: 'updateBoard', board })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async addBoard({ commit }, { boardTitle }) {
@@ -134,7 +130,7 @@ export const boardStore = {
             const savedBoard = await boardService.save(newBoard)
             commit({ type: 'addBoard', board: savedBoard })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async getBoardbyId({ commit }, { boardId }) {
@@ -143,14 +139,14 @@ export const boardStore = {
             commit({ type: 'setCurrBoard', currBoard: JSON.parse(JSON.stringify(board)) })
             return board
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async getEmptyBoard() {
          try {
             return boardService.getEmptyBoard()
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
 
@@ -163,7 +159,7 @@ export const boardStore = {
             const board = await boardService.saveGroups(groups)
             commit({ type: 'setCurrBoard', currBoard: board })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async addGroup({ commit }) {
@@ -172,7 +168,7 @@ export const boardStore = {
             const savedGroup = await boardService.addGroup(newGroup)
             commit({ type: 'addGroup', group: savedGroup })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async removeGroup({ commit }, { groupId }) {
@@ -184,7 +180,7 @@ export const boardStore = {
                return deletedId
             }
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
 
@@ -194,22 +190,18 @@ export const boardStore = {
 
       async updateTaskPositions({ commit }, { tasks, group }) {
          try {
-            commit({ type: 'updateTaskPositions', tasks, updatedGroup: group })
-         } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
-         }
+            const savedTasks = await boardService.updateTasks(tasks, group)
+            commit({ type: 'updateTaskPositions', savedTasks, updatedGroup: group })
+         } catch (err) {}
       },
       async addTask({ commit }, { groupId, title }) {
          try {
-            console.log('groupId', groupId)
-            console.log('title', title)
             const newTask = await boardService.createTask(title)
-            console.log('newTask', newTask)
             const savedTask = await boardService.saveTask(newTask, groupId)
             commit({ type: 'addTask', savedTask, groupId })
             return newTask
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
 
@@ -222,7 +214,7 @@ export const boardStore = {
             await boardService.addMember(user)
             commit({ type: 'addMember', user })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async removeMember({ commit }, { user }) {
@@ -230,7 +222,7 @@ export const boardStore = {
             await boardService.removeMember(user)
             commit({ type: 'removeMember', user })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
    },

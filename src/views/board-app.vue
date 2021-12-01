@@ -65,6 +65,7 @@ export default {
       },
       changeBoardBgc() {
          this.$store.dispatch({ type: 'updateBoard', board: { ...this.board } })
+         // this.$emit('boardBgChange', this.board.style.bgColor)
       },
       addMember(user) {
          this.$store.dispatch({ type: 'addMember', user })
@@ -83,7 +84,7 @@ export default {
                await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
             } catch (err) {
-               window.open(`https://stackoverflow.com/search?q=${err.message}`)
+               console.log(err)
             }
          },
       },

@@ -1,15 +1,28 @@
 <template>
-   <header class="header-section">
-      <div class="main-header">
-         <h2>Trackero</h2>
-         <div id="main-nav">
-            <router-link to="/">Home</router-link> | 
-            <router-link to="/board">Workspaces</router-link> | 
-            <router-link to="/user">user</router-link> |
+   <header>
+      <nav>
+         <div class="logo-container">
+            <router-link class="logo" to="/">Trackero</router-link>
          </div>
-      </div>
+         <div class="nav-links">
+            <div class="nav-board-links">
+               <router-link class="nav-item" to="/board">Boards</router-link>
+               <router-link class="nav-item" to="/board">Starred</router-link>
+               <router-link class="nav-item" to="/board">Create</router-link>
+            </div>
+            <div class="nav-user-links">
+               <router-link class="nav-item" to="/user">
+                  <span>
+                     <img src="../../public/img/icons/bell-regular.svg" alt="notifications center icon">
+                  </span>
+               </router-link>
+               <router-link class="nav-item" to="/user">user</router-link>
+            </div>
+         </div>
+      </nav>
    </header>
 </template>
 <script>
-export default {}
+export default {
+}
 </script>
