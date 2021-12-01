@@ -1,5 +1,5 @@
 import { boardService } from '@/services/board-service.js'
-import { groupService } from '@/services/group-service.js'
+// import { groupService } from '@/services/group-service.js'
 
 export const boardStore = {
    state: {
@@ -11,6 +11,9 @@ export const boardStore = {
       currGroup: null,
    },
    getters: {
+      //----------------------------------------------------------- */
+      //************************BOARD*****************************
+      //----------------------------------------------------------- */
       boardsForDisplay(state) {
          return state.boards
       },
@@ -25,9 +28,13 @@ export const boardStore = {
       },
       boardGroups(state) {
          return state.currBoard.groups
-      }
+      },
    },
+
    mutations: {
+      //----------------------------------------------------------- */
+      //**************************BOARD*****************************
+      //----------------------------------------------------------- */
       setBoards(state, { boards }) {
          state.boards = boards
       },
@@ -44,13 +51,22 @@ export const boardStore = {
       setCurrBoard(state, { currBoard }) {
          state.currBoard = currBoard
       },
-
+      //----------------------------------------------------------- */
+      //********************GROUPS*******************************
+      //----------------------------------------------------------- */
       removeGroup(state, { groupId }) {
          const idx = state.groups.findIndex((group) => group._id === groupId)
          state.groups.splice(idx, 1)
       },
+      addGroup(state, { group }) {
+         // state.groups.push(group)
+      },
    },
+
    actions: {
+      //----------------------------------------------------------- */
+      //********************BOARD*********************************
+      //----------------------------------------------------------- */
       async loadBoards({ state, commit }) {
          try {
             const boards = await boardService.query()
@@ -92,7 +108,9 @@ export const boardStore = {
       },
       async getBoardbyId({ commit }, { boardId }) {
          try {
-            return await boardService.getById(boardId)
+            const board = await boardService.getById(boardId)
+            commit({ type: 'setCurrBoard', currBoard: board })
+            return board
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
@@ -104,26 +122,31 @@ export const boardStore = {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-      async setCurrBoard({ commit }, { currBoard }) {
+
+      //----------------------------------------------------------- */
+      //***********************GROUPS********************************
+      //----------------------------------------------------------- */
+      async updateGroups({ commit }, { groups }) {
          try {
-            commit({ type: 'setCurrBoard', currBoard })
+            const board = await boardService.saveGroups(groups)
+            commit({ type: 'setCurrBoard', currBoard: board })
          } catch (err) {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-
-      async updateGroups({ dispatch }, { groups }) {
+      async addGroup({ commit }) {
          try {
-            const board = await groupService.saveGroups(groups)
-            dispatch({ type: 'updateBoard', board })
+            const newGroup = await groupService.getClonedGroup()
+            // const savedGroup = await boardService.save(newGroup)
+            // commit({ type: 'addGroup', group: newGroup })
          } catch (err) {
-            window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
+            console.log(err)
          }
       },
       async removeGroup({ commit }, { groupId }) {
          console.log('groupId', groupId)
          try {
-            const deletedId = await groupService.remove(groupId)
+            const deletedId = await boardService.removeGroup(groupId)
             console.log('deletedId', deletedId)
             if (deletedId) {
                commit({ type: 'removeGroup', groupId })
@@ -133,5 +156,5 @@ export const boardStore = {
             console.log(err)
          }
       },
-   }
+   },
 }

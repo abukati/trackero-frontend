@@ -14,7 +14,7 @@
          <button @click="deleteGroup">Delete Card</button>
       </section>
       <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
-         <router-link class="group task" :to="``">{{task}}</router-link>
+         <router-link class="group task" :to="``">{{ task }}</router-link>
       </div>
    </section>
 </template>
@@ -28,9 +28,9 @@ export default {
    data() {
       return {
          isListOpen: false,
-      };
+      }
    },
-   created() {},
+   created() { },
    methods: {
       toggleOptions() {
          if (this.isListOpen) {
@@ -39,11 +39,16 @@ export default {
       },
       async deleteGroup() {
          try {
-            const groupId = this.group.id;
+            const groupId = this.group.id
             const deletedId = this.$store.dispatch({
                type: "removeGroup",
                groupId,
+<<<<<<< HEAD
             });
+=======
+            })
+            this.isListOpen = false
+>>>>>>> 97537fdae026ad5f53691e73d7f1b6521b2cd769
             if (deletedId) showMsg(`group removed ${deletedId}`)
             else showMsg(`Yoy are not allowed to remove`, "danger")
          } catch (err) {

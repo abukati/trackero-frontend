@@ -15,7 +15,13 @@ export const boardService = {
    getCurrBoard,
    getClonedBoard,
    removeGroup,
+   saveGroups,
+   getClonedGroup,
 }
+
+//----------------------------------------------------------- */
+//********************BOARD*********************************
+//----------------------------------------------------------- */
 
 var gBoards = _createBoards()
 let currBoard = null
@@ -41,13 +47,6 @@ function remove(boardId) {
    return storageService.remove(KEY, boardId)
 }
 
-function removeGroup(groupId) {
-   let currBoard = getCurrBoard()
-   const idx = currBoard.groups.findIndex((group) => group.id === groupId)
-   currBoard.groups.splice(idx, 1)
-   save(currBoard)
-}
-
 function save(board) {
    const savedBoard = board._id ? _update(board) : _add(board)
    return savedBoard
@@ -69,10 +68,375 @@ function getEmptyBoard() {
 function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
-      boards = [_createBoard('Software development'), _createBoard('Project management'), _createBoard('Business board')]
+      boards = [
+         _createBoard('Software development'),
+         _createBoard('Project management'),
+         _createBoard('Business board'),
+      ]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
    return boards
+}
+
+//----------------------------------------------------------- */
+//***********************GROUPS********************************
+//----------------------------------------------------------- */
+
+async function removeGroup(id) {
+   const currBoardGroups = getCurrBoard().groups
+   console.log('currBoardGroups', currBoardGroups)
+   let filtered = currBoardGroups.map((group) => group.id !== id)
+   saveGroups(filtered)
+}
+
+async function saveGroups(groups) {
+   const board = await getCurrBoard()
+   board.groups = JSON.parse(JSON.stringify(groups))
+   save(board)
+   return board
+}
+
+function getClonedBoard(
+   title,
+   user = {
+      _id: 'u101',
+      username: 'BaselB',
+      fullname: 'Basel Boulos',
+      imgUrl: '',
+   }
+) {
+   return {
+      // _id: utilService.makeId(),
+      title,
+      createdAt: Date.now(),
+      createdBy: {
+         _id: user._id,
+         username: user.username,
+         fullname: user.fullname,
+         imgUrl: user.imgUrl,
+      },
+      style: {
+         bgColor: '#29cce5',
+         bgImg: '',
+      },
+      labels: [
+         {
+            id: 'l101',
+            title: 'Done',
+            color: 'green',
+         },
+         {
+            id: 'l102',
+            title: '',
+            color: 'yellow',
+         },
+         {
+            id: 'l103',
+            title: 'Flexible',
+            color: 'orange',
+         },
+         {
+            id: 'l104',
+            title: 'Important',
+            color: 'red',
+         },
+         {
+            id: 'l105',
+            title: '',
+            color: 'purple',
+         },
+         {
+            id: 'l106',
+            title: 'Optional',
+            color: 'blue',
+         },
+      ],
+      members: [
+         {
+            _id: 'u101',
+            username: 'BaselB',
+            fullname: 'Basel Boulos',
+            imgUrl: '',
+         },
+         {
+            _id: 'u102',
+            username: 'ArtiomB',
+            fullname: 'Artiom Bukati',
+            imgUrl: '',
+         },
+         {
+            _id: 'u103',
+            username: 'NoaN',
+            fullname: 'Noa Nissim',
+            imgUrl: '',
+         },
+      ],
+      groups: [
+         {
+            id: 'g101',
+            title: 'Develop trackero',
+            tasks: [
+               {
+                  id: 't101',
+                  title: 'Project trackero task',
+                  style: {
+                     bgColor: '#ffffff',
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: '',
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                     },
+                  ],
+                  labels: [
+                     {
+                        id: 'l102',
+                        title: '',
+                        color: 'yellow',
+                     },
+                     {
+                        id: 'l103',
+                        title: 'Flexible',
+                        color: 'orange',
+                     },
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                  },
+                  dueDate: {
+                     date: '14 Dec 2021',
+                     isComplete: false,
+                  },
+                  comments: [
+                     {
+                        txt: 'Please work on trackero',
+                        id: 'c100',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104',
+                        },
+                     },
+                  ],
+               },
+               {
+                  id: 't102',
+                  title: 'Project trackero task 102',
+                  style: {
+                     bgColor: '#ffffff',
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: '',
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                     },
+                  ],
+                  labels: [
+                     {
+                        id: 'l102',
+                        title: '',
+                        color: 'yellow',
+                     },
+                     {
+                        id: 'l103',
+                        title: 'Flexible',
+                        color: 'orange',
+                     },
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                  },
+                  dueDate: {
+                     date: '15 Dec 2021',
+                     isComplete: false,
+                  },
+                  comments: [
+                     {
+                        txt: 'Please work on trackero task',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104',
+                        },
+                     },
+                  ],
+               },
+            ],
+            style: {
+               bgColor: '#ebecf0',
+            },
+         },
+         {
+            id: 'g102',
+            title: 'Develop trackero',
+            tasks: [
+               {
+                  id: 't102',
+                  title: 'Project trackero task',
+                  style: {
+                     bgColor: '#ffffff',
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: '',
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                     },
+                  ],
+                  labels: [
+                     {
+                        id: 'l102',
+                        title: '',
+                        color: 'yellow',
+                     },
+                     {
+                        id: 'l103',
+                        title: 'Flexible',
+                        color: 'orange',
+                     },
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                  },
+                  dueDate: {
+                     date: '14 Dec 2021',
+                     isComplete: false,
+                  },
+                  comments: [
+                     {
+                        txt: 'Please work on trackero',
+                        id: 'c100',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104',
+                        },
+                     },
+                  ],
+               },
+               {
+                  id: 't103',
+                  title: 'Project trackero task 103',
+                  style: {
+                     bgColor: '#ffffff',
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: '',
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                     },
+                  ],
+                  labels: [
+                     {
+                        id: 'l102',
+                        title: '',
+                        color: 'yellow',
+                     },
+                     {
+                        id: 'l103',
+                        title: 'Flexible',
+                        color: 'orange',
+                     },
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                  },
+                  dueDate: {
+                     date: '15 Dec 2021',
+                     isComplete: false,
+                  },
+                  comments: [
+                     {
+                        txt: 'Please work on trackero task',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104',
+                        },
+                     },
+                  ],
+               },
+            ],
+            style: {
+               bgColor: '#ebecf0',
+            },
+         },
+      ],
+      activities: [
+         {
+            txt: 'Added task "Finalize Campaign Name: WeTaskBigger" to list: Done',
+            createdAt: Date.now(),
+            byMember: {
+               _id: 'u100',
+               fullname: 'Guest',
+               username: 'guest',
+               imgUrl: '',
+            },
+            task: {
+               id: 't100',
+               title: 'Finalize Campaign Name: WeTaskBigger',
+               style: {
+                  bgColor: '#ffffff',
+               },
+               labels: [],
+               members: [
+                  {
+                     _id: 'u102',
+                     username: 'ArtiomB',
+                     fullname: 'Artiom Bukati',
+                     imgUrl: '',
+                  },
+               ],
+            },
+            id: 'a100',
+         },
+      ],
+   }
 }
 
 function _createBoard(
@@ -418,345 +782,123 @@ function _createBoard(
    }
 }
 
-function getClonedBoard(
-   title,
-   user = {
-      _id: 'u101',
-      username: 'BaselB',
-      fullname: 'Basel Boulos',
-      imgUrl: '',
-   }
-) {
-   return {
-      // _id: utilService.makeId(),
-      title,
-      createdAt: Date.now(),
-      createdBy: {
-         _id: user._id,
-         username: user.username,
-         fullname: user.fullname,
-         imgUrl: user.imgUrl,
-      },
-      style: {
-         bgColor: '#29cce5',
-         bgImg: '',
-      },
-      labels: [
+function getClonedGroup() {
+   const group = {
+      id: utilService.makeId(),
+      title: 'Develop trackero Cloned',
+      tasks: [
          {
-            id: 'l101',
-            title: 'Done',
-            color: 'green',
-         },
-         {
-            id: 'l102',
-            title: '',
-            color: 'yellow',
-         },
-         {
-            id: 'l103',
-            title: 'Flexible',
-            color: 'orange',
-         },
-         {
-            id: 'l104',
-            title: 'Important',
-            color: 'red',
-         },
-         {
-            id: 'l105',
-            title: '',
-            color: 'purple',
-         },
-         {
-            id: 'l106',
-            title: 'Optional',
-            color: 'blue',
-         },
-      ],
-      members: [
-         {
-            _id: 'u101',
-            username: 'BaselB',
-            fullname: 'Basel Boulos',
-            imgUrl: '',
-         },
-         {
-            _id: 'u102',
-            username: 'ArtiomB',
-            fullname: 'Artiom Bukati',
-            imgUrl: '',
-         },
-         {
-            _id: 'u103',
-            username: 'NoaN',
-            fullname: 'Noa Nissim',
-            imgUrl: '',
-         },
-      ],
-      groups: [
-         {
-            id: 'g101',
-            title: 'Develop trackero',
-            tasks: [
+            id: 't101',
+            title: 'Project trackero task',
+            style: {
+               bgColor: '#ffffff',
+            },
+            members: [
                {
-                  id: 't101',
-                  title: 'Project trackero task',
-                  style: {
-                     bgColor: '#ffffff',
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: '',
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                     },
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow',
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange',
-                     },
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: '',
-                  },
-                  dueDate: {
-                     date: '14 Dec 2021',
-                     isComplete: false,
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero',
-                        id: 'c100',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104',
-                        },
-                     },
-                  ],
+                  _id: 'u103',
+                  username: 'NoaN',
+                  fullname: 'Noa Nissim',
+                  imgUrl: '',
                },
                {
-                  id: 't102',
-                  title: 'Project trackero task 102',
-                  style: {
-                     bgColor: '#ffffff',
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: '',
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                     },
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow',
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange',
-                     },
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: '',
-                  },
-                  dueDate: {
-                     date: '15 Dec 2021',
-                     isComplete: false,
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero task',
-                        id: 'c101',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104',
-                        },
-                     },
-                  ],
+                  _id: 'u101',
+                  username: 'BaselB',
+                  fullname: 'Basel Boulos',
+                  imgUrl: '',
                },
             ],
-            style: {
-               bgColor: '#ebecf0',
-            },
-         },
-         {
-            id: 'g102',
-            title: 'Develop trackero',
-            tasks: [
+            labels: [
                {
-                  id: 't102',
-                  title: 'Project trackero task',
-                  style: {
-                     bgColor: '#ffffff',
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: '',
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                     },
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow',
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange',
-                     },
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: '',
-                  },
-                  dueDate: {
-                     date: '14 Dec 2021',
-                     isComplete: false,
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero',
-                        id: 'c100',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104',
-                        },
-                     },
-                  ],
+                  id: 'l102',
+                  title: '',
+                  color: 'yellow',
                },
                {
-                  id: 't103',
-                  title: 'Project trackero task 103',
-                  style: {
-                     bgColor: '#ffffff',
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: '',
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                     },
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow',
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange',
-                     },
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: '',
-                  },
-                  dueDate: {
-                     date: '15 Dec 2021',
-                     isComplete: false,
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero task',
-                        id: 'c101',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104',
-                        },
-                     },
-                  ],
+                  id: 'l103',
+                  title: 'Flexible',
+                  color: 'orange',
                },
             ],
-            style: {
-               bgColor: '#ebecf0',
-            },
-         },
-      ],
-      activities: [
-         {
-            txt: 'Added task "Finalize Campaign Name: WeTaskBigger" to list: Done',
-            createdAt: Date.now(),
-            byMember: {
+            byUser: {
                _id: 'u100',
                fullname: 'Guest',
                username: 'guest',
                imgUrl: '',
             },
-            task: {
-               id: 't100',
-               title: 'Finalize Campaign Name: WeTaskBigger',
-               style: {
-                  bgColor: '#ffffff',
-               },
-               labels: [],
-               members: [
-                  {
-                     _id: 'u102',
-                     username: 'ArtiomB',
-                     fullname: 'Artiom Bukati',
-                     imgUrl: '',
-                  },
-               ],
+            dueDate: {
+               date: '14 Dec 2021',
+               isComplete: false,
             },
-            id: 'a100',
+            comments: [
+               {
+                  txt: 'Please work on trackero',
+                  id: 'c100',
+                  createdAt: Date.now(),
+                  byMember: {
+                     fullname: 'Matan Crispel',
+                     _id: 'u104',
+                  },
+               },
+            ],
+         },
+         {
+            id: 't102',
+            title: 'Project trackero task 102',
+            style: {
+               bgColor: '#ffffff',
+            },
+            members: [
+               {
+                  _id: 'u103',
+                  username: 'NoaN',
+                  fullname: 'Noa Nissim',
+                  imgUrl: '',
+               },
+               {
+                  _id: 'u101',
+                  username: 'BaselB',
+                  fullname: 'Basel Boulos',
+                  imgUrl: '',
+               },
+            ],
+            labels: [
+               {
+                  id: 'l102',
+                  title: '',
+                  color: 'yellow',
+               },
+               {
+                  id: 'l103',
+                  title: 'Flexible',
+                  color: 'orange',
+               },
+            ],
+            byUser: {
+               _id: 'u100',
+               fullname: 'Guest',
+               username: 'guest',
+               imgUrl: '',
+            },
+            dueDate: {
+               date: '15 Dec 2021',
+               isComplete: false,
+            },
+            comments: [
+               {
+                  txt: 'Please work on trackero task',
+                  id: 'c101',
+                  createdAt: Date.now(),
+                  byMember: {
+                     fullname: 'Matan Crispel',
+                     _id: 'u104',
+                  },
+               },
+            ],
          },
       ],
+      style: {
+         bgColor: '#ebecf0',
+      },
    }
+   return group
 }
