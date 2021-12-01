@@ -29,6 +29,9 @@ export const boardStore = {
       boardGroups(state) {
          return state.currBoard.groups
       },
+      boardMembers(state) {
+         return state.currBoard.members
+      },
    },
 
    mutations: {
@@ -122,7 +125,6 @@ export const boardStore = {
             window.open(`https://stackoverflow.com/search?q=${err.message}`, '_blank')
          }
       },
-
       //----------------------------------------------------------- */
       //***********************GROUPS********************************
       //----------------------------------------------------------- */
