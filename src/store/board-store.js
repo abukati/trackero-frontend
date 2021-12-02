@@ -132,7 +132,7 @@ export const boardStore = {
       },
       async addBoard({ commit }, { boardTitle }) {
          try {
-            const newBoard = await boardService.getClonedBoard(boardTitle)
+            const newBoard = await boardService.getEmptyBoard(boardTitle)
             const savedBoard = await boardService.save(newBoard)
             commit({ type: 'addBoard', board: savedBoard })
          } catch (err) {
@@ -170,7 +170,7 @@ export const boardStore = {
       },
       async addGroup({ state, commit }) {
          try {
-            const newGroup = await boardService.getClonedGroup()
+            const newGroup = await boardService.getEmptyGroup()
             await boardService.addGroup(newGroup, state.currBoard)
             commit({ type: 'addGroup', group: newGroup })
          } catch (err) {

@@ -13,13 +13,12 @@ export const boardService = {
    remove,
    save,
    getEmptyBoard,
-   getClonedBoard,
    //GROUP
    addGroup,
    removeGroup,
    saveGroups,
-   getClonedGroup,
    changeGroupTitle,
+   getEmptyGroup,
    //TASK
    createTask,
    updateTasks,
@@ -98,9 +97,47 @@ async function _update(board) {
    }
 }
 
-function getEmptyBoard() {
-   const board = _createBoard('Create Board', { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' })
+function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
+   const board = {
+      title,
+      createdAt: Date.now(),
+      createdBy: {
+         _id: user._id,
+         username: user.username,
+         fullname: user.fullname,
+         imgUrl: user.imgUrl
+      },
+      style: {
+         bgColor: '#29cce5',
+         bgImg: ''
+      },
+      labels: [],
+      members: [],
+      groups: [
+         {
+            id: utilService.makeId(),
+            title: 'Default group title',
+            tasks: [],
+            style: {
+               bgColor: '#ebecf0'
+            }
+         }
+      ],
+      activities: []
+   }
    return board
+}
+
+function getEmptyGroup(title = 'Default group title') {
+   const group = {
+      id: utilService.makeId(),
+      title,
+      tasks: [],
+      style: {
+         bgColor: '#ebecf0'
+      }
+   }
+   return group
 }
 
 async function _createBoards() {
@@ -623,15 +660,7 @@ function getClonedBoard(
    }
 }
 
-function _createBoard(
-   title,
-   user = {
-      _id: 'u101',
-      username: 'BaselB',
-      fullname: 'Basel Boulos',
-      imgUrl: ''
-   }
-) {
+function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
    return {
       _id: utilService.makeId(),
       title,
@@ -707,7 +736,7 @@ function _createBoard(
                   id: 't101',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#ff6'
+                     bgColor: '#000'
                   },
                   members: [
                      {
@@ -761,7 +790,7 @@ function _createBoard(
                   id: 't102',
                   title: 'Project trackero task 102',
                   style: {
-                     bgColor: '#ff6'
+                     bgColor: '#000'
                   },
                   members: [
                      {
@@ -824,7 +853,7 @@ function _createBoard(
                   id: 't103',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#ff6'
+                     bgColor: '#000'
                   },
                   members: [
                      {
@@ -878,7 +907,7 @@ function _createBoard(
                   id: 't104',
                   title: 'Project trackero task 104',
                   style: {
-                     bgColor: '#ff6'
+                     bgColor: '#000'
                   },
                   members: [
                      {
@@ -948,7 +977,7 @@ function _createBoard(
                id: 't100',
                title: 'Finalize Campaign Name: WeTaskBigger',
                style: {
-                  bgColor: '#ff6'
+                  bgColor: '#000'
                },
                labels: [],
                members: [
@@ -964,37 +993,4 @@ function _createBoard(
          }
       ]
    }
-}
-
-function getClonedGroup() {
-   const group = {
-      id: utilService.makeId(),
-      title: 'Develop trackero Cloned',
-      tasks: [
-         {
-            id: utilService.makeId(),
-            title: 'Project trackero task',
-            style: {
-               bgColor: '#ff6'
-            },
-            members: [],
-            labels: [],
-            byUser: {
-               _id: 'u100',
-               fullname: 'Guest',
-               username: 'guest',
-               imgUrl: ''
-            },
-            dueDate: {
-               date: '14 Dec 2021',
-               isComplete: false
-            },
-            comments: [{}]
-         }
-      ],
-      style: {
-         bgColor: '#ebecf0'
-      }
-   }
-   return group
 }

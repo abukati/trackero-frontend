@@ -2,30 +2,15 @@
    <section class="board-app" :style="getBoardBgc" v-if="board">
       <div class="board-wrapper">
          <div class="board-container">
-            <div class="secondary-navbar">
-               <h3>All web members</h3>
-               <ul class="clean-list" v-if="getUsers.length">
-                  <li v-for="user in getUsers" :key="user._id">
-                     {{ user.fullname }}
-                     <button @click="addMember(user)">+</button>
-                  </li>
-               </ul>
-               <h3>Board members</h3>
-               <ul class="clean-list" v-if="board.members.length">
-                  <li v-for="user in board.members" :key="user._id">
-                     {{ user.fullname }}
-                     <button @click="removeMember(user)">-</button>
-                  </li>
-               </ul>
-               <label>
-                  <span>Update bgc</span>
-                  <input
-                     type="color"
-                     v-model="board.style.bgColor"
-                     @change="changeBoardBgc"
-                  />
-               </label>
-            </div>
+            <board-nav :boardMembers="board.members" />
+            <label>
+               <span>Update bgc</span>
+               <input
+                  type="color"
+                  v-model="board.style.bgColor"
+                  @change="changeBoardBgc"
+               />
+            </label>
             <div class="groups-container-main">
                <draggable
                   draggable=".board-group"
@@ -73,19 +58,19 @@
 
 <script>
 import groupPreview from '@/cmps/group-preview'
+import boardNav from '@/cmps/board-nav'
 import draggable from 'vuedraggable'
 
 export default {
    name: 'board-app',
    components: {
       groupPreview,
+      boardNav,
       draggable
    },
    data() {
       return {
-         board: null,
-
-
+         board: null
       }
    },
    computed: {
@@ -99,9 +84,6 @@ export default {
       },
       getBoardBgc() {
          return { backgroundColor: this.board.style.bgColor }
-      },
-      getUsers() {
-         return this.$store.getters.users
       }
    },
    methods: {
@@ -111,12 +93,6 @@ export default {
       changeBoardBgc() {
          this.$store.dispatch({ type: 'updateBoard', board: { ...this.board } })
          // this.$emit('boardBgChange', this.board.style.bgColor)
-      },
-      addMember(user) {
-         this.$store.dispatch({ type: 'addMember', user })
-      },
-      removeMember(user) {
-         this.$store.dispatch({ type: 'removeMember', user })
       }
    },
    watch: {
