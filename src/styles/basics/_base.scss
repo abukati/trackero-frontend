@@ -9,11 +9,12 @@ html {
 }
 
 body {
-	margin: 0;
-	min-height: 100vh;
-	line-height: 20px;
-	font-size: 14px;
-	font-weight: 400;
+   margin: 0;
+   min-height: 100vh;
+
+   line-height: 20px;
+   font-size: 14px;
+   font-weight: 400;
 }
 
 main {
@@ -25,14 +26,9 @@ main {
 #app {
 	height: 100vh;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: 500;
-	margin: 0 0 1rem;
+h1, h2, h3, h4, h5, h6 {
+   font-weight: 500;
+   margin: 0 0 1rem;
 }
 
 h1 {
@@ -58,4 +54,16 @@ a:hover {
 
 a:active {
 	outline: 0;
+}
+
+a {
+   text-decoration: none;
+   
+   &:visited {
+      color: inherit;
+   }
+}
+
+input[type=search]:focus {
+   outline: 0;
 }
