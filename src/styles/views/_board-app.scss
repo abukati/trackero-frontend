@@ -12,7 +12,6 @@
       flex-wrap: nowrap;
       white-space: nowrap;
       padding-left: 16px;
-      // padding-right: 8px;
       bottom: 0;
       left: 0;
       right: 0;
@@ -69,27 +68,11 @@
             white-space: nowrap;
             // padding: 0 4px;
             margin: 0 4px;
-
             position: relative;
-
             overflow-y: unset;
             // overflow-x: hidden;
             &:first-child {
-               margin-left: 12px;
-            }
-            .board-group-item {
-               @include custom-scroll-bar;
-               background-color: #ebecf0;
-               overflow-y: scroll;
-               border-radius: 3px;
-               display: flex;
-               flex: 0 0 272px;
-               flex-direction: column;
-               justify-content: flex-start;
-               // max-height: fit-content;
-               min-height: 400px;
-               position: relative;
-               white-space: normal;
+               margin-left: 8px;
             }
          }
       }

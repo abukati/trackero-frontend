@@ -1,4 +1,18 @@
 .group-preview-container {
+   // @include custom-scroll-bar;
+   background-color: #ebecf0;
+   border-radius: 3px;
+   display: flex;
+   flex: 0 0 272px !important;
+   flex-direction: column;
+   justify-content: flex-start;
+   // max-height: fit-content;
+   min-height: fit-content;
+   max-height: 100%;
+   position: relative;
+   white-space: normal;
+   padding-right: 4px;
+
    .group-header-section {
       display: flex;
       flex: 0 0 auto;
@@ -64,33 +78,40 @@
          }
       }
    }
-   .group-tasks-section {
-      .group-task {
-         display: flex;
-         flex: 1 1 auto;
-         margin: 0 4px;
-         min-height: 0;
-         overflow-x: hidden;
-         overflow-y: auto;
-         padding: 0 4px;
-         z-index: 1;
-         white-space: normal;
 
-         .group-task-link {
-            @include flex-column-center;
-            background-color: rgb(255, 255, 255);
-            min-width: 248px;
-            max-width: 300px;
-            box-shadow: 0 1px 0 #091e4240;
-            border-radius: 3px;
-            min-height: 20px;
-            text-decoration: none;
-            padding: 6px 8px 2px;
-            margin: 0 auto 8px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            color: #172b4d;
+   .tasks-and-input-section {
+      @include custom-scroll-bar;
+      overflow-y: auto;
+
+      .group-tasks-section {
+         @include custom-scroll-bar;
+         overflow-y: auto;
+         .group-task {
+            display: flex;
+            flex: 1 1 auto;
+            margin: 0 2px;
+            // min-height: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            // padding: 0 4px;
+            // z-index: 1;
+            white-space: normal;
+
+            .group-task-link {
+               @include flex-column-center;
+               background-color: rgb(255, 255, 255);
+               width: 92.5%;
+               box-shadow: 0 1px 0 #091e4240;
+               border-radius: 3px;
+               min-height: 20px;
+               text-decoration: none;
+               padding: 6px 0px 2px;
+               margin: 0 auto 8px;
+               overflow: hidden;
+               position: relative;
+               cursor: pointer;
+               color: #172b4d;
+            }
          }
       }
    }

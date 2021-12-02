@@ -5,12 +5,24 @@
             <board-nav :boardMembers="board.members" />
             <label>
                <span>Update bgc</span>
-               <input type="color" v-model="board.style.bgColor" @change="changeBoardBgc" />
+               <input
+                  type="color"
+                  v-model="board.style.bgColor"
+                  @change="changeBoardBgc"
+               />
             </label>
             <div class="groups-container-main">
-               <draggable draggable=".board-group" class="groups-container" v-model="groupsList">
-                  <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
-                     <group-preview class="board-group-item" :group="group" :board="board" />
+               <draggable
+                  draggable=".board-group"
+                  class="groups-container"
+                  v-model="groupsList"
+               >
+                  <div
+                     class="board-group"
+                     v-for="(group, idx) in groupsList"
+                     :key="idx"
+                  >
+                     <group-preview :group="group" :board="board" />
                   </div>
                   <!-- <button class="add-group-btn" @click="addGroup()">
                      Add another group
@@ -21,8 +33,14 @@
                            <span>+ </span>
                            <span>Add another group</span>
                         </button>
-                        <input type="text" class="new-group-name-input" placeholder="Enter list title"
-                           autocomplete="off" dir="auto" maxlength="512" />
+                        <input
+                           type="text"
+                           class="new-group-name-input"
+                           placeholder="Enter list title"
+                           autocomplete="off"
+                           dir="auto"
+                           maxlength="512"
+                        />
                         <div></div>
                      </form>
                   </div>
