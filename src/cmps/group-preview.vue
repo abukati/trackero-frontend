@@ -4,14 +4,9 @@
          <div class="title-section">
             <!-- <h3>{{ group.title }}, Id: {{ group.id }}</h3> -->
             <!-- <h2 @click="openTextArea">{{ group.title }}</h2> -->
-            <textarea
-               class="group-title-textarea"
-               :class="{ 'title-editing': isTitleInputOpen }"
-               v-model="newGroupTitle"
-               @input="changeGroupTitle"
-               @focus="$event.target.select()"
-               @blur="changeGroupTitle"
-            ></textarea>
+            <textarea class="group-title-textarea" :class="{ 'title-editing': isTitleInputOpen }"
+               v-model="newGroupTitle" @input="changeGroupTitle" @focus="$event.target.select()" @blur="changeGroupTitle">
+            </textarea>
          </div>
          <div class="title-actions-section">
             <button @click="toggleOptions">
@@ -24,22 +19,11 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <draggable
-         class="group-tasks-section"
-         v-model="tasksList"
-         group="group"
-         draggable=".group-task"
-      >
-         <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
-            <router-link
-               :to="`/board/${board._id}/${group.id}/${task.id}`"
-               class="group-task"
-            >
+      <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".group-task">
+         <div class="group-task" v-for="task in group.tasks" :key="task.id">
+            <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task-link">
                {{ task.id }}
-               <div
-                  class="task-cover"
-                  :style="{ backgroundColor: task.style.bgColor }"
-               >
+               <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }" >
                   (cover)
                </div>
                <span class="group-task-options"></span>
@@ -55,12 +39,7 @@
       <div class="add-task-section">
          <div @click="toggleInput">+ Add a task</div>
          <div v-if="isTaskInputOpen" class="task-add">
-            <input
-               type="text"
-               class="add-task-input"
-               v-model="taskInput"
-               placeholder="Enter a title for this task"
-            />
+            <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
             <button @click="addTask">Add task</button>
             <button @click="toggleInput">X</button>
          </div>
@@ -85,8 +64,6 @@ export default {
          isTitleInputOpen: false,
          taskInput: '',
          newGroupTitle: (this.group.title).slice(),
-
-
       }
    },
    created() { },
