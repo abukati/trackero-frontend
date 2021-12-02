@@ -19,6 +19,9 @@
 				</span>
 				<span class="board-header-menu-btn-text">Show menu</span>
 			</a>
+			<label>
+				<input type="color" :value="getBoardBgc" @change="changeBoardBgc($event)" />
+			</label>
 		</div>
 	</div>
 </template>
@@ -31,8 +34,8 @@ export default {
 		Avatar
 	},
 	computed: {
-		getUsers() {
-			return this.$store.getters.users
+		getBoardBgc() {
+			return this.$store.getters.getBoardBgc
 		}
 	},
 	methods: {
@@ -41,6 +44,9 @@ export default {
 		},
 		removeMember(user) {
 			this.$store.dispatch({ type: 'removeMember', user })
+		},
+		changeBoardBgc(ev) {
+			this.$store.dispatch({ type: 'changeBoardBgc', bgc: ev.target.value })
 		}
 	}
 }

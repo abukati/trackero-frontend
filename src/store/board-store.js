@@ -29,6 +29,9 @@ export const boardStore = {
 		boardGroups(state) {
 			return state.currBoard.groups
 		},
+		getBoardBgc(state) {
+			return state.currBoard.style.bgColor
+		},
 		//----------------------------------------------------------- */
 		//************************MEMBERS*****************************
 		//----------------------------------------------------------- */
@@ -57,6 +60,9 @@ export const boardStore = {
 		setCurrBoard(state, { currBoard }) {
 			state.currBoard = currBoard
 			state.groups = currBoard.groups
+		},
+		setBoardBgc(state, { bgc }) {
+			state.currBoard.style.bgColor = bgc
 		},
 		//----------------------------------------------------------- */
 		//********************GROUPS*******************************
@@ -153,6 +159,10 @@ export const boardStore = {
 			} catch (err) {
 				console.log(err)
 			}
+		},
+		async changeBoardBgc({ state, commit }, { bgc }) {
+			await boardService.changeBoardBgc(bgc, state.currBoard)
+			commit({ type: 'setBoardBgc', bgc })
 		},
 
 		//----------------------------------------------------------- */
