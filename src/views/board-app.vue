@@ -36,7 +36,9 @@
                   {{ group.id }}
                   <group-preview :group="group" :board="board" />
                </div>
-               <button @click="addGroup()">Add another group</button>
+               <button class="add-group-btn" @click="addGroup()">
+                  Add another group
+               </button>
             </draggable>
          </div>
       </div>
