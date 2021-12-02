@@ -4,7 +4,6 @@
          <div class="title-section">
             <textarea
                class="group-title-textarea"
-               :class="{ 'title-editing': isTitleInputOpen, noselect: lockInput }"
                v-model="newGroupTitle"
                @input="changeGroupTitle"
                @focus="$event.target.select()"

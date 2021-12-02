@@ -28,7 +28,7 @@
          display: flex;
          flex-wrap: wrap;
 
-         .group-title-input {
+         .group-title-textarea {
             border: 2px solid #ebecf0;
             cursor: pointer;
             text-decoration: none;
@@ -59,7 +59,7 @@
             }
 
             // &.noselect {
-            //    pointer-events: stroke;
+            //    pointer-events: none;
             // }
          }
       }
@@ -88,8 +88,8 @@
       overflow-y: auto;
 
       .group-tasks-section {
-         @include custom-scroll-bar;
-         overflow-y: auto;
+         // @include custom-scroll-bar;
+         // overflow-y: auto;
          .group-task {
             display: flex;
             flex: 1 1 auto;
