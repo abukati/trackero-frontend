@@ -1,0 +1,31 @@
+.board-nav {
+	@include flex-row-center;
+	background: #ffffff3d;
+	height: 52px;
+	.board-members {
+		@include flex-row-center;
+	}
+	.board-header-invite-btn {
+		all: unset;
+		background-color: #0079bf;
+		border-radius: 3px;
+		color: #fff;
+		cursor: pointer;
+		float: left;
+		font-size: 14px;
+		height: 32px;
+		line-height: 32px;
+		margin: 0 4px 4px 8px;
+		max-width: 400px;
+		overflow: hidden;
+		padding-left: 28px;
+		position: relative;
+		text-overflow: ellipsis;
+		.invite-btn-text {
+			overflow: hidden;
+			padding-right: 12px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}

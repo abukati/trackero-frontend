@@ -12,8 +12,9 @@
 @import 'components/app-header';
 @import 'components/group-preview';
 @import 'components/task-details';
+@import 'components/board-nav';
 
 // VIEWS
 @import 'views/home';
-@import 'views/templates-list';
 @import 'views/board-app';
+@import 'views/templates-list';
