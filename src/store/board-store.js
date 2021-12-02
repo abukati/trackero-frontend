@@ -69,9 +69,9 @@ export const boardStore = {
 			state.groups.push(group)
 		},
 		updateCurrGroup(state, { group, groupId }) {
-         const idx = state.groups.findIndex(group => group.id === groupId)
-         state.groups.splice(idx, 1, group)
-      },
+			const idx = state.groups.findIndex(group => group.id === groupId)
+			state.groups.splice(idx, 1, group)
+		},
 		//----------------------------------------------------------- */
 		//***********************TASKS********************************
 		//----------------------------------------------------------- */
@@ -169,7 +169,7 @@ export const boardStore = {
 		},
 		async addGroup({ state, commit }) {
 			try {
-				const newGroup = await boardService.getClonedGroup()
+				const newGroup = await boardService.getEmptyGroup()
 				await boardService.addGroup(newGroup, state.currBoard)
 				commit({ type: 'addGroup', group: newGroup })
 			} catch (err) {
@@ -188,13 +188,13 @@ export const boardStore = {
 			}
 		},
 		async changeGroupTitle({ state, commit }, { newTitle, groupId }) {
-         try {
-            const group = await boardService.changeGroupTitle(newTitle, groupId, state.currBoard)
-            commit({ type: 'updateCurrGroup', group, groupId })
-         } catch (err) {
-            console.log(err)
-         }
-      },
+			try {
+				const group = await boardService.changeGroupTitle(newTitle, groupId, state.currBoard)
+				commit({ type: 'updateCurrGroup', group, groupId })
+			} catch (err) {
+				console.log(err)
+			}
+		},
 
 		//----------------------------------------------------------- */
 		//***********************TASKS********************************
