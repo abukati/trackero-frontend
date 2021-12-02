@@ -2,7 +2,16 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <div class="title-section">
-            <h3>{{ group.title }}, Id: {{ group.id }}</h3>
+            <!-- <h3>{{ group.title }}, Id: {{ group.id }}</h3> -->
+            <!-- <h2 @click="openTextArea">{{ group.title }}</h2> -->
+            <textarea
+               class="group-title-textarea"
+               :class="{ 'title-editing': isTitleInputOpen }"
+               v-model="newGroupTitle"
+               @input="changeGroupTitle"
+               @focus="$event.target.select()"
+               @blur="changeGroupTitle"
+            ></textarea>
          </div>
          <div class="title-actions-section">
             <button @click="toggleOptions">
@@ -15,7 +24,12 @@
          <button @click="toggleOptions">X</button>
          <button @click="deleteGroup">Delete Card</button>
       </section>
-      <draggable v-model="tasksList" group="group">
+      <draggable
+         class="group-tasks-section"
+         v-model="tasksList"
+         group="group"
+         draggable=".group-task"
+      >
          <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
             <router-link
                :to="`/board/${board._id}/${group.id}/${task.id}`"
@@ -26,11 +40,11 @@
                   class="task-cover"
                   :style="{ backgroundColor: task.style.bgColor }"
                >
-                  dd
+                  (cover)
                </div>
                <span class="group-task-options"></span>
                <div class="group-task-preview">
-                  <div class="group-task-labels">{{ task.labels }}</div>
+                  <!-- <div class="group-task-labels">{{ task.labels }}</div> -->
                   <div class="group-task-title">{{ task.title }}</div>
                   <!-- <div class="group-task-badges"></div>
                   <div class="group-task-members">{{ task.members }}</div> -->
@@ -68,7 +82,11 @@ export default {
       return {
          isListOpen: false,
          isTaskInputOpen: false,
-         taskInput: ''
+         isTitleInputOpen: false,
+         taskInput: '',
+         newGroupTitle: (this.group.title).slice(),
+
+
       }
    },
    created() { },
@@ -105,7 +123,25 @@ export default {
          } catch (err) {
             console.log(err)
          }
-      }
+      },
+      async changeGroupTitle(ev) {
+         try {
+            const groupId = this.group.id
+            this.isTitleInputOpen = true
+            const newTitle = await this.$store.dispatch({ type: 'changeGroupTitle', newTitle: this.newGroupTitle, groupId })
+
+
+         } catch (err) {
+            console.log(err)
+         }
+
+      },
+      // saveGroupTitle(ev) {
+      //    if (ev.keyCode === 13) {
+      //       ev.preventDefault()
+      //       this.isTitleInputOpen = false
+      //    }
+      // }
    },
    computed: {
       tasksList: {

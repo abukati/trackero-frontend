@@ -26,20 +26,46 @@
                   />
                </label>
             </div>
-
-            <draggable class="groups-container" v-model="groupsList">
-               <div
-                  class="board-group"
-                  v-for="(group, idx) in groupsList"
-                  :key="idx"
+            <div class="groups-container-main">
+               <draggable
+                  draggable=".board-group"
+                  class="groups-container"
+                  v-model="groupsList"
                >
-                  {{ group.id }}
-                  <group-preview :group="group" :board="board" />
-               </div>
-               <button class="add-group-btn" @click="addGroup()">
-                  Add another group
-               </button>
-            </draggable>
+                  <div
+                     class="board-group"
+                     v-for="(group, idx) in groupsList"
+                     :key="idx"
+                  >
+                     <group-preview
+                        class="board-group-item"
+                        :group="group"
+                        :board="board"
+                     />
+                  </div>
+                  <!-- <button class="add-group-btn" @click="addGroup()">
+                     Add another group
+                  </button> -->
+                  <div class="add-group-container">
+                     <form class="add-group-form">
+                        <button class="add-group-btn" @click="addGroup()">
+                           <span>+ </span>
+                           <span>Add another group</span>
+                        </button>
+                        <input
+                           type="text"
+                           class="new-group-name-input"
+                           placeholder="Enter list title"
+                           autocomplete="off"
+                           dir="auto"
+                           maxlength="512"
+                        />
+
+                        <div></div>
+                     </form>
+                  </div>
+               </draggable>
+            </div>
          </div>
       </div>
    </section>
@@ -57,7 +83,9 @@ export default {
    },
    data() {
       return {
-         board: null
+         board: null,
+
+
       }
    },
    computed: {
