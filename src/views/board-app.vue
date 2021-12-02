@@ -1,5 +1,9 @@
 <template>
-   <section class="board-app" :style="getBoardBgc" v-if="board">
+   <section
+      class="board-app"
+      :style="{ backgroundColor: getBoardBgc }"
+      v-if="board"
+   >
       <div class="board-wrapper">
          <div class="board-container">
             <board-nav
