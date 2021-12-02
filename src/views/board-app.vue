@@ -96,7 +96,6 @@ export default {
             try {
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
-               await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
             } catch (err) {
                console.log(err)

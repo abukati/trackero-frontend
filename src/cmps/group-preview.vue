@@ -114,6 +114,7 @@ export default {
          },
          set(tasks) {
             this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
+
          }
       }
    }
