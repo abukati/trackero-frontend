@@ -13,6 +13,7 @@ export const boardService = {
    remove,
    save,
    getEmptyBoard,
+   changeBoardBgc,
    //GROUP
    addGroup,
    removeGroup,
@@ -44,7 +45,7 @@ async function query() {
 }
 
 function _deep(board) {
-	return JSON.parse(JSON.stringify(board))
+   return JSON.parse(JSON.stringify(board))
 }
 
 // async function getCurrBoard() {
@@ -149,30 +150,40 @@ async function _createBoards() {
    return boards
 }
 
+async function changeBoardBgc(bgc, board) {
+   try {
+      const currBoard = _deep(board)
+      currBoard.style.bgColor = bgc
+      save(currBoard)
+   } catch (err) {
+      console.log(err)
+   }
+}
+
 //----------------------------------------------------------- */
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
 async function _getCurrGroup(groupId, board) {
-	try {
-		// const currBoard = await getCurrBoard()
-		const currBoard = _deep(board)
-		const currGroup = currBoard.groups.find(group => group.id === groupId)
-		return currGroup
-	} catch (err) {
-		console.log(err)
-	}
+   try {
+      // const currBoard = await getCurrBoard()
+      const currBoard = _deep(board)
+      const currGroup = currBoard.groups.find(group => group.id === groupId)
+      return currGroup
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function addGroup(group, board) {
-	try {
-		// const currBoard = await getCurrBoard()
-		const currBoard = _deep(board)
-		currBoard.groups.push(group)
-		saveGroups(currBoard.groups, currBoard)
-		return currBoard.groups
-	} catch (err) {
-		console.log(err)
-	}
+   try {
+      // const currBoard = await getCurrBoard()
+      const currBoard = _deep(board)
+      currBoard.groups.push(group)
+      saveGroups(currBoard.groups, currBoard)
+      return currBoard.groups
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function changeGroupTitle(newTitle, groupId, board) {
@@ -187,43 +198,43 @@ async function changeGroupTitle(newTitle, groupId, board) {
 }
 
 async function _updateGroup(updatedGroup, groupId, board) {
-	try {
-		// const currBoard = await getCurrBoard()
-		const currBoard = _deep(board)
-		currBoard.groups.forEach(group => {
-			if (group.id === groupId) group = updatedGroup
-		})
-		saveGroups(currBoard.groups, currBoard)
-		return updatedGroup
-	} catch (err) {
-		console.log(err)
-	}
+   try {
+      // const currBoard = await getCurrBoard()
+      const currBoard = _deep(board)
+      currBoard.groups.forEach(group => {
+         if (group.id === groupId) group = updatedGroup
+      })
+      saveGroups(currBoard.groups, currBoard)
+      return updatedGroup
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function removeGroup(id, board) {
-	try {
-		// const currBoard = await getCurrBoard()
-		const currBoard = _deep(board)
-		let currGroups = currBoard.groups
-		let idx = currGroups.findIndex(group => group.id === id)
-		currGroups.splice(idx, 1)
-		saveGroups(currGroups, currBoard)
-		return idx
-	} catch (err) {
-		console.log(err)
-	}
+   try {
+      // const currBoard = await getCurrBoard()
+      const currBoard = _deep(board)
+      let currGroups = currBoard.groups
+      let idx = currGroups.findIndex(group => group.id === id)
+      currGroups.splice(idx, 1)
+      saveGroups(currGroups, currBoard)
+      return idx
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function saveGroups(groups, board) {
-	try {
-		// const board = await getCurrBoard()
-		const deepBoard = _deep(board)
-		deepBoard.groups = groups
-		const savedBoard = save(deepBoard)
-		return savedBoard
-	} catch (err) {
-		console.log(err)
-	}
+   try {
+      // const board = await getCurrBoard()
+      const deepBoard = _deep(board)
+      deepBoard.groups = groups
+      const savedBoard = save(deepBoard)
+      return savedBoard
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 //----------------------------------------------------------- */
@@ -285,375 +296,32 @@ function _createEmptyTask() {
 //----------------------------------------------------------- */
 
 async function addMember(user, board) {
-	try {
-		// const board = await getCurrBoard()
-		const deepBoard = _deep(board)
-		const idx = deepBoard.members.findIndex(member => member._id === user._id)
-		if (idx !== -1) {
-			console.log('Member is already in the board')
-			return
-		} else {
-			deepBoard.members.push(user)
-			save(deepBoard)
-			return user
-		}
-	} catch (err) {
-		console.log(err)
-	}
+   try {
+      // const board = await getCurrBoard()
+      const deepBoard = _deep(board)
+      const idx = deepBoard.members.findIndex(member => member._id === user._id)
+      if (idx !== -1) {
+         console.log('Member is already in the board')
+         return
+      } else {
+         deepBoard.members.push(user)
+         save(deepBoard)
+         return user
+      }
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function removeMember(user, board) {
-	try {
-		// const board = await getCurrBoard()
-		const deepBoard = _deep(board)
-		const idx = deepBoard.members.findIndex(member => member._id === user._id)
-		deepBoard.members.splice(idx, 1)
-		save(deepBoard)
-	} catch (err) {
-		console.log(err)
-	}
-}
-
-function getClonedBoard(
-   title,
-   user = {
-      _id: 'u101',
-      username: 'BaselB',
-      fullname: 'Basel Boulos',
-      imgUrl: ''
-   }
-) {
-   return {
-      // _id: utilService.makeId(),
-      title,
-      createdAt: Date.now(),
-      createdBy: {
-         _id: user._id,
-         username: user.username,
-         fullname: user.fullname,
-         imgUrl: user.imgUrl
-      },
-      style: {
-         bgColor: '#29cce5',
-         bgImg: ''
-      },
-      labels: [
-         {
-            id: 'l101',
-            title: 'Done',
-            color: 'green'
-         },
-         {
-            id: 'l102',
-            title: '',
-            color: 'yellow'
-         },
-         {
-            id: 'l103',
-            title: 'Flexible',
-            color: 'orange'
-         },
-         {
-            id: 'l104',
-            title: 'Important',
-            color: 'red'
-         },
-         {
-            id: 'l105',
-            title: '',
-            color: 'purple'
-         },
-         {
-            id: 'l106',
-            title: 'Optional',
-            color: 'blue'
-         }
-      ],
-      members: [
-         {
-            _id: 'u101',
-            username: 'BaselB',
-            fullname: 'Basel Boulos',
-            imgUrl: ''
-         },
-         {
-            _id: 'u102',
-            username: 'ArtiomB',
-            fullname: 'Artiom Bukati',
-            imgUrl: ''
-         },
-         {
-            _id: 'u103',
-            username: 'NoaN',
-            fullname: 'Noa Nissim',
-            imgUrl: ''
-         }
-      ],
-      groups: [
-         {
-            id: 'g101',
-            title: 'Develop trackero',
-            tasks: [
-               {
-                  id: 't101',
-                  title: 'Project trackero task',
-                  style: {
-                     bgColor: '#000'
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: ''
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: ''
-                     }
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
-                     }
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: ''
-                  },
-                  dueDate: {
-                     date: '14 Dec 2021',
-                     isComplete: false
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero',
-                        id: 'c100',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104'
-                        }
-                     }
-                  ]
-               },
-               {
-                  id: 't102',
-                  title: 'Project trackero task 102',
-                  style: {
-                     bgColor: '#000'
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: ''
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: ''
-                     }
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
-                     }
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: ''
-                  },
-                  dueDate: {
-                     date: '15 Dec 2021',
-                     isComplete: false
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero task',
-                        id: 'c101',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104'
-                        }
-                     }
-                  ]
-               }
-            ],
-            style: {
-               bgColor: '#ebecf0'
-            }
-         },
-         {
-            id: 'g102',
-            title: 'Develop trackero',
-            tasks: [
-               {
-                  id: 't102',
-                  title: 'Project trackero task',
-                  style: {
-                     bgColor: '#000'
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: ''
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: ''
-                     }
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
-                     }
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: ''
-                  },
-                  dueDate: {
-                     date: '14 Dec 2021',
-                     isComplete: false
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero',
-                        id: 'c100',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104'
-                        }
-                     }
-                  ]
-               },
-               {
-                  id: 't103',
-                  title: 'Project trackero task 103',
-                  style: {
-                     bgColor: '#000'
-                  },
-                  members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: ''
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: ''
-                     }
-                  ],
-                  labels: [
-                     {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
-                     },
-                     {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
-                     }
-                  ],
-                  byUser: {
-                     _id: 'u100',
-                     fullname: 'Guest',
-                     username: 'guest',
-                     imgUrl: ''
-                  },
-                  dueDate: {
-                     date: '15 Dec 2021',
-                     isComplete: false
-                  },
-                  comments: [
-                     {
-                        txt: 'Please work on trackero task',
-                        id: 'c101',
-                        createdAt: Date.now(),
-                        byMember: {
-                           fullname: 'Matan Crispel',
-                           _id: 'u104'
-                        }
-                     }
-                  ]
-               }
-            ],
-            style: {
-               bgColor: '#ebecf0'
-            }
-         }
-      ],
-      activities: [
-         {
-            txt: 'Added task "Finalize Campaign Name: WeTaskBigger" to list: Done',
-            createdAt: Date.now(),
-            byMember: {
-               _id: 'u100',
-               fullname: 'Guest',
-               username: 'guest',
-               imgUrl: ''
-            },
-            task: {
-               id: 't100',
-               title: 'Finalize Campaign Name: WeTaskBigger',
-               style: {
-                  bgColor: '#000'
-               },
-               labels: [],
-               members: [
-                  {
-                     _id: 'u102',
-                     username: 'ArtiomB',
-                     fullname: 'Artiom Bukati',
-                     imgUrl: ''
-                  }
-               ]
-            },
-            id: 'a100'
-         }
-      ]
+   try {
+      // const board = await getCurrBoard()
+      const deepBoard = _deep(board)
+      const idx = deepBoard.members.findIndex(member => member._id === user._id)
+      deepBoard.members.splice(idx, 1)
+      save(deepBoard)
+   } catch (err) {
+      console.log(err)
    }
 }
 
@@ -733,7 +401,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   id: 't101',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#000'
+                     bgColor: '#ff7'
                   },
                   members: [
                      {
@@ -787,7 +455,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   id: 't102',
                   title: 'Project trackero task 102',
                   style: {
-                     bgColor: '#000'
+                     bgColor: '#ff7'
                   },
                   members: [
                      {
@@ -850,7 +518,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   id: 't103',
                   title: 'Project trackero task',
                   style: {
-                     bgColor: '#000'
+                     bgColor: '#ff7'
                   },
                   members: [
                      {
@@ -904,7 +572,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   id: 't104',
                   title: 'Project trackero task 104',
                   style: {
-                     bgColor: '#000'
+                     bgColor: '#ff7'
                   },
                   members: [
                      {
@@ -974,7 +642,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                id: 't100',
                title: 'Finalize Campaign Name: WeTaskBigger',
                style: {
-                  bgColor: '#000'
+                  bgColor: '#ff7'
                },
                labels: [],
                members: [

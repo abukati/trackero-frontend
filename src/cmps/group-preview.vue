@@ -2,14 +2,14 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <div class="title-section">
-            <input class="group-title-input" :class="{ 'title-editing': isTitleInputOpen, noselect: lockInput }"
-               v-model="newGroupTitle" 
-               @keyup.enter="changeGroupTitle"
-               @click="titleInputFocus" 
-               @blur="[changeGroupTitle, lockInput = false]"
-               @mousedown="lockInput = true"
-               @mouseup="lockInput = false" />
-               <!-- @input="changeGroupTitle"  -->
+            <textarea
+               class="group-title-textarea"
+               :class="{ 'title-editing': isTitleInputOpen, noselect: lockInput }"
+               v-model="newGroupTitle"
+               @input="changeGroupTitle"
+               @focus="$event.target.select()"
+               @blur="changeGroupTitle"
+            ></textarea>
          </div>
          <div class="title-actions-section">
             <button @click="toggleOptions">
@@ -22,29 +22,47 @@
             <button @click="deleteGroup">Delete Card</button>
          </section>
       </section>
-      <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".group-task">
-         <div class="group-task" v-for="task in group.tasks" :key="task.id">
-            <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task-link">
-               {{ task.id }}
-               <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }" >
-                  (cover)
-               </div>
-               <span class="group-task-options"></span>
-               <div class="group-task-preview">
-                  <!-- <div class="group-task-labels">{{ task.labels }}</div> -->
-                  <div class="group-task-title">{{ task.title }}</div>
-                  <!-- <div class="group-task-badges"></div>
+      <div class="tasks-and-input-section">
+         <draggable
+            class="group-tasks-section"
+            v-model="tasksList"
+            group="group"
+            draggable=".group-task"
+         >
+            <div class="group-task" v-for="task in group.tasks" :key="task.id">
+               <router-link
+                  :to="`/board/${board._id}/${group.id}/${task.id}`"
+                  class="group-task-link"
+               >
+                  {{ task.id }}
+                  <div
+                     class="task-cover"
+                     :style="{ backgroundColor: task.style.bgColor }"
+                  >
+                     (cover)
+                  </div>
+                  <span class="group-task-options"></span>
+                  <div class="group-task-preview">
+                     <!-- <div class="group-task-labels">{{ task.labels }}</div> -->
+                     <div class="group-task-title">{{ task.title }}</div>
+                     <!-- <div class="group-task-badges"></div>
                   <div class="group-task-members">{{ task.members }}</div> -->
-               </div>
-            </router-link>
-         </div>
-      </draggable>
-      <div class="add-task-section">
-         <div @click="toggleInput">+ Add a task</div>
-         <div v-if="isTaskInputOpen" class="task-add">
-            <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
-            <button @click="addTask">Add task</button>
-            <button @click="toggleInput">X</button>
+                  </div>
+               </router-link>
+            </div>
+         </draggable>
+         <div class="add-task-section">
+            <div @click="toggleInput">+ Add a task</div>
+            <div v-if="isTaskInputOpen" class="task-add">
+               <input
+                  type="text"
+                  class="add-task-input"
+                  v-model="taskInput"
+                  placeholder="Enter a title for this task"
+               />
+               <button @click="addTask">Add task</button>
+               <button @click="toggleInput">X</button>
+            </div>
          </div>
       </div>
    </section>
