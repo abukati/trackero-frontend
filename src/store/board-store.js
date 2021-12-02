@@ -68,6 +68,10 @@ export const boardStore = {
 		addGroup(state, { group }) {
 			state.groups.push(group)
 		},
+		updateCurrGroup(state, { group, groupId }) {
+         const idx = state.groups.findIndex(group => group.id === groupId)
+         state.groups.splice(idx, 1, group)
+      },
 		//----------------------------------------------------------- */
 		//***********************TASKS********************************
 		//----------------------------------------------------------- */
@@ -79,7 +83,6 @@ export const boardStore = {
 			const idx = state.groups.findIndex(group => group.id === groupId)
 			const currGroup = state.groups.find(group => group.id === groupId)
 			currGroup.tasks.push(savedTask)
-			console.log('add task in store')
 			state.groups.splice(idx, 1, currGroup)
 		},
 		//----------------------------------------------------------- */
@@ -184,6 +187,14 @@ export const boardStore = {
 				console.log(err)
 			}
 		},
+		async changeGroupTitle({ state, commit }, { newTitle, groupId }) {
+         try {
+            const group = await boardService.changeGroupTitle(newTitle, groupId, state.currBoard)
+            commit({ type: 'updateCurrGroup', group, groupId })
+         } catch (err) {
+            console.log(err)
+         }
+      },
 
 		//----------------------------------------------------------- */
 		//***********************TASKS********************************
