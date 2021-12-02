@@ -14,18 +14,23 @@
 // custom scroll-bar
 @mixin custom-scroll-bar() {
    &::-webkit-scrollbar {
+      background-color: #091e4214;
+      width: 16px;
       border-radius: 10px;
-      height: 15px;
-      width: 10px;
    }
 
    &::-webkit-scrollbar-thumb {
       background: #bfc4ce;
+      width: 16px;
       border-radius: 10px;
+      border: 5px solid transparent;
+      background-clip: content-box;
    }
 
    &::-webkit-scrollbar-track {
+      background-color: #e4e4e4;
       border-radius: 10px;
+      width: 16px;
    }
 }
 

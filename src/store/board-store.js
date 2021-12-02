@@ -131,7 +131,7 @@ export const boardStore = {
 		},
 		async addBoard({ commit }, { boardTitle }) {
 			try {
-				const newBoard = await boardService.getClonedBoard(boardTitle)
+				const newBoard = await boardService.getEmptyBoard(boardTitle)
 				const savedBoard = await boardService.save(newBoard)
 				commit({ type: 'addBoard', board: savedBoard })
 			} catch (err) {

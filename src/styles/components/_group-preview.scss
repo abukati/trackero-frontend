@@ -65,7 +65,7 @@
       }
    }
    .group-tasks-section {
-      .group-tasks {
+      .group-task {
          display: flex;
          flex: 1 1 auto;
          margin: 0 4px;
@@ -76,7 +76,7 @@
          z-index: 1;
          white-space: normal;
 
-         .group-task {
+         .group-task-link {
             @include flex-column-center;
             background-color: rgb(255, 255, 255);
             min-width: 248px;

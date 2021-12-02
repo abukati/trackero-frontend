@@ -87,7 +87,7 @@
                flex-direction: column;
                justify-content: flex-start;
                // max-height: fit-content;
-               height: 100%;
+               min-height: 400px;
                position: relative;
                white-space: normal;
             }

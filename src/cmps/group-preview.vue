@@ -4,6 +4,7 @@
          <div class="title-section">
             <!-- <h3>{{ group.title }}, Id: {{ group.id }}</h3> -->
             <!-- <h2 @click="openTextArea">{{ group.title }}</h2> -->
+            <!-- <pre>{{ group }}</pre> -->
             <textarea
                class="group-title-textarea"
                :class="{ 'title-editing': isTitleInputOpen }"
@@ -30,10 +31,10 @@
          group="group"
          draggable=".group-task"
       >
-         <div class="group-tasks" v-for="task in group.tasks" :key="task.id">
+         <div class="group-task" v-for="task in group.tasks" :key="task.id">
             <router-link
                :to="`/board/${board._id}/${group.id}/${task.id}`"
-               class="group-task"
+               class="group-task-link"
             >
                {{ task.id }}
                <div
@@ -85,8 +86,6 @@ export default {
          isTitleInputOpen: false,
          taskInput: '',
          newGroupTitle: (this.group.title).slice(),
-
-
       }
    },
    created() { },
