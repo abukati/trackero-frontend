@@ -2,15 +2,11 @@
    <section class="board-app" :style="getBoardBgc" v-if="board">
       <div class="board-wrapper">
          <div class="board-container">
-            <board-nav :boardMembers="board.members" />
-            <label>
-               <span>Update bgc</span>
-               <input
-                  type="color"
-                  v-model="board.style.bgColor"
-                  @change="changeBoardBgc"
-               />
-            </label>
+            <board-nav
+               :boardMembers="board.members"
+               :boardBgc="board.style.bgColor"
+            />
+
             <div class="groups-container-main">
                <draggable
                   draggable=".board-group"
@@ -65,7 +61,7 @@ export default {
    },
    data() {
       return {
-         board: null,
+         board: null
       }
    },
    computed: {
@@ -78,16 +74,12 @@ export default {
          }
       },
       getBoardBgc() {
-         return { backgroundColor: this.board.style.bgColor }
+         return this.$store.getters.getBoardBgc
       }
    },
    methods: {
       addGroup() {
          this.$store.dispatch({ type: 'addGroup' })
-      },
-      changeBoardBgc() {
-         this.$store.dispatch({ type: 'updateBoard', board: { ...this.board } })
-         // this.$emit('boardBgChange', this.board.style.bgColor)
       }
    },
    watch: {
