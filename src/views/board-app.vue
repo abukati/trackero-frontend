@@ -51,11 +51,11 @@ export default {
    name: 'board-app',
    components: {
       groupPreview,
-      draggable,
+      draggable
    },
    data() {
       return {
-         board: null,
+         board: null
       }
    },
    computed: {
@@ -65,14 +65,14 @@ export default {
          },
          set(groups) {
             this.$store.dispatch({ type: 'updateGroups', groups })
-         },
+         }
       },
       getBoardBgc() {
          return { backgroundColor: this.board.style.bgColor }
       },
       getUsers() {
          return this.$store.getters.users
-      },
+      }
    },
    methods: {
       addGroup() {
@@ -87,7 +87,7 @@ export default {
       },
       removeMember(user) {
          this.$store.dispatch({ type: 'removeMember', user })
-      },
+      }
    },
    watch: {
       '$route.params.boardId': {
@@ -96,12 +96,13 @@ export default {
             try {
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+               await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
             } catch (err) {
                console.log(err)
             }
-         },
-      },
-   },
+         }
+      }
+   }
 }
 </script>

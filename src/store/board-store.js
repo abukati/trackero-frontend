@@ -71,19 +71,16 @@ export const boardStore = {
       //----------------------------------------------------------- */
       //***********************TASKS********************************
       //----------------------------------------------------------- */
-      updateTaskPositions(state, { tasks, updatedGroup }) {
+      updateTaskPositions(state, { updatedGroup }) {
          const idx = state.groups.findIndex(group => group.id === updatedGroup.id)
          state.currBoard.groups.splice(idx, 1, updatedGroup)
       },
       addTask(state, { savedTask, groupId }) {
-         // console.log('savedTask', savedTask)
-         // console.log('groupId', groupId)
-         // const idx = state.groups.findIndex(group => group.id === groupId)
-         // console.log('idx', idx)
-         // const currGroup = state.groups.find(group => group.id === groupId)
-         // console.log('currGroup', currGroup)
-         // currGroup.tasks.push(savedTask)
-         // state.groups.splice(idx, 1, currGroup)
+         const idx = state.groups.findIndex(group => group.id === groupId)
+         const currGroup = state.groups.find(group => group.id === groupId)
+         currGroup.tasks.push(savedTask)
+         console.log('add task in store')
+         state.groups.splice(idx, 1, currGroup)
       },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
@@ -141,7 +138,6 @@ export const boardStore = {
       async getBoardbyId({ commit }, { boardId }) {
          try {
             const board = await boardService.getById(boardId)
-            // commit({ type: 'setCurrBoard', currBoard: JSON.parse(JSON.stringify(board)) })
             commit({ type: 'setCurrBoard', currBoard: board })
             return board
          } catch (err) {
@@ -160,30 +156,29 @@ export const boardStore = {
       //***********************GROUPS********************************
       //----------------------------------------------------------- */
 
-      async updateGroups({ commit }, { groups }) {
+      async updateGroups({ state, commit }, { groups }) {
          try {
-            const board = await boardService.saveGroups(groups)
+            const board = await boardService.saveGroups(groups, state.currBoard)
             commit({ type: 'setCurrBoard', currBoard: board })
          } catch (err) {
             console.log(err)
          }
       },
-      async addGroup({ commit }) {
+      async addGroup({ state, commit }) {
          try {
             const newGroup = await boardService.getClonedGroup()
-            const savedGroup = await boardService.addGroup(newGroup)
-            commit({ type: 'addGroup', group: savedGroup })
+            await boardService.addGroup(newGroup, state.currBoard)
+            commit({ type: 'addGroup', group: newGroup })
          } catch (err) {
             console.log(err)
          }
       },
-      async removeGroup({ commit }, { groupId }) {
+      async removeGroup({ state, commit }, { groupId }) {
          try {
-            const deletedId = await boardService.removeGroup(groupId)
-            console.log('deletedId', deletedId)
-            if (deletedId) {
+            const idx = await boardService.removeGroup(groupId, state.currBoard)
+            if (idx >= 0) {
                commit({ type: 'removeGroup', groupId })
-               return deletedId
+               return idx
             }
          } catch (err) {
             console.log(err)
@@ -194,19 +189,19 @@ export const boardStore = {
       //***********************TASKS********************************
       //----------------------------------------------------------- */
 
-      async updateTaskPositions({ commit }, { tasks, group }) {
+      async updateTaskPositions({ state, commit }, { tasks, group }) {
          try {
-            const savedTasks = await boardService.updateTasks(tasks, group)
-            commit({ type: 'updateTaskPositions', savedTasks, updatedGroup: group })
-         } catch (err) {}
+            const updatedGroup = await boardService.updateTasks(tasks, group, state.currBoard)
+            commit({ type: 'updateTaskPositions', updatedGroup })
+         } catch (err) {
+            console.log(err)
+         }
       },
-      async addTask({ commit }, { groupId, title }) {
+      async addTask({ state, commit }, { groupId, title }) {
          try {
-            console.log('groupId', groupId)
-            console.log('title', title)
             const newTask = await boardService.createTask(title)
-            const savedTask = await boardService.saveTask(newTask, groupId)
-            commit({ type: 'addTask', savedTask, groupId })
+            const savedTask = await boardService.saveTask(newTask, groupId, state.currBoard)
+            if (savedTask) commit({ type: 'addTask', savedTask, groupId })
             return newTask
          } catch (err) {
             console.log(err)
@@ -217,17 +212,17 @@ export const boardStore = {
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */
 
-      async addMember({ commit }, { user }) {
+      async addMember({ state, commit }, { user }) {
          try {
-            await boardService.addMember(user)
-            commit({ type: 'addMember', user })
+            const savedMember = await boardService.addMember(user, state.currBoard)
+            if (savedMember) commit({ type: 'addMember', user: savedMember })
          } catch (err) {
             console.log(err)
          }
       },
-      async removeMember({ commit }, { user }) {
+      async removeMember({ state, commit }, { user }) {
          try {
-            await boardService.removeMember(user)
+            await boardService.removeMember(user, state.currBoard)
             commit({ type: 'removeMember', user })
          } catch (err) {
             console.log(err)
