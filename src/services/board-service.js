@@ -43,7 +43,7 @@ async function query() {
 	}
 }
 
-function deep(board) {
+function _deep(board) {
 	return JSON.parse(JSON.stringify(board))
 }
 
@@ -121,7 +121,7 @@ async function _createBoards() {
 async function _getCurrGroup(groupId, board) {
 	try {
 		// const currBoard = await getCurrBoard()
-		const currBoard = deep(board)
+		const currBoard = _deep(board)
 		const currGroup = currBoard.groups.find(group => group.id === groupId)
 		return currGroup
 	} catch (err) {
@@ -132,7 +132,7 @@ async function _getCurrGroup(groupId, board) {
 async function addGroup(group, board) {
 	try {
 		// const currBoard = await getCurrBoard()
-		const currBoard = deep(board)
+		const currBoard = _deep(board)
 		currBoard.groups.push(group)
 		saveGroups(currBoard.groups, currBoard)
 		return currBoard.groups
@@ -144,7 +144,7 @@ async function addGroup(group, board) {
 async function _updateGroup(updatedGroup, groupId, board) {
 	try {
 		// const currBoard = await getCurrBoard()
-		const currBoard = deep(board)
+		const currBoard = _deep(board)
 		currBoard.groups.forEach(group => {
 			if (group.id === groupId) group = updatedGroup
 		})
@@ -158,7 +158,7 @@ async function _updateGroup(updatedGroup, groupId, board) {
 async function removeGroup(id, board) {
 	try {
 		// const currBoard = await getCurrBoard()
-		const currBoard = deep(board)
+		const currBoard = _deep(board)
 		let currGroups = currBoard.groups
 		let idx = currGroups.findIndex(group => group.id === id)
 		currGroups.splice(idx, 1)
@@ -172,7 +172,7 @@ async function removeGroup(id, board) {
 async function saveGroups(groups, board) {
 	try {
 		// const board = await getCurrBoard()
-		const deepBoard = deep(board)
+		const deepBoard = _deep(board)
 		deepBoard.groups = groups
 		const savedBoard = save(deepBoard)
 		return savedBoard
@@ -242,7 +242,7 @@ function _createEmptyTask() {
 async function addMember(user, board) {
 	try {
 		// const board = await getCurrBoard()
-		const deepBoard = deep(board)
+		const deepBoard = _deep(board)
 		const idx = deepBoard.members.findIndex(member => member._id === user._id)
 		if (idx !== -1) {
 			console.log('Member is already in the board')
@@ -260,7 +260,7 @@ async function addMember(user, board) {
 async function removeMember(user, board) {
 	try {
 		// const board = await getCurrBoard()
-		const deepBoard = deep(board)
+		const deepBoard = _deep(board)
 		const idx = deepBoard.members.findIndex(member => member._id === user._id)
 		deepBoard.members.splice(idx, 1)
 		save(deepBoard)

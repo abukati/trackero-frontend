@@ -2,6 +2,7 @@
    <section class="board-app" :style="getBoardBgc" v-if="board">
       <div class="board-wrapper">
          <div class="board-container">
+            
             <div class="secondary-navbar">
                <h3>All web members</h3>
                <ul class="clean-list" v-if="getUsers.length">
@@ -19,25 +20,20 @@
                </ul>
                <label>
                   <span>Update bgc</span>
-                  <input
-                     type="color"
-                     v-model="board.style.bgColor"
-                     @change="changeBoardBgc"
-                  />
+                  <input type="color" v-model="board.style.bgColor" @change="changeBoardBgc" />
                </label>
             </div>
 
-            <draggable class="groups-container" v-model="groupsList">
-               <div
-                  class="board-group"
-                  v-for="(group, idx) in groupsList"
-                  :key="idx"
-               >
+            <draggable class="groups-container" v-model="groupsList" draggable=".board-group">
+               <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
                   {{ group.id }}
                   <group-preview :group="group" :board="board" />
                </div>
-               <button @click="addGroup()">Add another group</button>
+               <div class="board-group-add">
+                  <button @click="addGroup()">Add another group</button>
+               </div>
             </draggable>
+
          </div>
       </div>
    </section>
@@ -55,7 +51,7 @@ export default {
    },
    data() {
       return {
-         board: null
+         board: null,
       }
    },
    computed: {
