@@ -35,10 +35,7 @@
                   class="group-task-link"
                >
                   {{ task.id }}
-                  <div
-                     class="task-cover"
-                     :style="{ backgroundColor: task.style.bgColor }"
-                  >
+                  <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }">
                      (cover)
                   </div>
                   <span class="group-task-options"></span>
@@ -54,12 +51,7 @@
          <div class="add-task-section">
             <div @click="toggleInput">+ Add a task</div>
             <div v-if="isTaskInputOpen" class="task-add">
-               <input
-                  type="text"
-                  class="add-task-input"
-                  v-model="taskInput"
-                  placeholder="Enter a title for this task"
-               />
+               <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
                <button @click="addTask">Add task</button>
                <button @click="toggleInput">X</button>
             </div>
