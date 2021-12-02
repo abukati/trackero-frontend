@@ -1,6 +1,6 @@
 <template>
    <div id="app">
-      <main :style="{ backgroundColor: pageBackground }">
+      <main :style="{ backgroundColor: pageBgc }">
          <app-header />
          <router-view />
       </main>
@@ -14,14 +14,14 @@ export default {
       appHeader,
    },
    data() {
-      return {
-         pageBackground: '#025AA7',
-      }
+      return {}
    },
    computed: {
       pageBgc() {
-         this.pageBackground = this.$store.getters.getBoardBgc || '#026AA7'
+         if (!this.$store.getters.currBoard || !this.$route.params.boardId) return '#025AA7'
+         else return this.$store.getters.getBoardBgc
       }
-   }
+   },
+
 }
 </script>
