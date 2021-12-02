@@ -1,70 +1,70 @@
 .board-nav {
-	@include flex-row-center;
-	background: #ffffff3d;
-	height: auto;
-	padding: 8px 4px 4px 8px;
-	padding-left: 32px;
-	position: relative;
-	.board-members {
-		@include flex-row-center;
-		.board-header-invite-btn {
-			all: unset;
-			background-color: #0079bf;
-			border-radius: 3px;
-			color: #fff;
-			cursor: pointer;
-			float: left;
-			font-size: 14px;
-			height: 32px;
-			line-height: 32px;
-			margin: 0 4px 4px 8px;
-			max-width: 400px;
-			overflow: hidden;
-			padding-left: 28px;
-			position: relative;
-			text-overflow: ellipsis;
-			.invite-btn-text {
-				overflow: hidden;
-				padding-right: 12px;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-			&:hover {
-				background-color: #026aa7;
-				color: #fff;
-			}
-		}
-	}
-	.board-header-right {
-		float: right;
-		.board-header-menu-btn {
-			background-color: #00000014;
-			border-radius: 3px;
-			float: left;
-			font-size: 14px;
-			height: 32px;
-			line-height: 32px;
-			margin: 0 4px 4px 0;
-			max-width: 400px;
-			overflow: hidden;
-			padding-left: 32px;
-			position: relative;
-			text-decoration: none;
-			text-overflow: ellipsis;
-			&:hover {
-				background-color: #ffffff52;
-				cursor: pointer;
-			}
-			&:active {
-				background-color: #fff6;
-				cursor: pointer;
-			}
-			.board-header-menu-btn-text {
-				overflow: hidden;
-				padding-right: 12px;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-		}
-	}
+   @include flex-row-center;
+   height: auto;
+   padding: 8px 4px 4px 8px;
+   padding-left: 32px;
+   position: relative;
+
+   .board-members {
+      @include flex-row-center;
+      .board-header-invite-btn {
+         all: unset;
+         background-color: #0079bf;
+         border-radius: 3px;
+         color: #fff;
+         cursor: pointer;
+         float: left;
+         font-size: 14px;
+         height: 32px;
+         line-height: 32px;
+         margin: 0 4px 4px 8px;
+         max-width: 400px;
+         overflow: hidden;
+         padding-left: 28px;
+         position: relative;
+         text-overflow: ellipsis;
+         .invite-btn-text {
+            overflow: hidden;
+            padding-right: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+         }
+         &:hover {
+            background-color: #026aa7;
+            color: #fff;
+         }
+      }
+   }
+   .board-header-right {
+      float: right;
+      .board-header-menu-btn {
+         background-color: #00000014;
+         border-radius: 3px;
+         float: left;
+         font-size: 14px;
+         height: 32px;
+         line-height: 32px;
+         margin: 0 4px 4px 0;
+         max-width: 400px;
+         overflow: hidden;
+         padding-left: 32px;
+         position: relative;
+         text-decoration: none;
+         text-overflow: ellipsis;
+         &:hover {
+            background-color: #ffffff52;
+            cursor: pointer;
+         }
+         &:active {
+            background-color: #fff6;
+            cursor: pointer;
+         }
+         .board-header-menu-btn-text {
+            overflow: hidden;
+            padding-right: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+         }
+      }
+   }
 }
