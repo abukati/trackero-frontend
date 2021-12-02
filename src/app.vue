@@ -15,7 +15,7 @@ export default {
    },
    data() {
       return {
-         pageBackground: '#026AA7',
+         pageBackground: '#025AA7',
       }
    },
    watch: {

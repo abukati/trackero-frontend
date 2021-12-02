@@ -4,6 +4,7 @@
          <div class="title-section">
             <!-- <h3>{{ group.title }}, Id: {{ group.id }}</h3> -->
             <!-- <h2 @click="openTextArea">{{ group.title }}</h2> -->
+            <!-- <pre>{{ group }}</pre> -->
             <textarea
                class="group-title-textarea"
                :class="{ 'title-editing': isTitleInputOpen }"
