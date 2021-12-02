@@ -14,7 +14,7 @@
          display: flex;
          flex-wrap: wrap;
 
-         .group-title-textarea {
+         .group-title-input {
             border: 2px solid #ebecf0;
             cursor: pointer;
             text-decoration: none;
@@ -43,6 +43,10 @@
                outline: 0 none;
                cursor: text;
             }
+
+            // &.noselect {
+            //    pointer-events: stroke;
+            // }
          }
       }
 

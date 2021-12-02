@@ -2,22 +2,25 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <div class="title-section">
-            <!-- <h3>{{ group.title }}, Id: {{ group.id }}</h3> -->
-            <!-- <h2 @click="openTextArea">{{ group.title }}</h2> -->
-            <textarea class="group-title-textarea" :class="{ 'title-editing': isTitleInputOpen }"
-               v-model="newGroupTitle" @input="changeGroupTitle" @focus="$event.target.select()" @blur="changeGroupTitle">
-            </textarea>
+            <input class="group-title-input" :class="{ 'title-editing': isTitleInputOpen, noselect: lockInput }"
+               v-model="newGroupTitle" 
+               @keyup.enter="changeGroupTitle"
+               @click="titleInputFocus" 
+               @blur="[changeGroupTitle, lockInput = false]"
+               @mousedown="lockInput = true"
+               @mouseup="lockInput = false" />
+               <!-- @input="changeGroupTitle"  -->
          </div>
          <div class="title-actions-section">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
             </button>
          </div>
-      </section>
-      <section v-if="isListOpen" class="list-actions">
-         <h3>List actions</h3>
-         <button @click="toggleOptions">X</button>
-         <button @click="deleteGroup">Delete Card</button>
+         <section v-show="isListOpen" class="list-actions">
+            <h3>List actions</h3>
+            <button @click="toggleOptions">X</button>
+            <button @click="deleteGroup">Delete Card</button>
+         </section>
       </section>
       <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".group-task">
          <div class="group-task" v-for="task in group.tasks" :key="task.id">
@@ -63,10 +66,13 @@ export default {
          isTaskInputOpen: false,
          isTitleInputOpen: false,
          taskInput: '',
-         newGroupTitle: (this.group.title).slice(),
+         newGroupTitle: '',
+         lockInput: false
       }
    },
-   created() { },
+   created() {
+      this.newGroupTitle = JSON.parse(JSON.stringify(this.group.title))
+   },
    methods: {
       toggleOptions() {
          this.isListOpen = !this.isListOpen
@@ -103,16 +109,18 @@ export default {
       },
       async changeGroupTitle(ev) {
          try {
+            this.isTitleInputOpen = false
             const groupId = this.group.id
-            this.isTitleInputOpen = true
             const newTitle = await this.$store.dispatch({ type: 'changeGroupTitle', newTitle: this.newGroupTitle, groupId })
-
-
          } catch (err) {
             console.log(err)
          }
-
       },
+      titleInputFocus(ev) {
+         this.isTitleInputOpen = true
+         return this.isTitleInputOpen ? ev.target.select() : ''
+      }
+
       // saveGroupTitle(ev) {
       //    if (ev.keyCode === 13) {
       //       ev.preventDefault()
@@ -129,7 +137,7 @@ export default {
             this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
 
          }
-      }
+      },
    }
 }
 </script>

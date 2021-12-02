@@ -17,13 +17,76 @@ header {
    }
 }
 
+.atlassian-btn-wrapper {
+   display: block;
+   position: relative;
+   outline: none;
+   z-index: 0;
+
+   &>* {
+      outline: none;
+   }
+
+   .atlassian-btn-container {
+      margin: 0;
+      padding: 0;
+
+      .atlassian-app-btn {
+         margin: 0;
+         background-color: transparent;
+         border-radius: 3px;
+         border: 0;
+         text-decoration: none;
+         align-items: center;
+         display: flex;
+         box-shadow: none;
+         height: 32px;
+         line-height: 32px;
+         padding: 0;
+         white-space: nowrap;
+
+         &:hover {
+            @include nav-btn-hover
+         }
+
+         .atlassian-app-icon-container {
+            display: flex;
+            width: 32px;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            line-height: 1;
+
+            .atlassian-app-switcher {
+               display: inline-block;
+               flex-shrink: 0;
+               line-height: 1;
+
+               svg {
+                  height: 20px;
+                  width: 20px;
+                  line-height: 20px;
+                  vertical-align: bottom;
+               }
+            }
+         }
+      }
+   }
+}
+
 .logo-link {
    display: block;
    position: relative;
    flex-shrink: 0;
    margin-top: 1px;
-
+   
+   padding: 0 6px;
+   border-radius: 3px;
    height: 32px;
+
+   &:hover { 
+      @include nav-btn-hover
+   }
 
    .logo-content {
       width: 75px;
