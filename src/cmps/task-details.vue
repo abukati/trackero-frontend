@@ -99,9 +99,9 @@
                         <div class="add-desc-area">
                            <div class="desc">
                               <div class="desc-content">
-                                 <a class="description-fake-text-area" href="#">
-                                    <p class="u-bottom">Add a more detailed description…</p>
-                                 </a>
+                                    <p class="u-bottom">
+                                       <a class="description-fake-text-area" href="#">
+                                       Add a more detailed description… </a></p>
                               </div>
                            </div>
                         </div>
@@ -173,7 +173,7 @@
                      </a>
                   </div>
                </div>
-               <div class="plugin-buttons">
+               <div class="powerups-buttons">
                   <div class="window-module">
                      <h3>Power-Ups</h3>
                      <div>
@@ -186,7 +186,7 @@
                      </div>
                   </div>
                </div>
-               <div class="butler-buttons">
+               <div class="automation-buttons">
                    <div class="window-module">
                      <h3>Automation</h3>
                      <div>
@@ -197,6 +197,46 @@
                            Add button
                         </a>
                      </div>
+                  </div>
+               </div>
+               <div class="window-module action-buttons">
+                  <h3>Actions</h3>
+                  <div>
+                      <a class="button-link" title="Join" href="#">
+                           <span class="icon-sm">
+                              <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="ArrowForwardIcon"><path d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path></svg>
+                           </span>
+                           <span class="sidebar-action-text">Move</span>
+                        </a>
+                      <a class="button-link" title="Join" href="#">
+                           <span class="icon-sm">
+                              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
+                           </span>
+                           <span class="sidebar-action-text">Copy</span>
+                        </a>
+                      <a class="button-link" title="Join" href="#">
+                           <span class="icon-sm">
+                           </span>
+                           <span class="sidebar-action-text">Make template</span>
+                        </a>
+                      <a class="button-link" title="Join" href="#">
+                           <span class="icon-sm">
+                              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 122.88 65.06" style="enable-background:new 0 0 122.88 65.06" xml:space="preserve"><g><path d="M0.95,30.01c2.92-3.53,5.98-6.74,9.15-9.63C24.44,7.33,41.46,0.36,59.01,0.01c17.51-0.35,35.47,5.9,51.7,19.29 c3.88,3.2,7.63,6.77,11.24,10.74c1.16,1.28,1.22,3.17,0.23,4.51c-4.13,5.83-8.88,10.82-14.07,14.96 C95.12,59.88,79.34,64.98,63.35,65.06c-15.93,0.07-32.06-4.86-45.8-14.57c-6.14-4.34-11.81-9.63-16.78-15.85 C-0.34,33.24-0.23,31.27,0.95,30.01L0.95,30.01z M61.44,26.46c0.59,0,1.17,0.09,1.71,0.24c-0.46,0.5-0.73,1.17-0.73,1.9 c0,1.56,1.26,2.82,2.82,2.82c0.77,0,1.46-0.3,1.97-0.8c0.2,0.6,0.3,1.24,0.3,1.9c0,3.35-2.72,6.07-6.07,6.07 c-3.35,0-6.07-2.72-6.07-6.07C55.37,29.18,58.09,26.46,61.44,26.46L61.44,26.46z M61.44,10.82c5.99,0,11.42,2.43,15.35,6.36 c3.93,3.93,6.36,9.35,6.36,15.35c0,5.99-2.43,11.42-6.36,15.35c-3.93,3.93-9.35,6.36-15.35,6.36c-5.99,0-11.42-2.43-15.35-6.36 c-3.93-3.93-6.36-9.35-6.36-15.35c0-5.99,2.43-11.42,6.36-15.35C50.02,13.25,55.45,10.82,61.44,10.82L61.44,10.82z M71.89,22.08 c-2.67-2.67-6.37-4.33-10.45-4.33c-4.08,0-7.78,1.65-10.45,4.33c-2.67,2.67-4.33,6.37-4.33,10.45c0,4.08,1.65,7.78,4.33,10.45 c2.67,2.67,6.37,4.33,10.45,4.33c4.08,0,7.78-1.65,10.45-4.33c2.67-2.67,4.33-6.37,4.33-10.45C76.22,28.45,74.56,24.75,71.89,22.08 L71.89,22.08z M14.89,25.63c-2.32,2.11-4.56,4.39-6.7,6.82c4.07,4.72,8.6,8.8,13.45,12.23c12.54,8.85,27.21,13.35,41.69,13.29 c14.42-0.07,28.65-4.67,40.37-14.02c4-3.19,7.7-6.94,11.03-11.25c-2.79-2.91-5.63-5.54-8.51-7.92C91.33,12.51,75,6.79,59.15,7.1 C43.34,7.42,27.93,13.76,14.89,25.63L14.89,25.63z"/></g></svg>
+                           </span>
+                           <span class="sidebar-action-text">Watch</span>
+                        </a>
+                      <a class="button-link" title="Join" href="#">
+                           <span class="icon-sm">
+                              
+                           </span>
+                           <span class="sidebar-action-text">Archive</span>
+                        </a>
+                      <a class="button-link" title="Join" href="#">
+                           <span class="icon-sm">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 3900" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M713 1152c197 0 375 80 504 209 29 29 56 61 80 95l1125-468c-36-85-55-178-55-275 0-197 80-375 209-504S2883 0 3080 0s375 80 504 209 209 307 209 504-80 375-209 504-307 209-504 209-375-80-504-209c-22-22-43-46-62-71l-1132 471c29 77 45 161 45 248 0 54-6 106-17 157l1131 530c11-13 23-26 36-39 129-129 307-209 504-209s375 80 504 209 209 307 209 504-80 375-209 504-307 209-504 209-375-80-504-209-209-307-209-504c0-112 26-219 73-313l-1092-512c-34 66-78 126-130 177-129 129-307 209-504 209s-375-80-504-209S2 2062 2 1865s80-375 209-504 307-209 504-209zm2742-815c-96-96-229-156-376-156s-280 60-376 156-156 229-156 376 60 280 156 376 229 156 376 156 280-60 376-156 156-229 156-376-60-280-156-376zm0 2303c-96-96-229-156-376-156s-280 60-376 156-156 229-156 376 60 280 156 376 229 156 376 156 280-60 376-156 156-229 156-376-60-280-156-376zM1089 1488c-96-96-229-156-376-156s-280 60-376 156-156 229-156 376 60 280 156 376 229 156 376 156 280-60 376-156 156-229 156-376-60-280-156-376z" fill-rule="nonzero"/></svg>
+                           </span>
+                           <span class="sidebar-action-text">Share</span>
+                        </a>
                   </div>
                </div>
             </div>
