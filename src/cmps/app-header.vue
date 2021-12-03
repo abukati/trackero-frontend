@@ -19,8 +19,7 @@
          <router-link class="logo-link" to="/">
             <div class="logo-img-container">
                <div class="logo-content">
-                  <!-- <img src="@/assets/img/icon-static.gif" alt="trackero logo" />
-                  Trackero -->
+                  <p>Trell</p>
                </div>
             </div>
          </router-link>
@@ -46,7 +45,7 @@
                </div>
                <div class="nav-board-create">
                   <router-link class="nav-item" to="/board">
-                     <p> Create </p>
+                     <p>Create</p>
                   </router-link>
                </div>
                <div class="spacer">

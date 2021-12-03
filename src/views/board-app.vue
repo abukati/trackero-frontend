@@ -2,7 +2,7 @@
 	<section class="board-app" :style="{ backgroundColor: getBoardBgc }" v-if="board">
 		<div class="board-wrapper">
 			<div class="board-container">
-				<board-nav :boardMembers="board.members" :boardBgc="board.style.bgColor" />
+				<board-nav :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
 
 				<div class="groups-container-main">
 					<draggable :options="{ draggable: '.board-group' }"  class="groups-container"  group="groups" v-model="groupsList">
