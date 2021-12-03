@@ -33,12 +33,17 @@ main {
 
 h1, h2, h3, h4, h5, h6 {
    font-weight: 500;
-   margin: 0 0 1rem;
+   margin:0 0 8px;
 }
 
-h1 {
-   font-size: rem(60px);
+h3, h4, h5, h6 {
+   font-size: 16px;
+   line-height: 20px;
 }
+
+// h1 {
+//    font-size: rem(60px);
+// }
 
 img {
    width: 100%;
@@ -47,21 +52,15 @@ img {
 a {
    color: #172b4d;
    cursor: pointer;
-}
-
-a:hover {
-   color: #091e42;
-}
-
-a:active {
-   outline: 0;
-}
-
-a {
    text-decoration: none;
-
+   &:hover{
+      color: #091e42;
+   }
    &:visited {
       color: inherit;
+   }
+   &:active{
+      outline: 0;
    }
 }
 
