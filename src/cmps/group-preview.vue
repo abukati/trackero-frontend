@@ -2,9 +2,16 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <!-- <div class="group-header-target"></div> -->
-         <textarea class="group-header-title-textarea" :class="{ 'is-editing': isTitleInputOpen }" :draggable="{ isTitleInputOpen }"
-               @focus="titleInputFocus" @keydown.enter.exact.prevent @keyup.enter.exact="updateGroupTitle"
-               @blur="updateGroupTitle" :value="group.title"></textarea>
+         <textarea
+            class="group-header-title-textarea"
+            :class="{ 'is-editing': isTitleInputOpen }"
+            :draggable="{ isTitleInputOpen }"
+            @focus="titleInputFocus"
+            @keydown.enter.exact.prevent
+            @keyup.enter.exact="updateGroupTitle"
+            @blur="updateGroupTitle"
+            :value="group.title"
+         ></textarea>
          <h2 class="group-header-title-assist">{{ group.title }}</h2>
          <div class="group-header-options">
             <button @click="toggleOptions">
@@ -17,11 +24,22 @@
             </section>
          </div>
       </section>
-      <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".group-task">
+      <draggable
+         class="group-tasks-section"
+         v-model="tasksList"
+         group="group"
+         draggable=".group-task"
+      >
          <div class="group-task" v-for="task in group.tasks" :key="task.id">
-            <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task-link">
+            <router-link
+               :to="`/board/${board._id}/${group.id}/${task.id}`"
+               class="group-task-link"
+            >
                {{ task.id }}
-               <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }">
+               <div
+                  class="task-cover"
+                  :style="{ backgroundColor: task.style.bgColor }"
+               >
                   (cover)
                </div>
                <span class="group-task-options"></span>
@@ -30,32 +48,37 @@
                </div>
             </router-link>
          </div>
-      </draggable>
-      <div class="task-composer-container">
-         <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
-            <a href="#" class="card-composer">
-               <span class="add-task-plus-icon">
-                  <img src="@/assets/img/plus-icon.svg" />
-               </span>
-               <span class="add-task-span">Add a card</span>
-            </a>
-         </div>
-         <div v-else class="card-composer-open">
-            <div class="add-task-input-section">
-               <div class="add-task-input-details group-task-link">
-                  <textarea type="text" class="add-task-input" v-model="taskInput"
-                     placeholder="Enter a title for this card..." />
+
+         <div class="task-composer-container">
+            <div v-if="isTaskInputOpen" class="card-composer-open">
+               <div class="add-task-input-section">
+                  <div class="add-task-input-details group-task-link">
+                     <textarea
+                        type="text"
+                        class="add-task-input"
+                        v-model="taskInput"
+                        placeholder="Enter a title for this card..."
+                     />
+                  </div>
+               </div>
+               <div class="add-task-control-section">
+                  <button @click="addTask" class="add-card-confirm-btn">
+                     Add card
+                  </button>
+                  <span @click="toggleInput" class="cancel-add-card">
+                     <img src="@/assets/img/cancel-icon.svg" />
+                  </span>
                </div>
             </div>
-            <div class="add-task-control-section">
-               <button @click="addTask" class="add-card-confirm-btn">
-                  Add list
-               </button>
-               <span @click="toggleInput" class="cancel-add-card">
-                  <img src="@/assets/img/cancel-icon.svg" />
-               </span>
-            </div>
          </div>
+      </draggable>
+      <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
+         <a href="#" class="card-composer">
+            <span class="add-task-plus-icon">
+               <img src="@/assets/img/plus-icon.svg" />
+            </span>
+            <span class="add-task-span">Add a card</span>
+         </a>
       </div>
    </section>
 </template>
