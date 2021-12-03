@@ -65,6 +65,11 @@
       color: #fff;
    }
 }
+@mixin flex-center-button {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
 
 @mixin icon-lg {
    color: #6b778c;

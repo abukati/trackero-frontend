@@ -10,8 +10,232 @@
 	top: 0;
 	width: 100%;
 	z-index: 20;
-	// &.window-up {
-	// 	background-color: green;
-	// 	display: flex;
-	// }
+	&.window-up {
+		display: flex;
+	}
+	.window {
+		background-color: #f4f5f7;
+		border-radius: 2px;
+		// display: none;
+		margin: 48px 0 80px;
+		overflow: hidden;
+		position: relative;
+		width: 768px;
+		z-index: 25;
+		// When the window is open
+		display: block;
+		.window-wrapper {
+			outline: none;
+			.dialog-close-button {
+                @include flex-center-button;
+				border-radius: 50%;
+				color: #42526e;
+				margin: 4px;
+				overflow: hidden;
+				padding: 4px;
+				position: absolute;
+				right: 0;
+				top: 0;
+				transition: background-color 85ms, color 85ms;
+				z-index: 2;
+				height: 40px;
+				width: 40px;
+                &:hover{
+                    background-color: #00000014;
+                    color: #42526e;
+                }
+				img {
+					max-height: 20px;
+					max-width: 20px;
+				}
+			}
+			.task-detail {
+				min-height: 600px;
+				.task-cover {
+					background-color: #091e4214;
+					background-position: 50%;
+					background-repeat: no-repeat;
+					background-size: contain;
+					height: 160px;
+					position: relative;
+					transition: opacity 85ms;
+					width: 100%;
+					.task-cover-menu {
+						align-items: center;
+						bottom: 0;
+						box-sizing: border-box;
+						display: flex;
+						justify-content: flex-end;
+						padding: 8px;
+						position: absolute;
+						width: 100%;
+                        .task-cover-menu-button{
+                            all: unset;
+                            background-color: #00000014;
+                            border-radius: 3px;
+                            color: #172b4d;
+                            padding: 6px 12px 6px 8px;
+                            text-decoration: none;
+                            @include flex-center-button;
+                            .cover-menu-btn-icon{
+                               opacity:0.6;
+                               text-align: center;
+                               vertical-align: bottom;
+                                svg{
+                                    width: 16px;
+                                    height: 16px;
+                                }
+                            }
+                            &:hover{
+                                cursor: pointer;
+                                background-color: #00000029;
+                                color: #091e42;
+                                outline: 0;
+                            }
+                        }
+					}
+                   
+				}
+                .window-header{
+                    margin: 12px 40px 8px 56px;
+                    min-height: 32px;
+                    position: relative;
+                    z-index: 1;
+                    .window-title{
+                        background-color: cyan;
+                        margin: 4px 0 0;
+                        padding: 8px 0 0;
+                        .task-detail-title-input{
+                            overflow: hidden;
+                            overflow-wrap: break-word;
+                            height: 32.8px;
+                            background: #0000;
+                            border-radius: 3px;
+                            box-shadow: none;
+                            font-size: 20px;
+                            font-weight: 600;
+                            line-height: 24px;
+                            margin: -4px -8px;
+                            min-height: 24px;
+                            padding: 4px 8px;
+                            resize: none;
+                            width: 100%;
+                            border: none;
+                            &:focus{
+                                background-color: #fff;
+                                box-shadow: inset 0 0 0 2px #0079bf;
+                            }
+                        }
+                    }
+                    .window-header-inline-content{
+                        cursor: default;
+                        display: inline-block;
+                        margin: 4px 8px 4px 2px;
+                        p{
+                            margin-bottom: 0;
+                            padding-bottom: 0;
+                            color: #5e6c84;
+                            a{
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+                .window-main-col{
+                    float: left;
+                    margin: 0;
+                    min-height: 24px;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                    padding: 0 8px 8px 16px;
+                    position: relative;
+                    width: 552px;
+                    z-index: 0;
+                    .task-detail-data{
+                        margin-top: 8px;
+                        margin-left: 40px;
+                        .task-detail-list-badge{
+                            align-items: center;
+                            display: flex;
+                            flex-direction: row;
+                            margin: 0 8px 8px 0;
+                        }
+                        .task-detail-members-list{
+                            .task-detail-add-button{
+                                border-radius: 100%;
+                                .add-btn-icon{
+                                    @include flex-center-button;
+                                    padding: 8px;
+                                }
+                            }
+                        }
+                        .task-detail-labels-list{
+                            .add-btn-icon{
+                                @include flex-center-button;
+                                padding: 8px;
+                            }
+                        }
+                        .start-date-badge{
+                          
+                        }
+                        .task-detail-due-date-badge{
+                            align-items: center;
+                            display: flex;
+                            flex-direction: row;
+                            margin: 0 8px 8px 0;
+                            .due-date-complete-box{
+                                background-color: #fafbfc;
+                                border-radius: 2px;
+                                box-shadow: inset 0 0 0 2px #dfe1e6;
+                                flex-shrink: 0;
+                                height: 16px;
+                                margin: auto 4px auto 0;
+                                overflow: hidden;
+                                position: relative;
+                                transition: all .2s ease-in-out;
+                                white-space: nowrap;
+                                width: 16px;
+                                &:hover{
+                                    background-color: #ebecf0;
+                                    box-shadow: inset 0 0 0 2px #dfe1e6;
+                                }
+                                &:active{
+                                    background-color: #e4f0f6;
+                                    box-shadow: inset 0 0 0 2px #e4f0f6;
+                                }
+                                .due-date-complete-icon{
+                                    height: 16px;
+                                    opacity: 1;
+                                    width: 16px
+                                }
+                            }
+                        }
+                        .task-detail-last-updated{
+                            cursor: auto;
+                            min-width: 120px;
+                        }
+                    }
+                    .task-detail-desc{
+                        background-color: gray;
+                        width: 50px;
+                        .window-module  {
+                            clear: both;
+                            margin-bottom: 24px;
+                            position: relative;
+                            .window-module-title{
+                                align-items: center;
+                                display: flex;
+                                min-height: 32px;
+                                .description-icon{
+                                    svg{
+                                        @include icon-lg;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+			}
+		}
+	}
 }
