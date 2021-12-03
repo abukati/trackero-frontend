@@ -237,10 +237,14 @@
                                     display: inline-block;
                                 }
                             }
+                            .add-desc-area{
+                                margin-left: 40px;
+                            }
                         }
                     }
                 }
                 .window-sidebar{
+                    box-sizing: unset;
                     float: right;
                     overflow: hidden;
                     padding: 0 16px 8px 8px;
