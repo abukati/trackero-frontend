@@ -1,19 +1,7 @@
 <template>
-   <div class="task-preview">
-      <div class="task-title">
-         {{ task.title }}
-      </div>
-   </div>
+	<div class="window-overlay"></div>
 </template>
 
 <script>
-export default {
-   props: ['task', 'group'],
-   name: 'task-details',
-   watch: {
-      'showCardModal': {
-         
-      }
-   }
-}
+export default {}
 </script>
