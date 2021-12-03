@@ -121,10 +121,104 @@
    }
 
    .add-task-section {
-      // background-color: violet;
-      display: flex;
-      justify-content: space-between;
-      max-height: 38px;
-      min-height: 38px;
+      .add-task-button {
+         // background-color: violet;
+         display: flex;
+         width: 256px;
+         justify-content: space-between;
+         max-height: 38px;
+         min-height: 38px;
+
+         .card-composer {
+            border-radius: 3px;
+            color: #5e6c84;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex: 1 0 auto;
+            margin: 2px 0 8px 8px;
+            padding: 4px 8px;
+            position: relative;
+            text-decoration: none;
+            overflow-x: hidden;
+            user-select: none;
+
+            &:hover {
+               background-color: #091e4214;
+               color: #172b4d;
+               outline: 0;
+            }
+
+            .add-task-plus-icon {
+               @include icon-sm;
+            }
+
+            .add-task-span {
+               cursor: pointer;
+            }
+         }
+      }
+
+      .add-task-input-section {
+         background-color: #fff;
+         border-radius: 3px;
+         box-shadow: 0 1px 0 #091e4240;
+         cursor: pointer;
+         display: block;
+         margin-bottom: 8px;
+         max-width: 272px;
+         margin: 0 12px;
+         min-height: 20px;
+         position: relative;
+         text-decoration: none;
+         z-index: 0;
+
+         .add-task-input-details {
+            padding: 6px 8px 2px;
+
+            .add-task-input {
+               overflow: hidden;
+               overflow-wrap: break-word;
+               text-decoration: none;
+               font-family: unset;
+               resize: none;
+               height: 54px;
+               background: none;
+               border: none;
+               box-shadow: none;
+               height: auto;
+               margin-bottom: 4px;
+               max-height: 162px;
+               min-height: 54px;
+               overflow-y: auto;
+               padding: 0;
+               text-align: start;
+               display: flex;
+               align-items: flex-start;
+
+               &:focus {
+                  // vertical-align: text-top;
+                  background: none;
+                  border: none;
+                  box-shadow: none;
+                  height: auto;
+                  outline: 0 none;
+                  cursor: text;
+               }
+            }
+         }
+      }
+
+      .add-task-control-section {
+         // width: 246px;
+
+         margin: 8px 12px;
+         .add-card-confirm-btn {
+            @include button-add-primary;
+         }
+         .cancel-add-card {
+            @include icon-lg;
+         }
+      }
    }
 }

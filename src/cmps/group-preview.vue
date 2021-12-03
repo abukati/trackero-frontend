@@ -2,8 +2,15 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <div class="title-section">
-            <textarea class="group-title-textarea" :draggable="{ isTitleInputOpen }" @focus="titleInputFocus"
-               @keydown.enter.exact.prevent @keyup.enter.exact="updateGroupTitle" @blur="updateGroupTitle" :value="group.title"></textarea>
+            <textarea
+               class="group-title-textarea"
+               :draggable="{ isTitleInputOpen }"
+               @focus="titleInputFocus"
+               @keydown.enter.exact.prevent
+               @keyup.enter.exact="updateGroupTitle"
+               @blur="updateGroupTitle"
+               :value="group.title"
+            ></textarea>
          </div>
          <div class="title-actions-section">
             <button @click="toggleOptions">
@@ -17,11 +24,22 @@
          </section>
       </section>
       <div class="tasks-and-input-section">
-         <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".group-task">
+         <draggable
+            class="group-tasks-section"
+            v-model="tasksList"
+            group="group"
+            draggable=".group-task"
+         >
             <div class="group-task" v-for="task in group.tasks" :key="task.id">
-               <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task-link">
+               <router-link
+                  :to="`/board/${board._id}/${group.id}/${task.id}`"
+                  class="group-task-link"
+               >
                   {{ task.id }}
-                  <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }">
+                  <div
+                     class="task-cover"
+                     :style="{ backgroundColor: task.style.bgColor }"
+                  >
                      (cover)
                   </div>
                   <span class="group-task-options"></span>
@@ -35,11 +53,40 @@
             </div>
          </draggable>
          <div class="add-task-section">
-            <div @click="toggleInput">+ Add a task</div>
-            <div v-if="isTaskInputOpen" class="task-add">
-               <input type="text" class="add-task-input" v-model="taskInput" placeholder="Enter a title for this task" />
-               <button @click="addTask">Add task</button>
-               <button @click="toggleInput">X</button>
+            <!-- button section -->
+            <div
+               v-if="!isTaskInputOpen"
+               @click="toggleInput"
+               class="add-task-button"
+            >
+               <a href="#" class="card-composer">
+                  <span class="add-task-plus-icon">
+                     <img src="@/assets/img/plus-icon.svg" />
+                  </span>
+                  <span class="add-task-span">Add a card</span>
+               </a>
+            </div>
+
+            <!-- card composer section -->
+            <div v-if="isTaskInputOpen" class="card-composer-open">
+               <div class="add-task-input-section">
+                  <div class="add-task-input-details group-task-link">
+                     <textarea
+                        type="text"
+                        class="add-task-input"
+                        v-model="taskInput"
+                        placeholder="Enter a title for this card..."
+                     />
+                  </div>
+               </div>
+               <div class="add-task-control-section">
+                  <button @click="addTask" class="add-card-confirm-btn">
+                     Add list
+                  </button>
+                  <span @click="toggleInput" class="cancel-add-card">
+                     <img src="@/assets/img/cancel-icon.svg" />
+                  </span>
+               </div>
             </div>
          </div>
       </div>
@@ -104,7 +151,7 @@ export default {
             ev.target.blur()
             this.groupToEdit.title = ev.target.value
             this.$store.dispatch({ type: 'updateGroup', group: this.groupToEdit })
-         } catch(err) {
+         } catch (err) {
             console.log(err)
          }
       },

@@ -4,6 +4,23 @@
 	list-style-type: none;
 }
 
+.hide {
+	display: none;
+}
+
+.icon-sm{
+    height: 20px;
+    width: 20px
+}
+
+.icon-lg{
+	height: 32px;
+    line-height: 32px;
+    width: 32px;
+	font-size: 24px;
+	vertical-align: bottom;
+}
+
 .board-header-btn-icon {
 	// background-clip: content-box;
 	// background-origin: content-box;
@@ -21,4 +38,93 @@
 		max-height: 16px;
 		max-width: 16px;
 	}
+}
+
+.task-detail-item{
+	display: block;
+    float: left;
+    margin: 0 8px 8px 0;
+    max-width: 100%;
+}
+
+.task-detail-item-header {
+    color: #5e6c84;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    line-height: 20px;
+    margin: 0 8px 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-detail-badge{
+	background-color: #091e420a;
+    border-radius: 3px;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 8px 8px 0;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 6px 12px;
+    text-overflow: ellipsis;
+    transition-duration: 85ms;
+    transition-property: background-color,border-color,box-shadow;
+    transition-timing-function: ease;
+    white-space: nowrap;
+}
+
+.badge-button{
+	margin: auto;
+    padding-right: 0;
+}
+
+
+.button-link {
+    background-color: #091e420a;
+    border: none;
+    border-radius: 3px;
+    box-shadow: none;
+    cursor: pointer;
+    display: block;
+    height: 32px;
+    margin-top: 8px;
+    max-width: 300px;
+    overflow: hidden;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition-duration: 85ms;
+    transition-property: background-color,border-color,box-shadow;
+    transition-timing-function: ease;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.task-detail-add-button{
+	background-color: #091e420a;
+    border: none;
+    border-radius: 3px;
+    float: left;
+    margin: 0 8px 8px 0;
+    transition-duration: 85ms;
+    transition-property: background-color,border-color,box-shadow;
+    transition-timing-function: ease;
+	height: 32px;
+	width: 32px;
+}
+
+.task-detail-add-button:hover{
+	background-color: #091e4214;
+}
+
+.task-detail-add-button:active{
+	background-color: #e4f0f6;
+    color: #0079bf;
+    outline: 0;
 }
