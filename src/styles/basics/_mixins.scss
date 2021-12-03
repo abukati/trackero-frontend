@@ -15,21 +15,24 @@
 @mixin custom-scroll-bar() {
    &::-webkit-scrollbar {
       width: 8px;
+      height: 12px;
       border-radius: 10px;
-      background-color: #f5f5f5;
    }
 
    &::-webkit-scrollbar-thumb {
       background-clip: content-box;
-      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-      background-color: #c4c4c4;
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.15);
+      background-color: #c4c4c4e7;
+      background: #676c7538;
       border-radius: 10px;
    }
 
    &::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-      background-color: #f5f5f5;
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.15);
+      background-color: #c4c4c4c7;
+      background: #8585856b;
       border-radius: 10px;
+      margin: 0 40px;
    }
 }
 
@@ -60,7 +63,6 @@
    box-shadow: none;
    color: #fff;
    cursor: pointer;
-   // display: inline-flex;
    width: 80px;
    height: 32px;
    align-items: center;
@@ -79,12 +81,22 @@
    align-items: center;
 }
 
+@mixin icon-xlg {
+   color: #6b778c;
+   height: 32px;
+   width: 32px;
+   display: inline-block;
+   text-align: center;
+   text-decoration: none;
+   vertical-align: middle;
+   margin-left: 6px;
+   cursor: pointer;
+}
+
 @mixin icon-lg {
    color: #6b778c;
    height: 24px;
-   // line-height: 32px;
    width: 24px;
-   // font-size: 24px;
    display: inline-block;
    text-align: center;
    text-decoration: none;
@@ -97,16 +109,14 @@
    color: #6b778c;
    margin-left: 2px;
    margin-right: 4px;
-   // font-size: 16px;
    height: 16px;
-   // line-height: 20px;
+   line-height: 15px;
    width: 16px;
    display: inline-block;
    cursor: pointer;
-   // font-style: normal;
-   // font-weight: 400;
-   // line-height: 1;
-   // text-align: center;
-   // text-decoration: none;
-   // vertical-align: bottom;
+}
+
+@mixin board-nav-btns {
+   border-radius: 3px;
+   color: #fff;
 }
