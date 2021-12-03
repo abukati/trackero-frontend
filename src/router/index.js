@@ -31,9 +31,9 @@ const routes = [
       ]
    },
    {
-   	path: '/taskdetails',
-   	name: 'taskDetails',
-   	component: taskDetails
+      path: '/taskdetails',
+      name: 'taskDetails',
+      component: taskDetails
    }
 ]
 

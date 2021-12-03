@@ -1,4 +1,5 @@
-.board-group, .add-list-section {
+.board-group,
+.add-list-section {
    display: inline-block;
    height: 100%;
    margin: 0 4px;
@@ -60,12 +61,13 @@
             transition-property: background-color, border-color, box-shadow;
             transition-timing-function: ease;
 
-            &.is-editing, &:focus {
+            &.is-editing,
+            &:focus {
                background-color: #fff;
-               box-shadow: inset 0 0 0 2px #0079bf
+               box-shadow: inset 0 0 0 2px #0079bf;
             }
          }
-         
+
          .group-header-options {
             position: absolute;
             right: 4px;
