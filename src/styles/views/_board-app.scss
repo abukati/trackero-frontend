@@ -36,24 +36,87 @@
             overflow-y: hidden;
             padding: 0 0 8px;
 
-            .add-group-container {
-               .add-group-form {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: flex-start;
+            .add-list-section {
+               // background-color: #ffffff3d;
+               cursor: pointer;
+               margin-left: 4px;
+               border-radius: 3px;
+               height: 40px;
+               margin-right: 8px;
 
-                  .add-group-btn {
-                     display: inline-block;
-                     align-self: baseline;
+               .add-list-button {
+                  .list-composer {
                      color: #172b4d;
                      padding: 6px 8px;
                      transition: color 85ms ease-in;
                      cursor: pointer;
                      white-space: nowrap;
-                     background-color: rgba(0, 0, 0, 0.205);
+                     background-color: rgba(0, 0, 0, 0.26);
                      width: 264px;
-                     height: 32px;
+                     height: 40px;
                      border: none;
+                     display: flex;
+                     align-items: center;
+                     border-radius: 3px;
+                     transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
+                     .add-task-plus-icon {
+                        @include icon-sm;
+                     }
+
+                     &:hover {
+                        background-color: rgba(0, 0, 0, 0.175);
+                     }
+                  }
+               }
+
+               .list-composer-open {
+                  display: flex;
+                  flex-direction: column;
+                  width: 272px;
+                  height: 80px;
+                  background-color: #ebecf0;
+                  border-radius: 3px;
+                  // box-sizing: content-box;
+
+                  .add-list-title-input-section {
+                     .add-list-title-input {
+                        background-color: #fff;
+                        // box-shadow: inset 0 0 0 2px #0079bf;
+                        display: block;
+                        transition: margin 85ms ease-in, background 85ms ease-in;
+                        width: 264px;
+                        height: 36px;
+                        // border: 2px solid #ebecf0;
+                        border: 2px solid #0079bf;
+                        // cursor: pointer;
+                        cursor: text;
+                        text-decoration: none;
+                        font-family: unset;
+                        overflow: hidden;
+                        overflow-wrap: break-word;
+                        resize: none;
+                        color: #172b4d;
+                        padding: 8px 12px;
+                        border-radius: 3px;
+                        margin: 4px 4px;
+
+                        &:focus {
+                           background-color: white;
+                           border: 2px solid #0079bf;
+                           outline: 0 none;
+                           cursor: text;
+                        }
+                     }
+                  }
+                  .add-list-control-section {
+                     margin: 0 6px;
+
+                     .add-list-confirm-btn {
+                        @include button-add-primary;
+                     }
+                     .cancel-add-list {
+                        @include icon-lg;
+                     }
                   }
                }
             }

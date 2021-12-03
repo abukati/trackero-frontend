@@ -8,37 +8,37 @@ import taskDetails from '@/cmps/task-details.vue'
 Vue.use(VueRouter)
 
 const routes = [
-	{
-		path: '/',
-		name: 'home',
-		component: home
-	},
-	{
-		path: '/board',
-		name: 'templates',
-		component: templatesList
-	},
-	{
-		path: '/board/:boardId',
-		name: 'board',
-		component: boardApp,
-		children: [
-			{
-				path: ':groupId/:taskId',
-				name: 'taskDetails',
-				component: taskDetails
-			}
-		]
-	},
-	{
-		path: '/taskdetails',
-		name: 'taskDetails',
-		component: taskDetails
-	}
+   {
+      path: '/',
+      name: 'home',
+      component: home
+   },
+   {
+      path: '/board',
+      name: 'templates',
+      component: templatesList
+   },
+   {
+      path: '/board/:boardId',
+      name: 'board',
+      component: boardApp,
+      children: [
+         {
+            path: ':groupId/:taskId',
+            name: 'taskDetails',
+            component: taskDetails
+         }
+      ]
+   }
+   // {
+   // 	path: '/taskdetails',
+   // 	name: 'taskDetails',
+   // 	component: taskDetails
+   // }
 ]
 
 const router = new VueRouter({
-	routes
+   routes
 })
 
 export default router

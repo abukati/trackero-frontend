@@ -45,3 +45,55 @@
    box-shadow: none;
    border: 1px solid rgba(255, 255, 255, 0.25);
 }
+
+@mixin button-add-primary {
+   background-color: #0079bf;
+   border: none;
+   box-shadow: none;
+   color: #fff;
+   cursor: pointer;
+   // display: inline-flex;
+   width: 80px;
+   height: 32px;
+   align-items: center;
+   border-radius: 3px;
+
+   &:hover {
+      background-color: #026aa7;
+      border: none;
+      box-shadow: none;
+      color: #fff;
+   }
+}
+
+@mixin icon-lg {
+   color: #6b778c;
+   height: 24px;
+   // line-height: 32px;
+   width: 24px;
+   // font-size: 24px;
+   display: inline-block;
+   text-align: center;
+   text-decoration: none;
+   vertical-align: middle;
+   margin-left: 6px;
+   cursor: pointer;
+}
+
+@mixin icon-sm {
+   color: #6b778c;
+   margin-left: 2px;
+   margin-right: 4px;
+   // font-size: 16px;
+   height: 16px;
+   // line-height: 20px;
+   width: 16px;
+   display: inline-block;
+   cursor: pointer;
+   // font-style: normal;
+   // font-weight: 400;
+   // line-height: 1;
+   // text-align: center;
+   // text-decoration: none;
+   // vertical-align: bottom;
+}
