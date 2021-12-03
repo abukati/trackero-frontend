@@ -18,8 +18,8 @@ export const boardService = {
    addGroup,
    removeGroup,
    saveGroups,
-   changeGroupTitle,
    getEmptyGroup,
+   updateGroupTitle,
    //TASK
    createTask,
    updateTasks,
@@ -186,14 +186,14 @@ async function addGroup(group, board) {
    }
 }
 
-async function changeGroupTitle(newTitle, groupId, board) {
+async function updateGroupTitle(group, board) {
    try {
-      const currGroup = await _getCurrGroup(groupId, board)
-      currGroup.title = newTitle
-      await _updateGroup(currGroup, groupId, board)
-      return currGroup
+      const groupToUpdate = await _getCurrGroup(group.id, board)
+      groupToUpdate.title = group.title
+      await _updateGroup(groupToUpdate, groupToUpdate.id, board)
+      return groupToUpdate
    } catch (err) {
-      console.log(err)
+      console.log(err);
    }
 }
 
@@ -201,8 +201,8 @@ async function _updateGroup(updatedGroup, groupId, board) {
    try {
       // const currBoard = await getCurrBoard()
       const currBoard = _deep(board)
-      currBoard.groups.forEach(group => {
-         if (group.id === groupId) group = updatedGroup
+      currBoard.groups.forEach((group, idx, array) => {
+         if (array[idx].id === groupId) array[idx] = updatedGroup
       })
       saveGroups(currBoard.groups, currBoard)
       return updatedGroup

@@ -197,10 +197,10 @@ export const boardStore = {
 				console.log(err)
 			}
 		},
-		async changeGroupTitle({ state, commit }, { newTitle, groupId }) {
+		async updateGroup({ state, commit }, { group }) {
 			try {
-				const group = await boardService.changeGroupTitle(newTitle, groupId, state.currBoard)
-				commit({ type: 'updateCurrGroup', group, groupId })
+				const updatedGroup = await boardService.updateGroupTitle(group, state.currBoard)
+				commit({ type: 'updateCurrGroup', group, groupId: updatedGroup.id })
 			} catch (err) {
 				console.log(err)
 			}
