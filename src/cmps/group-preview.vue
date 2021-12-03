@@ -2,37 +2,24 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <div class="title-section">
-            <textarea
-               class="group-title-textarea"
-               v-model="newGroupTitle"
-               @input="changeGroupTitle"
-               @focus="$event.target.select()"
-               @blur="changeGroupTitle"
-            ></textarea>
+            <textarea class="group-title-textarea" :draggable="{ isTitleInputOpen }" @focus="titleInputFocus"
+               @keydown.enter.exact.prevent @keyup.enter.exact="updateGroupTitle" @blur="updateGroupTitle" :value="group.title"></textarea>
          </div>
          <div class="title-actions-section">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
             </button>
          </div>
-         <section v-show="isListOpen" class="list-actions">
+         <section v-show="isOptionsListOpen" class="list-actions">
             <h3>List actions</h3>
             <button @click="toggleOptions">X</button>
             <button @click="deleteGroup">Delete Card</button>
          </section>
       </section>
       <div class="tasks-and-input-section">
-         <draggable
-            class="group-tasks-section"
-            v-model="tasksList"
-            group="group"
-            draggable=".group-task"
-         >
+         <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".group-task">
             <div class="group-task" v-for="task in group.tasks" :key="task.id">
-               <router-link
-                  :to="`/board/${board._id}/${group.id}/${task.id}`"
-                  class="group-task-link"
-               >
+               <router-link :to="`/board/${board._id}/${group.id}/${task.id}`" class="group-task-link">
                   {{ task.id }}
                   <div class="task-cover" :style="{ backgroundColor: task.style.bgColor }">
                      (cover)
@@ -71,20 +58,18 @@ export default {
    },
    data() {
       return {
-         isListOpen: false,
+         isOptionsListOpen: false,
          isTaskInputOpen: false,
          isTitleInputOpen: false,
+         isDraggable: true,
          taskInput: '',
-         newGroupTitle: '',
-         lockInput: false
+         lockInput: false,
+         groupToEdit: null
       }
-   },
-   created() {
-      this.newGroupTitle = JSON.parse(JSON.stringify(this.group.title))
    },
    methods: {
       toggleOptions() {
-         this.isListOpen = !this.isListOpen
+         this.isOptionsListOpen = !this.isOptionsListOpen
       },
       toggleInput() {
          this.isTaskInputOpen = !this.isTaskInputOpen
@@ -109,33 +94,30 @@ export default {
          try {
             const groupId = this.group.id
             const deletedId = this.$store.dispatch({ type: 'removeGroup', groupId })
-            this.isListOpen = false
+            this.isOptionsListOpen = false
             if (deletedId) showMsg(`group removed ${deletedId}`)
             else showMsg(`Yoy are not allowed to remove group`, 'danger')
          } catch (err) {
             console.log(err)
          }
       },
-      async changeGroupTitle(ev) {
+      async updateGroupTitle(ev) {
          try {
             this.isTitleInputOpen = false
-            const groupId = this.group.id
-            const newTitle = await this.$store.dispatch({ type: 'changeGroupTitle', newTitle: this.newGroupTitle, groupId })
-         } catch (err) {
+            this.isDraggable = true
+            ev.target.blur()
+            this.groupToEdit.title = ev.target.value
+            this.$store.dispatch({ type: 'updateGroup', group: this.groupToEdit })
+         } catch(err) {
             console.log(err)
          }
       },
       titleInputFocus(ev) {
          this.isTitleInputOpen = true
-         return this.isTitleInputOpen ? ev.target.select() : ''
+         this.isDraggable = false
+         ev.target.select()
+         this.groupToEdit = JSON.parse(JSON.stringify(this.group))
       }
-
-      // saveGroupTitle(ev) {
-      //    if (ev.keyCode === 13) {
-      //       ev.preventDefault()
-      //       this.isTitleInputOpen = false
-      //    }
-      // }
    },
    computed: {
       tasksList: {
