@@ -23,7 +23,6 @@
    vertical-align: bottom;
    font-size: 16px;
    text-align: center;
-   //    opacity:0.75;
 }
 
 .icon-lg {
@@ -32,6 +31,7 @@
    width: 32px;
    font-size: 24px;
    vertical-align: bottom;
+   text-align: center;
 }
 
 .board-header-btn-icon {
@@ -176,6 +176,18 @@
    min-height: 40px;
    padding: 8px 12px;
    text-decoration: none;
+   &:hover{
+      background-color: #091e4214;
+      border: none;
+      box-shadow: none;
+   }
+   &:active{
+      background-color: #e4f0f6;
+      border: none;
+      box-shadow: none;
+      color: #0079bf;
+      outline: 0;
+   }
 }
 
 .u-bottom {

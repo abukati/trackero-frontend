@@ -62,31 +62,6 @@
    .list-card-labels {
       overflow: auto;
       position: relative;
-
-      .card-label {
-         border-radius: 4px;
-         color: white;
-         display: block;
-         overflow: hidden;
-         position: relative;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         height: 16px;
-         line-height: 16px;
-         max-width: 198px;
-         padding: 0 8px;
-         float: left;
-         font-size: 12px;
-         font-weight: 700;
-         margin: 0 4px 4px 0;
-         min-width: 40px;
-         text-shadow: none;
-         width: auto;
-
-         .label-text {
-            display: initial;
-         }
-      }
    }
 
    .list-card-title {
@@ -97,6 +72,47 @@
       margin: 0 0 4px;
       overflow: hidden;
       text-decoration: none;
+   }
+}
+
+.card-label {
+   border-radius: 4px;
+   color: white;
+   display: block;
+   overflow: hidden;
+   position: relative;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   height: 16px;
+   line-height: 16px;
+   max-width: 198px;
+   padding: 0 8px;
+   float: left;
+   font-size: 12px;
+   font-weight: 700;
+   margin: 0 4px 4px 0;
+   min-width: 40px;
+   text-shadow: none;
+   width: auto;
+   &.task-detail-label{
+      cursor: pointer;
+      border-radius: 3px;
+      box-sizing: border-box;
+      display: block;
+      float: left;
+      font-weight: 600;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 4px 4px 0;
+      min-width: 40px;
+      padding: 0 12px;
+      width: auto;
+      &:hover{
+         opacity: 0.8;
+      }
+   }
+   .label-text {
+      display: initial;
    }
 }
 
@@ -154,28 +170,30 @@
    // justify-content: end;
    float: right;
    margin: 0 -2px 0 0;
+}
 
-   .member {
-      float: right;
+.member {
+   float: right;
+   height: 28px;
+   margin: 0 0 4px 4px;
+   width: 28px;
+   background-color: #dfe1e6;
+   border-radius: 25em;
+   color: #172b4d;
+   cursor: pointer;
+   display: block;
+   overflow: visible;
+   position: relative;
+   text-decoration: none;
+   user-select: none;
+   z-index: 0;
+   &.task-detail-member{
+      float: left;
+   }
+   .member-avatar {
       height: 28px;
-      margin: 0 0 4px 4px;
       width: 28px;
-      background-color: #dfe1e6;
       border-radius: 25em;
-      color: #172b4d;
-      cursor: pointer;
-      display: block;
-      overflow: visible;
-      position: relative;
-      text-decoration: none;
-      user-select: none;
-      z-index: 0;
-
-      .member-avatar {
-         height: 28px;
-         width: 28px;
-         border-radius: 25em;
-         object-fit: cover;
-      }
+      object-fit: cover;
    }
 }

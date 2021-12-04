@@ -68,9 +68,6 @@ input[type='search']:focus {
 
 textarea{
 	color: #172b4d;
-   transition-duration: 85ms;
-   transition-property: background-color,border-color,box-shadow;
-   transition-timing-function: ease;
    outline: none;
    overflow: auto;
    width: 100%;

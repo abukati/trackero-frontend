@@ -118,7 +118,6 @@ export default {
          deep: true,
          async handler() {
             try {
-               console.log('board id watccher')
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                await this.$store.dispatch({ type: 'loadUsers' })
