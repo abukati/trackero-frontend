@@ -154,6 +154,9 @@ export default {
          this.isDraggable = false
          ev.target.select()
          this.groupToEdit = JSON.parse(JSON.stringify(this.group))
+      },
+      toggleModal(ev) {
+         this.$emit('toggleModal', ev)
       }
    },
    computed: {
@@ -163,7 +166,6 @@ export default {
          },
          set(tasks) {
             this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
-
          }
       },
    }

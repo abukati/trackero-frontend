@@ -1,18 +1,23 @@
 <template>
 	<section class="board-app" :style="{ backgroundColor: getBoardBgc }" v-if="board">
 		<div class="board-wrapper">
+         <div class="task-detail-modal-container">
+            <div class="modal-content">
+               <router-view :class="{ 'window-up': isModalOpen }" />
+            </div>
+         </div>
 			<div class="board-container">
             <div class="board-content">
                <div class="board-content-wrapper">
                   <div class="board-main-content">
 
-                     <board-nav style="height: 46px;" :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
+                     <board-nav :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
                      
                      <div class="groups-container-main">
                         <draggable class="groups-container" draggable=".board-group" 
                            group="groups" v-model="groupsList">
                            <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
-                              <group-preview :group="group" :board="board" />
+                              <group-preview @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </div>
 
                            <div class="add-list-section">
@@ -75,6 +80,7 @@ export default {
          board: null,
          isListInputOpen: false,
          newListTitleInput: '',
+         isModalOpen: false
       }
    },
    computed: {
@@ -102,16 +108,23 @@ export default {
          this.isListInputOpen = !this.isListInputOpen
          console.log('this.isListInputOpen', this.isListInputOpen)
       },
+      toggleModalClass(ev) {
+         this.isModalOpen = true
+      }
    },
    watch: {
       '$route.params.boardId': {
          immediate: true,
+         deep: true,
          async handler() {
             try {
+               console.log('board id watccher')
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
+               let taskId = this.$route.params.taskId
+               if(taskId) this.isModalOpen = true
             } catch (err) {
                console.log(err)
             }

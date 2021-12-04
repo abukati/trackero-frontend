@@ -21,6 +21,9 @@
    width: 20px;
    display: inline-block;
    vertical-align: bottom;
+   font-size: 16px;
+   text-align: center;
+   //    opacity:0.75;
 }
 
 .icon-lg {
@@ -93,6 +96,12 @@
    padding-right: 0;
 }
 
+.clearfix:after {
+   content: '';
+   display: block;
+   clear: both;
+}
+
 .button-link {
    background-color: #091e420a;
    border: none;
@@ -123,6 +132,11 @@
    }
 }
 
+.add-button-link {
+   align-items: center;
+   background-color: initial;
+}
+
 .task-detail-add-button {
    background-color: #091e420a;
    border: none;
@@ -150,6 +164,7 @@
    margin: 0 0 4px 40px;
    padding: 8px 0;
    position: relative;
+   box-sizing: unset;
 }
 
 .description-fake-text-area {
@@ -172,4 +187,12 @@
    clear: both;
    margin-bottom: 24px;
    position: relative;
+}
+
+.no-box-sizing {
+   box-sizing: unset;
+}
+
+.no-top-margin {
+   margin-top: 0;
 }
