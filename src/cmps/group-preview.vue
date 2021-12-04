@@ -28,26 +28,28 @@
          class="group-tasks-section"
          v-model="tasksList"
          group="group"
-         draggable=".group-task"
+         draggable=".list-card"
       >
-         <div class="group-task" v-for="task in group.tasks" :key="task.id">
-            <router-link
-               :to="`/board/${board._id}/${group.id}/${task.id}`"
-               class="group-task-link"
-            >
-               {{ task.id }}
-               <div
-                  class="task-cover"
-                  :style="{ backgroundColor: task.style.bgColor }"
-               >
-                  (cover)
-               </div>
-               <span class="group-task-options"></span>
-               <div class="group-task-preview">
-                  <div class="group-task-title">{{ task.title }}</div>
-               </div>
-            </router-link>
-         </div>
+         <!-- <div class="list-card" v-for="task in group.tasks" :key="task.id"> -->
+         <!-- <router-link
+            class="list-card"
+            v-for="task in group.tasks"
+            :key="task.id"
+            :to="`/board/${board._id}/${group.id}/${task.id}`"
+         >
+            <task-preview :task="task"></task-preview> -->
+
+         <template v-for="task in group.tasks">
+            <task-preview
+               :task="task"
+               :board="board"
+               :group="group"
+               :key="task.id"
+            />
+         </template>
+
+         <!-- </router-link> -->
+         <!-- </div> -->
 
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
@@ -86,12 +88,14 @@
 <script>
 import { showMsg } from '@/services/event-bus-service.js'
 import draggable from 'vuedraggable'
+import taskPreview from './task-preview.vue'
 
 export default {
    props: ['group', 'board'],
    name: 'groupPreview',
    components: {
-      draggable
+      draggable,
+      taskPreview
    },
    data() {
       return {

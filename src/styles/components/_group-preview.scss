@@ -101,7 +101,7 @@
          padding: 0 4px;
          z-index: 1;
 
-         .group-task {
+         .list-card {
             background-color: #fff;
             border-radius: 3px;
             box-shadow: 0 1px #091e4240;
@@ -130,9 +130,9 @@
          text-decoration: none;
          z-index: 0;
 
-         .group-task-link {
-            margin-left: 2px;
-         }
+         // .group-task-link {
+         //    margin-left: 2px;
+         // }
          .add-task-input-details {
             padding: 6px 8px 2px;
 

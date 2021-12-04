@@ -193,7 +193,7 @@ async function updateGroupTitle(group, board) {
       await _updateGroup(groupToUpdate, groupToUpdate.id, board)
       return groupToUpdate
    } catch (err) {
-      console.log(err);
+      console.log(err)
    }
 }
 
@@ -272,7 +272,11 @@ function _createEmptyTask() {
    return {
       id: utilService.makeId(),
       title: '',
+      description: 'This is the task description',
+      attachments: [],
+      location: {},
       style: {
+         // bgColor: '#0a9'
          bgColor: '#ffffff'
       },
       members: [],
@@ -344,32 +348,37 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          {
             id: 'l101',
             title: 'Done',
-            color: 'green'
+            color: '#61bd4f'
          },
          {
             id: 'l102',
-            title: '',
-            color: 'yellow'
+            title: 'Attention',
+            color: '#f2d600'
          },
          {
             id: 'l103',
-            title: 'Flexible',
-            color: 'orange'
+            title: 'Might cause issues',
+            color: '#ff9f1a'
          },
          {
             id: 'l104',
-            title: 'Important',
-            color: 'red'
+            title: 'Bug',
+            color: '#eb5a46'
          },
          {
             id: 'l105',
-            title: '',
-            color: 'purple'
+            title: 'On it',
+            color: '#c377e0'
          },
          {
             id: 'l106',
-            title: 'Optional',
-            color: 'blue'
+            title: 'Idea',
+            color: '#0079bf'
+         },
+         {
+            id: 'l107',
+            title: 'Urgent',
+            color: '#344563'
          }
       ],
       members: [
@@ -400,6 +409,20 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                {
                   id: 't101',
                   title: 'Project trackero task',
+                  description: 'This is the task description',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
                   style: {
                      bgColor: '#ff7'
                   },
@@ -419,14 +442,19 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   ],
                   labels: [
                      {
+                        id: 'l101',
+                        title: 'Done',
+                        color: '#61bd4f'
+                     },
+                     {
                         id: 'l102',
-                        title: '',
-                        color: 'yellow'
+                        title: 'Attention',
+                        color: '#f2d600'
                      },
                      {
                         id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
+                        title: 'Might cause issues',
+                        color: '#ff9f1a'
                      }
                   ],
                   byUser: {
@@ -454,6 +482,20 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                {
                   id: 't102',
                   title: 'Project trackero task 102',
+                  description: 'This is the task description',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
                   style: {
                      bgColor: '#ff7'
                   },
@@ -473,14 +515,24 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   ],
                   labels: [
                      {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
+                        id: 'l104',
+                        title: 'Bug',
+                        color: '#eb5a46'
                      },
                      {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
+                        id: 'l105',
+                        title: 'On it',
+                        color: '#c377e0'
+                     },
+                     {
+                        id: 'l106',
+                        title: 'Idea',
+                        color: '#0079bf'
+                     },
+                     {
+                        id: 'l107',
+                        title: 'Urgent',
+                        color: '#344563'
                      }
                   ],
                   byUser: {
@@ -517,6 +569,20 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                {
                   id: 't103',
                   title: 'Project trackero task',
+                  description: 'This is the task description',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
                   style: {
                      bgColor: '#ff7'
                   },
@@ -536,14 +602,19 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   ],
                   labels: [
                      {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
+                        id: 'l103',
+                        title: 'Might cause issues',
+                        color: '#ff9f1a'
                      },
                      {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
+                        id: 'l104',
+                        title: 'Bug',
+                        color: '#eb5a46'
+                     },
+                     {
+                        id: 'l105',
+                        title: 'On it',
+                        color: '#c377e0'
                      }
                   ],
                   byUser: {
@@ -571,6 +642,20 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                {
                   id: 't104',
                   title: 'Project trackero task 104',
+                  description: 'This is the task description',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
                   style: {
                      bgColor: '#ff7'
                   },
@@ -590,14 +675,19 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   ],
                   labels: [
                      {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
+                        id: 'l101',
+                        title: 'Done',
+                        color: '#61bd4f'
                      },
                      {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
+                        id: 'l104',
+                        title: 'Bug',
+                        color: '#eb5a46'
+                     },
+                     {
+                        id: 'l105',
+                        title: 'On it',
+                        color: '#c377e0'
                      }
                   ],
                   byUser: {
@@ -641,10 +731,45 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
             task: {
                id: 't100',
                title: 'Finalize Campaign Name: WeTaskBigger',
+               description: 'This is the task description',
+               attachments: [
+                  {
+                     id: 'f101',
+                     title: 'flower',
+                     src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                  }
+               ],
+               location: {
+                  id: 'loc101',
+                  title: 'Tel Aviv',
+                  lat: 32.109333,
+                  lng: 34.855499
+               },
                style: {
                   bgColor: '#ff7'
                },
-               labels: [],
+               labels: [
+                  {
+                     id: 'l103',
+                     title: 'Might cause issues',
+                     color: '#ff9f1a'
+                  },
+                  {
+                     id: 'l105',
+                     title: 'On it',
+                     color: '#c377e0'
+                  },
+                  {
+                     id: 'l106',
+                     title: 'Idea',
+                     color: '#0079bf'
+                  },
+                  {
+                     id: 'l107',
+                     title: 'Urgent',
+                     color: '#344563'
+                  }
+               ],
                members: [
                   {
                      _id: 'u102',

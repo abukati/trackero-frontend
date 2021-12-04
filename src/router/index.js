@@ -29,12 +29,12 @@ const routes = [
             component: taskDetails
          }
       ]
-   },
-   {
-      path: '/taskdetails',
-      name: 'taskDetails',
-      component: taskDetails
    }
+   // {
+   //    path: '/taskdetails',
+   //    name: 'taskDetails',
+   //    component: taskDetails
+   // }
 ]
 
 const router = new VueRouter({

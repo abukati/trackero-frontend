@@ -1,168 +1,175 @@
 .clean-list {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+   margin: 0;
+   padding: 0;
+   list-style-type: none;
 }
 
 .hide {
-	display: none;
+   display: none;
 }
 
-.icon-sm{
-    height: 20px;
-    width: 20px;
-    display:inline-block;
-    vertical-align: bottom;
+.icon-xs {
+   height: 16px;
+   line-height: 16px;
+   width: 16px;
+   font-size: 24px;
+   vertical-align: bottom;
 }
 
-.icon-lg{
-	height: 32px;
-    line-height: 32px;
-    width: 32px;
-	font-size: 24px;
-	vertical-align: bottom;
+.icon-sm {
+   height: 20px;
+   width: 20px;
+   display: inline-block;
+   vertical-align: bottom;
+}
+
+.icon-lg {
+   height: 32px;
+   line-height: 32px;
+   width: 32px;
+   font-size: 24px;
+   vertical-align: bottom;
 }
 
 .board-header-btn-icon {
-	// background-clip: content-box;
-	// background-origin: content-box;
-	height: 100%;
-	color: #fff;
-	left: 0;
-	padding: 6px;
-	position: absolute;
-	top: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 32px;
-	img {
-		max-height: 16px;
-		max-width: 16px;
-	}
+   // background-clip: content-box;
+   // background-origin: content-box;
+   height: 100%;
+   color: #fff;
+   left: 0;
+   padding: 6px;
+   position: absolute;
+   top: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 32px;
+   img {
+      max-height: 16px;
+      max-width: 16px;
+   }
 }
 
-.task-detail-item{
-	display: block;
-    float: left;
-    margin: 0 8px 8px 0;
-    max-width: 100%;
+.task-detail-item {
+   display: block;
+   float: left;
+   margin: 0 8px 8px 0;
+   max-width: 100%;
 }
 
 .task-detail-item-header {
-    color: #5e6c84;
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 16px;
-    line-height: 20px;
-    margin: 0 8px 4px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+   color: #5e6c84;
+   display: block;
+   font-size: 12px;
+   font-weight: 600;
+   line-height: 16px;
+   line-height: 20px;
+   margin: 0 8px 4px 0;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 }
 
-.task-detail-badge{
-	background-color: #091e420a;
-    border-radius: 3px;
-    cursor: pointer;
-    display: block;
-    height: 20px;
-    line-height: 20px;
-    margin: 0 8px 8px 0;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 6px 12px;
-    text-overflow: ellipsis;
-    transition-duration: 85ms;
-    transition-property: background-color,border-color,box-shadow;
-    transition-timing-function: ease;
-    white-space: nowrap;
+.task-detail-badge {
+   background-color: #091e420a;
+   border-radius: 3px;
+   cursor: pointer;
+   display: block;
+   height: 20px;
+   line-height: 20px;
+   margin: 0 8px 8px 0;
+   max-width: 100%;
+   overflow: hidden;
+   padding: 6px 12px;
+   text-overflow: ellipsis;
+   transition-duration: 85ms;
+   transition-property: background-color, border-color, box-shadow;
+   transition-timing-function: ease;
+   white-space: nowrap;
 }
 
-.badge-button{
-	margin: auto;
-    padding-right: 0;
+.badge-button {
+   margin: auto;
+   padding-right: 0;
 }
-
 
 .button-link {
-    background-color: #091e420a;
-    border: none;
-    border-radius: 3px;
-    box-shadow: none;
-    cursor: pointer;
-    display: block;
-    height: 32px;
-    margin-top: 8px;
-    max-width: 300px;
-    overflow: hidden;
-    padding: 6px 12px;
-    position: relative;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    transition-duration: 85ms;
-    transition-property: background-color,border-color,box-shadow;
-    transition-timing-function: ease;
-    user-select: none;
-    white-space: nowrap;
-    >.icon-sm{
-        margin: 0 6px 0 -6px
-    }
-    &:hover{
-        background-color: #091e4214;
-        border: none;
-        box-shadow: none;
-    }
+   background-color: #091e420a;
+   border: none;
+   border-radius: 3px;
+   box-shadow: none;
+   cursor: pointer;
+   display: block;
+   height: 32px;
+   margin-top: 8px;
+   max-width: 300px;
+   overflow: hidden;
+   padding: 6px 12px;
+   position: relative;
+   text-decoration: none;
+   text-overflow: ellipsis;
+   transition-duration: 85ms;
+   transition-property: background-color, border-color, box-shadow;
+   transition-timing-function: ease;
+   user-select: none;
+   white-space: nowrap;
+   > .icon-sm {
+      margin: 0 6px 0 -6px;
+   }
+   &:hover {
+      background-color: #091e4214;
+      border: none;
+      box-shadow: none;
+   }
 }
 
-.task-detail-add-button{
-	background-color: #091e420a;
-    border: none;
-    border-radius: 3px;
-    float: left;
-    margin: 0 8px 8px 0;
-    transition-duration: 85ms;
-    transition-property: background-color,border-color,box-shadow;
-    transition-timing-function: ease;
-	height: 32px;
-	width: 32px;
+.task-detail-add-button {
+   background-color: #091e420a;
+   border: none;
+   border-radius: 3px;
+   float: left;
+   margin: 0 8px 8px 0;
+   transition-duration: 85ms;
+   transition-property: background-color, border-color, box-shadow;
+   transition-timing-function: ease;
+   height: 32px;
+   width: 32px;
 }
 
-.task-detail-add-button:hover{
-	background-color: #091e4214;
+.task-detail-add-button:hover {
+   background-color: #091e4214;
 }
 
-.task-detail-add-button:active{
-	background-color: #e4f0f6;
-    color: #0079bf;
-    outline: 0;
+.task-detail-add-button:active {
+   background-color: #e4f0f6;
+   color: #0079bf;
+   outline: 0;
 }
 
-.window-module-title{
-    margin: 0 0 4px 40px;
-    padding: 8px 0;
-    position: relative;
+.window-module-title {
+   margin: 0 0 4px 40px;
+   padding: 8px 0;
+   position: relative;
 }
 
-.description-fake-text-area{
-    background-color: #091e420a;
-    border: none;
-    border-radius: 3px;
-    box-shadow: none;
-    display: block;
-    min-height: 40px;
-    padding: 8px 12px;
-    text-decoration: none;
+.description-fake-text-area {
+   background-color: #091e420a;
+   border: none;
+   border-radius: 3px;
+   box-shadow: none;
+   display: block;
+   min-height: 40px;
+   padding: 8px 12px;
+   text-decoration: none;
 }
 
-.u-bottom{
-    margin-bottom: 0;
-    padding-bottom: 0;
+.u-bottom {
+   margin-bottom: 0;
+   padding-bottom: 0;
 }
 
-.window-module{
-    clear: both;
-    margin-bottom: 24px;
-    position: relative;
+.window-module {
+   clear: both;
+   margin-bottom: 24px;
+   position: relative;
 }
