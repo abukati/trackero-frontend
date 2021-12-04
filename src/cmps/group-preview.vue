@@ -77,7 +77,7 @@
          </div>
       </draggable>
       <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
-         <a href="#" class="card-composer">
+         <a class="card-composer">
             <span class="add-task-plus-icon">
                <img src="@/assets/img/plus-icon.svg" />
             </span>

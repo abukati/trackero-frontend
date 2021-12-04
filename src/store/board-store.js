@@ -37,7 +37,7 @@ export const boardStore = {
       //----------------------------------------------------------- */
       boardMembers(state) {
          return state.currBoard.members
-      }
+      },
    },
 
    mutations: {
