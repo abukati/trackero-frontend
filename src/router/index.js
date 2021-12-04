@@ -29,11 +29,6 @@ const routes = [
             component: taskDetails
          }
       ]
-   },
-   {
-      path: '/taskdetails',
-      name: 'taskDetails',
-      component: taskDetails
    }
 ]
 

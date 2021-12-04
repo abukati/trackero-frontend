@@ -16,6 +16,8 @@ body {
    line-height: 20px;
    font-size: 14px;
    font-weight: 400;
+   color: #172b4d;
+   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
 }
 
 main {
@@ -40,10 +42,6 @@ h3, h4, h5, h6 {
    font-size: 16px;
    line-height: 20px;
 }
-
-// h1 {
-//    font-size: rem(60px);
-// }
 
 img {
    width: 100%;
@@ -70,6 +68,23 @@ input[type='search']:focus {
 
 textarea{
 	color: #172b4d;
+   transition-duration: 85ms;
+   transition-property: background-color,border-color,box-shadow;
+   transition-timing-function: ease;
+   outline: none;
+   overflow: auto;
+   width: 100%;
+   display: block;
+   border: none;
+   box-shadow: inset 0 0 0 2px #dfe1e6;
+   margin-bottom: 12px;
+   padding: 8px 12px;
+   color: inherit;
+   margin: 0;
+   background-color: #fafbfc;
+   box-sizing: border-box;
+   font: inherit;
+   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
 }
 
 textarea:focus{
@@ -78,4 +93,14 @@ textarea:focus{
 
 p {
    margin: 0 0 8px;
+}
+
+hr{
+   background-color: #091e4221;
+   border: 0;
+   height: 1px;
+   margin: 16px 0;
+   padding: 0;
+   width: 100%;
+   box-sizing: initial;
 }
