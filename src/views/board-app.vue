@@ -14,8 +14,9 @@
                      <board-nav :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
                      
                      <div class="groups-container-main">
-                        <draggable class="groups-container" draggable=".board-group" 
-                           group="groups" v-model="groupsList">
+                        <draggable class="groups-container" handle=".group-header-section" 
+                         draggable=".board-group" group="groupsList" v-model="groupsList"
+                          filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
                            <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
                               <group-preview @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </div>
@@ -104,9 +105,7 @@ export default {
          this.isListInputOpen = false
       },
       toggleInput() {
-         console.log('this.isListInputOpen', this.isListInputOpen)
          this.isListInputOpen = !this.isListInputOpen
-         console.log('this.isListInputOpen', this.isListInputOpen)
       },
       toggleModalClass(ev) {
          this.isModalOpen = true
@@ -118,7 +117,6 @@ export default {
          deep: true,
          async handler() {
             try {
-               console.log('board id watccher')
                let boardId = this.$route.params.boardId
                const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
                await this.$store.dispatch({ type: 'loadUsers' })

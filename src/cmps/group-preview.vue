@@ -1,18 +1,10 @@
 <template>
    <section class="group-preview-container">
       <section class="group-header-section">
-         <!-- <div class="group-header-target"></div> -->
-         <textarea
-            class="group-header-title-textarea"
-            :class="{ 'is-editing': isTitleInputOpen }"
-            :draggable="{ isTitleInputOpen }"
-            @focus="titleInputFocus"
-            @keydown.enter.exact.prevent
-            @keyup.enter.exact="updateGroupTitle"
-            @blur="updateGroupTitle"
-            :value="group.title"
-         ></textarea>
-         <h2 class="group-header-title-assist">{{ group.title }}</h2>
+         <h2 v-if="isEditable === false" @mouseup="toggleEditing" class="group-header-title-assist">{{ group.title }}</h2>
+         <textarea v-else ref="textareainp" class="group-header-title-textarea" :class="{ 'is-editing': isTitleInputOpen }"
+            @keydown.enter.exact.prevent @keyup.enter.exact="updateGroupTitle"
+            @focus="titleInputFocus" @blur="updateGroupTitle" :value="group.title"></textarea>
          <div class="group-header-options">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
@@ -24,43 +16,17 @@
             </section>
          </div>
       </section>
-      <draggable
-         class="group-tasks-section"
-         v-model="tasksList"
-         group="group"
-         draggable=".list-card"
-      >
-         <!-- <div class="list-card" v-for="task in group.tasks" :key="task.id"> -->
-         <!-- <router-link
-            class="list-card"
-            v-for="task in group.tasks"
-            :key="task.id"
-            :to="`/board/${board._id}/${group.id}/${task.id}`"
-         >
-            <task-preview :task="task"></task-preview> -->
-
+      <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
          <template v-for="task in group.tasks">
-            <task-preview
-               :task="task"
-               :board="board"
-               :group="group"
-               :key="task.id"
-            />
+            <task-preview :task="task" :board="board"
+               :group="group" :key="task.id" />
          </template>
-
-         <!-- </router-link> -->
-         <!-- </div> -->
-
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
                <div class="add-task-input-section">
                   <div class="add-task-input-details group-task-link">
-                     <textarea
-                        type="text"
-                        class="add-task-input"
-                        v-model="taskInput"
-                        placeholder="Enter a title for this card..."
-                     />
+                     <textarea type="text" class="add-task-input"
+                        v-model="taskInput" placeholder="Enter a title for this card..." />
                   </div>
                </div>
                <div class="add-task-control-section">
@@ -102,10 +68,9 @@ export default {
          isOptionsListOpen: false,
          isTaskInputOpen: false,
          isTitleInputOpen: false,
-         isDraggable: true,
          taskInput: '',
-         lockInput: false,
-         groupToEdit: null
+         groupToEdit: null,
+         isEditable: false
       }
    },
    methods: {
@@ -141,7 +106,7 @@ export default {
       async updateGroupTitle(ev) {
          try {
             this.isTitleInputOpen = false
-            this.isDraggable = true
+            this.isEditable = false
             ev.target.blur()
             this.groupToEdit.title = ev.target.value
             this.$store.dispatch({ type: 'updateGroup', group: this.groupToEdit })
@@ -151,12 +116,18 @@ export default {
       },
       titleInputFocus(ev) {
          this.isTitleInputOpen = true
-         this.isDraggable = false
          ev.target.select()
          this.groupToEdit = JSON.parse(JSON.stringify(this.group))
       },
       toggleModal(ev) {
          this.$emit('toggleModal', ev)
+      },
+      toggleEditing(ev) {
+         this.isEditable = true
+         ev.target.style.display = 'none'
+         this.$nextTick(() => {
+            this.$refs.textareainp.focus()
+         })
       }
    },
    computed: {

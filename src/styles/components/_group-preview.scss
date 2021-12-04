@@ -33,8 +33,23 @@
          }
 
          .group-header-title-assist {
-            display: none;
             margin: 0 0 8px;
+            font-family: unset;
+            font-size: 14px;
+            overflow: hidden;
+            overflow-wrap: break-word;
+            height: 28px;
+            background: #0000;
+            font-weight: 600;
+            margin: -4px 0;
+            max-height: 256px;
+            min-height: 20px;
+            padding: 4px 8px;
+            width: 100%;
+            border: none;
+            display: block;
+            outline: none;
+            line-height: 20px;
          }
 
          .group-header-title-textarea {

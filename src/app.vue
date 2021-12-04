@@ -22,6 +22,5 @@ export default {
          else return this.$store.getters.getBoardBgc
       }
    },
-
 }
 </script>

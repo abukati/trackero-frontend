@@ -1,5 +1,6 @@
 import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
+import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
 
 const KEY = 'boardsDB'
 
@@ -102,11 +103,13 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
    const board = {
       title,
       createdAt: Date.now(),
+      isStarred,
       createdBy: {
          _id: user._id,
          username: user.username,
          fullname: user.fullname,
-         imgUrl: user.imgUrl
+         imgUrl: user.imgUrl,
+         isAdmin: true
       },
       style: {
          bgColor: '#29cce5',
@@ -329,6 +332,25 @@ async function removeMember(user, board) {
    }
 }
 
+
+// Dummy socket for live testing
+
+(async () => {
+   var boards = await storageService.query(KEY)
+   var groups = boards[0].groups
+
+   window.addEventListener('storage', async () => {
+   console.log('Storage updated')
+      const newBoards = await storageService.query(KEY)
+      const newGroups = newBoards[0].groups
+      if (newGroups.length === groups.length + 1 ) {
+         console.log('Review Added - localStorage updated from another browser')
+         socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length-1])
+      }
+      boards = newGroups
+   })
+})()
+
 function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
    return {
       _id: utilService.makeId(),
@@ -341,6 +363,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          imgUrl: user.imgUrl,
          isAdmin: true
       },
+      isStarred: true,
       style: {
          bgColor: '#29cce5',
          bgImg: ''
