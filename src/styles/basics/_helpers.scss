@@ -8,12 +8,18 @@
    display: none;
 }
 
+.show {
+   display: inline-block;
+}
+
 .icon-xs {
-   height: 16px;
-   line-height: 16px;
-   width: 16px;
-   font-size: 24px;
+   height: 14px;
+   line-height: 14px;
+   width: 14px;
+   font-size: 14px;
    vertical-align: bottom;
+   text-align: center;
+   display: inline-block;
 }
 
 .icon-sm {

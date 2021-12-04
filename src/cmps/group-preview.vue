@@ -17,12 +17,14 @@
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
             </button>
-            <section v-show="isOptionsListOpen" class="list-actions">
-               <h3>List actions</h3>
-               <button @click="toggleOptions">X</button>
-               <button @click="deleteGroup">Delete Card</button>
-            </section>
          </div>
+         <modal-list-actions
+            v-if="this.isOptionsListOpen"
+            :group="group"
+            :board="board"
+            @closeModal="toggleOptions"
+            @openAddTask="toggleInput"
+         />
       </section>
       <draggable
          class="group-tasks-section"
@@ -89,13 +91,15 @@
 import { showMsg } from '@/services/event-bus-service.js'
 import draggable from 'vuedraggable'
 import taskPreview from './task-preview.vue'
+import modalListActions from './modal-list-actions.vue'
 
 export default {
    props: ['group', 'board'],
    name: 'groupPreview',
    components: {
       draggable,
-      taskPreview
+      taskPreview,
+      modalListActions
    },
    data() {
       return {
@@ -114,6 +118,7 @@ export default {
       },
       toggleInput() {
          this.isTaskInputOpen = !this.isTaskInputOpen
+         this.isOptionsListOpen = false
       },
       async addTask() {
          try {
