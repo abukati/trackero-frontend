@@ -22,7 +22,7 @@
       </div>
 
       <!-- pencil-edit -->
-      <div v-if="!isCoverBgc" class="list-card-cover">
+      <div v-if="!isCoverBgc" class="list-card-edit-pencil">
          <span class="icon-edit list-card-operation">
             <img
                class="icon-sm"
@@ -50,13 +50,18 @@
          <!-- badges -->
          <div class="badges">
             <span class="js-badges">
-               <div class="badge" title="You are watching this card.">
+               <div
+                  v-if="Math.random() > 0.5"
+                  class="badge"
+                  title="You are watching this card."
+               >
                   <img
                      class="badge-icon icon-xs subscribe"
                      :src="require(`@/assets/img/eye.svg`)"
                   />
                </div>
                <div
+                  v-if="Math.random() > 0.5"
                   class="badge is-due-soon"
                   title="This card is due in less than twenty-four hours."
                >
@@ -69,6 +74,7 @@
                   </span>
                </div>
                <div
+                  v-if="Math.random() > 0.5"
                   class="badge is-icon-only"
                   title="This card has a description."
                >
@@ -77,21 +83,29 @@
                      :src="require(`@/assets/img/menu2.svg`)"
                   />
                </div>
-               <div class="badge" title="Comments">
+               <div v-if="Math.random() > 0.5" class="badge" title="Comments">
                   <img
                      :src="require(`@/assets/img/comment.svg`)"
                      class="badge-icon icon-sm icon-comment"
                   />
                   <span class="badge-text">2</span>
                </div>
-               <div class="badge" title="Attachments">
+               <div
+                  v-if="Math.random() > 0.5"
+                  class="badge"
+                  title="Attachments"
+               >
                   <img
                      :src="require(`@/assets/img/attachment.svg`)"
                      class="badge-icon icon-sm icon-attachment"
                   />
                   <span class="badge-text">1</span>
                </div>
-               <div class="badge" title="This card has a location.">
+               <div
+                  v-if="Math.random() > 0.5"
+                  class="badge"
+                  title="This card has a location."
+               >
                   <img
                      :src="require(`@/assets/img/location2.svg`)"
                      class="badge-icon icon-sm icon-location"
@@ -150,12 +164,8 @@ export default {
          if (this.task.style.bgColor !== '#ffffff') return 32
          return 0
       },
-      taskBadges() {
-         let badges = []
-         //we need to check here if yhe curr user is connected
-         //and he is one of the task members
 
-      }
+
    },
 }
 </script>

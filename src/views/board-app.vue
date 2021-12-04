@@ -1,18 +1,25 @@
 <template>
-	<section class="board-app" :style="{ backgroundColor: getBoardBgc }" v-if="board">
-		<div class="board-wrapper">
+   <section
+      class="board-app"
+      :style="{ backgroundColor: getBoardBgc }"
+      v-if="board"
+   >
+      <div class="board-wrapper">
          <div class="task-detail-modal-container">
             <div class="modal-content">
                <router-view :class="{ 'window-up': isModalOpen }" />
             </div>
          </div>
-			<div class="board-container">
+         <div class="board-container">
             <div class="board-content">
                <div class="board-content-wrapper">
                   <div class="board-main-content">
+                     <board-nav
+                        :board="board"
+                        :boardMembers="board.members"
+                        :boardBgc="board.style.bgColor"
+                     />
 
-                     <board-nav :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
-                     
                      <div class="groups-container-main">
                         <draggable class="groups-container" handle=".group-header-section" 
                          draggable=".board-group" group="groupsList" v-model="groupsList"
@@ -22,12 +29,18 @@
                            </div>
 
                            <div class="add-list-section">
-                              <div v-if="!isListInputOpen" @click="toggleInput" class="add-list-button">
-                                 <a href="#" class="list-composer">
+                              <div
+                                 v-if="!isListInputOpen"
+                                 @click="toggleInput"
+                                 class="add-list-button"
+                              >
+                                 <a class="list-composer">
                                     <span class="add-task-plus-icon">
                                        <img src="@/assets/img/plus-icon.svg" />
                                     </span>
-                                    <span class="add-task-span">Add another list</span>
+                                    <span class="add-task-span"
+                                       >Add another list</span
+                                    >
                                  </a>
                               </div>
 
@@ -48,8 +61,13 @@
                                     >
                                        Add list
                                     </button>
-                                    <span @click="toggleInput" class="cancel-add-list">
-                                       <img src="@/assets/img/cancel-icon.svg" />
+                                    <span
+                                       @click="toggleInput"
+                                       class="cancel-add-list"
+                                    >
+                                       <img
+                                          src="@/assets/img/cancel-icon.svg"
+                                       />
                                     </span>
                                  </div>
                               </div>
@@ -122,7 +140,7 @@ export default {
                await this.$store.dispatch({ type: 'loadUsers' })
                this.board = currBoard
                let taskId = this.$route.params.taskId
-               if(taskId) this.isModalOpen = true
+               if (taskId) this.isModalOpen = true
             } catch (err) {
                console.log(err)
             }

@@ -1,0 +1,73 @@
+.pop-over {
+   background: #fff;
+   border-radius: 3px;
+   box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
+   overflow: hidden;
+   position: absolute;
+   right: -9999px;
+   top: -9999px;
+   transform: translateZ(0);
+   width: 304px;
+   z-index: 70;
+
+   &.is-shown {
+      display: block;
+   }
+
+   .pop-over-header {
+      height: 40px;
+      margin-bottom: 8px;
+      position: relative;
+      text-align: center;
+   }
+
+   .pop-over-header-title {
+      border-bottom: 1px solid #091e4221;
+      color: #5e6c84;
+      display: block;
+      line-height: 40px;
+      margin: 0 12px;
+      overflow: hidden;
+      padding: 0 32px;
+      position: relative;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      z-index: 1;
+   }
+
+   .pop-over-header-close-btn {
+      color: #6b778c;
+      padding: 10px 12px 10px 8px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
+      position: absolute;
+   }
+
+   .pop-over-content {
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 0 12px 12px;
+
+      .pop-over-list {
+         list-style: none;
+         margin: 0;
+         padding: 0;
+
+         li > a {
+            cursor: pointer;
+            display: block;
+            font-weight: 400;
+            margin: 0 -12px;
+            padding: 6px 12px;
+            position: relative;
+            text-decoration: none;
+
+            &:hover {
+               background-color: #091e420a;
+            }
+         }
+      }
+   }
+}

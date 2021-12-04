@@ -436,12 +436,12 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
       groups: [
          {
             id: 'g101',
-            title: 'Develop trackero',
+            title: 'In Progress',
             tasks: [
                {
                   id: 't101',
-                  title: 'Project trackero task',
-                  description: 'This is the task description',
+                  title: 'Work on the tasks preview UI',
+                  description: 'Make the tasks on the board view look similar to rello(with the labels, badges, icons...)',
                   attachments: [
                      {
                         id: 'f101',
@@ -515,8 +515,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                },
                {
                   id: 't102',
-                  title: 'Project trackero task 102',
-                  description: 'This is the task description',
+                  title: 'Board navbar',
+                  description: 'Work on the navbar UI',
                   attachments: [
                      {
                         id: 'f101',
@@ -531,7 +531,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ff7'
+                     bgColor: '#ffffff'
                   },
                   members: [
                      {
@@ -592,6 +592,166 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         }
                      }
                   ]
+               },
+               {
+                  id: 't103',
+                  title: 'Implement list options',
+                  description: 'Implement list options on a side modal',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
+                  style: {
+                     bgColor: '#61bd3a'
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: ''
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                        isAdmin: true
+                     }
+                  ],
+                  labels: [
+                     // {
+                     //    id: 'l104',
+                     //    title: 'Bug',
+                     //    color: '#eb5a46'
+                     // },
+                     // {
+                     //    id: 'l105',
+                     //    title: 'On it',
+                     //    color: '#c377e0'
+                     // },
+                     // {
+                     //    id: 'l106',
+                     //    title: 'Idea',
+                     //    color: '#0079bf'
+                     // },
+                     {
+                        id: 'l107',
+                        title: 'Urgent',
+                        color: '#344563'
+                     }
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                     isAdmin: true
+                  },
+                  dueDate: {
+                     date: '15 Dec 2021',
+                     isComplete: false
+                  },
+                  comments: [
+                     {
+                        txt: 'Please work on taskss',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104'
+                        }
+                     }
+                  ]
+               },
+               {
+                  id: 't108',
+                  title: 'Implement menu options',
+                  description: 'Implement menu options on a side modal',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
+                  style: {
+                     bgColor: '#ffffff'
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: ''
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                        isAdmin: true
+                     }
+                  ],
+                  labels: [
+                     // {
+                     //    id: 'l104',
+                     //    title: 'Bug',
+                     //    color: '#eb5a46'
+                     // },
+                     // {
+                     //    id: 'l105',
+                     //    title: 'On it',
+                     //    color: '#c377e0'
+                     // },
+                     {
+                        id: 'l106',
+                        title: 'Idea',
+                        color: '#0079bf'
+                     }
+                     // {
+                     //    id: 'l107',
+                     //    title: 'Urgent',
+                     //    color: '#344563'
+                     // }
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                     isAdmin: true
+                  },
+                  dueDate: {
+                     date: '15 Dec 2021',
+                     isComplete: false
+                  },
+                  comments: [
+                     {
+                        txt: 'Please work on taskss',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104'
+                        }
+                     }
+                  ]
                }
             ],
             style: {
@@ -600,12 +760,12 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          },
          {
             id: 'g102',
-            title: 'Develop trackero',
+            title: 'Development',
             tasks: [
                {
                   id: 't103',
-                  title: 'Project trackero task',
-                  description: 'This is the task description',
+                  title: 'Board app',
+                  description: 'Working on the appearance of the application',
                   attachments: [
                      {
                         id: 'f101',
@@ -679,8 +839,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                },
                {
                   id: 't104',
-                  title: 'Trello task t104',
-                  description: 'This is the task description',
+                  title: 'Tasks CRUDL',
+                  description: 'Must work on the task CRUDL',
                   attachments: [
                      {
                         id: 'f101',
@@ -695,7 +855,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ff7'
+                     bgColor: '#ffffff'
                   },
                   members: [
                      {
@@ -738,6 +898,280 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   dueDate: {
                      date: '15 Dec 2021',
+                     isComplete: false
+                  },
+                  comments: [
+                     {
+                        txt: 'Guys you are pissing me off',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Yaron Bitton',
+                           _id: 'u104'
+                        }
+                     }
+                  ]
+               },
+               {
+                  id: 't105',
+                  title: 'Activities',
+                  description: 'Must work on the activities',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
+                  style: {
+                     bgColor: '#ffffff'
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: ''
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                        isAdmin: true
+                     }
+                  ],
+                  labels: [
+                     {
+                        id: 'l105',
+                        title: 'On it',
+                        color: '#c377e0'
+                     }
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                     isAdmin: true
+                  },
+                  dueDate: {
+                     date: '9 Dec 2021',
+                     isComplete: false
+                  },
+                  comments: [
+                     {
+                        txt: 'Guys you are pissing me off',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Yaron Bitton',
+                           _id: 'u104'
+                        }
+                     }
+                  ]
+               }
+            ],
+            style: {
+               bgColor: '#ebecf0'
+            }
+         },
+         {
+            id: 'g103',
+            title: 'Done',
+            tasks: [
+               {
+                  id: 't106',
+                  title: 'Drag & Drop of lists and tasks',
+                  description: 'Working on the Drag & Drop of lists and tasks',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
+                  style: {
+                     bgColor: '#c377e0'
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: ''
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                        isAdmin: true
+                     }
+                  ],
+                  labels: [
+                     {
+                        id: 'l103',
+                        title: 'Critical',
+                        color: '#ff9f1a'
+                     },
+                     {
+                        id: 'l104',
+                        title: 'Bug',
+                        color: '#eb5a46'
+                     }
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                     isAdmin: true
+                  },
+                  dueDate: {
+                     date: '14 Dec 2021',
+                     isComplete: false
+                  },
+                  comments: [
+                     {
+                        txt: 'Please be creative with dummy data',
+                        id: 'c100',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Matan Crispel',
+                           _id: 'u104'
+                        }
+                     }
+                  ]
+               },
+               {
+                  id: 't107',
+                  title: 'List CRUDL and design',
+                  description: 'Must work on the list CRUDL and design',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
+                  style: {
+                     bgColor: '#ff7'
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: ''
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                        isAdmin: true
+                     }
+                  ],
+                  labels: [
+                     {
+                        id: 'l101',
+                        title: 'Done',
+                        color: '#61bd4f'
+                     }
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                     isAdmin: true
+                  },
+                  dueDate: {
+                     date: '15 Dec 2021',
+                     isComplete: false
+                  },
+                  comments: [
+                     {
+                        txt: 'Guys you are pissing me off',
+                        id: 'c101',
+                        createdAt: Date.now(),
+                        byMember: {
+                           fullname: 'Yaron Bitton',
+                           _id: 'u104'
+                        }
+                     }
+                  ]
+               },
+               {
+                  id: 't108',
+                  title: 'Members invite styling',
+                  description: 'Must work on the members invite styling',
+                  attachments: [
+                     {
+                        id: 'f101',
+                        title: 'flower',
+                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     }
+                  ],
+                  location: {
+                     id: 'loc101',
+                     title: 'Tel Aviv',
+                     lat: 32.109333,
+                     lng: 34.855499
+                  },
+                  style: {
+                     bgColor: '#ff7'
+                  },
+                  members: [
+                     {
+                        _id: 'u103',
+                        username: 'NoaN',
+                        fullname: 'Noa Nissim',
+                        imgUrl: ''
+                     },
+                     {
+                        _id: 'u101',
+                        username: 'BaselB',
+                        fullname: 'Basel Boulos',
+                        imgUrl: '',
+                        isAdmin: true
+                     }
+                  ],
+                  labels: [
+                     {
+                        id: 'l101',
+                        title: 'Done',
+                        color: '#61bd4f'
+                     }
+                  ],
+                  byUser: {
+                     _id: 'u100',
+                     fullname: 'Guest',
+                     username: 'guest',
+                     imgUrl: '',
+                     isAdmin: true
+                  },
+                  dueDate: {
+                     date: '9 Dec 2021',
                      isComplete: false
                   },
                   comments: [
