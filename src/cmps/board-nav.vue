@@ -1,5 +1,5 @@
 <template>
-	<div class="board-nav">
+	<div class="board-nav clearfix">
 		<div class="board-views-btn-container">
 			<button class="btn-board-views" type="button" title="Board views">
 				<span class="board-views-icon-container">
@@ -17,45 +17,85 @@
 		</div>
 		<div class="board-header-btn board-name inline-rename-board">
 			<h1 class="board-header-btn-text">{{ board.title }}</h1>
-			<input class="board-name-input" type="text" spellcheck="false" maxlength="512" :value="board.title" style="width:116px" />
+			<input class="board-name-input" type="text" spellcheck="false" maxlength="512" :value="board.title" />
 		</div>
-
-
-		
-		<ul class="board-members clean-list" v-if="boardMembers.length">
-			<li v-for="user in boardMembers" :key="user._id">
-				<Avatar :size="28" :username="user.fullname" />
-				<!-- <button @click="removeMember(user)">-</button> -->
-			</li>
-			<a class="board-header-invite-btn" href="#" title="Invite to board">
-				<span class="board-header-btn board-header-btn-icon">
-					<img src="@/assets/img/invite-icon.svg" />
-				</span>
-				<span class="invite-btn-text">Invite</span>
+		<a href="#" class="board-header-btn board-header-star-container" title="Click to star or unstar this board. Starred board show up at the top of your boards list">
+			<span class="star-icon board-header-btn-icon"></span>
+		</a>
+		<div class="board-header-btn-org-wrapper">
+			<span class="board-header-btn-divider"></span>
+			<!-- LINK TO USER'S WORKSPACE -->
+			<a href="#" class="board-header-btn board-header-btn-org-name open-org-menu">
+				<span class="board-header-btn-text">{{board.createdBy.username}}'s Workspace</span>
+			</a> 
+			<span class="board-header-btn-divider"></span>
+			<div class="board-header-btns mod-left"></div>
+			<a href="#" id="permission-level" class="board-header-btn perms-btn change-vis" title="All members of the Workspace can see and edit this board">
+				<span class="board-header-btn-icon icon-sm icon-organization-visible"></span>
+				<span class="board-header-btn-text">Workspace visible</span>
 			</a>
-		</ul>
-		<div class="board-header-right">
-			<a class="board-header-menu-btn" href="#">
-				<span class="board-header-btn board-header-btn-icon">
-					<img src="/img/option.bd12098a.png" />
-				</span>
-				<span class="board-header-menu-btn-text">Show menu</span>
+		</div>
+		<span class="board-header-btn-divider"></span>
+		<div class="board-header-btns mod-left">
+			<draggable class="board-header-facepile board-member-list" 
+				v-model="memberList" group="memberList" draggable=".member-draggable">
+				<template v-for="(member, idx) in memberList">
+					<a class="member member-draggable" :style="{ 'z-index': memberList.length-idx }" href="#" :key="member._id">
+						<avatar :size="28" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
+						<span v-show="member.isAdmin" class="member-type admin" :style="{ 'z-index': memberList.length-idx }"></span>
+					</a>
+				</template>
+			</draggable>
+			<a href="#" class="board-header-btn-invite manage-board-members" title="Invite to board">
+				<span class="icon-sm icon-add-member board-header-btn-icon"></span>
+				<span class="board-header-btn-text">Invite</span>
 			</a>
-			<label>
-				<input type="color" :value="getBoardBgc" @change="changeBoardBgc($event)" />
-			</label>
+		</div>
+		<div class="board-header-btns mod-right">
+			<span class="board-header-special-btn-container">
+				<button type="button" class="board-header-btn board-header-special-btn board-header-subscribed">
+					<span class="icon-sm icon-subscribed board-header-btn-icon"></span>
+					<span class="board-header-btn-text">Watching</span>
+				</button>
+			</span>
+			<span class="board-header-btn-divider"></span>
+			<span class="board-header-special-btn-container">
+				<div class="board-header-filter-btn">
+					<button type="button" class="board-header-btn header-filter-btn board-header-special-btn">
+						<span class="board-header-filter-btn-icon-container">
+							<span class="icon-sm icon-filter board-header-btn-icon"></span>
+						</span>
+						Filter
+					</button>
+				</div>
+			</span>
+			<a href="#" class="board-header-btn mod-show-menu show-sidebar">
+				<span class="icon-sm icon-overflow-menu board-header-btn-icon"></span>
+				<span class="board-header-btn-text">Show menu</span>
+			</a>
 		</div>
 	</div>
 </template>
 
 <script>
 import Avatar from 'vue-avatar'
+import draggable from 'vuedraggable'
+
 export default {
 	props: ['boardMembers', 'board'],
 	components: {
-		Avatar
+		Avatar,
+		draggable
 	},
 	computed: {
+		memberList: {
+			get() {
+				return this.board.members
+			},
+			set(memberList) {
+				console.log(memberList);
+			}
+		},
 		getBoardBgc() {
 			return this.$store.getters.getBoardBgc
 		}

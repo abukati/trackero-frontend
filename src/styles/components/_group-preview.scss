@@ -92,7 +92,7 @@
       }
 
       .group-tasks-section {
-         @include custom-scroll-bar;
+         @include group-custom-scroll-bar;
          flex: 1 1 auto;
          margin: 0 4px;
          min-height: 0;

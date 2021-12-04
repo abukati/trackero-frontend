@@ -6,7 +6,7 @@
                <div class="board-content-wrapper">
                   <div class="board-main-content">
 
-                     <board-nav style="height: 46px;" :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
+                     <board-nav :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
                      
                      <div class="groups-container-main">
                         <draggable class="groups-container" draggable=".board-group" 

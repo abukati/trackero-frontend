@@ -334,7 +334,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          _id: user._id,
          username: user.username,
          fullname: user.fullname,
-         imgUrl: user.imgUrl
+         imgUrl: user.imgUrl,
+         isAdmin: true
       },
       style: {
          bgColor: '#29cce5',
@@ -348,22 +349,22 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          },
          {
             id: 'l102',
-            title: '',
+            title: 'Attention',
             color: 'yellow'
          },
          {
             id: 'l103',
-            title: 'Flexible',
+            title: 'Important',
             color: 'orange'
          },
          {
             id: 'l104',
-            title: 'Important',
+            title: 'Critical',
             color: 'red'
          },
          {
             id: 'l105',
-            title: '',
+            title: 'On it',
             color: 'purple'
          },
          {
@@ -374,10 +375,18 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
       ],
       members: [
          {
+            _id: 'u100',
+            username: 'guest',
+            fullname: 'guest', 
+            imgUrl: '',
+            isAdmin: true
+         },
+         {
             _id: 'u101',
             username: 'BaselB',
             fullname: 'Basel Boulos',
-            imgUrl: ''
+            imgUrl: '',
+            isAdmin: true
          },
          {
             _id: 'u102',
@@ -414,18 +423,19 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         _id: 'u101',
                         username: 'BaselB',
                         fullname: 'Basel Boulos',
-                        imgUrl: ''
+                        imgUrl: '',
+                        isAdmin: true
                      }
                   ],
                   labels: [
                      {
                         id: 'l102',
-                        title: '',
+                        title: 'Attention',
                         color: 'yellow'
                      },
                      {
                         id: 'l103',
-                        title: 'Flexible',
+                        title: 'Important',
                         color: 'orange'
                      }
                   ],
@@ -433,7 +443,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      _id: 'u100',
                      fullname: 'Guest',
                      username: 'guest',
-                     imgUrl: ''
+                     imgUrl: '',
+                     isAdmin: true
                   },
                   dueDate: {
                      date: '14 Dec 2021',
@@ -468,26 +479,28 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         _id: 'u101',
                         username: 'BaselB',
                         fullname: 'Basel Boulos',
-                        imgUrl: ''
+                        imgUrl: '',
+                        isAdmin: true
                      }
                   ],
                   labels: [
                      {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
+                        id: 'l104',
+                        title: 'Critical',
+                        color: 'red'
                      },
                      {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
-                     }
+                        id: 'l105',
+                        title: 'On it',
+                        color: 'purple'
+                     },
                   ],
                   byUser: {
                      _id: 'u100',
                      fullname: 'Guest',
                      username: 'guest',
-                     imgUrl: ''
+                     imgUrl: '',
+                     isAdmin: true
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -495,7 +508,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   comments: [
                      {
-                        txt: 'Please work on trackero task',
+                        txt: 'Please work on taskss',
                         id: 'c101',
                         createdAt: Date.now(),
                         byMember: {
@@ -531,18 +544,19 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         _id: 'u101',
                         username: 'BaselB',
                         fullname: 'Basel Boulos',
-                        imgUrl: ''
+                        imgUrl: '',
+                        isAdmin: true
                      }
                   ],
                   labels: [
                      {
                         id: 'l102',
-                        title: '',
+                        title: 'Attention',
                         color: 'yellow'
                      },
                      {
                         id: 'l103',
-                        title: 'Flexible',
+                        title: 'Important',
                         color: 'orange'
                      }
                   ],
@@ -550,7 +564,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      _id: 'u100',
                      fullname: 'Guest',
                      username: 'guest',
-                     imgUrl: ''
+                     imgUrl: '',
+                     isAdmin: true
                   },
                   dueDate: {
                      date: '14 Dec 2021',
@@ -558,7 +573,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   comments: [
                      {
-                        txt: 'Please work on trackero',
+                        txt: 'Please be creative with dummy data',
                         id: 'c100',
                         createdAt: Date.now(),
                         byMember: {
@@ -570,7 +585,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                },
                {
                   id: 't104',
-                  title: 'Project trackero task 104',
+                  title: 'Stop repeting yourself',
                   style: {
                      bgColor: '#ff7'
                   },
@@ -585,26 +600,28 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         _id: 'u101',
                         username: 'BaselB',
                         fullname: 'Basel Boulos',
-                        imgUrl: ''
+                        imgUrl: '',
+                        isAdmin: true
                      }
                   ],
                   labels: [
                      {
-                        id: 'l102',
-                        title: '',
-                        color: 'yellow'
+                        id: 'l104',
+                        title: 'Critical',
+                        color: 'red'
                      },
                      {
-                        id: 'l103',
-                        title: 'Flexible',
-                        color: 'orange'
-                     }
+                        id: 'l105',
+                        title: 'On it',
+                        color: 'purple'
+                     },
                   ],
                   byUser: {
                      _id: 'u100',
                      fullname: 'Guest',
                      username: 'guest',
-                     imgUrl: ''
+                     imgUrl: '',
+                     isAdmin: true
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -612,11 +629,11 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   comments: [
                      {
-                        txt: 'Please work on trackero task',
+                        txt: 'Guys you are pissing me off',
                         id: 'c101',
                         createdAt: Date.now(),
                         byMember: {
-                           fullname: 'Matan Crispel',
+                           fullname: 'Yaron Bitton',
                            _id: 'u104'
                         }
                      }
@@ -636,7 +653,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                _id: 'u100',
                fullname: 'Guest',
                username: 'guest',
-               imgUrl: ''
+               imgUrl: '',
+               isAdmin: true
             },
             task: {
                id: 't100',

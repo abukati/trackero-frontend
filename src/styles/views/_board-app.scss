@@ -47,7 +47,7 @@
                      background: linear-gradient(180deg,#0000003d 0,#0000003d 48px,#0000 80px,#0000);
             
                      .groups-container {
-                        @include custom-scroll-bar;
+                        @include board-custom-scroll-bar;
 
                         bottom: 0;
                         left: 0;

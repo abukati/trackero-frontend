@@ -79,3 +79,9 @@ textarea:focus{
 p {
    margin: 0 0 8px;
 }
+
+input:not([type=file]), textarea {
+   transition-duration: 85ms;
+   transition-property: background-color,border-color,box-shadow;
+   transition-timing-function: ease;
+}
