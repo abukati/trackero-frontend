@@ -307,8 +307,15 @@ async function addTaskMember(task,groupId,user,board){
    try{
       const currGroup = await _getCurrGroup(groupId, board)
       const taskIdx = currGroup.tasks.findIndex(currTask=> currTask.id === task.id)
-      currGroup.tasks[taskIdx].members.push(user)
-      return await _updateGroup(currGroup, groupId, board)
+      const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
+      if (memberIdx !== -1) {
+         console.log('User is already a member of this task')
+         return 
+      } else {
+         currGroup.tasks[taskIdx].members.push(user)
+         const updatedGroup = await _updateGroup(currGroup, groupId, board)
+         return updatedGroup.tasks[taskIdx]
+      }
    }catch(err){
       console.log(err)
    }

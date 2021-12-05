@@ -1,0 +1,108 @@
+.quick-card-editor {
+   background: #0009;
+   bottom: 0;
+   color: #fff;
+   left: 0;
+   position: fixed;
+   right: 0;
+   top: 0;
+   z-index: 10;
+
+   .quick-card-editor-close-icon {
+      color: #fff9;
+      padding: 9px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition-duration: 0.15s;
+      transition-property: transform, color;
+   }
+
+   .quick-card-editor-card {
+      position: absolute;
+
+      .list-card-quick-edit {
+         z-index: 1;
+      }
+
+      .list-card {
+         background-color: #fff;
+         border-radius: 3px;
+         box-shadow: 0 1px 0 #091e4240;
+         // cursor: pointer;
+         display: block;
+         margin-bottom: 8px;
+         max-width: 300px;
+         min-height: 20px;
+         position: relative;
+         text-decoration: none;
+         // z-index: 0;
+
+         .list-card-cover {
+            border-radius: 3px 3px 0 0;
+            background-color: #ffaf3f;
+            background-position: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            user-select: none;
+         }
+
+         .list-card-details {
+            overflow: hidden;
+            padding: 6px 8px 2px;
+            position: relative;
+            z-index: 10;
+
+            .list-card-labels {
+               z-index: 0;
+               overflow: auto;
+               position: relative;
+
+               .card-label {
+                  background-color: #b3bac5;
+                  border-radius: 4px;
+                  color: #fff;
+                  display: block;
+                  margin-right: 4px;
+                  max-width: 100%;
+                  overflow: hidden;
+                  padding: 4px 6px;
+                  position: relative;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  /**/
+                  height: 16px;
+                  line-height: 16px;
+                  max-width: 198px;
+                  padding: 0 8px;
+                  /**/
+                  float: left;
+                  font-size: 12px;
+                  font-weight: 700;
+                  // height: 8px;
+                  // line-height: 100px;
+                  margin: 0 4px 4px 0;
+                  // max-width: 40px;
+                  min-width: 40px;
+                  // padding: 0;
+                  text-shadow: none;
+                  width: auto;
+
+                  .label-text {
+                     display: initial;
+                     line-height: 16px;
+                  }
+               }
+            }
+
+            .list-card-edit-title {
+               overflow: hidden;
+               overflow-wrap: break-word;
+               resize: none;
+               height: 90px;
+               color: black;
+            }
+         }
+      }
+   }
+}
