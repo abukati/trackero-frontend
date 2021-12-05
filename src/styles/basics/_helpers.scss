@@ -218,3 +218,39 @@
 .no-top-margin {
    margin-top: 0;
 }
+
+.pop-over-header{
+   height: 40px;
+   margin-bottom: 8px;
+   position: relative;
+   text-align: center;
+}
+
+.pop-over-header-close-btn {
+   color: #6b778c;
+   padding: 10px 12px 10px 8px;
+   position: absolute;
+   right: 0;
+   top: 0;
+   z-index: 2;
+   &::before {
+      content: "\e91c";
+   }
+}
+
+.mini-profile{
+   margin: 8px 0;
+   min-height: 56px;
+   position: relative;
+}
+
+.member-large {
+   background-color: #dfe1e6;
+   border-radius: 25em;
+   display: block;
+   height: 50px;
+   overflow: hidden;
+   position: relative;
+   width: 50px;
+   z-index: 1;
+}
