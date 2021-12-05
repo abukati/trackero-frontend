@@ -51,7 +51,7 @@
                                        type="text"
                                        class="add-list-title-input"
                                        v-model="newListTitleInput"
-                                       placeholder="Enter a title for this card..."
+                                       placeholder="Enter list title..."
                                     />
                                  </div>
                                  <div class="add-list-control-section">

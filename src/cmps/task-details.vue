@@ -43,7 +43,7 @@
                      <h3 class="task-detail-item-header">Members</h3>
                      <div v-if="task.members && task.members.length" class="task-detail-members-list">
                         <a  class="member task-detail-member" v-for="member in task.members" :key="member._id">
-                           <avatar :size="28" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
+                           <avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
                         </a>
                         <a class="task-detail-add-button">
                            <span class="add-btn-icon icon-lg">
@@ -65,10 +65,12 @@
                      </a>
                      </div>
                   </div>
-                  <div class="task-detail-item hide">
+                  <div class="task-detail-item">
                      <h3 class="task-detail-item-header">Start date</h3>
                         <div class="start-date-badge">
-                           <div></div>
+                           <div>
+                              {{task.startDate}}
+                           </div>
                         </div>
                   </div>
                   <div class="task-detail-item hide">
@@ -197,15 +199,16 @@
                         </span>
                         <span class="sidebar-action-text">Cover</span>
                      </a>
-                     <a class="button-link" href="#" title="Custom Fields">
+                     <!-- <a class="button-link" href="#" title="Custom Fields">
                         <span class="icon-sm">
 
                         </span>
                         <span class="sidebar-action-text">Custom Fields</span>
-                     </a>
+                     </a> -->
                   </div>
                </div>
-               <div class="powerups-buttons">
+               <!-- UnDone features -->
+               <!-- <div class="powerups-buttons">
                   <div class="window-module clearfix">
                      <h3 class="no-top-margin">Power-Ups</h3>
                      <div>
@@ -217,8 +220,8 @@
                         </a>
                      </div>
                   </div>
-               </div>
-               <div class="automation-buttons">
+               </div> -->
+               <!-- <div class="automation-buttons">
                    <div class="window-module">
                       <div class="automation-title">
                         <h3 class="no-top-margin">Automation</h3>
@@ -235,7 +238,7 @@
                         </a>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <div class="window-module clearfix action-buttons">
                   <h3 class="no-top-margin">Actions</h3>
                   <div class="clearfix">
@@ -251,11 +254,11 @@
                            </span>
                            <span class="sidebar-action-text">Copy</span>
                         </a>
-                      <a class="button-link" title="Make template" href="#">
+                      <!-- <a class="button-link" title="Make template" href="#">
                            <span class="icon-sm">
                            </span>
                            <span class="sidebar-action-text">Make template</span>
-                        </a>
+                        </a> -->
                       <a class="button-link" title="Watch the card to get notifications when something changes." href="#">
                            <span class="icon-sm">
                               <svg width="16px" height="16px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512"><g><path fill="#5e6c84" d="m496.4,243.1c-63.9-78.7-149.3-122.1-240.4-122.1-91.1,0-176.5,43.4-240.4,122.1-6.1,7.5-6.1,18.2 0,25.7 63.9,78.8 149.3,122.2 240.4,122.2 91.1,0 176.5-43.4 240.4-122.1 6.1-7.5 6.1-18.3 0-25.8zm-240.4,79.8c-36.9,0-66.9-30-66.9-66.9 0-36.9 30-66.9 66.9-66.9 36.9,0 66.9,30 66.9,66.9 0,36.9-30,66.9-66.9,66.9zm-197.8-66.9c37.8-42.2 82.9-71.1 131.5-84.9-25.2,19.7-41.5,50.4-41.5,84.9 0,34.4 16.2,65.1 41.5,84.9-48.6-13.8-93.6-42.7-131.5-84.9zm264.1,84.9c25.2-19.7 41.5-50.4 41.5-84.9 0-34.4-16.2-65.1-41.5-84.9 48.6,13.8 93.7,42.7 131.5,84.9-37.9,42.2-82.9,71.1-131.5,84.9z"/></g></svg>

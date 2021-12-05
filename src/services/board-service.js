@@ -495,6 +495,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      imgUrl: '',
                      isAdmin: true
                   },
+                  startDate: {
+                     date: '5 Dec 2021',
+                  },
                   dueDate: {
                      date: '14 Dec 2021',
                      isComplete: false
@@ -574,6 +577,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      username: 'guest',
                      imgUrl: '',
                      isAdmin: true
+                  },
+                  startDate: {
+                     date: '6 Dec 2021',
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -655,6 +661,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      imgUrl: '',
                      isAdmin: true
                   },
+                  startDate: {
+                     date: '8 Dec 2021',
+                  },
                   dueDate: {
                      date: '15 Dec 2021',
                      isComplete: false
@@ -734,6 +743,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      username: 'guest',
                      imgUrl: '',
                      isAdmin: true
+                  },
+                  startDate: {
+                     date: '10 Dec 2021',
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -819,6 +831,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      imgUrl: '',
                      isAdmin: true
                   },
+                  startDate: {
+                     date: '15 Dec 2021',
+                  },
                   dueDate: {
                      date: '14 Dec 2021',
                      isComplete: false
@@ -893,6 +908,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      imgUrl: '',
                      isAdmin: true
                   },
+                  startDate: {
+                     date: '8 Dec 2021',
+                  },
                   dueDate: {
                      date: '15 Dec 2021',
                      isComplete: false
@@ -963,6 +981,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      username: 'guest',
                      imgUrl: '',
                      isAdmin: true
+                  },
+                  startDate: {
+                     date: '28 Dec 2021',
                   },
                   dueDate: {
                      date: '9 Dec 2021',
@@ -1036,6 +1057,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      imgUrl: '',
                      isAdmin: true
                   },
+                  startDate: {
+                     date: '27 Dec 2021',
+                  },
                   dueDate: {
                      date: '14 Dec 2021',
                      isComplete: false
@@ -1100,6 +1124,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      imgUrl: '',
                      isAdmin: true
                   },
+                  startDate: {
+                     date: '16 Dec 2021',
+                  },
                   dueDate: {
                      date: '15 Dec 2021',
                      isComplete: false
@@ -1158,6 +1185,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      username: 'guest',
                      imgUrl: '',
                      isAdmin: true
+                  },
+                  startDate: {
+                     date: '9 Dec 2021',
                   },
                   dueDate: {
                      date: '9 Dec 2021',

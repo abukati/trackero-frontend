@@ -371,7 +371,7 @@
          <div
             div
             v-if="task.members && task.members.length"
-            class="task-detail-members-list"
+            class="task-detail-members-list list-card-members"
          >
             <a
                class="member task-detail-member"
