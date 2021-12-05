@@ -89,7 +89,7 @@
             <div class="user-btn-spacer"></div>
             <router-link class="user-profile-btn" to="/user">
                <div class="user-avatar-container">
-                  <avatar class="user-avatar" username="Guest" :size="32"></avatar>
+                  <avatar class="user-avatar" src="./../assets/img/guest-user.jfif" :username="loggedUser.fullname" :title="`${loggedUser.fullname}(${loggedUser.username})`" :size="32"></avatar>
                </div>
             </router-link>
          </div>
@@ -102,6 +102,27 @@ import Avatar from 'vue-avatar'
 export default {
 	components: {
 		Avatar
-	}
+	},
+   data() {
+      return {
+         loggedUser: null,
+         userImg: null
+      }
+   },
+   created() {
+      this.setLoggedUser()
+   },
+   methods: {
+      setLoggedUser() {
+         this.loggedUser = this.$store.getters.currLoggedUser
+         this.userImg = this.loggedUser.imgUrl
+         console.log(this.loggedUser);
+      }
+   },
+   computed: {
+      getUserImg() {
+         return this.userImg
+      }
+   }
 }
 </script>

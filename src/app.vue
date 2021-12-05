@@ -1,20 +1,30 @@
 <template>
    <div id="app">
       <main :style="{ backgroundColor: pageBgc }">
-         <app-header />
-         <router-view />
+         <app-header v-if="loggedUser" />
+         <router-view v-if="loggedUser" />
+         <!-- <loading-overlay v-else /> -->
       </main>
    </div>
 </template>
 
 <script>
-import appHeader from '@/cmps/app-header.vue'
+import appHeader from '@/cmps/app-header'
+// import loadingOverlay from '@/cmps/loading-overlay'
+
 export default {
    components: {
       appHeader,
+      // loadingOverlay
    },
    data() {
-      return {}
+      return {
+         loggedUser: null
+      }
+   },
+   async created() {
+      await this.$store.dispatch({ type: 'loadUsers' })
+      this.loggedUser = this.$store.getters.currLoggedUser
    },
    computed: {
       pageBgc() {

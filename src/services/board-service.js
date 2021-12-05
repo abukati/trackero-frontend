@@ -334,7 +334,7 @@ async function removeMember(user, board) {
 
 // Dummy socket for live testing
 
-;(async () => {
+(async () => {
    var boards = await storageService.query(KEY)
    var groups = boards[0].groups
 
