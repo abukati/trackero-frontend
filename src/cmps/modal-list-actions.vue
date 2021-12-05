@@ -17,7 +17,7 @@
                   height="24px"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="#5e6c84"
+                  fill="currentColor"
                   stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
