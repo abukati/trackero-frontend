@@ -275,7 +275,7 @@ function _createEmptyTask() {
    return {
       id: utilService.makeId(),
       title: '',
-      description: 'This is the task description',
+      description: '',
       attachments: [],
       location: {},
       style: {
@@ -289,6 +289,10 @@ function _createEmptyTask() {
          fullname: 'Guest',
          username: 'guest',
          imgUrl: ''
+      },
+      startDate: {
+         date: `${new Date().getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'short' }).format(new Date())} ${new Date().getFullYear}`,
+         isComplete: false
       },
       dueDate: {
          date: '14 Dec 2021',
@@ -334,7 +338,7 @@ async function removeMember(user, board) {
 
 // Dummy socket for live testing
 
-(async () => {
+;(async () => {
    var boards = await storageService.query(KEY)
    var groups = boards[0].groups
 
@@ -367,6 +371,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          bgColor: '#29cce5',
          bgImg: ''
       },
+      isLabelsShown: true,
       labels: [
          {
             id: 'l101',
@@ -496,7 +501,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '5 Dec 2021',
+                     date: '5 Dec 2021'
                   },
                   dueDate: {
                      date: '14 Dec 2021',
@@ -579,7 +584,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '6 Dec 2021',
+                     date: '6 Dec 2021'
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -662,7 +667,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '8 Dec 2021',
+                     date: '8 Dec 2021'
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -745,7 +750,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '10 Dec 2021',
+                     date: '10 Dec 2021'
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -832,7 +837,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '15 Dec 2021',
+                     date: '15 Dec 2021'
                   },
                   dueDate: {
                      date: '14 Dec 2021',
@@ -909,7 +914,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '8 Dec 2021',
+                     date: '8 Dec 2021'
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -983,7 +988,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '28 Dec 2021',
+                     date: '28 Dec 2021'
                   },
                   dueDate: {
                      date: '9 Dec 2021',
@@ -1058,7 +1063,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '27 Dec 2021',
+                     date: '27 Dec 2021'
                   },
                   dueDate: {
                      date: '14 Dec 2021',
@@ -1125,7 +1130,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '16 Dec 2021',
+                     date: '16 Dec 2021'
                   },
                   dueDate: {
                      date: '15 Dec 2021',
@@ -1187,7 +1192,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      isAdmin: true
                   },
                   startDate: {
-                     date: '9 Dec 2021',
+                     date: '9 Dec 2021'
                   },
                   dueDate: {
                      date: '9 Dec 2021',

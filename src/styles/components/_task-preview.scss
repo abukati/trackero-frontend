@@ -197,8 +197,8 @@
    z-index: 0;
    &.task-detail-member {
       float: left;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
    }
    .member-avatar {
       height: 28px;
@@ -217,6 +217,7 @@
    position: relative;
    text-overflow: ellipsis;
    white-space: nowrap;
+   min-height: 8px;
    height: 16px;
    line-height: 16px;
    max-width: 198px;
@@ -228,6 +229,9 @@
    min-width: 40px;
    text-shadow: none;
    width: auto;
+   transition-duration: 300ms;
+   transition-property: height, width;
+   transition-timing-function: ease;
 
    &.task-detail-label {
       cursor: pointer;
