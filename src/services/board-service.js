@@ -332,20 +332,19 @@ async function removeMember(user, board) {
    }
 }
 
-
 // Dummy socket for live testing
 
-(async () => {
+;(async () => {
    var boards = await storageService.query(KEY)
    var groups = boards[0].groups
 
    window.addEventListener('storage', async () => {
-   console.log('Storage updated')
+      console.log('Storage updated')
       const newBoards = await storageService.query(KEY)
       const newGroups = newBoards[0].groups
-      if (newGroups.length === groups.length + 1 ) {
+      if (newGroups.length === groups.length + 1) {
          console.log('Review Added - localStorage updated from another browser')
-         socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length-1])
+         socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length - 1])
       }
       boards = newGroups
    })
@@ -466,11 +465,10 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         imgUrl: ''
                      },
                      {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                        isAdmin: true
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
+                        imgUrl: ''
                      }
                   ],
                   labels: [
@@ -615,9 +613,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   members: [
                      {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
                         imgUrl: ''
                      },
                      {
@@ -695,9 +693,9 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   members: [
                      {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
                         imgUrl: ''
                      },
                      {
@@ -865,11 +863,10 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         imgUrl: ''
                      },
                      {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                        isAdmin: true
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
+                        imgUrl: ''
                      }
                   ],
                   labels: [
@@ -945,6 +942,12 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         fullname: 'Basel Boulos',
                         imgUrl: '',
                         isAdmin: true
+                     },
+                     {
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
+                        imgUrl: ''
                      }
                   ],
                   labels: [
@@ -1008,17 +1011,10 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   },
                   members: [
                      {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
                         imgUrl: ''
-                     },
-                     {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                        isAdmin: true
                      }
                   ],
                   labels: [
@@ -1084,11 +1080,10 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         imgUrl: ''
                      },
                      {
-                        _id: 'u101',
-                        username: 'BaselB',
-                        fullname: 'Basel Boulos',
-                        imgUrl: '',
-                        isAdmin: true
+                        _id: 'u102',
+                        username: 'ArtiomB',
+                        fullname: 'Artiom Bukati',
+                        imgUrl: ''
                      }
                   ],
                   labels: [
@@ -1142,12 +1137,6 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      bgColor: '#ff7'
                   },
                   members: [
-                     {
-                        _id: 'u103',
-                        username: 'NoaN',
-                        fullname: 'Noa Nissim',
-                        imgUrl: ''
-                     },
                      {
                         _id: 'u101',
                         username: 'BaselB',
