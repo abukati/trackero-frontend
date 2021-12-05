@@ -22,22 +22,23 @@ function _createUsers() {
    var users = JSON.parse(localStorage.getItem(KEY))
    if (!users || !users.length) {
       users = [
-         _createUser('u101', 'baselB', 'Basel Boulos'),
-         _createUser('u102', 'ArtiomB', 'Artiom Bukati'),
-         _createUser('u103', 'NoaN', 'Noa Nissim'),
+         _createUser('u100', 'guest', 'guest', '@/assets/img/guest-user.jfif'),
+         _createUser('u101', 'baselB', 'Basel Boulos', '@/assets/img/basel-user.jfif'),
+         _createUser('u102', 'ArtiomB', 'Artiom Bukati', '@/assets/img/artiom-user.jfif'),
+         _createUser('u103', 'NoaN', 'Noa Nissim', '@/assets/img/noa-user.jfif'),
       ]
       localStorage.setItem(KEY, JSON.stringify(users))
       return users
    }
 }
 
-function _createUser(id, username, fullname) {
+function _createUser(id, username, fullname, imgUrl = '') {
    const user = {
       _id: id,
       username,
       fullname,
       password: '',
-      imgUrl: '',
+      imgUrl,
       mentions: [
          {
             id: '',
