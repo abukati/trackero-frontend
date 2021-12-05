@@ -6,7 +6,7 @@
                <div class="board-menu-header-content">
                   <a class="board-menu-header-back-button icon-lg icon-back" title="Go back."></a>
                   <h3 class="board-menu-header-title">Menu</h3>
-                  <a class="board-menu-header-close-button icon-lg icon-close" title="Close the board menu."></a>
+                  <a @click="closeMenu" class="board-menu-header-close-button icon-lg icon-close" title="Close the board menu."></a>
                </div>
                <hr class="board-menu-header-divider" />
             </div>
@@ -63,8 +63,22 @@
                               <span class="inline-member" :data-memId="activity.byMember._id">
                                  <span class="u-font-weight-bold">{{ activity.byMember.fullname }}</span>
                               </span>
+                              {{ activity.type }}
+                              <template v-if="activity.task">
+                                 <!-- :href="`/board/${board._id}/${activity.task.group.id}/${activity.task.id}`" -->
+                                 <a >
+                                    {{ activity.task.title }}
+                                 </a>
+                                 {{ activity.to }}
+                              </template>
                            </div>
-                           <div class="activity-meta quiet"></div>
+                           <div class="activity-meta quiet">
+                              <!-- :href="`/board/${board._id}/${activity.task.group.id}/${activity.task.id}`" -->
+                              <a v-if="activity.task" class="date">
+                                 timestamplib
+                              </a>
+                              <span class="date" v-else>timestamplib</span>
+                           </div>
                         </div>
                      </template>
                   </div>
@@ -88,6 +102,11 @@ export default {
    },
    components: {
       Avatar
+   },
+   methods: {
+      closeMenu() {
+         this.onSideMenuOpen()
+      }
    }
 }
 </script>

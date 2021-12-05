@@ -31,7 +31,7 @@
 
 .member {
    background-color: #dfe1e6;
-   border-radius: 25em;
+   border-radius: 50%;
    color: #172b4d;
    cursor: pointer;
    display: block;
@@ -304,6 +304,10 @@
          height: 28px;
          width: 28px;
          margin: 0 0 0 -2px;
+
+         &:hover {
+            background-color: #c1c7d0;
+         }
 
          .member-type {
             bottom: 0;
