@@ -4,7 +4,6 @@
       class="list-card"
       :to="`/board/${board._id}/${group.id}/${task.id}`"
    >
-      <div></div>
       <!-- cover -->
       <div
          v-if="isCoverBgc"
@@ -424,6 +423,9 @@ export default {
       toggleLabels() {
          this.board.isLabelsShown = !this.board.isLabelsShown
          this.$store.dispatch({ type: 'updateBoard', board: this.board })
+      },
+      goToPreviewEdit() {
+         // this.$route.push(`/${this.group.id}/${this.task.id}`)
       }
    },
    computed: {

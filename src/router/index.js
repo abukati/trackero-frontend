@@ -32,7 +32,7 @@ const routes = [
       ]
    },
    {
-      path: '/board/:boardId/:groupId/:taskId/edit',
+      path: '/board/:boardId/edit',
       name: 'taskPreviewEdit',
       component: taskPreviewEdit
    }
