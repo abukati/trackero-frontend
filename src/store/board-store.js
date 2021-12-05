@@ -37,7 +37,7 @@ export const boardStore = {
       //----------------------------------------------------------- */
       boardMembers(state) {
          return state.currBoard.members
-      },
+      }
    },
 
    mutations: {
@@ -91,10 +91,10 @@ export const boardStore = {
          currGroup.tasks.push(savedTask)
          state.groups.splice(idx, 1, currGroup)
       },
-      updateTask(state,{updatedTask,groupId}){
+      updateTask(state, { updatedTask, groupId }) {
          const idx = state.groups.findIndex(group => group.id === groupId)
          const currGroup = state.groups.find(group => group.id === groupId)
-         const taskIdx = currGroup.tasks.findIndex(currTask=> currTask.id === updatedTask.id)
+         const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === updatedTask.id)
          state.currBoard.groups[idx].tasks.splice(taskIdx, 1, updatedTask)
       },
       //----------------------------------------------------------- */
@@ -234,14 +234,19 @@ export const boardStore = {
             console.log(err)
          }
       },
-      // async updateTask({state,commit},{groupId,task}){
-
-      // },
-      async addTaskMember({state,commit}, {task,groupId,user}){
-         try{
+      async updateTask({ state, commit }, { groupId, task }) {
+         try {
+            const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
+            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async addTaskMember({ state, commit }, { task, groupId, user }) {
+         try {
             const updatedTask = await boardService.addTaskMember(task, groupId, user, state.currBoard)
-            if(updatedTask) commit({type:'updateTask',updatedTask, groupId})
-         }catch(err){
+            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
+         } catch (err) {
             console.log(err)
          }
       },

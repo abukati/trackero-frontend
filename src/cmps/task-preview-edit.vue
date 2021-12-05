@@ -37,10 +37,16 @@
                   </span>
                </div>
 
-               <textarea
+               <textarea-autosize
                   class="list-card-edit-title"
+                  @keydown.enter.exact.prevent
+                  @keyup.enter.exact="updateTaskTitle"
+                  @focus="titleInputFocus"
+                  @blur="updateTaskTitle"
                   :value="task.title"
-               ></textarea>
+               />
+
+               <div class="badges"></div>
             </div>
          </div>
       </div>
@@ -90,10 +96,28 @@ export default {
             this.isEditable = false
             ev.target.blur()
             this.taskToEdit.title = ev.target.value
-            // this.$store.dispatch({ type: 'updateGroup', group: this.groupToEdit })
+            console.log('this.taskToEdit', this.taskToEdit)
+            console.log('groupId: this.groupId', this.groupId)
+            await this.$store.dispatch({ type: 'updateTask', task: this.taskToEdit, groupId: this.groupId })
          } catch (err) {
             console.log(err)
          }
+      },
+      titleInputFocus(ev) {
+         this.isTitleInputOpen = true
+         ev.target.select()
+         console.log('this.taskToEdit', this.taskToEdit)
+         // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
+      },
+      toggleModal(ev) {
+         this.$emit('toggleModal', ev)
+      },
+      toggleEditing(ev) {
+         this.isEditable = true
+         ev.target.style.display = 'none'
+         this.$nextTick(() => {
+            this.$refs.textareainp.focus()
+         })
       },
       async getTask(taskId = 't101') {
          try {
@@ -102,7 +126,9 @@ export default {
             await currBoard.groups.forEach(group => group.tasks.find(task => {
                if (task.id === 't101') {
                   this.task = task
+                  this.taskToEdit = JSON.parse(JSON.stringify(task))
                   this.group = group
+                  this.groupId = group.id
                   console.log('this.task', this.task)
 
                }
@@ -141,22 +167,8 @@ export default {
          } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
          return this.task.dueDate.date.slice(0, 6)
       },
-      titleInputFocus() {
-         this.isTitleInputOpen = true
-         // ev.target.select()
-         // this.taskToEdit = JSON.parse(JSON.stringify(this.task))
-         console.log(this.taskInput)
-      },
-      toggleModal(ev) {
-         this.$emit('toggleModal', ev)
-      },
-      toggleEditing(ev) {
-         this.isEditable = true
-         ev.target.style.display = 'none'
-         this.$nextTick(() => {
-            this.$refs.textareainp.focus()
-         })
-      }
+
+
    },
 }
 </script>

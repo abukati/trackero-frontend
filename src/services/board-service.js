@@ -26,6 +26,7 @@ export const boardService = {
    updateTasks,
    saveTask,
    addTaskMember,
+   updateSingleTask,
    //MEMBER
    addMember,
    removeMember
@@ -272,6 +273,19 @@ async function updateTasks(tasks, group, board) {
    }
 }
 
+async function updateSingleTask(task, board, groupId) {
+   try {
+      const currGroup = await _getCurrGroup(groupId, board)
+      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+      currGroup.tasks[taskIdx] = task
+      // currGroup.tasks.splice()
+      const updatedGroup = await _updateGroup(currGroup, currGroup.id, board)
+      return updatedGroup.tasks[taskIdx]
+   } catch (err) {
+      console.log(err)
+   }
+}
+
 function _createEmptyTask() {
    return {
       id: utilService.makeId(),
@@ -303,20 +317,20 @@ function _createEmptyTask() {
    }
 }
 
-async function addTaskMember(task,groupId,user,board){
-   try{
+async function addTaskMember(task, groupId, user, board) {
+   try {
       const currGroup = await _getCurrGroup(groupId, board)
-      const taskIdx = currGroup.tasks.findIndex(currTask=> currTask.id === task.id)
+      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
       const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
       if (memberIdx !== -1) {
          console.log('User is already a member of this task')
-         return 
+         return
       } else {
          currGroup.tasks[taskIdx].members.push(user)
          const updatedGroup = await _updateGroup(currGroup, groupId, board)
          return updatedGroup.tasks[taskIdx]
       }
-   }catch(err){
+   } catch (err) {
       console.log(err)
    }
 }
@@ -571,7 +585,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         fullname: 'Basel Boulos',
                         imgUrl: '',
                         isAdmin: true
-                     },
+                     }
                   ],
                   labels: [
                      {
