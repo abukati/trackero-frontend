@@ -51,7 +51,7 @@
                                        type="text"
                                        class="add-list-title-input"
                                        v-model="newListTitleInput"
-                                       placeholder="Enter a title for this card..."
+                                       placeholder="Enter list title..."
                                     />
                                  </div>
                                  <div class="add-list-control-section">
@@ -117,7 +117,6 @@ export default {
       getBoardBgc() {
          return this.$store.getters.getBoardBgc
       },
-
    },
    methods: {
       addGroup() {
@@ -147,8 +146,7 @@ export default {
          deep: true,
          async handler() {
             try {
-               this.loadBoards()
-               await this.$store.dispatch({ type: 'loadUsers' })   
+               this.loadBoards()   
                let taskId = this.$route.params.taskId
                if (taskId) this.isModalOpen = true
             } catch (err) {

@@ -3,15 +3,20 @@ import { userService } from '@/services/user-service.js'
 export const userStore = {
    state: {
       users: [],
+      loggedUser: null
    },
    getters: {
       users(state) {
          return state.users
       },
+      currLoggedUser(state) {
+         return state.loggedUser
+      }
    },
    mutations: {
       setUsers(state, { users }) {
          state.users = users
+         state.loggedUser = users[0]
       },
    },
    actions: {
