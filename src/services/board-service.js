@@ -1236,7 +1236,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                _id: 'u100',
                fullname: 'Guest',
                username: 'guest',
-               imgUrl: '',
+               imgUrl: 'guestuser.png',
                isAdmin: true
             },
             task: {

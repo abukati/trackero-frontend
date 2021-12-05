@@ -12,32 +12,36 @@
    display: inline-block;
 }
 
+.icon-lg, .icon-sm, .icon-xs {
+   display: inline-block;
+   font-family: trellicons;
+   font-style: normal;
+   font-weight: 400;
+   text-align: center;
+   line-height: 1;
+   text-decoration: none;
+   vertical-align: bottom;
+   color: #42526e;
+}
+
 .icon-xs {
    height: 14px;
    line-height: 14px;
    width: 14px;
    font-size: 14px;
-   vertical-align: bottom;
-   text-align: center;
-   display: inline-block;
 }
 
 .icon-sm {
    height: 20px;
    width: 20px;
-   display: inline-block;
-   vertical-align: bottom;
    font-size: 16px;
-   text-align: center;
 }
 
 .icon-lg {
+   font-size: 24px;
    height: 32px;
    line-height: 32px;
    width: 32px;
-   font-size: 24px;
-   vertical-align: bottom;
-   text-align: center;
 }
 
 .board-header-btn-icon {

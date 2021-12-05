@@ -10,18 +10,12 @@
                <img :src="require(`@/assets/img/option.png`)" />
             </button>
          </div>
-         <modal-list-actions
-            v-if="this.isOptionsListOpen"
-            :group="group"
-            :board="board"
-            @closeModal="toggleOptions"
-            @openAddTask="toggleInput"
-         />
+         <modal-list-actions v-if="this.isOptionsListOpen" :group="group"
+            :board="board" @closeModal="toggleOptions" @openAddTask="toggleInput" />
       </section>
       <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
          <template v-for="task in group.tasks">
-            <task-preview :task="task" :board="board"
-               :group="group" :key="task.id" />
+            <task-preview :task="task" :board="board" :group="group" :key="task.id" />
          </template>
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
