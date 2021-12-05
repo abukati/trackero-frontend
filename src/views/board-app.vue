@@ -47,7 +47,7 @@
                               <!-- list composer section -->
                               <div v-else class="list-composer-open">
                                  <div class="add-list-title-input-section">
-                                    <textarea
+                                    <input
                                        type="text"
                                        class="add-list-title-input"
                                        v-model="newListTitleInput"
@@ -102,6 +102,9 @@ export default {
          isModalOpen: false
       }
    },
+   created() {
+      window.addEventListener('storage', this.loadBoards)
+   },
    computed: {
       groupsList: {
          get() {
@@ -127,6 +130,15 @@ export default {
       },
       toggleModalClass(ev) {
          this.isModalOpen = true
+      },
+      async loadBoards() {
+         try {
+            let boardId = this.$route.params.boardId
+            const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+            this.board = currBoard
+         } catch (err) {
+            console.log(err)
+         }
       }
    },
    watch: {
@@ -135,10 +147,8 @@ export default {
          deep: true,
          async handler() {
             try {
-               let boardId = this.$route.params.boardId
-               const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
-               await this.$store.dispatch({ type: 'loadUsers' })
-               this.board = currBoard
+               this.loadBoards()
+               await this.$store.dispatch({ type: 'loadUsers' })   
                let taskId = this.$route.params.taskId
                if (taskId) this.isModalOpen = true
             } catch (err) {
