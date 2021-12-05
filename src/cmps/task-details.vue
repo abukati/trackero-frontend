@@ -21,7 +21,7 @@
 			      <!-- </div> -->
             <div class="window-header">
                <span class="window-header-icon icon-lg">
-                  <svg fill="currentColor" focusable="false" stroke-width="0" viewBox="0 0 24 24" height="24px" width="24px" aria-hidden="true" data-testid="VideoLabelIcon"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"></path></svg>
+                  <svg fill="currentColor" height="20px" width="20px" focusable="false" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" data-testid="VideoLabelIcon"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"></path></svg>
                </span>
                <div class="window-title">
                   <textarea-autosize class="task-detail-title-input" rows="1" :value="task.title"/>
@@ -30,9 +30,9 @@
                   <p class="u-bottom">in list <a href="#">{{groupTitle}}</a></p>
                </div>
             </div>
-            <div class="window-main-col no-box-sizing">
+            <div class="window-main-col no-box-sizing ">
                <div class="task-detail-data clearfix">
-                  <div class="task-detail-item">
+                  <div class="task-detail-item hide">
                      <h3 class="task-detail-item-header">List</h3>
                      <div class="task-detail-list-badge">
                         <button class="task-detail-list-badge-btn badge-button button-link">
@@ -65,13 +65,13 @@
                      </a>
                      </div>
                   </div>
-                  <div class="task-detail-item">
+                  <div class="task-detail-item hide">
                      <h3 class="task-detail-item-header">Start date</h3>
                         <div class="start-date-badge">
                            <div></div>
                         </div>
                   </div>
-                  <div class="task-detail-item">
+                  <div class="task-detail-item hide">
                      <h3 class="task-detail-item-header">Due date</h3>
                         <div class="task-detail-due-date-badge">
                            <a class="due-date-complete-box" href="#" role="button">
@@ -82,11 +82,11 @@
                         </div>
                      <div></div>
                   </div>
-                  <div class="task-detail-item">
+                  <div class="task-detail-item hide">
                      <h3 class="task-detail-item-header">Votes</h3>
                      <a class="task-detail-badge"></a>
                   </div>
-                  <div class="task-detail-item">
+                  <div class="task-detail-item hide">
                      <h3 class="task-detail-item-header">Last updated</h3>
                      <div class="task-detail-badge task-detail-last-updated"></div>
                   </div>
@@ -95,7 +95,7 @@
                      <div class="window-module">
                         <div class="window-module-title">
                            <span class="description-icon icon-lg">
-                              <svg focusable="false" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"></path></svg>
+                              <svg width="24px" height="24px" focusable="false" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"></path></svg>
                            </span>
                               <h3>Description</h3>
                         </div>
@@ -228,7 +228,7 @@
                       </div>
                      <div>
                         <a class="button-link add-button-link" href="#" title="Add button">
-                            <span class="add-task-plus-icon icon-sm">
+                           <span class="add-task-plus-icon icon-sm">
                               <img src="@/assets/img/plus-icon.svg" />
                            </span>
                            Add button
