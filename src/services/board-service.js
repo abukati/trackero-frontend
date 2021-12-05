@@ -346,6 +346,7 @@ async function removeMember(user, board) {
       if (newGroups.length === groups.length + 1 ) {
          console.log('Review Added - localStorage updated from another browser')
          socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length-1])
+         
       }
       boards = newGroups
    })
