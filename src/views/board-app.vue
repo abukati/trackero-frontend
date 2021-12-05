@@ -4,7 +4,7 @@
       :style="{ backgroundColor: getBoardBgc }"
       v-if="board"
    >
-      <div class="board-wrapper">
+      <div class="board-wrapper" :class="{'is-show-menu':isBoardMenuOpen}">
          <div class="task-detail-modal-container">
             <div class="modal-content">
                <router-view :class="{ 'window-up': isModalOpen }" />
@@ -14,16 +14,13 @@
             <div class="board-content">
                <div class="board-content-wrapper">
                   <div class="board-main-content">
-                     <board-nav
-                        :board="board"
-                        :boardMembers="board.members"
-                        :boardBgc="board.style.bgColor"
-                     />
+                     <board-nav @toggleBoardNavMenu="toggleBoardNavMenu" :board="board" :boardMembers="board.members"
+                      :boardBgc="board.style.bgColor" />
 
                      <div class="groups-container-main">
                         <draggable class="groups-container" handle=".group-header-section" 
-                         draggable=".board-group" group="groupsList" v-model="groupsList"
-                          filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
+                        draggable=".board-group" group="groupsList" v-model="groupsList"
+                        filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
                            <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
                               <group-preview @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </div>
@@ -78,6 +75,7 @@
                </div>
             </div>
          </div>
+         <board-nav-side-menu :board="board" :isBoardMenuOpen="isBoardMenuOpen" :onSideMenuOpen="toggleBoardNavMenu" />
       </div>
    </section>
 </template>
@@ -85,6 +83,7 @@
 <script>
 import groupPreview from '@/cmps/group-preview'
 import boardNav from '@/cmps/board-nav'
+import boardNavSideMenu from '@/cmps/board-nav-sidemenu'
 import draggable from 'vuedraggable'
 
 export default {
@@ -92,6 +91,7 @@ export default {
    components: {
       groupPreview,
       boardNav,
+      boardNavSideMenu,
       draggable
    },
    data() {
@@ -99,7 +99,8 @@ export default {
          board: null,
          isListInputOpen: false,
          newListTitleInput: '',
-         isModalOpen: false
+         isModalOpen: false,
+         isBoardMenuOpen: false
       }
    },
    created() {
@@ -138,6 +139,9 @@ export default {
          } catch (err) {
             console.log(err)
          }
+      },
+      toggleBoardNavMenu(ev) {
+         this.isBoardMenuOpen = !this.isBoardMenuOpen
       }
    },
    watch: {

@@ -228,6 +228,14 @@ export const boardStore = {
             console.log(err)
          }
       },
+      async addTaskMember({state,commit}, {task,groupId,user}){
+         try{
+            const updatedTask = await boardService.addTaskMember(task, groupId, user, state.currBoard)
+            console.log('updatedTask store',updatedTask)
+         }catch(err){
+            console.log(err)
+         }
+      },
 
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************

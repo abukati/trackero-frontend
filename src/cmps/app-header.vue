@@ -1,7 +1,7 @@
 <template>
    <header>
       <nav>
-         <div>
+         <!-- <div>
             <div class="atlassian-btn-wrapper">
                <div class="atlassian-btn-container">
                   <button class="atlassian-app-btn" type="button">
@@ -15,7 +15,7 @@
                   </button>
                </div>
             </div>
-         </div>
+         </div> -->
          <router-link class="logo-link" to="/">
             <div class="logo-img-container">
                <div class="logo-content">
@@ -89,7 +89,7 @@
             <div class="user-btn-spacer"></div>
             <router-link class="user-profile-btn" to="/user">
                <div class="user-avatar-container">
-                  <avatar class="user-avatar" src="./../assets/img/guest-user.jfif" :username="loggedUser.fullname" :title="`${loggedUser.fullname}(${loggedUser.username})`" :size="32"></avatar>
+                  <avatar class="user-avatar" :src="require('@/assets/img/'+imgSrc)" :username="loggedUser.fullname" :title="`${loggedUser.fullname}(${loggedUser.username})`" :size="32"></avatar>
                </div>
             </router-link>
          </div>
@@ -116,12 +116,14 @@ export default {
       setLoggedUser() {
          this.loggedUser = this.$store.getters.currLoggedUser
          this.userImg = this.loggedUser.imgUrl
-         console.log(this.loggedUser);
       }
    },
    computed: {
       getUserImg() {
          return this.userImg
+      },
+      imgSrc() {
+         return this.loggedUser.imgUrl
       }
    }
 }

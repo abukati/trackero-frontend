@@ -25,6 +25,7 @@ export const boardService = {
    createTask,
    updateTasks,
    saveTask,
+   addTaskMember,
    //MEMBER
    addMember,
    removeMember
@@ -302,6 +303,17 @@ function _createEmptyTask() {
    }
 }
 
+async function addTaskMember(task,groupId,user,board){
+   try{
+      const currGroup = await _getCurrGroup(groupId, board)
+      const taskIdx = currGroup.tasks.findIndex(currTask=> currTask.id === task.id)
+      currGroup.tasks[taskIdx].members.push(user)
+      return await _updateGroup(currGroup, groupId, board)
+   }catch(err){
+      console.log(err)
+   }
+}
+
 //----------------------------------------------------------- */
 //***********************MEMBERS********************************
 //----------------------------------------------------------- */
@@ -552,7 +564,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         fullname: 'Basel Boulos',
                         imgUrl: '',
                         isAdmin: true
-                     }
+                     },
                   ],
                   labels: [
                      {

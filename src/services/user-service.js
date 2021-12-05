@@ -22,10 +22,10 @@ function _createUsers() {
    var users = JSON.parse(localStorage.getItem(KEY))
    if (!users || !users.length) {
       users = [
-         _createUser('u100', 'guest', 'guest', '@/assets/img/guest-user.jfif'),
-         _createUser('u101', 'baselB', 'Basel Boulos', '@/assets/img/basel-user.jfif'),
-         _createUser('u102', 'ArtiomB', 'Artiom Bukati', '@/assets/img/artiom-user.jfif'),
-         _createUser('u103', 'NoaN', 'Noa Nissim', '@/assets/img/noa-user.jfif'),
+         _createUser('u100', 'guest', 'guest', 'guestuser.png'),
+         _createUser('u101', 'baselB', 'Basel Boulos', 'baseluser.png'),
+         _createUser('u102', 'ArtiomB', 'Artiom Bukati', 'artiomuser.png'),
+         _createUser('u103', 'NoaN', 'Noa Nissim', 'noauser.png'),
       ]
       localStorage.setItem(KEY, JSON.stringify(users))
       return users

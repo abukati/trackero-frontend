@@ -65,24 +65,41 @@
                      </a>
                      </div>
                   </div>
-                  <div class="task-detail-item">
+                  <div class="task-detail-item" v-if="(task.startDate.date && !task.dueDate.date)">
                      <h3 class="task-detail-item-header">Start date</h3>
                         <div class="start-date-badge">
-                           <div>
-                              {{task.startDate}}
+                           <div class="content-container">
+                              <button class="dates-btn">
+                                 <span>{{task.startDate.date.slice(0, 6)}}</span>
+                                    <span class="icon-container">
+                                       <span class="open-dates-icon">
+                                          <svg width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z" fill="currentColor"></path></svg>
+                                       </span>
+                                    </span>
+                              </button>
                            </div>
                         </div>
                   </div>
-                  <div class="task-detail-item hide">
-                     <h3 class="task-detail-item-header">Due date</h3>
-                        <div class="task-detail-due-date-badge">
-                           <a class="due-date-complete-box" href="#" role="button">
-                              <span class="due-date-complete-icon ">
-                                 <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                  <div class="task-detail-item" v-if="(task.startDate.date || task.dueDate.date)">
+                     <h3 v-if="(task.startDate.date && task.dueDate.date)" class="task-detail-item-header">Dates</h3>
+                     <h3 v-else class="task-detail-item-header">Due date</h3>
+                       <div class="task-detail-dates-badge">
+                           <a class="complete-box" href="#" role="button">
+                              <span class="complete-icon ">
+                                 <!-- <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg> -->
                               </span>
                            </a>
+                        <div class="content-container">
+                           <button class="dates-btn">
+                              <span>{{dateToShow}}</span>
+                                 <span class="icon-container">
+                                    <span class="open-dates-icon">
+                                       <svg width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z" fill="currentColor"></path></svg>
+                                    </span>
+                                 </span>
+                           </button>
                         </div>
-                     <div></div>
+                     </div>
                   </div>
                   <div class="task-detail-item hide">
                      <h3 class="task-detail-item-header">Votes</h3>
@@ -138,15 +155,16 @@
                </div> -->
             </div>
             <div class="window-sidebar no-box-sizing">
-               <div class="window-module suggested-actions-module">
+               <div v-if="!showSuggested" class="window-module suggested-actions-module">
                   <div class="suggested-actions-settings">
                      <span class="settings-icon icon-sm">
                         <img src="@/assets/img/settings-icon.svg" />
                      </span>
                   </div>
                   <h3>Suggested</h3>
+                  <!-- Need to add - if-v = loggedin user is not member of the board then show Join -->
                     <div class="clearfix">
-                        <a class="button-link" title="Join" href="#">
+                        <a @click="joinTask" class="button-link" title="Join" href="#">
                            <span class="icon-sm icon-member">
                               <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-person" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path></svg>
                            </span>
@@ -193,7 +211,7 @@
                         </span>
                         <span class="sidebar-action-text">Location</span>
                      </a>
-                     <a class="button-link" href="#" title="Cover">
+                     <a v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
                         <span class="icon-sm">
                             <svg width="16" height="16" fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="VideoLabelIcon"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"></path></svg>
                         </span>
@@ -297,12 +315,14 @@ export default {
    data(){
       return{
          task:null,
-         groupTitle:''
+         groupTitle:'',
+         loggedInUser:null,
       }
    },
     created(){
       const {taskId} = this.$route.params
       this.getTask(taskId)
+      this.loggedInUser=this.$store.getters.currLoggedUser
    },
    methods: {
       closemodal(){
@@ -317,6 +337,12 @@ export default {
             }
             }))
       },
+      joinTask(){
+         const task = this.task
+         const {groupId} = this.$route.params
+         const user = this.loggedInUser
+         this.$store.dispatch({ type: 'addTaskMember', task,groupId,user})
+      }
    },
    computed: {
       isCoverBgc() {
@@ -326,6 +352,24 @@ export default {
          if (this.task.style.bgColor !== '#ffffff') return 32
          else return 0
       },
+      dateToShow(){
+         if (this.task.startDate.date && this.task.dueDate.date) {
+            const from = this.task.startDate.date.slice(0, 6)
+            const to = this.task.dueDate.date.slice(0, 6)
+            return `${from} - ${to}`
+         }else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
+         return this.task.dueDate.date.slice(0, 6)
+      },
+      showSuggested(){
+         const loggedInUserId = this.loggedInUser._id
+         var isShowSuggest = false
+         this.task.members.forEach(member=>{
+            if(member._id===loggedInUserId){
+               isShowSuggest = true
+            }
+         } )
+         return isShowSuggest
+      }
    },
 }
 </script>
