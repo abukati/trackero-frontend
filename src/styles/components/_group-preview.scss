@@ -16,6 +16,10 @@
       position: relative;
       white-space: normal;
 
+      &:hover {
+         cursor: pointer;
+      }
+
       .group-header-section {
          flex: 0 0 auto;
          min-height: 20px;

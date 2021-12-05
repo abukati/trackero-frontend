@@ -27,8 +27,9 @@
             <div v-if="isTaskInputOpen" class="card-composer-open">
                <div class="add-task-input-section">
                   <div class="add-task-input-details group-task-link">
-                     <textarea type="text" class="add-task-input"
-                        v-model="taskInput" placeholder="Enter a title for this card..." />
+                     <!-- <textarea type="text" class="add-task-input"
+                        v-model="taskInput" placeholder="Enter a title for this card..." /> -->
+                     <textarea-autosize class="add-task-input" v-model="taskInput" type="text" placeholder="Enter a title for this card..."/>
                   </div>
                </div>
                <div class="add-task-control-section">

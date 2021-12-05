@@ -41,10 +41,9 @@
                   position: relative;
 
                   .groups-container-main {
-
                      flex-grow: 1;
                      position: relative;
-                     background: linear-gradient(180deg,#0000003d 0,#0000003d 48px,#0000 80px,#0000);
+                     // background: linear-gradient(180deg,#0000003d 0,#0000003d 5px,#0000 45px,#0000); // Only on image backgrounds
             
                      .groups-container {
                         @include board-custom-scroll-bar;
@@ -76,7 +75,7 @@
                                  transition: color 85ms ease-in;
                                  cursor: pointer;
                                  white-space: nowrap;
-                                 background-color: rgba(0, 0, 0, 0.26);
+                                 background-color: #ffffff3d;
                                  width: 264px;
                                  height: 40px;
                                  border: none;
@@ -89,7 +88,7 @@
                                  }
             
                                  &:hover {
-                                    background-color: rgba(0, 0, 0, 0.175);
+                                    background-color: #ffffff52;
                                  }
                               }
                            }
