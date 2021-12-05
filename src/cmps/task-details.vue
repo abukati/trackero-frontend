@@ -42,7 +42,7 @@
                   <div class="task-detail-item clearfix">
                      <h3 class="task-detail-item-header">Members</h3>
                      <div v-if="task.members && task.members.length" class="task-detail-members-list">
-                        <a  class="member task-detail-member" v-for="member in task.members" :key="member._id">
+                        <a @click="toggleMemberModal" class="member task-detail-member" v-for="member in task.members" :key="member._id">
                            <avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
                         </a>
                         <a class="task-detail-add-button">
@@ -50,6 +50,9 @@
                               <img src="@/assets/img/plus-icon.svg"/>
                            </span>
                         </a>
+                        <div class="mini-profile-modal">
+                           <div class=""></div>
+                        </div>
                      </div>
                   </div>
                   <div class="task-detail-item clearfix">
@@ -317,6 +320,7 @@ export default {
          task:null,
          groupTitle:'',
          loggedInUser:null,
+         isMemberModalOpen:false,
       }
    },
     created(){
@@ -327,6 +331,9 @@ export default {
    methods: {
       closemodal(){
          this.$router.go(-1)
+      },
+      toggleMemberModal(){
+         this.isMemberModalOpen = !this.isMemberModalOpen
       },
       getTask(taskId){
          const currBoard = this.$store.getters.currBoard
@@ -341,7 +348,13 @@ export default {
          const task = this.task
          const {groupId} = this.$route.params
          const user = this.loggedInUser
-         this.$store.dispatch({ type: 'addTaskMember', task,groupId,user})
+         const memberIdx = this.task.members.findIndex(member => member._id === user._id)
+         if (memberIdx !== -1) {
+            return 
+         } else {
+            if(user) this.task.members.push(user)
+            this.$store.dispatch({ type: 'addTaskMember', task,groupId,user})
+         }
       }
    },
    computed: {
