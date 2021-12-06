@@ -16,6 +16,18 @@
       top: 0;
       transition-duration: 0.15s;
       transition-property: transform, color;
+      width: 50px;
+      height: 50px;
+
+      &::before {
+         content: '\e91c';
+      }
+
+      &:hover {
+         color: #fff;
+         cursor: pointer;
+         transform: scale(1.2);
+      }
    }
 
    .quick-card-editor-card {
@@ -118,6 +130,7 @@
                outline: 0 none;
                cursor: text;
                font-size: 14px;
+               resize: none;
                font-weight: 400;
             }
 
@@ -125,8 +138,20 @@
                float: left;
                margin-left: -2px;
                max-width: 100%;
+               height: fit-content;
+
+               .js-badges {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  flex-wrap: wrap;
+               }
             }
          }
+      }
+
+      input[type='submit'].wide {
+         padding-inline: 24px;
       }
    }
 }

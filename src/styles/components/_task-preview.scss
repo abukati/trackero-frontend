@@ -62,6 +62,10 @@
          background-color: #ebecf0;
          opacity: 1;
       }
+
+      &.icon-edit::before {
+         content: '\e928';
+      }
    }
 
    .list-card-edit-pencil {
@@ -107,16 +111,12 @@
    float: left;
    margin-left: -2px;
    max-width: 100%;
-   // display: inline-flex;
-   // flex-direction: row;
-   // justify-content: start;
-   // align-items: center;
 
    .js-badges {
       display: flex;
       flex-direction: row;
       align-items: center;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
 
       .badge {
          color: #5e6c84;
@@ -138,11 +138,6 @@
             background-color: #f2d600;
             border-radius: 3px;
             color: #fff;
-
-            .is-due-soon-span {
-               display: flex;
-               align-items: center;
-            }
          }
 
          .badge-text {
@@ -150,6 +145,10 @@
             padding: 0 4px 0 2px;
             vertical-align: top;
             white-space: nowrap;
+
+            &.js-due-date-text {
+               width: fit-content;
+            }
          }
       }
    }
@@ -161,6 +160,37 @@
       height: 16px;
       line-height: 16px;
       width: 16px;
+
+      &.icon-subscribe::before {
+         content: '\e969';
+      }
+
+      &.icon-clock::before {
+         color: white;
+         content: '\e91b';
+      }
+
+      &.icon-description::before {
+         color: #6b778c;
+         content: '\e922';
+      }
+
+      &.icon-comment::before {
+         content: '\e91e';
+         color: #6b778c;
+      }
+
+      &.icon-attachment::before {
+         content: '\e908';
+      }
+
+      &.icon-location::before {
+         content: '\e944';
+      }
+
+      &.icon-checklist::before {
+         content: '\e91a';
+      }
    }
 }
 
@@ -197,9 +227,9 @@
    z-index: 0;
    &.task-detail-member {
       float: left;
-      width: 32px;
-      height: 32px;
-      &:hover{
+      width: 28px;
+      height: 28px;
+      &:hover {
          background-color: #c1c7d0;
       }
    }

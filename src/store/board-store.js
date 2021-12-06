@@ -237,6 +237,7 @@ export const boardStore = {
       async updateTask({ state, commit }, { groupId, task }) {
          try {
             const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
+            console.log('updatedTask', updatedTask)
             if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
          } catch (err) {
             console.log(err)

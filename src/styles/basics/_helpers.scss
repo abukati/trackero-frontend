@@ -12,7 +12,9 @@
    display: inline-block;
 }
 
-.icon-lg, .icon-sm, .icon-xs {
+.icon-lg,
+.icon-sm,
+.icon-xs {
    display: inline-block;
    font-family: trellicons;
    font-style: normal;
@@ -186,12 +188,12 @@
    min-height: 40px;
    padding: 8px 12px;
    text-decoration: none;
-   &:hover{
+   &:hover {
       background-color: #091e4214;
       border: none;
       box-shadow: none;
    }
-   &:active{
+   &:active {
       background-color: #e4f0f6;
       border: none;
       box-shadow: none;
@@ -219,7 +221,7 @@
    margin-top: 0;
 }
 
-.pop-over-header{
+.pop-over-header {
    height: 40px;
    margin-bottom: 8px;
    position: relative;
@@ -234,11 +236,11 @@
    top: 0;
    z-index: 2;
    &::before {
-      content: "\e91c";
+      content: '\e91c';
    }
 }
 
-.mini-profile{
+.mini-profile {
    margin: 8px 0;
    min-height: 56px;
    position: relative;
@@ -253,4 +255,11 @@
    position: relative;
    width: 50px;
    z-index: 1;
+}
+
+.nch-button-primary {
+   background-color: #0079bf;
+   border: none;
+   box-shadow: none;
+   color: #fff;
 }

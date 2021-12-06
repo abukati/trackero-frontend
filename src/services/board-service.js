@@ -313,7 +313,30 @@ function _createEmptyTask() {
          date: '14 Dec 2021',
          isComplete: false
       },
-      comments: []
+      comments: [],
+      checklists: [
+         // {
+         //    id: utilService.makeId(),
+         //    title: 'Checklist',
+         //    todos: [
+         //       {
+         //          text: 'Git permissions',
+         //          isDone: true,
+         //          id: utilService.makeId()
+         //       },
+         //       {
+         //          text: 'AWS permissions',
+         //          isDone: false,
+         //          id: utilService.makeId()
+         //       },
+         //       {
+         //          text: 'Mongo permissions',
+         //          isDone: false,
+         //          id: utilService.makeId()
+         //       }
+         //    ]
+         // }
+      ]
    }
 }
 
@@ -550,6 +573,29 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
+                  ],
+                  checklists: [
+                     {
+                        id: utilService.makeId(),
+                        title: 'Checklist',
+                        todos: [
+                           {
+                              text: 'Git permissions',
+                              isDone: true,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'AWS permissions',
+                              isDone: false,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'Mongo permissions',
+                              isDone: false,
+                              id: utilService.makeId()
+                           }
+                        ]
+                     }
                   ]
                },
                {
@@ -633,7 +679,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: [{}]
                },
                {
                   id: 't103',
@@ -715,6 +762,24 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            fullname: 'Matan Crispel',
                            _id: 'u104'
                         }
+                     }
+                  ],
+                  checklists: [
+                     {
+                        id: utilService.makeId(),
+                        title: 'Checklist',
+                        todos: [
+                           {
+                              text: 'AWS permissions',
+                              isDone: false,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'Mongo permissions',
+                              isDone: false,
+                              id: utilService.makeId()
+                           }
+                        ]
                      }
                   ]
                },
@@ -799,7 +864,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: []
                }
             ],
             style: {
@@ -811,7 +877,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
             title: 'Development',
             tasks: [
                {
-                  id: 't103',
+                  id: 't109',
                   title: 'Board app',
                   description: 'Working on the appearance of the application',
                   attachments: [
@@ -885,6 +951,29 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            fullname: 'Matan Crispel',
                            _id: 'u104'
                         }
+                     }
+                  ],
+                  checklists: [
+                     {
+                        id: utilService.makeId(),
+                        title: 'Checklist',
+                        todos: [
+                           {
+                              text: 'Git permissions',
+                              isDone: true,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'AWS permissions',
+                              isDone: false,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'Mongo permissions',
+                              isDone: false,
+                              id: utilService.makeId()
+                           }
+                        ]
                      }
                   ]
                },
@@ -963,7 +1052,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: []
                },
                {
                   id: 't105',
@@ -1037,7 +1127,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: []
                }
             ],
             style: {
@@ -1112,7 +1203,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: []
                },
                {
                   id: 't107',
@@ -1179,10 +1271,11 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: []
                },
                {
-                  id: 't108',
+                  id: 't110',
                   title: 'Members invite styling',
                   description: 'Must work on the members invite styling',
                   attachments: [
@@ -1241,7 +1334,8 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            _id: 'u104'
                         }
                      }
-                  ]
+                  ],
+                  checklists: []
                }
             ],
             style: {

@@ -1,8 +1,6 @@
 <template>
    <div v-if="task" class="quick-card-editor">
-      <span class="icon-lg icon-close quick-card-editor-close-icon">
-         <img src="@/assets/img/close-icon.svg" />
-      </span>
+      <span class="icon-lg icon-close quick-card-editor-close-icon"> </span>
       <div
          class="quick-card-editor-card"
          style="top: 368px; left: 72px; width: 256px"
@@ -37,7 +35,7 @@
                   </span>
                </div>
 
-               <textarea-autosize
+               <textarea
                   class="list-card-edit-title"
                   @keydown.enter.exact.prevent
                   @keyup.enter.exact="updateTaskTitle"
@@ -46,17 +44,117 @@
                   :value="task.title"
                />
 
-               <div class="badges"></div>
+               <!-- badges -->
+               <div class="badges">
+                  <span class="js-badges">
+                     <div
+                        v-if="isWatchingBadge"
+                        class="badge"
+                        title="You are watching this card."
+                     >
+                        <span class="badge-icon icon-sm icon-subscribe"></span>
+                     </div>
+                     <div
+                        v-if="isDatesBadge"
+                        class="badge is-due-soon"
+                        title="This card is due in less than twenty-four hours."
+                     >
+                        <span
+                           class="
+                              badge-icon
+                              icon-sm icon-clock
+                              badge-due-icon
+                              is-due-soon-span
+                           "
+                        ></span>
+                        <span class="badge-text js-due-date-text">
+                           {{ organizedDates }}
+                        </span>
+                     </div>
+                     <div
+                        v-if="task.description"
+                        class="badge is-icon-only"
+                        title="This card has a description."
+                     >
+                        <span
+                           class="badge-icon icon-sm icon-description"
+                        ></span>
+                     </div>
+                     <div
+                        v-if="task.comments && task.comments.length"
+                        class="badge is-icon-only"
+                        title="Comments"
+                     >
+                        <span class="badge-icon icon-sm icon-comment"></span>
+                        <span class="badge-text">{{
+                           task.comments.length
+                        }}</span>
+                     </div>
+                     <div
+                        v-if="task.attachments && task.attachments.length"
+                        class="badge"
+                        title="Attachments"
+                     >
+                        <span class="badge-icon icon-sm icon-attachment"></span>
+                        <span class="badge-text">{{
+                           task.attachments.length
+                        }}</span>
+                     </div>
+                     <div
+                        v-if="task.location.id"
+                        class="badge"
+                        title="This card has a location."
+                     >
+                        <span class="badge-icon icon-sm icon-location"></span>
+                     </div>
+                     <div
+                        v-if="isChecklist"
+                        class="badge"
+                        title="Checklist items"
+                     >
+                        <span class="badge-icon icon-sm icon-checklist"></span>
+                        <span class="badge-text">{{ checklistItems }}</span>
+                     </div>
+                  </span>
+               </div>
+
+               <!-- task-members -->
+               <div
+                  div
+                  v-if="task.members && task.members.length"
+                  class="task-detail-members-list list-card-members"
+               >
+                  <a
+                     class="member task-detail-member"
+                     v-for="member in task.members"
+                     :key="member._id"
+                  >
+                     <avatar
+                        :size="28"
+                        :username="member.fullname"
+                        :title="`${member.fullname}(${member.username})`"
+                     />
+                  </a>
+               </div>
             </div>
          </div>
+
+         <input
+            class="nch-button nch-button--primary wide js-save-edits"
+            type="submit"
+            value="Save"
+         />
       </div>
    </div>
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
+
 export default {
    name: 'task-edit',
    components: {
+      Avatar
    },
    data() {
       return {
@@ -167,7 +265,16 @@ export default {
          } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
          return this.task.dueDate.date.slice(0, 6)
       },
-
+      checklistItems() {
+         let count = 0
+         this.task.checklists[0].todos.forEach(todo => {
+            if (todo.isDone) count++
+         })
+         return `${count} / ${this.task.checklists[0].todos.length}`
+      },
+      isChecklist() {
+         if (this.task.checklists[0] && this.task.checklists[0].id) return true
+      }
 
    },
 }
