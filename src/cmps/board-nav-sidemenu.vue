@@ -1,10 +1,10 @@
 <template>
-   <div class="board-menu" :class="{hide: !isBoardMenuOpen}">
+   <div class="board-menu">
       <div class="board-menu-container">
          <div class="board-menu-tab-content">
-            <div class="board-menu-header is-board-menu-default-view is-in-frame">
+            <div class="board-menu-header is-in-frame" :class="{ 'is-board-menu-default-view': isBoardMainPage }">
                <div class="board-menu-header-content">
-                  <a class="board-menu-header-back-button icon-lg icon-back" title="Go back."></a>
+                  <a @click="showMainPage" class="board-menu-header-back-button icon-lg icon-back" title="Go back."></a>
                   <h3 class="board-menu-header-title">Menu</h3>
                   <a @click="closeMenu" class="board-menu-header-close-button icon-lg icon-close" title="Close the board menu."></a>
                </div>
@@ -40,7 +40,7 @@
                            &nbsp;Archived items
                         </a>
                      </li>
-                     <li class="board-menu-navigation-item">
+                     <li @click="moreOptions" class="board-menu-navigation-item">
                         <a class="board-menu-navigation-item-link open-more">
                            <span class="icon-overflow-menu-horizontal icon-sm board-menu-navigation-item-link-icon"></span>
                            &nbsp;More
@@ -103,9 +103,20 @@ export default {
    components: {
       Avatar
    },
+   data() {
+      return {
+         isBoardMainPage: true,
+      }
+   },
    methods: {
       closeMenu() {
          this.onSideMenuOpen()
+      },
+      moreOptions() {
+         this.isBoardMainPage = false
+      },
+      showMainPage() {
+         this.isBoardMainPage = true
       }
    }
 }
