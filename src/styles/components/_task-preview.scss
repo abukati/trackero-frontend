@@ -104,6 +104,10 @@
       .list-card-labels {
          overflow: auto;
          position: relative;
+
+         input[type="checkbox"] {
+            display: none;
+         }
       }
    }
 }
@@ -242,31 +246,68 @@
    }
 }
 
-.card-label {
-   box-sizing: unset;
-   border-radius: 4px;
-   color: white;
+.list-card-labels {
+   input:checked + .label-toggler .card-label {
+      animation-name: closeLabels;
+      animation-fill-mode: forwards;
+      animation-duration: .45s;
+      animation-timing-function: ease-in;
+   }
+   input:not(:checked) + .label-toggler .card-label {
+      animation-name: openLabels;
+      animation-fill-mode: forwards;
+      animation-duration: .45s;
+      animation-timing-function: ease-out;
+   }
+}
+
+.label-toggler {
    display: block;
    overflow: hidden;
    position: relative;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   min-height: 8px;
-   height: 16px;
-   line-height: 16px;
-   max-width: 198px;
-   padding: 0 8px;
-   float: left;
-   font-size: 12px;
-   font-weight: 700;
-   margin: 0 4px 4px 0;
-   min-width: 40px;
-   text-shadow: none;
-   width: auto;
-   transition-duration: 300ms;
-   transition-property: height, width;
-   transition-timing-function: ease;
+   cursor: pointer;
 
+
+
+   &::before, &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 200px;
+      padding: 20px 0;
+      overflow: hidden;
+   }
+
+   .card-label {
+      box-sizing: unset;
+      border-radius: 4px;
+      color: white;
+      display: block;
+      overflow: hidden;
+      position: relative;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-height: 8px;
+      height: 16px;
+      line-height: 16px;
+      max-width: 198px;
+      padding: 0 8px;
+      float: left;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 4px 4px 0;
+      min-width: 40px;
+      text-shadow: none;
+      width: auto;
+   
+      .label-text {
+         display: initial;
+      }
+   }
+}
+
+.card-label {
    &.task-detail-label {
       cursor: pointer;
       border-radius: 3px;
@@ -280,12 +321,67 @@
       min-width: 40px;
       padding: 0 12px;
       width: auto;
+
       &:hover {
          opacity: 0.8;
       }
    }
+}
 
-   .label-text {
-      display: initial;
+@keyframes openLabels {
+   0% {
+      min-width: 40px;
+      height: 8px;
+      color: transparent;
+   }
+   10% {
+      min-width: 56px;
+      max-width: 198px;
+      padding: 0 8px;
+   }
+   75% {
+      height: 8px;
+   }
+   99% {
+      color: transparent;
+   }
+   100% {
+      min-width: 56px;
+      max-width: 198px;
+      padding: 0 8px;
+      height: 16px;
+      line-height: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #fff;
+   }
+}
+
+@keyframes closeLabels {
+   0% {
+      height: 16px;
+      line-height: 16px;
+      min-width: 56px;
+      max-width: 198px;
+      padding: 0 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: transparent;
+   }
+   10% { height: 8px; }
+   50% { 
+      min-width: 56px;
+      max-width: 198px;
+      padding: 0 8px;
+   }
+   75% {
+      width: 40px;
+      height: 8px;
+      color: transparent;
+   }
+   100% {
+      width: 40px;
+      height: 8px;
+      color: transparent;
    }
 }

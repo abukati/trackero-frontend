@@ -1,9 +1,5 @@
 <template>
-   <section
-      class="board-app"
-      :style="{ backgroundColor: getBoardBgc }"
-      v-if="board"
-   >
+   <section class="board-app" :style="{ backgroundColor: getBoardBgc }" v-if="board">
       <div class="board-wrapper" :class="{'is-show-menu':isBoardMenuOpen}">
          <div class="task-detail-modal-container">
             <div class="modal-content">
@@ -19,52 +15,33 @@
 
                      <div class="groups-container-main">
                         <draggable class="groups-container" handle=".group-header-section" 
-                        draggable=".board-group" group="groupsList" v-model="groupsList"
-                        filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
+                            draggable=".board-group" group="groupsList" v-model="groupsList"
+                             filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
                            <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
                               <group-preview @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </div>
 
                            <div class="add-list-section">
-                              <div
-                                 v-if="!isListInputOpen"
-                                 @click="toggleInput"
-                                 class="add-list-button"
-                              >
+                              <div v-if="!isListInputOpen" @click="toggleInput" class="add-list-button">
                                  <a class="list-composer">
                                     <span class="add-task-plus-icon">
                                        <img src="@/assets/img/plus-icon.svg" />
                                     </span>
-                                    <span class="add-task-span"
-                                       >Add another list</span
-                                    >
+                                    <span class="add-task-span">Add another list</span>
                                  </a>
                               </div>
 
                               <!-- list composer section -->
                               <div v-else class="list-composer-open">
                                  <div class="add-list-title-input-section">
-                                    <input
-                                       type="text"
-                                       class="add-list-title-input"
-                                       v-model="newListTitleInput"
-                                       placeholder="Enter list title..."
-                                    />
+                                    <input type="text" class="add-list-title-input" v-model="newListTitleInput" placeholder="Enter list title..." />
                                  </div>
                                  <div class="add-list-control-section">
-                                    <button
-                                       @click="addGroup"
-                                       class="add-list-confirm-btn"
-                                    >
+                                    <button @click="addGroup" class="add-list-confirm-btn">
                                        Add list
                                     </button>
-                                    <span
-                                       @click="toggleInput"
-                                       class="cancel-add-list"
-                                    >
-                                       <img
-                                          src="@/assets/img/cancel-icon.svg"
-                                       />
+                                    <span @click="toggleInput" class="cancel-add-list">
+                                       <img src="@/assets/img/cancel-icon.svg" />
                                     </span>
                                  </div>
                               </div>
