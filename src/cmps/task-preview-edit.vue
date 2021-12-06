@@ -133,9 +133,10 @@
                   class="task-detail-members-list list-card-members"
                >
                   <a
-                     class="member task-detail-member"
+                     class="member"
                      v-for="member in task.members"
                      :key="member._id"
+                     style="float: left"
                   >
                      <avatar
                         :size="28"

@@ -150,7 +150,14 @@ function getEmptyGroup(title = 'Default group title') {
 async function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
-      boards = [_createBoard('Software development'), _createBoard('Project management'), _createBoard('Business board')]
+      boards = [
+         _createBoard('Software development'),
+         _createBoard('Team management'),
+         _createBoard('Business'),
+         _createBoard('Remote work'),
+         _createBoard('Project management'),
+         _createBoard('Business board')
+      ]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
    return boards
@@ -359,20 +366,20 @@ async function addTaskMember(task, groupId, user, board) {
    }
 }
 
-async function removeTaskMember(task, groupId, user, board){
-   try{
+async function removeTaskMember(task, groupId, user, board) {
+   try {
       const currGroup = await _getCurrGroup(groupId, board)
       const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
       const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
       if (memberIdx !== -1) {
-         currGroup.tasks[taskIdx].members.splice(memberIdx,1)
+         currGroup.tasks[taskIdx].members.splice(memberIdx, 1)
          const updatedGroup = await _updateGroup(currGroup, groupId, board)
          return updatedGroup.tasks[taskIdx]
       } else {
          console.log('User is not member, cannot remove')
          return
       }
-   }catch(err){
+   } catch (err) {
       console.log(err)
    }
 }
@@ -441,7 +448,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          imgUrl: user.imgUrl,
          isAdmin: true
       },
-      isStarred: true,
+      isStarred: false,
       style: {
          bgColor: '#29cce5',
          bgImg: ''
