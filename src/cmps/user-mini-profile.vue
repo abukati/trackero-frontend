@@ -3,7 +3,7 @@
       <div class="no-back">
         <div class="pop-over-header">
             <!-- <span class="pop-over-header-title">Member</span> -->
-            <a class="pop-over-header-close-btn icon-sm icon-close"></a>
+            <a @click="closeMiniProfile" class="pop-over-header-close-btn icon-sm icon-close"></a>
         </div>
         <div>
             <div class="pop-over-content">
@@ -12,21 +12,19 @@
                         <div class="mini-profile">
                             <div class="mini-profile-member member-large">
                                 <a class="">
-                                    <!-- <avatar :size="50" :username="user.fullname" :title="`${user.fullname}(${user.username})`" /> -->
+                                    <avatar :size="50" :username="user.fullname" :title="`${user.fullname}(${user.username})`" />
                                 </a>
                             </div>
                             <div class="mini-profile-info">
                                 <h3 class="mini-profile-info-title">
                                     <a href="#" class="mini-profile-info-title-link">{{user.fullname}}</a>
                                 </h3>
-                                    <a class="pop-over-header-close-btn icon-sm icon-close"></a>
                                     <p class="u-bottom">@{{user.username}}</p>
-                                    <p class="u-bottom"><a href="#">Edit profile info</a></p>
+                                    <!-- <p class="u-bottom"><a href="#">Edit profile info</a></p> -->
                             </div>
                         </div>
                         <ul class="pop-over-list">
-                            <li><ul></ul></li>
-                            <li><a href="#">Remove from card</a></li>
+                            <li><a @click="removeTaskMember(user)" >Remove from card</a></li>
                         </ul>
                     </div>
                 </div>
@@ -49,5 +47,14 @@ export default {
     components: {
 		Avatar,
 	},
+    methods:{
+        closeMiniProfile(){
+            this.$emit('closeMiniProfile')
+        },
+        removeTaskMember(user) {
+            this.$emit('removeTaskMember',user)
+            this.$emit('closeMiniProfile')
+		},
+    }
 }
 </script>

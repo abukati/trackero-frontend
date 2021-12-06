@@ -251,6 +251,14 @@ export const boardStore = {
             console.log(err)
          }
       },
+      async removeTaskMember({ state, commit }, { task, groupId, user }) {
+         try {
+            const updatedTask = await boardService.removeTaskMember(task, groupId, user, state.currBoard)
+            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
+         } catch (err) {
+            console.log(err)
+         }
+      },
 
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************

@@ -62,12 +62,15 @@
    }
    .pop-over-header-close-btn {
       padding: 10px 12px 10px 8px;
-      position: absolute;
       right: 0;
       top: 0;
+      position: absolute;
       z-index: 2;
       &::before {
          content: "\e91c";
+      }
+      &:hover{
+         color: #172b4d;
       }
       &svg:hover {
          fill: black;
