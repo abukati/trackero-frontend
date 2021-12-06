@@ -1,55 +1,35 @@
-.mini-profile{
-    background: #fff;
-    border-radius: 3px;
-    box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
-    // display: none;
-    display: block;
-    overflow: hidden;
-    position: absolute;
-    // right: -9999px;
-    // top: -9999px;
-    width: 304px;
-    z-index: 70;
-    .no-back{
-        .pop-over-header{
-            border-bottom-color: #0000;
-            height: 30px;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 60px;
-            z-index: 1;
-            .pop-over-header-title {
-                border-bottom: 1px solid #091e4221;
-                box-sizing: border-box;
-                color: #5e6c84;
-                display: block;
-                line-height: 40px;
-                margin: 0 12px;
-                overflow: hidden;
-                padding: 0 32px;
-                position: relative;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+.mod-mini-profile{
+    position: fixed;
+        .no-back{
+            .pop-over-header{
+                border-bottom-color: #0000;
+                height: 30px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 60px;
                 z-index: 1;
-                // display: none;
-                
-            }
-        }
-        .pop-over-content{
-            .mini-profile{
-                .mini-profile-member{
-                    float: left;
-                    margin: 2px;
+                .pop-over-header-title {
+                    // display: none;
                 }
-                .mini-profile-info{
-                    word-wrap: break-word;
-                    margin: 0 0 0 64px;
-                    .mini-profile-info-title{
-                        margin: 0 40px 0 0;
+            }
+            .pop-over-content{
+                .mini-profile{
+                    margin: 8px 0;
+                    min-height: 56px;
+                    position: relative;
+                    .mini-profile-member{
+                        float: left;
+                        margin: 2px;
+                    }
+                    .mini-profile-info{
+                        word-wrap: break-word;
+                        margin: 0 0 0 64px;
+                        .mini-profile-info-title{
+                            margin: 0 40px 0 0;
+                        }
                     }
                 }
             }
         }
-    }
 }

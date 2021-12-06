@@ -1,8 +1,8 @@
 <template>
-  <div class="mini-profile">
+<div :style="{'left':modalPos.left + 'px', 'top':modalPos.top + 37 + 'px'}" :class="{'is-shown':isMiniProfileOpen}" class="mod-mini-profile pop-over">
       <div class="no-back">
         <div class="pop-over-header">
-            <span class="pop-over-header-title">Member</span>
+            <!-- <span class="pop-over-header-title">Member</span> -->
             <a class="pop-over-header-close-btn icon-sm icon-close"></a>
         </div>
         <div>
@@ -17,14 +17,17 @@
                             </div>
                             <div class="mini-profile-info">
                                 <h3 class="mini-profile-info-title">
-                                    <a href="#" class="mini-profile-info-title-link">
-                                        <!-- {{user.fullname}} -->
-                                    basel boulos
-                                    </a>
-                                    </h3>
-                                    <p class="u-bottom">@baselboulos</p>
+                                    <a href="#" class="mini-profile-info-title-link">{{user.fullname}}</a>
+                                </h3>
+                                    <a class="pop-over-header-close-btn icon-sm icon-close"></a>
+                                    <p class="u-bottom">@{{user.username}}</p>
+                                    <p class="u-bottom"><a href="#">Edit profile info</a></p>
                             </div>
                         </div>
+                        <ul class="pop-over-list">
+                            <li><ul></ul></li>
+                            <li><a href="#">Remove from card</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -35,9 +38,14 @@
 
 <script>
 import Avatar from 'vue-avatar'
+
 export default {
     name:'user-mini-profile',
-    props:['user'],
+    props:{
+        isMiniProfileOpen:Boolean, required:true,
+        user:Object, required:true,
+        modalPos:Object, required:true,
+    },
     components: {
 		Avatar,
 	},
