@@ -26,6 +26,7 @@ export const boardService = {
    updateTasks,
    saveTask,
    addTaskMember,
+   removeTaskMember,
    updateSingleTask,
    //MEMBER
    addMember,
@@ -347,13 +348,31 @@ async function addTaskMember(task, groupId, user, board) {
       const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
       if (memberIdx !== -1) {
          console.log('User is already a member of this task')
-         return
+         return memberIdx
       } else {
          currGroup.tasks[taskIdx].members.push(user)
          const updatedGroup = await _updateGroup(currGroup, groupId, board)
          return updatedGroup.tasks[taskIdx]
       }
    } catch (err) {
+      console.log(err)
+   }
+}
+
+async function removeTaskMember(task, groupId, user, board){
+   try{
+      const currGroup = await _getCurrGroup(groupId, board)
+      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+      const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
+      if (memberIdx !== -1) {
+         currGroup.tasks[taskIdx].members.splice(memberIdx,1)
+         const updatedGroup = await _updateGroup(currGroup, groupId, board)
+         return updatedGroup.tasks[taskIdx]
+      } else {
+         console.log('User is not member, cannot remove')
+         return
+      }
+   }catch(err){
       console.log(err)
    }
 }

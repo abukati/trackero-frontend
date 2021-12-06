@@ -90,6 +90,9 @@
 								@include flex-row-center;
 								opacity: 0.6;
 								margin-right: 6px;
+								&::before{
+									content: "\e914";
+								}
 							}
 							&:hover {
 								cursor: pointer;
@@ -114,6 +117,9 @@
 						position: absolute;
 						top: 4px;
 						text-align: center;
+						&::before{
+							content: "\e912";
+						}
 					}
 					.window-title {
 						margin: 4px 0 0;
@@ -258,6 +264,9 @@
 									left: -40px;
 									position: absolute;
 									top: 10px;
+									&::before{
+										content: "\e922";
+									}
 								}
 								h3 {
 									margin: 0;
@@ -287,6 +296,9 @@
 								position: absolute;
 								text-align: center;
 								top: 8px;
+								&::before{
+									content: "\e900";
+								}
 							}
 							h3 {
 								display: inline-block;
@@ -343,11 +355,19 @@
 							user-select: none;
 							.settings-icon {
 								@include flex-row-center;
+								&::before{
+									content: "\e932";
+								}
 							}
 							&:hover {
 								background-color: #091e4214;
 								border: none;
 								box-shadow: none;
+							}
+						}
+						.icon-member{
+							&::before{
+								content: "\e946";
 							}
 						}
 					}
@@ -383,14 +403,70 @@
 						}
 					}
 					.action-buttons {
+						.move-icon{
+							&::before{
+								content: "\e94a";
+							}
+						}
+						.copy-icon{
+							&::before{
+								content: "\e91f";
+							}
+						}
+						.watch-icon{
+							&::before{
+								content: "\e969";
+							}
+						}
+						.archive-icon{
+							&::before{
+								content: "\e907";
+							}
+						}
+						.share-icon{
+							&::before{
+								content: "\e963";
+							}
+						}
 					}
 					.icon-lg,
 					.icon-sm {
 						color: #42526e;
 					}
+					.icon-member{
+						&::before{
+							content: "\e946";
+						}
+					}
+					.icon-label{
+						&::before{
+							content: "\e93f";
+						}
+					}
+					.icon-checklist{
+						&::before{
+							content: "\e91a";
+						}
+					}
+					.icon-attachment{
+						&::before{
+							content: "\e908";
+						}
+					}
+					.icon-location{
+						&::before{
+							content: "\e944";
+						}
+					}
+					.icon-cover{
+						&::before{
+							content: "\e914";
+						}
+					}
 				}
 			}
 		}
+
 	}
 }
 
@@ -410,11 +486,6 @@
 	fill: inherit;
 	flex-shrink: 0;
 	line-height: 1;
-	svg{
-	   height: 16px;
-	   width: 16px;
-	   line-height: 16px;
-	}
  }
  
  .dates-btn{
