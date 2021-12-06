@@ -8,11 +8,11 @@
       }"
    >
       <div class="no-back">
-         <div class="pop-over-header js-pop-over-header">
+         <div class="pop-over-header">
             <span class="pop-over-header-title">List actions</span>
-            <span @click="closeModal" class="pop-over-header-close-btn">
+            <span @click="closeModal" class="icon-sm pop-over-header-close-btn">
                <!-- <img class="icon-sm" src="@/assets/img/cancel-icon.svg" /> -->
-               <svg
+               <!-- <svg
                   width="24px"
                   height="24px"
                   viewBox="0 0 24 24"
@@ -26,7 +26,7 @@
                >
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
-               </svg>
+               </svg> -->
             </span>
          </div>
          <div>

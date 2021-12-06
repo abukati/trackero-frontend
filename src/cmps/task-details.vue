@@ -42,8 +42,10 @@
                   <div class="task-detail-item clearfix">
                      <h3 class="task-detail-item-header">Members</h3>
                      <div v-if="task.members && task.members.length" class="task-detail-members-list">
-                        <a class="member task-detail-member" v-for="member in task.members" :key="member._id">
+                        <a class="member task-detail-member" v-for="member in task.members" :key="member._id"
+                            @click="toggleMiniProfile($event,member)" @closeMiniProfile="closeMiniProfile">
                            <avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
+                           <!-- <mini-profile v-if="isMiniProfileOpen" :user="profileOfUser" /> -->
                         </a>
                         <a class="task-detail-add-button">
                            <span class="add-btn-icon icon-lg">
@@ -51,7 +53,7 @@
                            </span>
                         </a>
                      </div>
-                     <mini-profile />
+                     <mini-profile v-if="profileOfUser" :isMiniProfileOpen="isMiniProfileOpen" :modalPos="getModalPos" :user="profileOfUser" />
                   </div>
                   <div class="task-detail-item clearfix">
                      <h3 class="task-detail-item-header">Labels</h3>
@@ -322,6 +324,9 @@ export default {
          task:null,
          groupTitle:'',
          loggedInUser:null,
+         profileOfUser:null,
+         isMiniProfileOpen:false,
+         modalPos:{},
       }
    },
     created(){
@@ -332,6 +337,17 @@ export default {
    methods: {
       closemodal(){
          this.$router.go(-1)
+      },
+      toggleMiniProfile(ev,user){
+         const {left,top} = ev.target.offsetParent.getBoundingClientRect()
+         this.modalPos.top = Math.ceil(top)
+         this.modalPos.left = Math.ceil(left)
+         this.profileOfUser = user
+         this.isMiniProfileOpen = true
+      },
+      closeMiniProfile(){
+         this.profileOfUser = null
+         this.isMiniProfileOpen = false
       },
       getTask(taskId){
          const currBoard = this.$store.getters.currBoard
@@ -380,6 +396,9 @@ export default {
             }
          } )
          return isShowSuggest
+      },
+      getModalPos(){
+         return this.modalPos
       }
    },
 }
