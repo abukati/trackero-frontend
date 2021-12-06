@@ -1,29 +1,65 @@
 <template>
    <section class="group-preview-container">
       <section class="group-header-section">
-         <h2 v-if="isEditable === false" @mouseup="toggleEditing" class="group-header-title-assist">{{ group.title }}</h2>
-         <textarea v-else ref="textareainp" class="group-header-title-textarea" :class="{ 'is-editing': isTitleInputOpen }"
-            @keydown.enter.exact.prevent @keyup.enter.exact="updateGroupTitle"
-            @focus="titleInputFocus" @blur="updateGroupTitle" :value="group.title"></textarea>
+         <h2
+            v-if="isEditable === false"
+            @mouseup="toggleEditing"
+            class="group-header-title-assist"
+         >
+            {{ group.title }}
+         </h2>
+         <textarea
+            v-else
+            ref="textareainp"
+            class="group-header-title-textarea"
+            :class="{ 'is-editing': isTitleInputOpen }"
+            @keydown.enter.exact.prevent
+            @keyup.enter.exact="updateGroupTitle"
+            @focus="titleInputFocus"
+            @blur="updateGroupTitle"
+            :value="group.title"
+         ></textarea>
          <div class="group-header-options">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
             </button>
          </div>
-         <modal-list-actions v-if="this.isOptionsListOpen" :group="group"
-            :board="board" @closeModal="toggleOptions" @openAddTask="toggleInput" />
+         <modal-list-actions
+            v-if="this.isOptionsListOpen"
+            :group="group"
+            :board="board"
+            @closeModal="toggleOptions"
+            @openAddTask="toggleInput"
+         />
       </section>
-      <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
+      <draggable
+         class="group-tasks-section"
+         v-model="tasksList"
+         group="group"
+         draggable=".list-card"
+      >
          <template v-for="task in group.tasks">
-            <task-preview :task="task" :board="board" :group="group" :key="task.id" />
+            <task-preview
+               @openPreviewEdit="openPreviewEdit"
+               :task="task"
+               :board="board"
+               :group="group"
+               :key="task.id"
+            />
          </template>
+
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
                <div class="add-task-input-section">
                   <div class="add-task-input-details group-task-link">
                      <!-- <textarea type="text" class="add-task-input"
                         v-model="taskInput" placeholder="Enter a title for this card..." /> -->
-                     <textarea-autosize class="add-task-input" v-model="taskInput" type="text" placeholder="Enter a title for this card..."/>
+                     <textarea-autosize
+                        class="add-task-input"
+                        v-model="taskInput"
+                        type="text"
+                        placeholder="Enter a title for this card..."
+                     />
                   </div>
                </div>
                <div class="add-task-control-section">
@@ -60,7 +96,7 @@ export default {
    components: {
       draggable,
       taskPreview,
-      modalListActions
+      modalListActions,
    },
    data() {
       return {
@@ -69,9 +105,13 @@ export default {
          isTitleInputOpen: false,
          taskInput: '',
          groupToEdit: null,
-         isEditable: false
+         isEditable: false,
+         isPreviewEdit: false,
+         currTask: null,
+         task: null,
       }
    },
+
    methods: {
       toggleOptions() {
          this.isOptionsListOpen = !this.isOptionsListOpen
@@ -117,7 +157,8 @@ export default {
       titleInputFocus(ev) {
          this.isTitleInputOpen = true
          ev.target.select()
-         this.groupToEdit = JSON.parse(JSON.stringify(this.group))
+         // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
+         this.groupToEdit = this.group
       },
       toggleModal(ev) {
          this.$emit('toggleModal', ev)
@@ -128,7 +169,14 @@ export default {
          this.$nextTick(() => {
             this.$refs.textareainp.focus()
          })
-      }
+      },
+      openPreviewEdit(group, task, modalPos) {
+         this.task = task
+         this.isPreviewEdit = true
+         this.$emit('onlyOneEdit', group, task, modalPos)
+      },
+
+
    },
    computed: {
       tasksList: {
@@ -137,7 +185,8 @@ export default {
          },
          set(tasks) {
             this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
-         }
+         },
+
       },
    }
 }

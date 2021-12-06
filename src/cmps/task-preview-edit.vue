@@ -1,9 +1,17 @@
 <template>
-   <div v-if="task" class="quick-card-editor">
-      <span class="icon-lg icon-close quick-card-editor-close-icon"> </span>
+   <div
+      v-if="task"
+      class="quick-card-editor"
+      @click.prevent.self="closePreviewEdit()"
+   >
+      <span
+         @click="closePreviewEdit"
+         class="icon-lg icon-close quick-card-editor-close-icon"
+      >
+      </span>
       <div
          class="quick-card-editor-card"
-         style="top: 368px; left: 72px; width: 256px"
+         :style="{ left: modalPos.left + 'px', top: modalPos.top + 'px' }"
       >
          <div
             class="list-card list-card-quick-edit js-stop"
@@ -41,7 +49,7 @@
                   @keyup.enter.exact="updateTaskTitle"
                   @focus="titleInputFocus"
                   @blur="updateTaskTitle"
-                  :value="task.title"
+                  :value="taskToEdit.title"
                />
 
                <!-- badges -->
@@ -139,11 +147,64 @@
             </div>
          </div>
 
-         <input
-            class="nch-button nch-button--primary wide js-save-edits"
+         <button
+            class="nch-button nch-button-primary wide js-save-edits"
             type="submit"
-            value="Save"
-         />
+            @click="updateTaskTitle"
+            :value="taskToEdit.title"
+         >
+            Save
+         </button>
+
+         <div class="quick-card-editor-buttons fade-in">
+            <router-link
+               :to="'/board/' + boardId + '/' + groupId + '/' + taskId"
+               class="quick-card-editor-buttons-item"
+            >
+               <span class="icon-sm icon-card light"></span>
+               <span class="quick-card-editor-buttons-item-text"
+                  >Open card</span
+               >
+            </router-link>
+            <a class="quick-card-editor-buttons-item js-edit-labels">
+               <span class="icon-sm icon-label light"></span>
+               <span class="quick-card-editor-buttons-item-text">
+                  Edit labels
+               </span>
+            </a>
+            <a class="quick-card-editor-buttons-item js-edit-members">
+               <span class="icon-sm icon-member light"></span>
+               <span class="quick-card-editor-buttons-item-text">
+                  Change members
+               </span>
+            </a>
+            <a class="quick-card-editor-buttons-item js-edit-cover">
+               <span class="icon-sm icon-card-cover light"></span>
+               <span class="quick-card-editor-buttons-item-text">
+                  Change cover
+               </span>
+            </a>
+            <a class="quick-card-editor-buttons-item js-move-card">
+               <span class="icon-sm icon-move light"></span>
+               <span class="quick-card-editor-buttons-item-text"> Move </span>
+            </a>
+            <a class="quick-card-editor-buttons-item js-copy-card">
+               <span class="icon-sm icon-card light"></span>
+               <span class="quick-card-editor-buttons-item-text"> Copy</span>
+            </a>
+            <a class="quick-card-editor-buttons-item js-edit-due-date">
+               <span class="icon-sm icon-clock light"> </span>
+               <span class="quick-card-editor-buttons-item-text">
+                  Edit dates
+               </span>
+            </a>
+            <a class="quick-card-editor-buttons-item js-archive">
+               <span class="icon-sm icon-archive light"></span>
+               <span class="quick-card-editor-buttons-item-text">
+                  Archive
+               </span>
+            </a>
+         </div>
       </div>
    </div>
 </template>
@@ -153,14 +214,14 @@ import Avatar from 'vue-avatar'
 
 export default {
    name: 'task-edit',
+   props: ['task', 'group', 'board', 'modalPos'],
    components: {
       Avatar
    },
    data() {
       return {
-         task: null,
          groupTitle: '',
-         taskId: 't101',
+         taskId: '',
          currLoggedUser: null,
          boardId: '',
          groupId: '',
@@ -172,31 +233,27 @@ export default {
       }
    },
    created() {
-      this.taskId = ''
-      this.boardId = ''
-      this.groupId = ''
-      this.getTask(this.taskId)
+      // console.log('this.task.id', this.task.id)
+      // this.getTask(this.t1askId)
+      this.taskToEdit = JSON.parse(JSON.stringify(this.task))
+      this.groupId = this.group.id
+      this.boardId = this.board._id
+      this.taskId = this.task.id
    },
    methods: {
-      // closemodal() {
-      //    this.$router.push('/')
-      // },
-      // toggleLabels() {
-      //    this.board.isLabelsShown = !this.board.isLabelsShown
-      //    this.$store.dispatch({ type: 'updateBoard', board: this.board })
-      // },
-      goToPreviewEdit() {
-         // this.$route.push(`/${this.group.id}/${this.task.id}`)
+      closePreviewEdit() {
+         // console.log('this.task', this.task)
+         this.$emit('closePreviewEdit')
       },
+
       async updateTaskTitle(ev) {
          try {
             this.isTitleInputOpen = false
             this.isEditable = false
             ev.target.blur()
             this.taskToEdit.title = ev.target.value
-            console.log('this.taskToEdit', this.taskToEdit)
-            console.log('groupId: this.groupId', this.groupId)
             await this.$store.dispatch({ type: 'updateTask', task: this.taskToEdit, groupId: this.groupId })
+            this.closePreviewEdit()
          } catch (err) {
             console.log(err)
          }
@@ -204,37 +261,15 @@ export default {
       titleInputFocus(ev) {
          this.isTitleInputOpen = true
          ev.target.select()
-         console.log('this.taskToEdit', this.taskToEdit)
          // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
       },
-      toggleModal(ev) {
-         this.$emit('toggleModal', ev)
-      },
+
       toggleEditing(ev) {
          this.isEditable = true
          ev.target.style.display = 'none'
-         this.$nextTick(() => {
-            this.$refs.textareainp.focus()
-         })
-      },
-      async getTask(taskId = 't101') {
-         try {
-            const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: this.$route.params.boardId })
-            // console.log('currBoard', currBoard)
-            await currBoard.groups.forEach(group => group.tasks.find(task => {
-               if (task.id === 't101') {
-                  this.task = task
-                  this.taskToEdit = JSON.parse(JSON.stringify(task))
-                  this.group = group
-                  this.groupId = group.id
-                  console.log('this.task', this.task)
 
-               }
-            }))
-         } catch (err) {
-            console.log(err)
-         }
       },
+
    },
    computed: {
       isCoverBgc() {

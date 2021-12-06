@@ -150,8 +150,119 @@
          }
       }
 
-      input[type='submit'].wide {
+      .nch-button-primary.wide {
          padding-inline: 24px;
+         margin: 8px 4px 0 0;
+         color: #fff;
+      }
+
+      .quick-card-editor-buttons {
+         left: 100%;
+         opacity: 0;
+         position: absolute;
+         top: 0;
+         transform: translateX(-20px);
+         transition: opacity 85ms ease-in, transform 85ms ease-in;
+         width: 240px;
+         z-index: 0;
+
+         &.fade-in {
+            opacity: 1;
+            transform: translateX(0);
+         }
+
+         .quick-card-editor-buttons-item {
+            background: #0009;
+            border-radius: 3px;
+            clear: both;
+            color: #e6e6e6;
+            display: block;
+            float: left;
+            margin: 0 0 4px 8px;
+            padding: 6px 12px 6px 8px;
+            text-decoration: none;
+            transition: transform 85ms ease-in;
+
+            &:hover {
+               background: #000c;
+               color: #fff;
+               transform: translateX(5px);
+            }
+
+            .icon-card {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e912';
+               }
+            }
+
+            .icon-label {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e93f';
+               }
+            }
+
+            .icon-member {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e946';
+               }
+            }
+
+            .icon-card-cover {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e914';
+               }
+            }
+
+            .icon-move {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e94a';
+               }
+            }
+
+            .icon-clock {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e91b';
+               }
+            }
+
+            .icon-archive {
+               color: #fff;
+               text-decoration: none;
+               position: relative;
+               vertical-align: middle;
+               &::before {
+                  content: '\e907';
+               }
+            }
+
+            .quick-card-editor-buttons-item-text {
+               margin-left: 4px;
+            }
+         }
       }
    }
 }

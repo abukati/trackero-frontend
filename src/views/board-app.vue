@@ -4,25 +4,55 @@
       :style="{ backgroundColor: getBoardBgc }"
       v-if="board"
    >
-      <div class="board-wrapper" :class="{'is-show-menu':isBoardMenuOpen}">
+      <div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
          <div class="task-detail-modal-container">
             <div class="modal-content">
                <router-view :class="{ 'window-up': isModalOpen }" />
             </div>
          </div>
+         <task-preview-edit
+            @closePreviewEdit="closePreviewEdit"
+            v-if="isPreviewEdit"
+            :task="this.task"
+            :board="board"
+            :group="this.group"
+            :modalPos="this.modalPos"
+            :key="task.id"
+         />
          <div class="board-container">
             <div class="board-content">
                <div class="board-content-wrapper">
                   <div class="board-main-content">
-                     <board-nav @toggleBoardNavMenu="toggleBoardNavMenu" :board="board" :boardMembers="board.members"
-                      :boardBgc="board.style.bgColor" />
+                     <board-nav
+                        @toggleBoardNavMenu="toggleBoardNavMenu"
+                        :board="board"
+                        :boardMembers="board.members"
+                        :boardBgc="board.style.bgColor"
+                     />
 
                      <div class="groups-container-main">
-                        <draggable class="groups-container" handle=".group-header-section" 
-                        draggable=".board-group" group="groupsList" v-model="groupsList"
-                        filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
-                           <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
-                              <group-preview @toggleModal="toggleModalClass" :group="group" :board="board" />
+                        <draggable
+                           v-if="onlyOneEdit"
+                           class="groups-container"
+                           handle=".group-header-section"
+                           draggable=".board-group"
+                           group="groupsList"
+                           v-model="groupsList"
+                           filter=".group-header-title-textarea"
+                           preventOnFilter="true"
+                           delay="1"
+                        >
+                           <div
+                              class="board-group"
+                              v-for="(group, idx) in groupsList"
+                              :key="idx"
+                           >
+                              <group-preview
+                                 @onlyOneEdit="onlyOneEdit"
+                                 @toggleModal="toggleModalClass"
+                                 :group="group"
+                                 :board="board"
+                              />
                            </div>
 
                            <div class="add-list-section">
@@ -75,7 +105,11 @@
                </div>
             </div>
          </div>
-         <board-nav-side-menu :board="board" :isBoardMenuOpen="isBoardMenuOpen" :onSideMenuOpen="toggleBoardNavMenu" />
+         <board-nav-side-menu
+            :board="board"
+            :isBoardMenuOpen="isBoardMenuOpen"
+            :onSideMenuOpen="toggleBoardNavMenu"
+         />
       </div>
    </section>
 </template>
@@ -85,6 +119,7 @@ import groupPreview from '@/cmps/group-preview'
 import boardNav from '@/cmps/board-nav'
 import boardNavSideMenu from '@/cmps/board-nav-sidemenu'
 import draggable from 'vuedraggable'
+import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
 
 export default {
    name: 'board-app',
@@ -92,7 +127,8 @@ export default {
       groupPreview,
       boardNav,
       boardNavSideMenu,
-      draggable
+      taskPreviewEdit,
+      draggable,
    },
    data() {
       return {
@@ -100,7 +136,11 @@ export default {
          isListInputOpen: false,
          newListTitleInput: '',
          isModalOpen: false,
-         isBoardMenuOpen: false
+         isBoardMenuOpen: false,
+         isPreviewEdit: false,
+         task: null,
+         group: null,
+         modalPos: {}
       }
    },
    created() {
@@ -118,6 +158,7 @@ export default {
       getBoardBgc() {
          return this.$store.getters.getBoardBgc
       },
+
    },
    methods: {
       addGroup() {
@@ -142,7 +183,17 @@ export default {
       },
       toggleBoardNavMenu(ev) {
          this.isBoardMenuOpen = !this.isBoardMenuOpen
+      },
+      onlyOneEdit(group, task, modalPos) {
+         this.isPreviewEdit = true
+         this.task = task
+         this.group = group
+         this.modalPos = modalPos
+      },
+      closePreviewEdit() {
+         this.isPreviewEdit = false
       }
+
    },
    watch: {
       '$route.params.boardId': {
@@ -150,7 +201,7 @@ export default {
          deep: true,
          async handler() {
             try {
-               this.loadBoards()   
+               this.loadBoards()
                let taskId = this.$route.params.taskId
                if (taskId) this.isModalOpen = true
             } catch (err) {

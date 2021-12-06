@@ -4,7 +4,7 @@ import home from '@/views/home.vue'
 import templatesList from '@/views/templates-list.vue'
 import boardApp from '@/views/board-app.vue'
 import taskDetails from '@/cmps/task-details.vue'
-import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
+// import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
 
 Vue.use(VueRouter)
 
@@ -30,12 +30,12 @@ const routes = [
             component: taskDetails
          }
       ]
-   },
-   {
-      path: '/board/:boardId/edit',
-      name: 'taskPreviewEdit',
-      component: taskPreviewEdit
    }
+   // {
+   //    path: '/board/:boardId/edit',
+   //    name: 'taskPreviewEdit',
+   //    component: taskPreviewEdit
+   // }
 ]
 
 const router = new VueRouter({
