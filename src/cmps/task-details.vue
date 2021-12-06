@@ -248,7 +248,6 @@
                   </form>
                </div> -->
                </div>
-               <!-- <labelsList /> -->
                <div class="window-sidebar no-box-sizing">
                   <div
                      v-if="!showSuggested"
@@ -273,7 +272,12 @@
                   <div class="window-module clearfix">
                      <h3>Add to card</h3>
                      <div>
-                        <a class="button-link" title="Members">
+                        <a
+                           data-cmp="members"
+                           class="button-link"
+                           title="Members"
+                           @click="toggleList"
+                        >
                            <span class="icon-sm icon-member"></span>
                            <span class="sidebar-action-text">Members</span>
                         </a>
@@ -331,8 +335,9 @@
                      </a> -->
                      </div>
                   </div>
-                  <!-- UnDone features -->
-                  <!-- <div class="powerups-buttons">
+               </div>
+               <!-- UnDone features -->
+               <!-- <div class="powerups-buttons">
                   <div class="window-module clearfix">
                      <h3 class="no-top-margin">Power-Ups</h3>
                      <div>
@@ -345,7 +350,7 @@
                      </div>
                   </div>
                </div> -->
-                  <!-- <div class="automation-buttons">
+               <!-- <div class="automation-buttons">
                    <div class="window-module">
                       <div class="automation-title">
                         <h3 class="no-top-margin">Automation</h3>
@@ -363,63 +368,65 @@
                      </div>
                   </div>
                </div> -->
-                  <div class="window-module clearfix action-buttons">
-                     <h3 class="no-top-margin">Actions</h3>
-                     <div class="clearfix">
-                        <a class="button-link" title="Move" href="#">
-                           <span class="icon-sm move-icon"></span>
-                           <span class="sidebar-action-text">Move</span>
-                        </a>
-                        <a class="button-link" title="Copy" href="#">
-                           <span class="icon-sm copy-icon"></span>
-                           <span class="sidebar-action-text">Copy</span>
-                        </a>
-                        <!-- <a class="button-link" title="Make template" href="#">
+               <div class="window-module clearfix action-buttons">
+                  <h3 class="no-top-margin">Actions</h3>
+                  <div class="clearfix">
+                     <a class="button-link" title="Move" href="#">
+                        <span class="icon-sm move-icon"></span>
+                        <span class="sidebar-action-text">Move</span>
+                     </a>
+                     <a class="button-link" title="Copy" href="#">
+                        <span class="icon-sm copy-icon"></span>
+                        <span class="sidebar-action-text">Copy</span>
+                     </a>
+                     <!-- <a class="button-link" title="Make template" href="#">
                            <span class="icon-sm">
                            </span>
                            <span class="sidebar-action-text">Make template</span>
                         </a> -->
-                        <a
-                           class="button-link"
-                           title="Watch the card to get notifications when something changes."
-                           href="#"
-                        >
-                           <span class="icon-sm watch-icon"></span>
-                           <span class="sidebar-action-text">Watch</span>
-                        </a>
-                        <hr />
-                        <a class="button-link" title="Archive" href="#">
-                           <span class="icon-sm archive-icon"></span>
-                           <span class="sidebar-action-text">Archive</span>
-                        </a>
-                        <a class="button-link" title="Share" href="#">
-                           <span class="icon-sm share-icon"></span>
-                           <span class="sidebar-action-text">Share</span>
-                        </a>
-                     </div>
+                     <a
+                        class="button-link"
+                        title="Watch the card to get notifications when something changes."
+                        href="#"
+                     >
+                        <span class="icon-sm watch-icon"></span>
+                        <span class="sidebar-action-text">Watch</span>
+                     </a>
+                     <hr />
+                     <a class="button-link" title="Archive" href="#">
+                        <span class="icon-sm archive-icon"></span>
+                        <span class="sidebar-action-text">Archive</span>
+                     </a>
+                     <a class="button-link" title="Share" href="#">
+                        <span class="icon-sm share-icon"></span>
+                        <span class="sidebar-action-text">Share</span>
+                     </a>
                   </div>
                </div>
             </div>
          </div>
       </div>
-      <!-- <members-list /> -->
+      <task-opts-list
+         v-if="isListOpen"
+         :info="info"
+         @removeMember="removeTaskMember"
+         @addMember="addTaskMember"
+         @toggleList="toggleList"
+      />
    </div>
 </template>
 
 <script>
 import Avatar from 'vue-avatar'
 import miniProfile from './user-mini-profile'
-import labelsList from './labels-list'
-import membersList from './members-list'
-
+import taskOptsList from './task-opts-list'
 
 export default {
    name: 'task-details',
    components: {
       Avatar,
       miniProfile,
-      labelsList,
-      membersList
+      taskOptsList
    },
    data() {
       return {
@@ -429,11 +436,21 @@ export default {
          profileOfUser: null,
          isMiniProfileOpen: false,
          modalPos: {},
+         isListOpen: false,
+         info: {
+            type: null,
+            task: this.task,
+            groupId: null,
+            modalPos: {},
+         }
       }
    },
    created() {
       const { taskId } = this.$route.params
+      const { groupId } = this.$route.params
       this.getTask(taskId)
+      this.info.groupId = groupId
+      this.info.task = this.task
       this.loggedInUser = this.$store.getters.currLoggedUser
    },
    methods: {
@@ -443,9 +460,10 @@ export default {
       toggleMiniProfile(ev, user) {
          try {
             const { left, top } = ev.target.offsetParent.getBoundingClientRect()
-            this.modalPos.top = Math.ceil(top)
             this.modalPos.left = Math.ceil(left)
+            this.modalPos.top = Math.ceil(top)
             this.profileOfUser = user
+            this.isListOpen = false
             this.isMiniProfileOpen = true
          } catch (err) {
             console.log(err)
@@ -457,6 +475,17 @@ export default {
             this.isMiniProfileOpen = false
          } catch (err) {
             console.log(err)
+         }
+      },
+      toggleList(ev) {
+         // const {top,right} = ev.target.offsetParent.getBoundingClientRect()
+         // this.info.modalPos.top = Math.ceil(top)
+         if (this.isListOpen) {
+            this.isListOpen = !this.isListOpen
+         } else {
+            this.isMiniProfileOpen = false
+            this.isListOpen = true
+            this.info.type = 'members-list'
          }
       },
       getTask(taskId) {
@@ -487,6 +516,22 @@ export default {
          } catch (err) {
             console.log(err)
          }
+      },
+      addTaskMember(user) {
+         try {
+            const task = this.task
+            const { groupId } = this.$route.params
+            const memberIdx = this.task.members.findIndex(member => member._id === user._id)
+            if (memberIdx !== -1) {
+               return
+            } else {
+               if (user) this.task.members.push(user)
+               this.$store.dispatch({ type: 'addTaskMember', task, groupId, user })
+            }
+         } catch (err) {
+            console.log(err)
+         }
+
       },
       removeTaskMember(user) {
          try {

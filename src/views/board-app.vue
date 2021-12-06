@@ -117,7 +117,7 @@
 <script>
 import groupPreview from '@/cmps/group-preview'
 import boardNav from '@/cmps/board-nav'
-import boardNavSideMenu from '@/cmps/board-nav-sidemenu'
+import boardNavSideMenu from '@/cmps/board-sidemenu'
 import draggable from 'vuedraggable'
 import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
 

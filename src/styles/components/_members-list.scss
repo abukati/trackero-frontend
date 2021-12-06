@@ -2,12 +2,13 @@
     .no-back{
         .pop-over-header{
             .pop-over-header-title{
-                .pop-over-header-close-btn{
-                    color: #6b778c;
-                    position: absolute;
-                    right: 20px;
-                    top: 0;
-                }
+                
+            }
+            .pop-over-header-close-btn{
+                color: #6b778c;
+                position: absolute;
+                right: 20px;
+                top: 0;
             }
         }
         .pop-over-content{
@@ -56,19 +57,26 @@
                                     width: 32px;
                                     height: 32px;
                                     margin-right: 8px;
-                                    .full-name{
-                                        .username{
-                                            
-                                        }
-                                        .icon-check{
-                                            &::before{
-                                            }
-                                        }
-                                        .checked-icon{
-                                            &::before{
-                                                // content: "\e916";
-                                            }
-                                        }
+                                }
+                                .full-name{
+                                    .username{
+                                        
+                                    }
+                                }
+                                .checked-icon{
+                                    background-clip: content-box;
+                                    background-origin: content-box;
+                                    display: none;
+                                    padding: 11px;
+                                    position: absolute;
+                                    padding-right: 28px;
+                                    right: 0;
+                                    top: 0;
+                                    &::before{
+                                        content: "\e916";
+                                    }
+                                    &.icon-check{
+                                        display: block;
                                     }
                                 }
                             }
@@ -85,11 +93,19 @@
                             text-decoration: none;
                             text-overflow: ellipsis;
                             white-space: nowrap;
+                            &:hover{
+                                background-color: #091e420a;
+                            }
+                            &:active{
+                                background-color: #e4f0f6;
+                            }
                         }
+                    }
+                    .empty-error{
+                        padding: 24px 6px;
                     }
                 }
             }
         }
     }
 }
-
