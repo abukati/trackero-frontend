@@ -151,7 +151,6 @@
                   </form>
                </div> -->
             </div>
-            <!-- <labelsList /> -->
             <div class="window-sidebar no-box-sizing">
                <div v-if="!showSuggested" class="window-module suggested-actions-module">
                   <div class="suggested-actions-settings">
@@ -168,7 +167,7 @@
                <div class="window-module clearfix">
                   <h3>Add to card</h3>
                   <div>
-                     <a class="button-link" title="Members">
+                     <a data-cmp="members" class="button-link" title="Members" @click="toggleList">
                         <span class="icon-sm icon-member"></span>
                         <span class="sidebar-action-text">Members</span>
                      </a>
@@ -205,6 +204,7 @@
                         <span class="sidebar-action-text">Custom Fields</span>
                      </a> -->
                   </div>
+                  
                </div>
                <!-- UnDone features -->
                <!-- <div class="powerups-buttons">
@@ -273,21 +273,25 @@
 			</div>
          </div>
 		</div>
+      <task-opts-list v-if="isListOpen" :info="info"
+            @removeMember="removeTaskMember"
+            @addMember="addTaskMember"
+            @toggleList="toggleList"
+            />
 	</div>
 </template>
 
 <script>
 import Avatar from 'vue-avatar'
 import miniProfile from './user-mini-profile'
-import labelsList from './labels-list'
-
+import taskOptsList from './task-opts-list'
 
 export default {
    name:'task-details',
    components: {
 		Avatar,
       miniProfile,
-      labelsList
+      taskOptsList
 	},
    data(){
       return{
@@ -297,11 +301,21 @@ export default {
          profileOfUser:null,
          isMiniProfileOpen:false,
          modalPos:{},
+         isListOpen:false,
+         info:{
+            type:null,
+            task:this.task,
+            groupId:null,
+            modalPos:{},
+         }
       }
    },
     created(){
       const {taskId} = this.$route.params
+      const {groupId} = this.$route.params
       this.getTask(taskId)
+      this.info.groupId = groupId
+      this.info.task = this.task
       this.loggedInUser=this.$store.getters.currLoggedUser
    },
    methods: {
@@ -310,10 +324,11 @@ export default {
       },
       toggleMiniProfile(ev,user){
          try{
-            const {left,top} = ev.target.offsetParent.getBoundingClientRect()
-            this.modalPos.top = Math.ceil(top)
+            const {left, top} = ev.target.offsetParent.getBoundingClientRect()
             this.modalPos.left = Math.ceil(left)
+            this.modalPos.top = Math.ceil(top)
             this.profileOfUser = user
+            this.isListOpen = false
             this.isMiniProfileOpen = true
          }catch(err){
             console.log(err)
@@ -325,6 +340,17 @@ export default {
             this.isMiniProfileOpen = false
          }catch(err){
             console.log(err)
+         }
+      },
+      toggleList(ev){
+         // const {top,right} = ev.target.offsetParent.getBoundingClientRect()
+         // this.info.modalPos.top = Math.ceil(top)
+         if(this.isListOpen){
+            this.isListOpen = !this.isListOpen
+         }else{
+            this.isMiniProfileOpen = false
+            this.isListOpen = true
+            this.info.type = 'members-list'
          }
       },
       getTask(taskId){
@@ -355,6 +381,22 @@ export default {
          }catch(err){
             console.log(err)
          }
+      },
+      addTaskMember(user){
+         try{
+            const task = this.task
+            const {groupId} = this.$route.params
+            const memberIdx = this.task.members.findIndex(member => member._id === user._id)
+            if (memberIdx !== -1) {
+               return
+            } else {
+               if(user) this.task.members.push(user)
+               this.$store.dispatch({ type: 'addTaskMember', task,groupId,user})
+            }
+         }catch(err){
+            console.log(err)
+         }
+
       },
       removeTaskMember(user){
          try{
