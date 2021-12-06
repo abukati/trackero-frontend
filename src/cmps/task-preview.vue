@@ -33,7 +33,7 @@
          <div v-if="task.labels && task.labels.length" class="list-card-labels">
             <label-checkboxes
                :checked="checked"
-               :toggle-checkbox="toggleCheckbox"
+               :toggleCheckbox="toggleCheckbox"
             />
             <label for="label-toggler" class="label-toggler">
                <span
@@ -156,8 +156,7 @@ export default {
          labelsAreOpen: true,
          currLoggedUser: null,
          modalPos: {},
-         checked: true
-
+         checked: false
       }
    },
    methods: {
@@ -175,8 +174,9 @@ export default {
          if (!this.isCoverBgc) this.modalPos.left = ev.target.offsetParent.offsetParent.getBoundingClientRect().left
          this.$emit('openPreviewEdit', this.group, JSON.parse(JSON.stringify(this.task)), this.modalPos)
       },
-      toggleCheckbox() {
+      toggleCheckbox(ref) {
          this.checked = !this.checked
+         this.$emit('checkLabels', ref)
       }
    },
    computed: {
