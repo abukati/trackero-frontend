@@ -195,7 +195,6 @@ export const boardStore = {
       },
       async getBoardbyId({ commit }, { boardId }) {
          try {
-            console.log('board from store', boardId)
             const board = await boardService.getById(boardId)
             commit({ type: 'setCurrBoard', currBoard: board })
             return board
