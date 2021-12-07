@@ -199,31 +199,9 @@
          </a>
       </div>
       <div class="board-header-btns mod-right">
-         <span class="board-header-special-btn-container">
-            <button
-               type="button"
-               class="
-                  board-header-btn
-                  board-header-special-btn
-                  board-header-subscribed
-               "
-            >
-               <span class="icon-subscribed board-header-btn-icon">
-                  <svg
-                     version="1.1"
-                     xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 512 512"
-                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                     enable-background="new 0 0 512 512"
-                  >
-                     <g>
-                        <path
-                           fill="currentColor"
-                           d="m496.4,243.1c-63.9-78.7-149.3-122.1-240.4-122.1-91.1,0-176.5,43.4-240.4,122.1-6.1,7.5-6.1,18.2 0,25.7 63.9,78.8 149.3,122.2 240.4,122.2 91.1,0 176.5-43.4 240.4-122.1 6.1-7.5 6.1-18.3 0-25.8zm-240.4,79.8c-36.9,0-66.9-30-66.9-66.9 0-36.9 30-66.9 66.9-66.9 36.9,0 66.9,30 66.9,66.9 0,36.9-30,66.9-66.9,66.9zm-197.8-66.9c37.8-42.2 82.9-71.1 131.5-84.9-25.2,19.7-41.5,50.4-41.5,84.9 0,34.4 16.2,65.1 41.5,84.9-48.6-13.8-93.6-42.7-131.5-84.9zm264.1,84.9c25.2-19.7 41.5-50.4 41.5-84.9 0-34.4-16.2-65.1-41.5-84.9 48.6,13.8 93.7,42.7 131.5,84.9-37.9,42.2-82.9,71.1-131.5,84.9z"
-                        />
-                     </g>
-                  </svg>
-               </span>
+         <span v-if="isUserSubbed" class="board-header-special-btn-container">
+            <button @click="toggleUserWatchlist" type="button" class="board-header-btn board-header-special-btn board-header-subscribed">
+               <span class="icon-subscribed board-header-btn-icon"></span>
                <span class="board-header-btn-text">Watching</span>
             </button>
          </span>
@@ -355,6 +333,14 @@ export default {
       Avatar,
       draggable
    },
+   data() {
+      return {
+         loggedUser: null,
+      }
+   },
+   created() {
+      this.loggedUser = this.$store.getters.currLoggedUser
+   },
    computed: {
       memberList: {
          get() {
@@ -364,11 +350,11 @@ export default {
             console.log(memberList)
          }
       },
-      getBoardBgc() {
-         return this.$store.getters.getBoardBgc
-      },
       isBoardStarred() {
          return this.board.isStarred ? true : false
+      },
+      isUserSubbed() {
+         return this.loggedUser.subscribedTo.find(boardId => boardId === this.board._id)
       }
    },
    methods: {
@@ -383,6 +369,12 @@ export default {
       },
       toggleBoardNavMenu(ev) {
          this.$emit('toggleBoardNavMenu', ev)
+      },
+      toggleUserWatchlist() {
+         let userToUpdate = JSON.parse(JSON.stringify(this.loggedUser))
+         const idx = userToUpdate.subscribedTo.findIndex(board => board === this.board._id)
+         idx === -1 ? userToUpdate.subscribedTo.push(this.board._id) : userToUpdate.subscribedTo.splice(idx, 1)
+         this.$store.dispatch('saveUser', { user: userToUpdate })
       },
       toggleBoardStar() {
          // TODO: wire up

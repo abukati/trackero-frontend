@@ -5,7 +5,8 @@
             <div class="board-menu-header is-in-frame" :class="{ 'is-board-menu-default-view': isBoardMainPage }">
                <div class="board-menu-header-content">
                   <a @click="showMainPage" class="board-menu-header-back-button icon-lg icon-back" title="Go back."></a>
-                  <h3 class="board-menu-header-title">Menu</h3>
+                  <h3 class="board-menu-header-title" v-show="isBoardMainPage">Menu</h3>
+                  <h3 class="board-menu-header-title" v-show="!isBoardMainPage">More</h3>
                   <a @click="closeMenu" class="board-menu-header-close-button icon-lg icon-close" title="Close the board menu."></a>
                </div>
                <hr class="board-menu-header-divider" />
@@ -13,7 +14,7 @@
             <div class="board-menu-content custom-scrollbar">
                <div class="board-menu-content-container">
                   <menu-main-page :moreOptions="moreOptions" :board="board" v-if="isBoardMainPage" />
-                  <menu-more-page v-else />
+                  <menu-more-page v-else :board="board" />
                </div>
             </div>
          </div>
@@ -27,7 +28,7 @@
    import menuMorePage from './board-sidemenu-more-page'
 
 export default {
-   name: 'board-nav-side-menu',
+   name: 'board-side-menu',
    props: {
       onSideMenuOpen: Function, required: true,
       isBoardMenuOpen: Boolean, required: true,
@@ -46,6 +47,7 @@ export default {
    methods: {
       closeMenu() {
          this.onSideMenuOpen()
+         this.isBoardMainPage = false
       },
       moreOptions() {
          this.isBoardMainPage = false
@@ -53,7 +55,6 @@ export default {
       showMainPage() {
          this.isBoardMainPage = true
       },
-      
    }
 }
 </script>
