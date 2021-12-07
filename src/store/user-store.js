@@ -43,7 +43,8 @@ export const userStore = {
       async saveUser({ state, commit }, { user }) {
          try {
             const userToSave = await userService.save(user)
-           commit({ type: 'saveUser', userToSave })
+            commit({ type: 'saveUser', userToSave })
+            state.loggedUser = userToSave // TEMP - NEEDS TO BE CHANGED
          } catch (err) {
             console.log(err)
          }

@@ -31,7 +31,8 @@ export default {
 
    computed: {
       pageBgc() {
-         if (!this.$store.getters.currBoard || !this.$route.params.boardId) return '#025AA7'
+         // if (this.isHomePage) return '#eae6ff'
+         if (!this.$store.getters.currBoard || !this.$route.params.boardId) return '#00aecc'
          else return this.$store.getters.getBoardBgc
       },
       loggedUser() {

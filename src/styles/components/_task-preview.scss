@@ -104,6 +104,7 @@
       .list-card-labels {
          overflow: auto;
          position: relative;
+         max-width: 205px;
 
          input[type="checkbox"] {
             display: none;
@@ -267,8 +268,6 @@
    position: relative;
    cursor: pointer;
 
-
-
    &::before, &::after {
       content: '';
       position: absolute;
@@ -345,19 +344,24 @@
       color: transparent;
    }
    10% {
-      min-width: 56px;
-      max-width: 198px;
+      min-width: 50px;
+      max-width: 75px;
       padding: 0 8px;
    }
    75% {
+      min-width: 56px;
+      max-width: 75px;
       height: 8px;
    }
    99% {
+      min-width: 56px;
+      max-width: 75px;
       color: transparent;
    }
    100% {
+      box-sizing: border-box;
       min-width: 56px;
-      max-width: 198px;
+      max-width: 75px;
       padding: 0 8px;
       height: 16px;
       line-height: 16px;
@@ -372,7 +376,7 @@
       height: 16px;
       line-height: 16px;
       min-width: 56px;
-      max-width: 198px;
+      max-width: 55px;
       padding: 0 8px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -381,7 +385,7 @@
    10% { height: 8px; }
    50% { 
       min-width: 56px;
-      max-width: 198px;
+      max-width: 70px;
       padding: 0 8px;
    }
    75% {
