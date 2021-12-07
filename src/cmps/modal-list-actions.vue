@@ -1,6 +1,6 @@
 <template>
    <div
-      class="pop-over is-shown"
+      :class="popOverClasses"
       :style="{
          top: 44 + 'px',
          left: 235 + 'px',
@@ -11,22 +11,6 @@
          <div class="pop-over-header">
             <span class="pop-over-header-title">List actions</span>
             <span @click="closeModal" class="icon-sm pop-over-header-close-btn">
-               <!-- <img class="icon-sm" src="@/assets/img/cancel-icon.svg" /> -->
-               <!-- <svg
-                  width="24px"
-                  height="24px"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-x icon-sm"
-               >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-               </svg> -->
             </span>
          </div>
          <div>
@@ -61,8 +45,6 @@ export default {
       return {
          isModalOpen: false,
          isOptionsListOpen: false,
-         isTaskInputOpen: false,
-         taskInput: '',
       }
    },
 
@@ -71,21 +53,30 @@ export default {
          this.isModalOpen = !this.isModalOpen
          this.$emit('closeModal')
       },
-      async addTask() {
+      addTask() {
+         console.log('this.group.id', this.group.id)
          this.$emit('openAddTask')
+         this.isOptionsListOpen = false
+         this.closeModal()
+
       },
       async deleteGroup() {
          try {
+            console.log('this.group.id', this.group.id)
             const groupId = this.group.id
             const deletedId = this.$store.dispatch({ type: 'removeGroup', groupId })
             this.isOptionsListOpen = false
+            this.closeModal()
          } catch (err) {
             console.log(err)
          }
       },
    },
    computed: {
-
+      popOverClasses() {
+         if (this.isOptionsListOpen) return 'pop-over is-shown'
+         return 'pop-over'
+      }
    }
 }
 </script>

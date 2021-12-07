@@ -28,12 +28,26 @@ export const boardStore = {
       boardsIds(state) {
          return state.boards.map(board => board._id)
       },
+      boardsTitles(state) {
+         return state.boards.map(board => board.title)
+      },
+      starredBoardIds(state) {
+         return state.boards.filter(board => {
+            if (board.isStarred) return board._id
+         })
+      },
+      starBoardsTitles(state) {
+         return state.boards.filter(board => {
+            if (board.isStarred) return board.title
+         })
+      },
       boardGroups(state) {
          return state.currBoard.groups
       },
       getBoardBgc(state) {
          return state.currBoard.style.bgColor
       },
+
       //----------------------------------------------------------- */
       //************************MEMBERS*****************************
       //----------------------------------------------------------- */
