@@ -61,7 +61,7 @@ function _createUsers() {
          _createUser('u100', 'guest', 'guest', 'guestuser.png'),
          _createUser('u101', 'baselB', 'Basel Boulos', 'baseluser.png'),
          _createUser('u102', 'ArtiomB', 'Artiom Bukati', 'artiomuser.png'),
-         _createUser('u103', 'NoaN', 'Noa Nissim', 'noauser.png'),
+         _createUser('u103', 'NoaN', 'Noa Nissim', 'noauser.png')
       ]
       localStorage.setItem(KEY, JSON.stringify(users))
       return users
@@ -79,8 +79,8 @@ function _createUser(id, username, fullname, imgUrl = '') {
          {
             id: '',
             boardId: '',
-            taskId: '',
-         },
+            taskId: ''
+         }
       ],
       subscribedTo: [],
       starredBoardsIds: []
@@ -99,8 +99,8 @@ function getEmptyUser() {
          {
             id: '',
             boardId: '',
-            taskId: '',
-         },
+            taskId: ''
+         }
       ],
       subscribedTo: [],
       starredBoardsIds: []

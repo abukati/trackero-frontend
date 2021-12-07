@@ -9,8 +9,8 @@
             <div class="logo">
                <svg
                   role="img"
-                  alt="Trello"
-                  aria-label="Trello"
+                  alt="Trackero"
+                  aria-label="Trackero"
                   height="100px"
                   viewBox="0 0 63.4 62.4"
                   width="100px"
@@ -78,6 +78,68 @@
                   :src="`https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/product/89d378b845766a8f0c48e955336266f8/board.png`"
                   alt=""
                />
+            </div>
+         </div>
+         <div class="features">
+            <div class="features-info">
+               <div class="row py-5">
+                  <div class="col-md-5 mb-3 mb-md-0">
+                     <img
+                        :src="`https://image.freepik.com/free-vector/task-management-abstract-concept-illustration_335657-2127.jpg`"
+                     />
+                  </div>
+                  <div class="col-md-7">
+                     <h2>Features to help your team succeed</h2>
+                     <p>
+                        Powering a productive team means using a powerful tool
+                        (and plenty of snacks). From meetings and projects to
+                        events and goal setting, Trackero’s intuitive features
+                        give any team the ability to quickly set up and
+                        customize workflows for just about anything.
+                     </p>
+                  </div>
+               </div>
+               <div class="row py-5">
+                  <div class="col-md-5 mb-3 mb-md-0">
+                     <img
+                        src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/features/5f90e4a913ac52092f2ac7ff308c45c4/view.svg"
+                        width="414.57"
+                        height="312.57"
+                        class="img-fluid w-100"
+                     />
+                  </div>
+                  <div class="col-md-7">
+                     <h5>Choose a view</h5>
+                     <h2>The board is just the beginning</h2>
+                     <p class="text-gray">
+                        Lists and cards are the building blocks of organizing
+                        work on a Trackero board. Grow from there with task
+                        assignments, timelines, productivity metrics, calendars,
+                        and more.
+                     </p>
+                  </div>
+               </div>
+               <div class="row py-5">
+                  <div class="col-md-5 order-md-2 mb-3 mb-md-0">
+                     <img
+                        src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/features/b845022d8d738ba8fa5e8b293e434149/card-back.svg"
+                        width="339.13"
+                        height="275.31"
+                        class="img-fluid w-100"
+                     />
+                  </div>
+                  <div class="col-md-7">
+                     <h5>Dive into the details</h5>
+                     <h2>Cards contain everything you need</h2>
+                     <p class="text-gray">
+                        Trackero cards are your portal to more organized
+                        work—where every single part of your task can be
+                        managed, tracked, and shared with teammates. Open any
+                        card to uncover an ecosystem of checklists, due dates,
+                        attachments, conversations, and more.
+                     </p>
+                  </div>
+               </div>
             </div>
          </div>
       </div>

@@ -44,5 +44,5 @@ export const userStore = {
             console.log(err)
          }
       }
-   },
+   }
 }

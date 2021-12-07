@@ -32,13 +32,6 @@ export const boardStore = {
          })
          return ids
       },
-      boardsTitles(state) {
-         let titles = []
-         state.boards.map(board => {
-            titles.push(board.title)
-         })
-         return titles
-      },
       allBoards(state) {
          let all = []
          state.boards.filter(board => {
@@ -46,20 +39,13 @@ export const boardStore = {
          })
          return all
       },
-      starBoardsTitles(state) {
-         let starredTitles = []
-         state.boards.filter(board => {
-            if (board.isStarred) starredTitles.push(board.title)
-         })
-         return starredTitles
-      },
       boardGroups(state) {
          return state.currBoard.groups
       },
       getBoardBgc(state) {
          return state.currBoard.style.bgColor
       },
-      labels(state){
+      labels(state) {
          return state.currBoard.labels
       },
       //----------------------------------------------------------- */
@@ -278,9 +264,16 @@ export const boardStore = {
             console.log(err)
          }
       },
-      async getEmptyTodo({ state, commit }){
+      async getEmptyTodo({ state, commit }) {
          try {
             return boardService.getEmptyTodo()
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async getEmptyChecklist({ state, commit }){
+         try {
+            return boardService.getEmptyChecklist()
           } catch (err) {
             console.log(err)
           }

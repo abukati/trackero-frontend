@@ -43,7 +43,6 @@ export default {
    name: 'modalListActions',
    data() {
       return {
-         // isModalOpen: false,
          isOptionsListOpen: true,
       }
    },
@@ -52,7 +51,6 @@ export default {
    },
    methods: {
       closeModal() {
-         // this.isModalOpen = !this.isModalOpen
          this.$emit('closeModal')
       },
       addTask() {
