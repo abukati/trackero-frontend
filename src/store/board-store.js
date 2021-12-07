@@ -26,20 +26,39 @@ export const boardStore = {
          return state.currBoard
       },
       boardsIds(state) {
-         return state.boards.map(board => board._id)
+         let ids = []
+         state.boards.map(board => {
+            ids.push(board._id)
+         })
+         return ids
       },
       boardsTitles(state) {
-         return state.boards.map(board => board.title)
-      },
-      starredBoardIds(state) {
-         return state.boards.filter(board => {
-            if (board.isStarred) return board._id
+         let titles = []
+         state.boards.map(board => {
+            titles.push(board.title)
          })
+         return titles
+      },
+      starredBoards(state) {
+         let starred = []
+         state.boards.filter(board => {
+            if (board.isStarred) starred.push(board)
+         })
+         return starred
+      },
+      allBoards(state) {
+         let all = []
+         state.boards.filter(board => {
+            all.push(board)
+         })
+         return all
       },
       starBoardsTitles(state) {
-         return state.boards.filter(board => {
-            if (board.isStarred) return board.title
+         let starredTitles = []
+         state.boards.filter(board => {
+            if (board.isStarred) starredTitles.push(board.title)
          })
+         return starredTitles
       },
       boardGroups(state) {
          return state.currBoard.groups
@@ -47,7 +66,9 @@ export const boardStore = {
       getBoardBgc(state) {
          return state.currBoard.style.bgColor
       },
-
+      labels(state){
+         return state.currBoard.labels
+      },
       //----------------------------------------------------------- */
       //************************MEMBERS*****************************
       //----------------------------------------------------------- */
@@ -174,6 +195,7 @@ export const boardStore = {
       },
       async getBoardbyId({ commit }, { boardId }) {
          try {
+            console.log('board from store', boardId)
             const board = await boardService.getById(boardId)
             commit({ type: 'setCurrBoard', currBoard: board })
             return board
@@ -259,29 +281,18 @@ export const boardStore = {
       async updateTask({ state, commit }, { groupId, task }) {
          try {
             const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
-            console.log('updatedTask', updatedTask)
             if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
          } catch (err) {
             console.log(err)
          }
       },
-      async addTaskMember({ state, commit }, { task, groupId, user }) {
+      async getEmptyTodo({ state, commit }){
          try {
-            const updatedTask = await boardService.addTaskMember(task, groupId, user, state.currBoard)
-            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
-         } catch (err) {
+            return boardService.getEmptyTodo()
+          } catch (err) {
             console.log(err)
-         }
+          }
       },
-      async removeTaskMember({ state, commit }, { task, groupId, user }) {
-         try {
-            const updatedTask = await boardService.removeTaskMember(task, groupId, user, state.currBoard)
-            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
-         } catch (err) {
-            console.log(err)
-         }
-      },
-
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */

@@ -1,9 +1,84 @@
 .home-page {
-   @include flex-row-center;
+   color: #091e42;
+   height: 100%;
+   overflow: hidden;
+   overflow-y: scroll;
+   &.scrolled {
+      .home-header {
+         background-color: #fff;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+   }
+   // overflow-x: hidden;
 
-   &h2 {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #2c2c2c;
+   .home-header {
+      position: fixed;
+      // top: 0;
+      // right: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      transition: background-color 0.7s ease 0s;
+
+      .nav-header {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 16px;
+         flex-wrap: wrap;
+
+         .logo {
+            display: flex;
+            align-items: center;
+            font-size: 26px;
+            line-height: 26px;
+            font-weight: 700;
+            // font-family: SourceSans-Bold;
+            color: #293856;
+
+            svg {
+               width: 26px;
+               height: 26px;
+               margin-right: 8px;
+            }
+         }
+
+         .header-buttons {
+            display: flex;
+            align-items: center;
+
+            .login-btn {
+               letter-spacing: 1px;
+               border-radius: 3px;
+               color: #0065ff;
+               font-weight: 500;
+               cursor: pointer;
+               &:hover {
+                  color: #0051cc;
+                  text-decoration: underline;
+               }
+            }
+            .signup-btn {
+               border-radius: 3px;
+               letter-spacing: 1px;
+               color: #fff;
+               cursor: pointer;
+               font-weight: 500;
+               background-color: #0065ff;
+               &:hover {
+                  background-color: #0051cc;
+               }
+            }
+
+            > * {
+               padding: 5px 10px;
+               transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+               line-height: 24px;
+               font-size: 17.5px;
+               border-radius: 3px;
+               text-decoration: none;
+            }
+         }
+      }
    }
 }

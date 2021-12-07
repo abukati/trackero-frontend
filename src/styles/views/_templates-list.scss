@@ -1,8 +1,8 @@
 .workspace-container-wrapper {
    background-color: white;
-   height: 100vh;
-   overflow-y: hidden;
+   height: 100%;
    color: #172b4d;
+   overflow-y: scroll;
 
    .workspace-container {
       margin: 40px 20px 40px;
@@ -32,7 +32,7 @@
                margin-bottom: 11px;
 
                .board-star-btn-icon {
-                  color: gold;
+                  // color: gold;
                   padding: 6px;
                   &::before {
                      content: '\e966';
@@ -80,9 +80,7 @@
          height: 100%;
          border-radius: 3px;
          background-repeat: no-repeat;
-         background-attachment: fixed;
-         background-position: center center;
-
+         background-size: cover;
          .board-preview-details {
             position: relative;
             padding: 10px;
@@ -116,6 +114,66 @@
                   transform: scale(1.2);
                   color: rgba(255, 227, 68, 0.9);
                }
+            }
+         }
+      }
+   }
+}
+
+.add-board-section {
+   background-color: rgb(192, 192, 192);
+   display: grid;
+   align-items: center;
+   cursor: pointer;
+   .add-board-input-closed {
+      margin: auto;
+      position: relative;
+   }
+
+   .add-board-form-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      padding: 10px;
+
+      .add-board-input {
+         background-color: #fff;
+         display: block;
+         transition: margin 85ms ease-in, background 85ms ease-in;
+         width: 100%;
+         min-height: 16px;
+         border: 2px solid #0079bf;
+         cursor: text;
+         text-decoration: none;
+         font-family: unset;
+         overflow: hidden;
+         overflow-wrap: break-word;
+         resize: none;
+         color: #172b4d;
+         padding: 8px;
+         border-radius: 3px;
+         margin: 4px 0px;
+
+         &:focus {
+            background-color: white;
+            border: 2px solid #0079bf;
+            outline: 0 none;
+            cursor: text;
+         }
+      }
+
+      .add-board-control-section {
+         margin: 0;
+
+         .add-board-confirm-btn {
+            @include button-add-primary;
+         }
+         .icon-close {
+            color: black;
+            position: relative;
+            vertical-align: middle;
+            &::before {
+               content: '\e91c';
             }
          }
       }

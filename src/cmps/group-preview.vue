@@ -44,8 +44,9 @@
                :task="task"
                :board="board"
                :group="group"
-               :key="task.id"> 
-               </task-preview>
+               :key="task.id"
+            >
+            </task-preview>
          </template>
 
          <div class="task-composer-container">
@@ -114,6 +115,7 @@ export default {
 
    methods: {
       toggleOptions() {
+         console.log('this.isOptionsListOpen', this.isOptionsListOpen)
          this.isOptionsListOpen = !this.isOptionsListOpen
       },
       toggleInput() {

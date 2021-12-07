@@ -1,52 +1,20 @@
 .members-list-modal{
     .no-back{
         .pop-over-header{
-            .pop-over-header-title{
-                
-            }
             .pop-over-header-close-btn{
-                color: #6b778c;
-                position: absolute;
-                right: 20px;
-                top: 0;
+             @include pop-over-close-btn;
             }
         }
         .pop-over-content{
             .pop-over-section{
                 margin-top: 12px;
                 .search-members{
-                    margin: 4px 0 12px;
-                    width: 100%;
-                    background-color: #fafbfc;
-                    border: none;
-                    border-radius: 3px;
-                    box-shadow: inset 0 0 0 2px #dfe1e6;
-                    box-sizing: border-box;
-                    display: block;
-                    line-height: 20px;
-                    margin-bottom: 12px;
-                    outline: none;
-                    padding: 8px 12px;
-                    transition-duration: 85ms;
-                    transition-property: background-color,border-color,box-shadow;
-                    transition-timing-function: ease;
-                    &:hover{
-                        background-color: #ebecf0;
-                        box-shadow: inset 0 0 0 2px #dfe1e6;
-                    }
-                    &:focus{
-                        background-color: #fff;
-                        box-shadow: inset 0 0 0 2px #0079bf;
-                    }
+                    @include pop-over-search-input;
                 }
                 .board-members{
                     margin-top: 12px;
                     h4{
-                        color: #484c52;
-                        font-size: 12px;
-                        font-weight: 600;
-                        line-height: 16px;
-                        margin-top: 16px;
+                       @include pop-over-list-title;
                     }
                     .pop-over-member-list{
                         .member-item{

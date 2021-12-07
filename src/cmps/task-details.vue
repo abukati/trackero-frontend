@@ -131,6 +131,11 @@
 								</div>
 							</div>
 						</div>
+						<template v-if="checkLists">
+							<template v-for="checklist in task.checklists">
+								<checkListPreview @updateTask="updateTask" @addTodo="addTodo" :task="task" :checklist="checklist" />
+							</template>
+						</template>
 						<div class="task-detail-activity window-module">
 							<div class="window-module-title">
 								<span class="activity-icon icon-lg"></span>
@@ -170,7 +175,7 @@
 						<div class="window-module clearfix">
 							<h3>Add to card</h3>
 							<div>
-								<a data-cmp="members" class="button-link" title="Members" @click="toggleList">
+								<a class="button-link" title="Members">
 									<span class="icon-sm icon-member"></span>
 									<span class="sidebar-action-text">Members</span>
 								</a>
@@ -178,7 +183,7 @@
 									<span class="icon-sm icon-label"></span>
 									<span class="sidebar-action-text">Labels</span>
 								</a>
-								<a class="button-link" title="Checklist">
+								<a class="button-link" title="Checklist" @click="toggleList">
 									<span class="icon-sm icon-checklist"></span>
 									<span class="sidebar-action-text">Checklist</span>
 								</a>
@@ -280,6 +285,8 @@
       :info="info" 
       @removeMember="removeTaskMember"
       @addMember="addTaskMember"
+	  @removeLabel="removeTaskLabel"
+	  @addLabel="addTaskLabel"
       @toggleList="toggleList" />
 </div>
 </template>
@@ -288,13 +295,15 @@
 import Avatar from 'vue-avatar';
 import miniProfile from './user-mini-profile';
 import taskOptsList from './task-opts-list';
+import checkListPreview from './checklist-preview';
 
 export default {
 	name: 'task-details',
 	components: {
 		Avatar,
 		miniProfile,
-		taskOptsList
+		taskOptsList,
+		checkListPreview
 	},
 	data() {
 		return {
@@ -326,24 +335,16 @@ export default {
 			this.$router.go(-1);
 		},
 		toggleMiniProfile(ev, user) {
-			try {
-				const { left, top } = ev.target.offsetParent.getBoundingClientRect();
-				this.modalPos.left = Math.ceil(left);
-				this.modalPos.top = Math.ceil(top);
-				this.profileOfUser = user;
-				this.isListOpen = false;
-				this.isMiniProfileOpen = true;
-			} catch (err) {
-				console.log(err);
-			}
+			const { left, top } = ev.target.offsetParent.getBoundingClientRect();
+			this.modalPos.left = Math.ceil(left);
+			this.modalPos.top = Math.ceil(top);
+			this.profileOfUser = user;
+			this.isListOpen = false;
+			this.isMiniProfileOpen = true;
 		},
 		closeMiniProfile() {
-			try {
-				this.profileOfUser = null;
-				this.isMiniProfileOpen = false;
-			} catch (err) {
-				console.log(err);
-			}
+			this.profileOfUser = null;
+			this.isMiniProfileOpen = false;
 		},
 		toggleList(ev) {
 			// const {top,right} = ev.target.offsetParent.getBoundingClientRect()
@@ -353,70 +354,77 @@ export default {
 			} else {
 				this.isMiniProfileOpen = false;
 				this.isListOpen = true;
-				this.info.type = 'members-list';
+				this.info.type = 'check-list';
 			}
 		},
 		getTask(taskId) {
-			try {
-				const currBoard = this.$store.getters.currBoard;
-				currBoard.groups.forEach(group =>
-					group.tasks.find(task => {
-						if (task.id === taskId) {
-							this.task = task;
-							this.groupTitle = group.title;
-						}
-					})
-				);
-			} catch (err) {
-				console.log(err);
-			}
+			const currBoard = this.$store.getters.currBoard;
+			currBoard.groups.forEach(group =>
+				group.tasks.find(task => {
+					if (task.id === taskId) {
+						this.task = task;
+						this.groupTitle = group.title;
+					}
+				})
+			);
 		},
 		joinTask() {
-			try {
-				const task = this.task;
-				const { groupId } = this.$route.params;
-				const user = this.loggedInUser;
-				const memberIdx = this.task.members.findIndex(member => member._id === user._id);
-				if (memberIdx !== -1) {
-					return;
-				} else {
-					if (user) this.task.members.push(user);
-					this.$store.dispatch({ type: 'addTaskMember', task, groupId, user });
-				}
-			} catch (err) {
-				console.log(err);
+			const user = this.loggedInUser;
+			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
+			if (memberIdx !== -1) {
+				return;
+			} else {
+				if (user) this.task.members.push(user);
+				this.updateTask()
 			}
 		},
+		updateTask(){
+			const { groupId } = this.$route.params;
+			this.$store.dispatch({ type: 'updateTask', groupId,task:this.task }); 
+		},
 		addTaskMember(user) {
-			try {
-				const task = this.task;
-				const { groupId } = this.$route.params;
-				const memberIdx = this.task.members.findIndex(member => member._id === user._id);
-				if (memberIdx !== -1) {
-					return;
-				} else {
-					if (user) this.task.members.push(user);
-					this.$store.dispatch({ type: 'addTaskMember', task, groupId, user });
-				}
-			} catch (err) {
-				console.log(err);
+			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
+			if (memberIdx !== -1) {
+				return;
+			} else {
+				if (user) this.task.members.push(user);
+				this.updateTask()
 			}
 		},
 		removeTaskMember(user) {
-			try {
-				const task = this.task;
-				const { groupId } = this.$route.params;
-				const memberIdx = this.task.members.findIndex(member => member._id === user._id);
-				if (memberIdx !== -1) {
-					if (user) this.task.members.splice(memberIdx, 1);
-					this.$store.dispatch({ type: 'removeTaskMember', task, groupId, user });
-				} else {
-					return;
-				}
-			} catch (err) {
-				console.log(err);
+			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
+			if (memberIdx !== -1) {
+				if (user) this.task.members.splice(memberIdx, 1);
+				this.updateTask()
+			} else {
+				return;
 			}
-		}
+		},
+		addTaskLabel(label){
+			const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id);
+			if (labelIdx !== -1) {
+				return;
+			} else {
+				if (label) this.task.labels.push(label);
+				this.updateTask()
+			}
+		},
+		removeTaskLabel(label) {
+			const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id);
+			if (labelIdx !== -1) {
+				if (label) this.task.labels.splice(labelIdx, 1);
+				this.updateTask()
+			} else {
+				return;
+			}
+		},
+		async addTodo(todo,checklistId){
+			var newTodo = await this.$store.dispatch({ type: 'getEmptyTodo'}); 
+			newTodo.text = todo.text
+			const checklist = this.task.checklists.find(currChecklist => currChecklist.id === checklistId);
+			checklist.todos.push(newTodo);
+			this.updateTask()
+		},
 	},
 	computed: {
 		isCoverBgc() {
@@ -446,6 +454,9 @@ export default {
 		},
 		getModalPos() {
 			return this.modalPos;
+		},
+		checkLists(){
+			return this.task.checklists.length;
 		}
 	}
 };

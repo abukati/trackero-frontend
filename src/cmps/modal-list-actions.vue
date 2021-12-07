@@ -4,7 +4,7 @@
       :style="{
          top: 44 + 'px',
          left: 235 + 'px',
-         'background-color': '#ffffff',
+         'background-color': '#fff',
       }"
    >
       <div class="no-back">
@@ -43,14 +43,16 @@ export default {
    name: 'modalListActions',
    data() {
       return {
-         isModalOpen: false,
-         isOptionsListOpen: false,
+         // isModalOpen: false,
+         isOptionsListOpen: true,
       }
    },
-
+   created() {
+      console.log('created')
+   },
    methods: {
       closeModal() {
-         this.isModalOpen = !this.isModalOpen
+         // this.isModalOpen = !this.isModalOpen
          this.$emit('closeModal')
       },
       addTask() {
