@@ -39,13 +39,6 @@ export const boardStore = {
          })
          return titles
       },
-      starredBoards(state) {
-         let starred = []
-         state.boards.filter(board => {
-            if (board.isStarred) starred.push(board)
-         })
-         return starred
-      },
       allBoards(state) {
          let all = []
          state.boards.filter(board => {

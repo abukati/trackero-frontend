@@ -58,7 +58,7 @@ function _createUsers() {
    var users = JSON.parse(localStorage.getItem(KEY))
    if (!users || !users.length) {
       users = [
-         _createUser('u100', 'guest', 'guest', 'guestuser.png', '3tILf'),
+         _createUser('u100', 'guest', 'guest', 'guestuser.png'),
          _createUser('u101', 'baselB', 'Basel Boulos', 'baseluser.png'),
          _createUser('u102', 'ArtiomB', 'Artiom Bukati', 'artiomuser.png'),
          _createUser('u103', 'NoaN', 'Noa Nissim', 'noauser.png'),
@@ -68,7 +68,7 @@ function _createUsers() {
    }
 }
 
-function _createUser(id, username, fullname, imgUrl = '', boardId = '') {
+function _createUser(id, username, fullname, imgUrl = '') {
    const user = {
       _id: id,
       username,
@@ -82,7 +82,8 @@ function _createUser(id, username, fullname, imgUrl = '', boardId = '') {
             taskId: '',
          },
       ],
-      subscribedTo: [ boardId ]
+      subscribedTo: [],
+      starredBoardsIds: []
    }
    return user
 }
@@ -101,7 +102,8 @@ function getEmptyUser() {
             taskId: '',
          },
       ],
-      subscribedTo: []
+      subscribedTo: [],
+      starredBoardsIds: []
    }
    return user
 }

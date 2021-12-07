@@ -106,6 +106,7 @@ export default {
    data() {
       return {
          loggedUser: this.$store.getters.currLoggedUser,
+         starredBoard: false
       }
    },
    computed: {
@@ -118,7 +119,7 @@ export default {
          }
       },
       isBoardStarred() {
-         return this.board.isStarred ? true : false
+         return this.$store.getters.currLoggedUser.starredBoardsIds.some(board => board._id === this.board._id)
       },
       isUserSubbed() {
          return this.$store.getters.currLoggedUser.subscribedTo.some(boardId => boardId === this.board._id)
@@ -137,17 +138,29 @@ export default {
       toggleBoardNavMenu(ev) {
          this.$emit('toggleBoardNavMenu', ev)
       },
-      toggleUserWatchlist() {
-         let userToUpdate = JSON.parse(JSON.stringify(this.loggedUser))
-         const idx = userToUpdate.subscribedTo.findIndex(board => board === this.board._id)
-         idx === -1 ? userToUpdate.subscribedTo.push(this.board._id) : userToUpdate.subscribedTo.splice(idx, 1)
-         this.$store.dispatch('saveUser', { user: userToUpdate })
+      async toggleUserWatchlist() {
+         try {
+            let userToUpdate = this.loggedUser
+            const idx = userToUpdate.subscribedTo.findIndex(board => board === this.board._id)
+            idx === -1 ? userToUpdate.subscribedTo.push(this.board._id) : userToUpdate.subscribedTo.splice(idx, 1)
+            this.$store.dispatch('saveUser', { user: userToUpdate })
+         } catch (err) {
+            console.log(err)
+         }
       },
-      toggleBoardStar() {
-         // TODO: wire up
-         this.board.isStarred = !this.board.isStarred
-         this.$store.dispatch({ type: 'updateBoard', board: this.board.isStarred })
-
+      async toggleBoardStar() {
+         try {
+            let userToUpdate = this.loggedUser
+            const idx = userToUpdate.starredBoardsIds.findIndex(board => board._id === this.board._id)
+            if (idx === -1) {
+               this.starredBoard = !this.starredBoard
+               const { _id, title, style } = this.board
+               userToUpdate.starredBoardsIds.push({_id,title, ...style})
+            } else userToUpdate.starredBoardsIds.splice(idx, 1)
+            await this.$store.dispatch({ type: 'saveUser', user: userToUpdate })
+         } catch (err) {
+            console.log(err)
+         }
       }
    }
 }

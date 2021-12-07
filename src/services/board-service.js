@@ -115,7 +115,6 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
       },
       style: {
          bgColor: '#29cce5',
-         bgImg: ''
       },
       labels: [],
       members: [],
@@ -428,7 +427,6 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
       isStarred: false,
       style: {
          bgColor: '#29cce5',
-         bgImg: ''
       },
       isLabelsShown: true,
       labels: [

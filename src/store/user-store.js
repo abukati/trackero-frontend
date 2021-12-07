@@ -11,7 +11,10 @@ export const userStore = {
       },
       currLoggedUser(state) {
          return state.loggedUser
-      }
+      },
+      starredBoards(state) {
+         return state.loggedUser.starredBoardsIds
+      },
    },
    mutations: {
       setUsers(state, { users }) {
@@ -21,6 +24,7 @@ export const userStore = {
       saveUser(state, { userToSave }) {
          const idx = state.users.findIndex(user => user._id === userToSave._id)
          state.users.splice(idx, 1, userToSave)
+         state.loggedUser = userToSave // TEMP - NEEDS TO BE CHANGED
       }
    },
    actions: {
@@ -32,19 +36,10 @@ export const userStore = {
             console.error(err)
          }
       },
-      async toggleBoardSub({ state, commit }, { boardId }) {
-         try {
-            const updatedUser = await userService.updateWatchlist(state.loggedUser, boardId)
-            commit({ type: 'updateUserWatchlist', updatedUser })
-         } catch (err) {
-            console.error(err)
-         }
-      },
       async saveUser({ state, commit }, { user }) {
          try {
             const userToSave = await userService.save(user)
             commit({ type: 'saveUser', userToSave })
-            state.loggedUser = userToSave // TEMP - NEEDS TO BE CHANGED
          } catch (err) {
             console.log(err)
          }
