@@ -160,6 +160,16 @@
                </div> -->
 					</div>
 					<div class="window-sidebar no-box-sizing">
+						<task-opts-list 
+							v-if="isListOpen" 
+							:info="info" 
+							@removeMember="removeTaskMember"
+							@addMember="addTaskMember"
+							@removeLabel="removeTaskLabel"
+							@addLabel="addTaskLabel"
+							@toggleList="toggleList" 
+							@addCheckList="addCheckList"
+						/>
 						<div v-if="!showSuggested" class="window-module suggested-actions-module">
 							<div class="suggested-actions-settings">
 								<span class="settings-icon icon-sm"></span>
@@ -175,15 +185,15 @@
 						<div class="window-module clearfix">
 							<h3>Add to card</h3>
 							<div>
-								<a class="button-link" title="Members">
+								<a @click="toggleMemberList" class="button-link" title="Members">
 									<span class="icon-sm icon-member"></span>
 									<span class="sidebar-action-text">Members</span>
 								</a>
-								<a class="button-link" title="Labels">
+								<a @click="toggleLabelsList" class="button-link" title="Labels">
 									<span class="icon-sm icon-label"></span>
 									<span class="sidebar-action-text">Labels</span>
 								</a>
-								<a class="button-link" title="Checklist" @click="toggleList">
+								<a @click="toggleCheckList" class="button-link" title="Checklist">
 									<span class="icon-sm icon-checklist"></span>
 									<span class="sidebar-action-text">Checklist</span>
 								</a>
@@ -280,16 +290,6 @@
 			</div>
 		</div>
 	</div>
-		<task-opts-list 
-      v-if="isListOpen" 
-      :info="info" 
-      @removeMember="removeTaskMember"
-      @addMember="addTaskMember"
-	  @removeLabel="removeTaskLabel"
-	  @addLabel="addTaskLabel"
-      @toggleList="toggleList" 
-	  @addCheckList="addCheckList"
-	  />
 </div>
 </template>
 
@@ -356,8 +356,29 @@ export default {
 			} else {
 				this.isMiniProfileOpen = false;
 				this.isListOpen = true;
-				this.info.type = 'check-list';
-			}
+			}	
+		},
+		toggleMemberList(ev){
+			this.toggleModals()
+			const {top,bottom} = ev.target.offsetParent.getBoundingClientRect()
+			this.info.modalPos.bottom = Math.ceil(bottom)
+			this.info.type = 'members-list'
+		},
+		toggleLabelsList(ev){
+			this.toggleModals()
+			this.info.type = 'labels-list'
+		},
+		toggleCheckList(ev){
+			this.toggleModals()
+			this.info.type = 'check-list'
+		},
+		toggleModals(){
+			// if (this.isListOpen) {
+			// 	this.isListOpen = !this.isListOpen;
+			// } else {
+				this.isMiniProfileOpen = false;
+				this.isListOpen = true;
+			// }
 		},
 		getTask(taskId) {
 			const currBoard = this.$store.getters.currBoard;

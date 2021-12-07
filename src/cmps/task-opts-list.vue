@@ -25,6 +25,11 @@ export default {
         labelsList,
         checkList,
     },
+    data(){
+        return{
+            currCmp:''
+        }
+    },
     methods: {
         removeMember(user){
             this.$emit('removeMember',user)
@@ -44,6 +49,9 @@ export default {
         toggleList(){
             this.$emit('toggleList')
         },
+        setCurrCmp(cmp){
+            this.currCmp = cmp
+        }
     }
 }
 </script>

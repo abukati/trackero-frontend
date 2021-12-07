@@ -1,6 +1,5 @@
 <template>
-<!-- :style="{'left':modalPos.left + 'px', 'top':modalPos.top + 37 + 'px'}" -->
-    <div class="members-list-modal pop-over is-shown">
+    <div :style="{'top': info.modalPos.bottom + 5 + 'px'}" class="members-list-modal pop-over is-shown details-popup">
         <div class="no-back">
             <div class="pop-over-header">
                 <span class="pop-over-header-title">Members</span>
