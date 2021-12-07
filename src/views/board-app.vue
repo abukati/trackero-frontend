@@ -1,7 +1,6 @@
 <template>
    <section
       class="board-app"
-      :style="{ backgroundColor: getBoardBgc }"
       v-if="board"
    >
       <div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
@@ -154,9 +153,6 @@ export default {
          set(groups) {
             this.$store.dispatch({ type: 'updateGroups', groups })
          }
-      },
-      getBoardBgc() {
-         return this.$store.getters.getBoardBgc
       },
 
    },

@@ -1,6 +1,6 @@
 <template>
    <div id="app">
-      <main :style="{ backgroundColor: pageBgc }">
+      <main :style="{ background: pageBgc }">
          <app-header v-if="loggedUser" />
          <router-view v-if="loggedUser" />
          <!-- <loading-overlay v-else /> -->

@@ -54,7 +54,7 @@ $menuDiveders: #091e4221;
    }
    box-sizing: border-box;
    flex: 0 0 auto;
-   height: 48px;
+   height: 49px;
    padding: 0 6px 0 12px;
    position: relative;
    width: 100%;
@@ -307,4 +307,133 @@ $menuDiveders: #091e4221;
       font-weight: 400;
       white-space: pre;
    }
+}
+
+.board-backgrounds-section-tiles {
+   overflow-y: hidden;
+}
+
+.board-backgrounds-section-tile {
+   box-sizing: border-box;
+   cursor: pointer;
+   float: left;
+   padding: 0 4px;
+   position: relative;
+   text-align: center;
+   width: 50%;
+}
+
+.icon-organization-visible:before {
+   content: "\e951";
+}
+
+.board-backgrounds-section-tile.board-backgrounds-section-tile-large {
+   width: 50%;
+}
+
+.board-backgrounds-section-tile.board-backgrounds-section-tile-large .image {
+   height: 96px;
+}
+
+.board-backgrounds-section-tile .image {
+   background-color: #dfe1e6;
+   background-size: cover;
+   border-radius: 8px;
+   height: 96px;
+   margin-bottom: 8px;
+   width: 100%;
+}
+
+.board-backgrounds-section-tile .image:hover {
+   opacity: .7;
+}
+
+.board-background-select .background-box:hover {
+   cursor: pointer;
+   opacity: .8;
+}
+
+.board-backgrounds-photos {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   left: 0;
+   overflow: hidden;
+   position: absolute;
+   text-align: center;
+   top: 0;
+   width: 100%;
+}
+
+.board-backgrounds-photos .board-backgrounds-list-observer {
+   flex: 1;
+   overflow-x: hidden;
+   overflow-y: auto;
+   position: relative;
+}
+
+.board-backgrounds-list-observer {
+   font-size: 0;
+   margin: 0 -4px 8px;
+}
+
+.board-background-select {
+   border-radius: 8px;
+   box-sizing: border-box;
+   display: inline-block;
+   padding: 0 4px 8px;
+   position: relative;
+   text-align: left;
+   vertical-align: top;
+   width: 50%;
+   z-index: 1;
+}
+
+.board-menu-content input[type=search], .board-menu-content input[type=text] {
+   background: #fafbfc;
+   width: 100%;
+}
+
+.icon-search:before {
+   content: "\e960";
+}
+
+.board-backgrounds-photos .search-photos .icon-search {
+   left: 8px;
+   position: absolute;
+   top: 8px;
+}
+
+.board-backgrounds-photos .search-photos {
+   margin: 1px;
+   position: relative;
+
+   & input[type=text] {
+      -webkit-appearance: none;
+      background-color: #fafbfc;
+      border: none;
+      border-radius: 3px;
+      box-shadow: inset 0 0 0 2px #dfe1e6;
+      box-sizing: border-box;
+      display: block;
+      line-height: 20px;
+      margin-bottom: 12px;
+      outline: none;
+      padding: 8px 12px;
+      transition-duration: 85ms;
+      transition-property: background-color,border-color,box-shadow;
+      transition-timing-function: ease;
+      padding-left: 32px;
+   }
+}
+
+.board-background-select .background-box {
+   background-color: #dfe1e6;
+   background-size: cover;
+   border-radius: 8px;
+   display: block;
+   height: 96px;
+   overflow: hidden;
+   position: relative;
+   width: 100%;
 }
