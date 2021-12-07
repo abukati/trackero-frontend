@@ -308,6 +308,16 @@
 }
 
 .card-label {
+    border-radius: 4px;
+    color: #fff;
+    display: block;
+    margin-right: 4px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 4px 6px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
    &.task-detail-label {
       cursor: pointer;
       border-radius: 3px;

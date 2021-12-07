@@ -38,8 +38,8 @@
 <script>
 import Avatar from 'vue-avatar'
 export default {
-    props:['info'],
     name:"members-list",
+    props:['info'],
     components: {
         Avatar
     },
