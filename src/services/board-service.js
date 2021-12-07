@@ -25,12 +25,11 @@ export const boardService = {
    createTask,
    updateTasks,
    saveTask,
-   addTaskMember,
-   removeTaskMember,
    updateSingleTask,
+   getEmptyTodo,
    //MEMBER
    addMember,
-   removeMember
+   removeMember,
 }
 
 //----------------------------------------------------------- */
@@ -271,6 +270,21 @@ async function saveTask(task, groupId, board) {
    }
 }
 
+async function removeTask(task, groupId, board){
+}
+
+async function updateSingleTask(task, board, groupId) {
+   try {
+      const currGroup = await _getCurrGroup(groupId, board)
+      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+      currGroup.tasks[taskIdx] = task
+      const updatedGroup = await _updateGroup(currGroup, currGroup.id, board)
+      return updatedGroup.tasks[taskIdx]
+   } catch (err) {
+      console.log(err)
+   }
+}
+
 async function updateTasks(tasks, group, board) {
    try {
       const currGroup = await _getCurrGroup(group.id, board)
@@ -281,18 +295,6 @@ async function updateTasks(tasks, group, board) {
    }
 }
 
-async function updateSingleTask(task, board, groupId) {
-   try {
-      const currGroup = await _getCurrGroup(groupId, board)
-      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
-      currGroup.tasks[taskIdx] = task
-      // currGroup.tasks.splice()
-      const updatedGroup = await _updateGroup(currGroup, currGroup.id, board)
-      return updatedGroup.tasks[taskIdx]
-   } catch (err) {
-      console.log(err)
-   }
-}
 
 function _createEmptyTask() {
    return {
@@ -348,41 +350,16 @@ function _createEmptyTask() {
    }
 }
 
-async function addTaskMember(task, groupId, user, board) {
-   try {
-      const currGroup = await _getCurrGroup(groupId, board)
-      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
-      const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
-      if (memberIdx !== -1) {
-         console.log('User is already a member of this task')
-         return memberIdx
-      } else {
-         currGroup.tasks[taskIdx].members.push(user)
-         const updatedGroup = await _updateGroup(currGroup, groupId, board)
-         return updatedGroup.tasks[taskIdx]
-      }
-   } catch (err) {
-      console.log(err)
+
+function getEmptyTodo(){
+   const todo = {
+      id: utilService.makeId(),
+      text: '',
+      isDone: false,
    }
+   return todo
 }
 
-async function removeTaskMember(task, groupId, user, board) {
-   try {
-      const currGroup = await _getCurrGroup(groupId, board)
-      const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
-      const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
-      if (memberIdx !== -1) {
-         currGroup.tasks[taskIdx].members.splice(memberIdx, 1)
-         const updatedGroup = await _updateGroup(currGroup, groupId, board)
-         return updatedGroup.tasks[taskIdx]
-      } else {
-         console.log('User is not member, cannot remove')
-         return
-      }
-   } catch (err) {
-      console.log(err)
-   }
-}
 
 //----------------------------------------------------------- */
 //***********************MEMBERS********************************
@@ -458,37 +435,37 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          {
             id: 'l101',
             title: 'Done',
-            color: '#61bd4f'
+            color: 'green'
          },
          {
             id: 'l102',
             title: 'Attention',
-            color: '#f2d600'
+            color: 'yellow'
          },
          {
             id: 'l103',
             title: 'Critical',
-            color: '#ff9f1a'
+            color: 'orange'
          },
          {
             id: 'l104',
             title: 'Bug',
-            color: '#eb5a46'
+            color: 'red'
          },
          {
             id: 'l105',
             title: 'On it',
-            color: '#c377e0'
+            color: 'purple'
          },
          {
             id: 'l106',
             title: 'Idea',
-            color: '#0079bf'
+            color: 'blue'
          },
          {
             id: 'l107',
             title: 'Urgent',
-            color: '#344563'
+            color: 'navy'
          }
       ],
       members: [
@@ -562,17 +539,17 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l101',
                         title: 'Done',
-                        color: '#61bd4f'
+                        color: 'green'
                      },
                      {
                         id: 'l102',
                         title: 'Attention',
-                        color: '#f2d600'
+                        color: 'yellow'
                      },
                      {
                         id: 'l103',
                         title: 'Critical',
-                        color: '#ff9f1a'
+                        color: 'orange'
                      }
                   ],
                   byUser: {
@@ -663,22 +640,22 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l104',
                         title: 'Bug',
-                        color: '#eb5a46'
+                        color: 'red'
                      },
                      {
                         id: 'l105',
                         title: 'On it',
-                        color: '#c377e0'
+                        color: 'purple'
                      },
                      {
                         id: 'l106',
                         title: 'Idea',
-                        color: '#0079bf'
+                        color: 'blue'
                      },
                      {
                         id: 'l107',
                         title: 'Urgent',
-                        color: '#344563'
+                        color: 'navy'
                      }
                   ],
                   byUser: {
@@ -747,22 +724,22 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      // {
                      //    id: 'l104',
                      //    title: 'Bug',
-                     //    color: '#eb5a46'
+                     //    color: 'red'
                      // },
                      // {
                      //    id: 'l105',
                      //    title: 'On it',
-                     //    color: '#c377e0'
+                     //    color: 'purple'
                      // },
                      // {
                      //    id: 'l106',
                      //    title: 'Idea',
-                     //    color: '#0079bf'
+                     //    color: 'blue'
                      // },
                      {
                         id: 'l107',
                         title: 'Urgent',
-                        color: '#344563'
+                        color: 'navy'
                      }
                   ],
                   byUser: {
@@ -848,22 +825,22 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      // {
                      //    id: 'l104',
                      //    title: 'Bug',
-                     //    color: '#eb5a46'
+                     //    color: 'red'
                      // },
                      // {
                      //    id: 'l105',
                      //    title: 'On it',
-                     //    color: '#c377e0'
+                     //    color: 'purple'
                      // },
                      {
                         id: 'l106',
                         title: 'Idea',
-                        color: '#0079bf'
+                        color: 'blue'
                      }
                      // {
                      //    id: 'l107',
                      //    title: 'Urgent',
-                     //    color: '#344563'
+                     //    color: 'navy'
                      // }
                   ],
                   byUser: {
@@ -941,17 +918,17 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l103',
                         title: 'Critical',
-                        color: '#ff9f1a'
+                        color: 'orange'
                      },
                      {
                         id: 'l104',
                         title: 'Bug',
-                        color: '#eb5a46'
+                        color: 'red'
                      },
                      {
                         id: 'l105',
                         title: 'On it',
-                        color: '#c377e0'
+                        color: 'purple'
                      }
                   ],
                   byUser: {
@@ -1000,6 +977,27 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                               id: utilService.makeId()
                            }
                         ]
+                     },
+                     {
+                        id: utilService.makeId(),
+                        title: 'Checklist',
+                        todos: [
+                           {
+                              text: 'Git permissions2',
+                              isDone: true,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'AWS permissions2',
+                              isDone: false,
+                              id: utilService.makeId()
+                           },
+                           {
+                              text: 'Mongo permissions2',
+                              isDone: false,
+                              id: utilService.makeId()
+                           }
+                        ]
                      }
                   ]
                },
@@ -1041,17 +1039,17 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l101',
                         title: 'Done',
-                        color: '#61bd4f'
+                        color: 'green'
                      },
                      {
                         id: 'l104',
                         title: 'Bug',
-                        color: '#eb5a46'
+                        color: 'red'
                      },
                      {
                         id: 'l105',
                         title: 'On it',
-                        color: '#c377e0'
+                        color: 'purple'
                      }
                   ],
                   byUser: {
@@ -1126,7 +1124,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l105',
                         title: 'On it',
-                        color: '#c377e0'
+                        color: 'purple'
                      }
                   ],
                   byUser: {
@@ -1197,12 +1195,12 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l103',
                         title: 'Critical',
-                        color: '#ff9f1a'
+                        color: 'orange'
                      },
                      {
                         id: 'l104',
                         title: 'Bug',
-                        color: '#eb5a46'
+                        color: 'red'
                      }
                   ],
                   byUser: {
@@ -1270,7 +1268,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l101',
                         title: 'Done',
-                        color: '#61bd4f'
+                        color: 'green'
                      }
                   ],
                   byUser: {
@@ -1333,7 +1331,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                      {
                         id: 'l101',
                         title: 'Done',
-                        color: '#61bd4f'
+                        color: 'green'
                      }
                   ],
                   byUser: {
@@ -1404,22 +1402,22 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                   {
                      id: 'l103',
                      title: 'Critical',
-                     color: '#ff9f1a'
+                     color: 'orange'
                   },
                   {
                      id: 'l105',
                      title: 'On it',
-                     color: '#c377e0'
+                     color: 'purple'
                   },
                   {
                      id: 'l106',
                      title: 'Idea',
-                     color: '#0079bf'
+                     color: 'blue'
                   },
                   {
                      id: 'l107',
                      title: 'Urgent',
-                     color: '#344563'
+                     color: '#navy'
                   }
                ],
                members: [

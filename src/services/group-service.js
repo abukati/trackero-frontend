@@ -34,6 +34,69 @@
 //     return currBoard
 //  }
 
+
+
+// DO NOT DELETE THIS UNTIL WE FINISH ( ADD TASK MEMBER + REMOVE )
+
+// STORE
+      // async addTaskMember({ state, commit }, { task, groupId, user }) {
+      //    try {
+      //       // const updatedTask = await boardService.addTaskMember(task, groupId, user, state.currBoard)
+      //       const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
+      //       if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
+      //    } catch (err) {
+      //       console.log(err)
+      //    }
+      // },
+      // async removeTaskMember({ state, commit }, { task, groupId, user }) {
+      //    try {
+      //       // const updatedTask = await boardService.removeTaskMember(task, groupId, user, state.currBoard)
+      //       const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
+      //       if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
+      //    } catch (err) {
+      //       console.log(err)
+      //    }
+      // },
+      
+// SERVICE
+
+// async function addTaskMember(task, groupId, user, board) {
+//    try {
+//       const currGroup = await _getCurrGroup(groupId, board)
+//       const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+//       const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
+//       if (memberIdx !== -1) {
+//          console.log('User is already a member of this task')
+//          return memberIdx
+//       } else {
+//          currGroup.tasks[taskIdx].members.push(user)
+//          const updatedGroup = await _updateGroup(currGroup, groupId, board)
+//          return updatedGroup.tasks[taskIdx]
+//       }
+//    } catch (err) {
+//       console.log(err)
+//    }
+// }
+
+// async function removeTaskMember(task, groupId, user, board) {
+//    try {
+//       const currGroup = await _getCurrGroup(groupId, board)
+//       const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+//       const memberIdx = currGroup.tasks[taskIdx].members.findIndex(member => member._id === user._id)
+//       if (memberIdx !== -1) {
+//          currGroup.tasks[taskIdx].members.splice(memberIdx, 1)
+//          const updatedGroup = await _updateGroup(currGroup, groupId, board)
+//          return updatedGroup.tasks[taskIdx]
+//       } else {
+//          console.log('User is not member, cannot remove')
+//          return
+//       }
+//    } catch (err) {
+//       console.log(err)
+//    }
+// }
+
+
 // function getClonedBoard(
 // 	title,
 // 	user = {

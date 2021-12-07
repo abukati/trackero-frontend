@@ -47,7 +47,9 @@ export const boardStore = {
       getBoardBgc(state) {
          return state.currBoard.style.bgColor
       },
-
+      labels(state){
+         return state.currBoard.labels
+      },
       //----------------------------------------------------------- */
       //************************MEMBERS*****************************
       //----------------------------------------------------------- */
@@ -259,29 +261,18 @@ export const boardStore = {
       async updateTask({ state, commit }, { groupId, task }) {
          try {
             const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
-            console.log('updatedTask', updatedTask)
             if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
          } catch (err) {
             console.log(err)
          }
       },
-      async addTaskMember({ state, commit }, { task, groupId, user }) {
+      async getEmptyTodo({ state, commit }){
          try {
-            const updatedTask = await boardService.addTaskMember(task, groupId, user, state.currBoard)
-            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
-         } catch (err) {
+            return boardService.getEmptyTodo()
+          } catch (err) {
             console.log(err)
-         }
+          }
       },
-      async removeTaskMember({ state, commit }, { task, groupId, user }) {
-         try {
-            const updatedTask = await boardService.removeTaskMember(task, groupId, user, state.currBoard)
-            if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
-         } catch (err) {
-            console.log(err)
-         }
-      },
-
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */

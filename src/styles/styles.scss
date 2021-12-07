@@ -3,9 +3,10 @@
 @import 'setup/functions';
 
 // BASICS
-@import 'basics/helpers';
-@import 'basics/base';
 @import 'basics/mixins';
+@import 'basics/variables';
+@import 'basics/base';
+@import 'basics/helpers';
 
 // COMPONENTS
 
@@ -20,6 +21,9 @@
 @import 'components/user-mini-profile';
 @import 'components/members-list';
 @import 'components/labels-list';
+@import 'components/checklist-preview';
+@import 'components/check-list';
+@import 'components/todo-preview';
 
 // VIEWS
 @import 'views/home';
