@@ -19,16 +19,12 @@
                      <div
                         class="board-preview"
                         :style="{
-                           backgroundImage:
-                              'url(' +
-                              require(`@/assets/img/backgrounds/bgImg${
-                                 idx + 1
-                              }.jpg`) +
-                              ')',
+                           background: board.bgColor,
                         }"
                      >
                         <div class="board-preview-details">
                            <h3>{{ board.title }}</h3>
+                           <!-- <h3>{{ board.bgColor }}</h3> -->
                            <!-- <h3>{{ board._id }}</h3> -->
                            <span
                               @click.prevent="toggleIsStarred(board)"
@@ -66,20 +62,17 @@
                      <div
                         class="board-preview"
                         :style="{
-                           backgroundImage:
-                              'url(' +
-                              require(`@/assets/img/backgrounds/bgImg${
-                                 idx + 1
-                              }.jpg`) +
-                              ')',
+                           background: board.style.bgColor,
                         }"
                      >
                         <div class="board-preview-details">
                            <h3>{{ board.title }}</h3>
+                           <!-- <h3>{{ board.style.bgColor }}</h3> -->
                            <!-- <h3>{{ board._id }}</h3> -->
                            <span
                               class="icon-lg icon-star board-star-btn-icon"
                               @click.prevent="toggleIsStarred(board)"
+                              :class="{ 'is-on': isStarredIcon }"
                            ></span>
                         </div>
                      </div>
@@ -149,7 +142,8 @@ export default {
          currBoardId: null,
          currBoard: null,
          starred: null,
-         isInputOpen: false
+         isInputOpen: false,
+         loggedUser: null
       }
    },
    async created() {
@@ -157,6 +151,8 @@ export default {
          await this.$store.dispatch({ type: 'loadBoards' })
          this.boards = this.$store.getters.allBoards
          this.starred = this.$store.getters.starredBoards
+         console.log('this.starred', this.starred)
+         this.loggedUser = this.$store.getters.currLoggedUser
       } catch (err) {
          console.log(err)
       }
@@ -182,16 +178,38 @@ export default {
             console.log(err)
          }
       },
+      // async toggleIsStarred(board) {
+      //    try {
+      //       // const idx = this.loggedUser.starredBoards.findIndex(board => board._id === this.board._id)
+      //       // if (idx === -1) this.loggedUser.starredBoards.push(this.board)
+      //       // else this.loggedUser.starredBoards.splice(1, idx)
+      //       // await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
+
+      //       this.currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: board._id })
+      //       this.currBoard.isStarred = !this.currBoard.isStarred
+      //       await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
+      //       await this.$store.dispatch({ type: 'loadBoards' })
+      //       this.boards = this.$store.getters.allBoards
+      //       this.starred = this.$store.getters.starredBoards
+      //    } catch (err) {
+      //       console.log(err)
+      //    }
+      // },
       async toggleIsStarred(board) {
          try {
-            // const idx = this.loggedUser.starredBoards.findIndex(board => board._id === this.board._id)
-            // if (idx === -1) this.loggedUser.starredBoards.push(this.board)
-            // else this.loggedUser.starredBoards.splice(1, idx)
-            // await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
+            const boardId = board._id
+            if (this.loggedUser.starredBoardsIds.length) {
+               var idx = this.loggedUser.starredBoardsIds.findIndex(board => board._id === boardId)
+               if (idx === -1) {
+                  const { _id, title, style } = board
+                  this.loggedUser.starredBoardsIds.push({ _id, title, ...style })
+               } else this.loggedUser.starredBoardsIds.splice(idx, 1)
+            } else {
+               const { _id, title, style } = board
+               this.loggedUser.starredBoardsIds.push({ _id, title, ...style })
+            }
 
-            this.currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: board._id })
-            this.currBoard.isStarred = !this.currBoard.isStarred
-            await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
+            await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
             await this.$store.dispatch({ type: 'loadBoards' })
             this.boards = this.$store.getters.allBoards
             this.starred = this.$store.getters.starredBoards
@@ -211,6 +229,7 @@ export default {
       async starredBoards() {
          try {
             const starred = await this.$store.getters.starredBoards
+            console.log('starred', starred)
             return starred
          } catch (err) {
             console.log(err)
@@ -232,6 +251,14 @@ export default {
          }
          return color
       },
+      isStarredIcon() {
+         // const boardId = board._id
+         // var idx = this.loggedUser.starredBoardsIds.findIndex(board => board._id === boardId)
+         // console.log('idx', idx)
+         // if (idx !== -1) return true
+         // else return false
+         return false
+      }
 
    }
 }
