@@ -26,20 +26,39 @@ export const boardStore = {
          return state.currBoard
       },
       boardsIds(state) {
-         return state.boards.map(board => board._id)
+         let ids = []
+         state.boards.map(board => {
+            ids.push(board._id)
+         })
+         return ids
       },
       boardsTitles(state) {
-         return state.boards.map(board => board.title)
-      },
-      starredBoardIds(state) {
-         return state.boards.filter(board => {
-            if (board.isStarred) return board._id
+         let titles = []
+         state.boards.map(board => {
+            titles.push(board.title)
          })
+         return titles
+      },
+      starredBoards(state) {
+         let starred = []
+         state.boards.filter(board => {
+            if (board.isStarred) starred.push(board)
+         })
+         return starred
+      },
+      allBoards(state) {
+         let all = []
+         state.boards.filter(board => {
+            all.push(board)
+         })
+         return all
       },
       starBoardsTitles(state) {
-         return state.boards.filter(board => {
-            if (board.isStarred) return board.title
+         let starredTitles = []
+         state.boards.filter(board => {
+            if (board.isStarred) starredTitles.push(board.title)
          })
+         return starredTitles
       },
       boardGroups(state) {
          return state.currBoard.groups
@@ -174,6 +193,7 @@ export const boardStore = {
       },
       async getBoardbyId({ commit }, { boardId }) {
          try {
+            console.log('board from store', boardId)
             const board = await boardService.getById(boardId)
             commit({ type: 'setCurrBoard', currBoard: board })
             return board

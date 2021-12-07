@@ -128,3 +128,41 @@
    border-radius: 3px;
    color: #fff;
 }
+
+/* Media queries Breakpoint mixins */
+
+@mixin for-mobile-layout {
+   @media (max-width: $break-narrow) {
+      @content;
+   }
+}
+
+@mixin for-narrow-layout {
+   @media (min-width: $break-narrow) {
+      @content;
+   }
+}
+
+@mixin for-normal-layout {
+   @media (min-width: $break-normal) {
+      @content;
+   }
+}
+
+@mixin for-wide-layout {
+   @media (min-width: $break-wide) {
+      @content;
+   }
+}
+
+@mixin for-extra-wide-layout {
+   @media (min-width: $break-wide) {
+      @content;
+   }
+}
+
+@mixin layoutGTC($direction, $textAlign, $maxWidth) {
+   flex-direction: $direction;
+   text-align: $textAlign;
+   max-width: $maxWidth;
+}

@@ -106,7 +106,7 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
    const board = {
       title,
       createdAt: Date.now(),
-      isStarred,
+      isStarred: false,
       createdBy: {
          _id: user._id,
          username: user.username,

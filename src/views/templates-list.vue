@@ -1,31 +1,37 @@
 <template>
    <section class="workspace-container-wrapper">
       <div class="workspace-container">
-         <div class="boards-wrapper">
+         <div class="boards-wrapper" v-if="boards && starred">
             <div class="starred-boards">
-               <div class="preview-title" v-if="boardsIds">
+               <div class="preview-title" v-if="boards">
                   <h3>
                      <span class="icon-lg icon-star board-star-btn-icon"></span>
                      STARRED WORKSPACES
                   </h3>
                </div>
-               <div class="board-list" v-if="starredBoardIds.length">
+               <div class="board-list" v-if="starred.length">
                   <router-link
-                     v-for="(boardId, idx) in starredBoardIds"
+                     v-for="(board, idx) in starred"
                      :key="idx"
                      class="board-link"
-                     :to="`board/${boardId}`"
+                     :to="`board/${board._id}`"
                   >
                      <div
                         class="board-preview"
-                        :style="{ backgroundColor: getRandomColor }"
+                        :style="{
+                           backgroundImage:
+                              'url(' +
+                              require(`@/assets/img/backgrounds/bgImg${
+                                 idx + 1
+                              }.jpg`) +
+                              ')',
+                        }"
                      >
                         <div class="board-preview-details">
-                           <!-- <h3>{{ currBoardStarName[idx] }}</h3> -->
-                           <h3>{{ boardId }}</h3>
+                           <h3>{{ board.title }}</h3>
+                           <!-- <h3>{{ board._id }}</h3> -->
                            <span
-                              :data-address="JSON.stringify(boardId)"
-                              @click.prevent="toggleIsStarred(boardId)"
+                              @click.prevent="toggleIsStarred(board)"
                               class="
                                  icon-lg icon-star
                                  board-star-btn-icon
@@ -39,7 +45,7 @@
                </div>
             </div>
             <div class="workspaces-boards">
-               <div class="preview-title" v-if="boardsIds">
+               <div class="preview-title" v-if="boards">
                   <h3>
                      <span
                         class="
@@ -52,26 +58,63 @@
                </div>
                <div class="board-list">
                   <router-link
-                     v-for="(boardId, idx) in boardsIds"
+                     v-for="(board, idx) in boards"
                      :key="idx"
                      class="board-link"
-                     :to="`board/${boardId}`"
+                     :to="`/board/${board._id}`"
                   >
                      <div
                         class="board-preview"
-                        :style="{ backgroundColor: getRandomColor }"
+                        :style="{
+                           backgroundImage:
+                              'url(' +
+                              require(`@/assets/img/backgrounds/bgImg${
+                                 idx + 1
+                              }.jpg`) +
+                              ')',
+                        }"
                      >
                         <div class="board-preview-details">
-                           <h3>{{ currBoardName[idx] }}</h3>
+                           <h3>{{ board.title }}</h3>
+                           <!-- <h3>{{ board._id }}</h3> -->
                            <span
-                              :data-address="JSON.stringify(boardId)"
                               class="icon-lg icon-star board-star-btn-icon"
-                              @click.prevent="toggleIsStarred($event)"
+                              @click.prevent="toggleIsStarred(board)"
                            ></span>
                         </div>
                      </div>
+                     <!-- <button @click.prevent="removeBoard(board._id)">
+                        Delete
+                     </button> -->
                   </router-link>
-                  <!-- <button @click="removeBoard(boardId)">Delete</button> -->
+                  <form class="add-board-section" @submit.prevent="addBoard">
+                     <div
+                        @click="toggleInput"
+                        v-if="!isInputOpen"
+                        class="add-board-input-closed"
+                     >
+                        <h2>create new board</h2>
+                     </div>
+                     <div v-if="isInputOpen" class="add-board-form-section">
+                        <div class="add-board-input-section">
+                           <input
+                              class="add-board-input"
+                              type="text"
+                              placeholder="Board title"
+                              v-model="newBoardTitle"
+                           />
+                        </div>
+                        <div class="add-board-control-section">
+                           <button class="add-board-confirm-btn">
+                              Add Board
+                           </button>
+                           <span
+                              @click="toggleInput"
+                              class="icon-lg icon-close"
+                           ></span>
+                        </div>
+                     </div>
+                  </form>
                </div>
             </div>
          </div>
@@ -93,10 +136,6 @@
             </div>
          </nav>
       </aside> -->
-      <!-- <form @submit.prevent="addBoard">
-			<input type="text" placeholder="Board title" v-model="newBoardTitle" />
-			<button>Create board</button>
-		</form> -->
    </section>
 </template>
 
@@ -108,39 +147,84 @@ export default {
          newBoardTitle: '',
          boards: null,
          currBoardId: null,
-         currBoard: null
+         currBoard: null,
+         starred: null,
+         isInputOpen: false
       }
    },
-   created() {
-      this.boards = this.$store.dispatch({ type: 'loadBoards' })
+   async created() {
+      try {
+         await this.$store.dispatch({ type: 'loadBoards' })
+         this.boards = this.$store.getters.allBoards
+         this.starred = this.$store.getters.starredBoards
+      } catch (err) {
+         console.log(err)
+      }
    },
    methods: {
-      removeBoard(boardId) {
-         this.$store.dispatch({ type: 'removeBoard', boardId })
-      },
-      addBoard() {
-         this.$store.dispatch({ type: 'addBoard', boardTitle: this.newBoardTitle })
-      },
-      async toggleIsStarred(ev) {
+      async removeBoard(boardId) {
          try {
-            this.currBoardId = JSON.parse(ev.target.dataset.address)
-            console.log('selectedItem', this.currBoardId)
-            this.currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: this.currBoardId })
-            this.currBoard.isStarred = !this.currBoard.isStarred
-            await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
-            // this.boards = this.$store.dispatch({ type: 'loadBoards' })
+            this.$store.dispatch({ type: 'removeBoard', boardId })
+            await this.$store.dispatch({ type: 'loadBoards' })
+            this.boards = this.$store.getters.allBoards
          } catch (err) {
             console.log(err)
          }
+      },
+      async addBoard() {
+         try {
+            this.$store.dispatch({ type: 'addBoard', boardTitle: this.newBoardTitle })
+            await this.$store.dispatch({ type: 'loadBoards' })
+            this.boards = this.$store.getters.allBoards
+            this.newBoardTitle = ''
+            this.toggleInput()
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async toggleIsStarred(board) {
+         try {
 
+            // this.currBoardId = JSON.parse(ev.target.dataset.address)
+            // console.log('selectedItem', this.currBoardId)
+            this.currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: board._id })
+            this.currBoard.isStarred = !this.currBoard.isStarred
+            await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
+            await this.$store.dispatch({ type: 'loadBoards' })
+            this.boards = this.$store.getters.allBoards
+            this.starred = this.$store.getters.starredBoards
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async toggleInput() {
+         try {
+            this.isInputOpen = !this.isInputOpen
+         } catch (err) {
+            console.log(err)
+         }
       }
    },
    computed: {
-      boardsIds() {
-         return this.$store.getters.boardsIds
+      // boardsAll() {
+      //    console.log('this.$store.getters.boardsForDisplay', this.$store.getters.boardsForDisplay)
+      //    return this.$store.getters.boardsForDisplay
+      // },
+      async starredBoards() {
+         try {
+            const starred = await this.$store.getters.starredBoards
+            return starred
+         } catch (err) {
+            console.log(err)
+         }
       },
-      starredBoardIds() {
-         return this.$store.getters.starredBoardIds
+      async allBoards() {
+         try {
+            const all = await this.$store.getters.allBoards
+            return all
+         } catch (err) {
+            console.log(err)
+         }
       },
       getRandomColor() {
          var letters = 'BCDEF'.split('')
@@ -150,12 +234,7 @@ export default {
          }
          return color
       },
-      currBoardName() {
-         return this.$store.getters.boardsTitles
-      },
-      currBoardStarName() {
-         return this.$store.getters.starBoardsTitles
-      }
+
    }
 }
 </script>
