@@ -164,6 +164,14 @@
       .features {
          .features-info {
             max-width: 720px;
+            .col-md-5 {
+               display: flex;
+               flex: 0 0 41.666%;
+               max-width: 41.667%;
+            }
+            .mb-md-0 {
+               margin-bottom: 0;
+            }
          }
       }
    }
