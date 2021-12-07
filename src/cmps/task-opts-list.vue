@@ -7,6 +7,7 @@
     @removeLabel="removeLabel"
     @addLabel="addLabel"
     @toggleList="toggleList"
+    @addCheckList="addCheckList"
     >  
   </component>
 </template>
@@ -37,9 +38,12 @@ export default {
         addLabel(label){
             this.$emit('addLabel',label)
         },
+        addCheckList(title){
+            this.$emit('addCheckList',title)
+        },
         toggleList(){
             this.$emit('toggleList')
-        }
+        },
     }
 }
 </script>

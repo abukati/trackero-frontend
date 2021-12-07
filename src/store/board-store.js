@@ -293,6 +293,13 @@ export const boardStore = {
             console.log(err)
           }
       },
+      async getEmptyChecklist({ state, commit }){
+         try {
+            return boardService.getEmptyChecklist()
+          } catch (err) {
+            console.log(err)
+          }
+      },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */

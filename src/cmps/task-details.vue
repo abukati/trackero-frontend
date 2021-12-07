@@ -60,7 +60,7 @@
 							<div v-if="task.labels.length" class="task-detail-item clearfix">
 								<h3 class="task-detail-item-header">Labels</h3>
 								<div v-if="task.labels && task.labels.length" class="task-detail-labels-list">
-									<span v-for="label in task.labels" :key="label.id" class="card-label task-detail-label" :style="{ backgroundColor: label.color }" 	>
+									<span v-for="label in task.labels" :key="label.id" class="card-label task-detail-label" :class="'label-' + label.color">
 										<span class="label-text">{{ label.title }}</span>
 									</span>
 									<a class="task-detail-add-button">
@@ -287,7 +287,9 @@
       @addMember="addTaskMember"
 	  @removeLabel="removeTaskLabel"
 	  @addLabel="addTaskLabel"
-      @toggleList="toggleList" />
+      @toggleList="toggleList" 
+	  @addCheckList="addCheckList"
+	  />
 </div>
 </template>
 
@@ -419,11 +421,25 @@ export default {
 			}
 		},
 		async addTodo(todo,checklistId){
-			var newTodo = await this.$store.dispatch({ type: 'getEmptyTodo'}); 
-			newTodo.text = todo.text
-			const checklist = this.task.checklists.find(currChecklist => currChecklist.id === checklistId);
-			checklist.todos.push(newTodo);
-			this.updateTask()
+			try{
+				var newTodo = await this.$store.dispatch({ type: 'getEmptyTodo'}); 
+				newTodo.text = todo.text
+				const checklist = this.task.checklists.find(currChecklist => currChecklist.id === checklistId);
+				checklist.todos.push(newTodo);
+				this.updateTask()
+			}catch(err){
+				console.log(err)
+			}
+		},
+		async addCheckList(title){
+			try{
+				var newCheckList = await this.$store.dispatch({ type: 'getEmptyChecklist'})
+				newCheckList.title = title
+				this.task.checklists.push(newCheckList)
+				this.updateTask()
+			}catch(err){
+				console.log(err)
+			}
 		},
 	},
 	computed: {
