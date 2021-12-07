@@ -184,9 +184,11 @@ export default {
       },
       async toggleIsStarred(board) {
          try {
+            // const idx = this.loggedUser.starredBoards.findIndex(board => board._id === this.board._id)
+            // if (idx === -1) this.loggedUser.starredBoards.push(this.board)
+            // else this.loggedUser.starredBoards.splice(1, idx)
+            // await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
 
-            // this.currBoardId = JSON.parse(ev.target.dataset.address)
-            // console.log('selectedItem', this.currBoardId)
             this.currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: board._id })
             this.currBoard.isStarred = !this.currBoard.isStarred
             await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
@@ -206,10 +208,6 @@ export default {
       }
    },
    computed: {
-      // boardsAll() {
-      //    console.log('this.$store.getters.boardsForDisplay', this.$store.getters.boardsForDisplay)
-      //    return this.$store.getters.boardsForDisplay
-      // },
       async starredBoards() {
          try {
             const starred = await this.$store.getters.starredBoards

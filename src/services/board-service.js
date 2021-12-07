@@ -29,7 +29,7 @@ export const boardService = {
    getEmptyTodo,
    //MEMBER
    addMember,
-   removeMember,
+   removeMember
 }
 
 //----------------------------------------------------------- */
@@ -105,7 +105,6 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
    const board = {
       title,
       createdAt: Date.now(),
-      isStarred: false,
       createdBy: {
          _id: user._id,
          username: user.username,
@@ -270,8 +269,7 @@ async function saveTask(task, groupId, board) {
    }
 }
 
-async function removeTask(task, groupId, board){
-}
+async function removeTask(task, groupId, board) {}
 
 async function updateSingleTask(task, board, groupId) {
    try {
@@ -294,7 +292,6 @@ async function updateTasks(tasks, group, board) {
       console.log(err)
    }
 }
-
 
 function _createEmptyTask() {
    return {
@@ -350,16 +347,14 @@ function _createEmptyTask() {
    }
 }
 
-
-function getEmptyTodo(){
+function getEmptyTodo() {
    const todo = {
       id: utilService.makeId(),
       text: '',
-      isDone: false,
+      isDone: false
    }
    return todo
 }
-
 
 //----------------------------------------------------------- */
 //***********************MEMBERS********************************
@@ -425,7 +420,6 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          imgUrl: user.imgUrl,
          isAdmin: true
       },
-      isStarred: false,
       style: {
          bgColor: '#29cce5',
          bgImg: ''
