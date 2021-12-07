@@ -40,13 +40,12 @@
       >
          <template v-for="task in group.tasks">
             <task-preview
-               @checkLabels="toggleCheckbox"
                @openPreviewEdit="openPreviewEdit"
                :task="task"
                :board="board"
                :group="group"
-               :key="task.id"
-            />
+               :key="task.id"> 
+               </task-preview>
          </template>
 
          <div class="task-composer-container">
@@ -114,9 +113,6 @@ export default {
    },
 
    methods: {
-      toggleCheckbox(ref) {
-         console.log(ref);
-      },
       toggleOptions() {
          this.isOptionsListOpen = !this.isOptionsListOpen
       },

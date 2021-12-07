@@ -8,7 +8,9 @@ export const boardStore = {
       currBoard: null,
 
       groups: [],
-      currGroup: null
+      currGroup: null,
+
+      checked: true
    },
    getters: {
       //----------------------------------------------------------- */
@@ -37,6 +39,9 @@ export const boardStore = {
       //----------------------------------------------------------- */
       boardMembers(state) {
          return state.currBoard.members
+      },
+      checked(state) {
+         return state.checked
       }
    },
 
@@ -106,6 +111,9 @@ export const boardStore = {
       removeMember(state, { user }) {
          const idx = state.currBoard.members.findIndex(member => member._id === user._id)
          state.currBoard.members.splice(idx, 1)
+      },
+      toggleCheckbox(state, { checked }) {
+         state.checked = !state.checked
       }
    },
 

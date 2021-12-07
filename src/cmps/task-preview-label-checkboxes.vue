@@ -1,5 +1,5 @@
 <template>
-   <input id="label-toggler" :value="checked" ref="check" type="checkbox" @click.self.stop="toggleCheckbox" />
+   <input name="label-toggler" :checked="checked" type="checkbox" />
 </template>
 
 <script>
@@ -8,8 +8,7 @@ export default {
    name: 'label-checkboxes',
    props: {
       checked: Boolean, required: true,
-      toggleCheckbox: Function, required: true
-   }
+   },
 }
 </script>
 

@@ -140,7 +140,7 @@ export default {
          isPreviewEdit: false,
          task: null,
          group: null,
-         modalPos: {}
+         modalPos: {},
       }
    },
    created() {
