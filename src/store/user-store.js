@@ -44,6 +44,7 @@ export const userStore = {
          try {
             const userToSave = await userService.save(user)
             commit({ type: 'saveUser', userToSave })
+            state.loggedUser = userToSave // TEMP - NEEDS TO BE CHANGED
          } catch (err) {
             console.log(err)
          }

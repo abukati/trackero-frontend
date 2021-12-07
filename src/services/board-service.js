@@ -27,6 +27,7 @@ export const boardService = {
    saveTask,
    updateSingleTask,
    getEmptyTodo,
+   getEmptyChecklist,
    //MEMBER
    addMember,
    removeMember
@@ -356,6 +357,15 @@ function getEmptyTodo() {
    return todo
 }
 
+function getEmptyChecklist() {
+   const todo = {
+      id: utilService.makeId(),
+      title: '',
+      todos: []
+   }
+   return todo
+}
+
 //----------------------------------------------------------- */
 //***********************MEMBERS********************************
 //----------------------------------------------------------- */
@@ -578,7 +588,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                         todos: [
                            {
                               text: 'Git permissions',
-                              isDone: true,
+                              isDone: false,
                               id: utilService.makeId()
                            },
                            {
@@ -962,12 +972,12 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
                            },
                            {
                               text: 'AWS permissions',
-                              isDone: false,
+                              isDone: true,
                               id: utilService.makeId()
                            },
                            {
                               text: 'Mongo permissions',
-                              isDone: false,
+                              isDone: true,
                               id: utilService.makeId()
                            }
                         ]

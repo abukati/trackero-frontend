@@ -181,7 +181,6 @@ export const boardStore = {
       },
       async getBoardbyId({ commit }, { boardId }) {
          try {
-            console.log('board from store', boardId)
             const board = await boardService.getById(boardId)
             commit({ type: 'setCurrBoard', currBoard: board })
             return board
@@ -278,6 +277,13 @@ export const boardStore = {
          } catch (err) {
             console.log(err)
          }
+      },
+      async getEmptyChecklist({ state, commit }){
+         try {
+            return boardService.getEmptyChecklist()
+          } catch (err) {
+            console.log(err)
+          }
       },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
