@@ -34,10 +34,7 @@
                      v-for="label in task.labels"
                      :key="label.id"
                      class="card-label"
-                     :style="{
-                        backgroundColor: label.color,
-                        height: labelsHeight + 'px',
-                     }"
+                     :class="'label-' + label.color"
                   >
                      <span class="label-text">{{ label.title }}</span>
                   </span>
