@@ -686,7 +686,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: [{}]
+                  checklists: []
                },
                {
                   id: 't103',
