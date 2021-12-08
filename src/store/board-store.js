@@ -169,6 +169,7 @@ export const boardStore = {
             const newBoard = await boardService.getEmptyBoard(boardTitle)
             const savedBoard = await boardService.save(newBoard)
             commit({ type: 'addBoard', board: savedBoard })
+            return savedBoard
          } catch (err) {
             console.log(err)
          }

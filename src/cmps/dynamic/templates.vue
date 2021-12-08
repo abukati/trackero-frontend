@@ -31,7 +31,7 @@
                   </div>
                   <div class="templates-modal-list" :class="{ 'collapsed': listCollapsed }">
                      <div class="template-board" v-for="board in boards" :key="board._id">
-                        <router-link @click="modalToggle" class="template-board-link" :to="`/board/${board._id}`">
+                        <router-link @click.native="modalToggle" class="template-board-link" :to="`/board/${board._id}`">
                            <div class="board-bg-cover" :style="{ background: board.style.bgColor }"></div>
                            <div class="board-title">{{board.title}}</div>
                         </router-link>

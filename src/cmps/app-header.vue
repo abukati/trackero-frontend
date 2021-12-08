@@ -52,9 +52,9 @@
                   </a>
                </div>
                <div class="nav-board-create">
-                  <router-link class="nav-item" to="/board">
-                     <p>Create</p>
-                  </router-link>
+                  <a @click.stop="modalOpen" data-cmp="Create" class="nav-item" :class="{'modal-active': isModalOpen && modalCmp.type === 'Create' }">
+                     <p @click.stop="modalOpen" data-cmp="Create">Create</p>
+                  </a>
                </div>
                <div class="spacer">
                   <div class="spacer-content"></div>
@@ -110,13 +110,15 @@ import Avatar from 'vue-avatar'
 import Workspaces from './dynamic/workspaces'
 import Starred from './dynamic/starred'
 import Templates from './dynamic/templates'
+import Create from './dynamic/create'
 
 export default {
 	components: {
 		Avatar,
       Workspaces,
       Starred,
-      Templates
+      Templates,
+      Create
 	},
    data() {
       return {
@@ -144,6 +146,7 @@ export default {
          if (ev.x >= 117 && ev.x <= 235) this.modalCmp.posX = 118
          else if (ev.x >= 236 && ev.x <= 330) this.modalCmp.posX = 240
          else if (ev.x >= 334 && ev.x <= 440) this.modalCmp.posX = 334
+         else if (ev.x >= 450 && ev.x <= 513) this.modalCmp.posX = 450
       },
       modalClose() {
          this.isModalOpen = false

@@ -8,7 +8,7 @@
             </span>
          </button>
       </header>
-      <div class="header-modal-body">
+      <div class="header-modal-body" :style="{ padding: 0, 'padding-bottom': 12+'px' }">
          <div class="header-modal-body-content">
             <div class="workspace-title">
                <p>Current Workspace</p>
@@ -21,7 +21,7 @@
             <div class="all-workspaces-title">
                <p>Your Workspaces</p>
             </div>
-            <router-link @click="modalToggle" class="workspace-showcase workspace-link" :to="`/user/${modalCmp.user._id}/workspace`">
+            <router-link @click.native="modalToggle" class="workspace-showcase workspace-link" :to="`/user/${modalCmp.user._id}/workspace`">
                <avatar class="workspace-avatar" :username="modalCmp.user.username" :size="40" :rounded="false" />
                <p class="curr-user">{{ modalCmp.user.username }}'s Workspace</p>
             </router-link>

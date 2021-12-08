@@ -10,14 +10,14 @@
             </span>
          </button>
       </header>
-      <div class="header-modal-body">
+      <div class="header-modal-body" :style="{ paddingBottom: 0 }">
          <div class="header-modal-body-content">
             <div class="starred-boards-container">
                <ol class="starred-boards-list" v-if="starredBoards.length > 0">
                   <template v-for="board in starredBoards">
                      <li class="starred-board" :key="board._id">
                         <div>
-                           <router-link @click="closeModal" class="starred-board-link" :to="`/board/${board._id}`">
+                           <router-link @click.native="modalToggle" class="starred-board-link" :to="`/board/${board._id}`">
                               <div class="board-bg-color" :style="{ backgroundColor: board.bgColor }"></div>
                               <div class="starred-board-info">
                                  <div class="starred-board-title">{{ board.title }}</div>
@@ -77,9 +77,6 @@
                console.log(err)
             }
          },
-         closeModal() {
-            this.$emit('toggleModal')
-         }
       },
    }
 </script>

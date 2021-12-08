@@ -45,7 +45,8 @@
          <template v-for="activity in board.activities">
             <div class="menu-activity mod-attachment-type" :key="activity.id">
                <div class="activity-creator">
-                  <avatar class="user-avatar" :src="require('@/assets/img/'+activity.byMember.imgUrl)" :size="32" :username="activity.byMember.fullname" :title="`${activity.byMember.fullname}(${activity.byMember.username})`" />
+                   <!-- :src="require('@/assets/img/'+activity.byMember.imgUrl)" -->
+                  <avatar class="user-avatar" :size="32" :username="activity.byMember.fullname" :title="`${activity.byMember.fullname}(${activity.byMember.username})`" />
                </div>
                <div class="activity-desc">
                   <span class="inline-member" :data-memId="activity.byMember._id">
