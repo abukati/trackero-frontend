@@ -1,5 +1,5 @@
 <template>
-    <div :style="{'top': info.modalPos.bottom + 5 + 'px'}" class="members-list-modal pop-over is-shown details-popup">
+    <div :style="{top:info.modalPos.posY + 'px'}" class="members-list-modal pop-over is-shown details-popup">
         <div class="no-back">
             <div class="pop-over-header">
                 <span class="pop-over-header-title">Members</span>
@@ -48,6 +48,9 @@ export default {
                 name:''
             },
         }
+    },
+    created(){
+        console.log(this.info.modalPos)
     },
     methods: {
         toggleMember(user){

@@ -39,7 +39,9 @@
       }
    }
    &.details-popup{
-      position: fixed;
+      // position: fixed;
+      position: absolute;
+      right: 5px;
    }
 }
 

@@ -49,6 +49,16 @@ export const boardStore = {
       labels(state) {
          return state.currBoard.labels
       },
+      allBoardTasks(state) {
+         const tasks = []
+         state.currBoard.groups.forEach(group => {
+            group.tasks.forEach(task => {
+               tasks.push(task)
+            })
+         })
+         return tasks
+      },
+
       //----------------------------------------------------------- */
       //************************MEMBERS*****************************
       //----------------------------------------------------------- */
@@ -236,6 +246,22 @@ export const boardStore = {
          }
       },
 
+      async getGroupIdByTaskId({ state, commit }, { taskId }) {
+         try {
+            var groupId = null
+            state.currBoard.groups.forEach(group => {
+               group.tasks.find(task => {
+                  if (task.id === taskId) {
+                     console.log('groupId', group.id)
+                     groupId = group.id
+                  }
+               })
+            })
+            return groupId
+         } catch (err) {
+            console.log(err)
+         }
+      },
       //----------------------------------------------------------- */
       //***********************TASKS********************************
       //----------------------------------------------------------- */
@@ -287,6 +313,7 @@ export const boardStore = {
             console.log(err)
          }
       },
+
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */

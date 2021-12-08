@@ -199,7 +199,10 @@
                   Edit dates
                </span>
             </a>
-            <a class="quick-card-editor-buttons-item js-archive">
+            <a
+               @click="archiveTask"
+               class="quick-card-editor-buttons-item js-archive"
+            >
                <span class="icon-sm icon-archive light"></span>
                <span class="quick-card-editor-buttons-item-text">
                   Archive
@@ -279,7 +282,16 @@ export default {
       },
       renderLabels() {
          this.isListRendered = !this.isListRendered
+      },
+      async archiveTask() {
+         try {
+            this.taskToEdit.isArchived = true
+            await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.taskToEdit })
+         } catch (err) {
+            console.log(err)
+         }
       }
+
 
    },
    computed: {

@@ -1,8 +1,5 @@
 <template>
-   <section
-      class="board-app"
-      v-if="board"
-   >
+   <section class="board-app" v-if="board">
       <div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
          <div class="task-detail-modal-container">
             <div class="modal-content">
@@ -109,6 +106,17 @@
             :isBoardMenuOpen="isBoardMenuOpen"
             :onSideMenuOpen="toggleBoardNavMenu"
          />
+         <!-- <div class="archived-tasks">
+            <ul>
+               <li v-for="(task, idx) in archivedList" :key="idx">
+                  <div class="mini-task">
+                     {{ task.id }}
+                     {{ task.title }}
+                     <button @click="restoreTask(task)">Restore</button>
+                  </div>
+               </li>
+            </ul>
+         </div> -->
       </div>
    </section>
 </template>
@@ -154,6 +162,9 @@ export default {
             this.$store.dispatch({ type: 'updateGroups', groups })
          }
       },
+      archivedList() {
+         return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
+      }
 
    },
    methods: {
@@ -188,7 +199,18 @@ export default {
       },
       closePreviewEdit() {
          this.isPreviewEdit = false
-      }
+      },
+      async restoreTask(task) {
+         try {
+            console.log('task', task)
+            task.isArchived = false
+            const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
+            console.log('groupId', groupId)
+            await this.$store.dispatch({ type: 'updateTask', groupId, task })
+         } catch (err) {
+            console.log(err)
+         }
+      },
 
    },
    watch: {
