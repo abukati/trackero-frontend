@@ -103,13 +103,15 @@ export default {
     },
     computed:{
         percentage(){
-            if(!this.checklist.todos.length) return 0
-            const todosCount = this.checklist.todos.length
-            const isDone = this.checklist.todos.reduce((count,todo) =>{
-                if(todo.isDone) count++
-                return count
-            },0)
-            const percentage = (isDone / todosCount) * 100
+            var percentage = 0
+            if(this.checklist.todos.length){
+                const todosCount = this.checklist.todos.length
+                const isDone = this.checklist.todos.reduce((count,todo) =>{
+                    if(todo.isDone) count++
+                    return count
+            },0) 
+                percentage = (isDone / todosCount) * 100
+            }
             this.progressStyle.width = percentage + '%'
             this.progressStyle.background = percentage < 100 ? '#5ba4cf' : '#61bd4f' 
             return percentage.toFixed(0)

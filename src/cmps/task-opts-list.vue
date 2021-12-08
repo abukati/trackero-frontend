@@ -8,6 +8,8 @@
     @addLabel="addLabel"
     @toggleList="toggleList"
     @addCheckList="addCheckList"
+    @changeTaskCover="changeTaskCover" 
+    @removeTaskCover="removeTaskCover"
     >  
   </component>
 </template>
@@ -16,6 +18,7 @@
 import membersList from './dynamic/members-list'
 import labelsList from './dynamic/labels-list'
 import checkList from './dynamic/check-list'
+import coverMenu from './dynamic/cover-menu'
 
 export default {
     name:"task-opts-list",
@@ -24,11 +27,9 @@ export default {
         membersList,
         labelsList,
         checkList,
+        coverMenu
     },
-    data(){
-        return{
-            currCmp:''
-        }
+    created(){
     },
     methods: {
         removeMember(user){
@@ -46,12 +47,15 @@ export default {
         addCheckList(title){
             this.$emit('addCheckList',title)
         },
+        changeTaskCover(color){
+            this.$emit('changeTaskCover',color)
+        },
+        removeTaskCover(){
+            this.$emit('removeTaskCover')
+        },
         toggleList(){
             this.$emit('toggleList')
         },
-        setCurrCmp(cmp){
-            this.currCmp = cmp
-        }
     }
 }
 </script>

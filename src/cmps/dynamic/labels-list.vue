@@ -1,5 +1,5 @@
 <template>
-<div class="labels-list-modal pop-over is-shown details-popup">
+<div :style="{'top': info.modalPos.bottom + 5 + 'px'}" class="labels-list-modal pop-over is-shown details-popup">
     <div class="no-back">
         <div class="pop-over-header">
             <span class="pop-over-header-title">Labels</span>

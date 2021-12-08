@@ -46,15 +46,11 @@ export default {
          isOptionsListOpen: true,
       }
    },
-   created() {
-      console.log('created')
-   },
    methods: {
       closeModal() {
          this.$emit('closeModal')
       },
       addTask() {
-         console.log('this.group.id', this.group.id)
          this.$emit('openAddTask')
          this.isOptionsListOpen = false
          this.closeModal()
