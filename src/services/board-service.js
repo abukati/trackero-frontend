@@ -3,6 +3,7 @@ import { utilService } from './util-service.js'
 import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
 
 const KEY = 'boardsDB'
+const bgcs = ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc', '#838c91']
 
 // const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
 // const axios = require('axios')
@@ -114,7 +115,7 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
          isAdmin: true
       },
       style: {
-         bgColor: '#29cce5',
+         bgColor: '#29cce5'
       },
       labels: [],
       members: [],
@@ -149,12 +150,12 @@ async function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
       boards = [
-         _createBoard('Software development'),
-         _createBoard('Team management'),
-         _createBoard('Business'),
-         _createBoard('Remote work'),
-         _createBoard('Project management'),
-         _createBoard('Business board')
+         _createBoard('#00aecc', 'Software development'),
+         _createBoard('#d29034', 'Team management'),
+         _createBoard('#519839', 'Business'),
+         _createBoard('#b04632', 'Remote work'),
+         _createBoard('#89609e', 'Project management'),
+         _createBoard('#cd5a91', 'Business board')
       ]
       localStorage.setItem(KEY, JSON.stringify(boards))
    }
@@ -417,7 +418,7 @@ async function removeMember(user, board) {
    })
 })()
 
-function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: 'guestuser.png' }) {
+function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: 'guestuser.png' }) {
    return {
       _id: utilService.makeId(),
       title,
@@ -430,7 +431,7 @@ function _createBoard(title, user = { _id: 'u100', username: 'guest', fullname: 
          isAdmin: true
       },
       style: {
-         bgColor: '#29cce5',
+         bgColor: bgColor
       },
       isLabelsShown: true,
       labels: [

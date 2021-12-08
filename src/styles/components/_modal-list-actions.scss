@@ -31,13 +31,15 @@
                padding: 6px 12px;
                position: relative;
                text-decoration: none;
-
                &:hover {
                   background-color: #091e420a;
                }
             }
          }
       }
+   }
+   &.details-popup{
+      position: fixed;
    }
 }
 
