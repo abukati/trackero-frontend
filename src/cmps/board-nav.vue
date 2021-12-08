@@ -64,12 +64,10 @@
          </a>
       </div>
       <div class="board-header-btns mod-right">
-         <span @click="toggleUserWatchlist" v-if="isUserSubbed" class="board-header-special-btn-container">
-            <button type="button" class="board-header-btn board-header-special-btn board-header-subscribed">
-               <span class="icon-subscribed icon-sm board-header-btn-icon"></span>
-               <span class="board-header-btn-text">Watching</span>
-            </button>
-         </span>
+         <a @click="toggleUserWatchlist" v-if="isUserSubbed" class="board-header-btn board-header-subscribed">
+            <span class="icon-subscribed icon-sm board-header-btn-icon"></span>
+            <span class="board-header-btn-text">Watching</span>
+         </a>
          <span class="board-header-btn-divider"></span>
          <span class="board-header-special-btn-container">
             <div class="board-header-filter-btn">
