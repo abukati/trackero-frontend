@@ -34,12 +34,10 @@
 							<div v-if="task.members.length" class="task-detail-item clearfix">
 								<h3 class="task-detail-item-header">Members</h3>
 								<div v-if="task.members && task.members.length" class="task-detail-members-list">
-									<a
-										class="member task-detail-member"
+									<a class="member task-detail-member"
 										v-for="member in task.members"
 										:key="member._id"
-										@click="toggleMiniProfile($event, member)"
-									>
+										@click="toggleMiniProfile($event, member)">
 										<avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
 									</a>
 									<a class="task-detail-add-button">
