@@ -29,6 +29,7 @@ export const boardService = {
    updateSingleTask,
    getEmptyTodo,
    getEmptyChecklist,
+   getEmptyComment,
    //MEMBER
    addMember,
    removeMember
@@ -386,6 +387,19 @@ function _createEmptyTask() {
    }
 }
 
+function getEmptyComment(){
+   const comment = {
+      txt: '',
+      id: utilService.makeId(),
+      createdAt: Date.now(),
+      byMember: {
+         fullname: '',
+         _id: ''
+      }
+   }
+   return comment
+}
+
 function getEmptyTodo() {
    const todo = {
       id: utilService.makeId(),
@@ -456,7 +470,7 @@ async function removeMember(user, board) {
    })
 })()
 
-function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: 'guestuser.png' }) {
+function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
    return {
       _id: utilService.makeId(),
       title,
@@ -640,7 +654,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                            }
                         ]
                      }
-                  ]
+                  ],
+                  activities:[]
                },
                {
                   id: 't102',
@@ -724,7 +739,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: [{}]
+                  checklists: [],
+                  activities:[]
                },
                {
                   id: 't103',
@@ -825,7 +841,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                            }
                         ]
                      }
-                  ]
+                  ],
+                  activities:[]
                },
                {
                   id: 't108',
@@ -909,7 +926,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: []
+                  checklists: [],
+                  activities:[],
                }
             ],
             style: {
@@ -1040,7 +1058,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                            }
                         ]
                      }
-                  ]
+                  ],
+                  activities:[],
                },
                {
                   id: 't104',
@@ -1118,7 +1137,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: []
+                  checklists: [],
+                  activities:[],
                },
                {
                   id: 't105',
@@ -1193,7 +1213,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: []
+                  checklists: [],
+                  activities:[],
                }
             ],
             style: {
@@ -1416,7 +1437,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                _id: 'u100',
                fullname: 'Guest',
                username: 'guest',
-               imgUrl: 'guestuser.png',
+               imgUrl: '',
                isAdmin: true
             },
             task: {
@@ -1469,6 +1490,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      imgUrl: 'artiomuser.png'
                   }
                ]
+
             },
             id: 'a100'
          }

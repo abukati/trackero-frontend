@@ -9,7 +9,7 @@
 					<!-- <div class="task-cover"> -->
 					<div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
 						<div class="task-cover-menu">
-							<a class="task-cover-menu-button">
+							<a @click="toggleCoverMenu" class="task-cover-menu-button">
 								<span class="icon-sm cover-menu-btn-icon"></span>
 								Cover
 							</a>
@@ -18,7 +18,9 @@
 					<!-- </div> -->
 					<div class="window-header">
 						<span class="window-header-icon icon-lg"></span>
-						<div class="window-title"><textarea-autosize class="task-detail-title-input" rows="1" :value="task.title" />a</div>
+						<div class="window-title">
+							<textarea-autosize v-model="newTitle" @blur.native="changeTaskTitle" class="task-detail-title-input"  rows="1" />
+							</div>
 						<div class="window-header-inline-content">
 							<p class="u-bottom">in list <a href="#">{{ groupTitle }}</a></p>
 						</div>
@@ -34,12 +36,10 @@
 							<div v-if="task.members.length" class="task-detail-item clearfix">
 								<h3 class="task-detail-item-header">Members</h3>
 								<div v-if="task.members && task.members.length" class="task-detail-members-list">
-									<a
-										class="member task-detail-member"
+									<a class="member task-detail-member"
 										v-for="member in task.members"
 										:key="member._id"
-										@click="toggleMiniProfile($event, member)"
-									>
+										@click="toggleMiniProfile($event, member)">
 										<avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
 									</a>
 									<a class="task-detail-add-button">
@@ -119,13 +119,31 @@
 								<div class="window-module-title">
 									<span class="description-icon icon-lg"></span>
 									<h3>Description</h3>
+									<div v-show="!isEditing" class="editable">
+										<a @click="toggleEdit" href="#" class="nch-button edit-btn">Edit</a>
+									</div>
 								</div>
 								<div class="add-desc-area">
 									<div class="desc">
 										<div class="desc-content">
-											<p class="u-bottom">
-												<a class="description-fake-text-area no-box-sizing" href="#"> Add a more detailed description… </a>
+												<p @click="toggleEdit" v-show="taskDesc && !isEditing">{{task.description}}</p>
+												<p class="u-bottom">
+													<a @click="toggleEdit" v-show="!taskDesc && !isEditing"
+													class="description-fake-text-area no-box-sizing" href="#"> 
+													Add a more detailed description… </a>
 											</p>
+										</div>
+										<div v-show="isEditing" class="edit-container">
+												<textarea-autosize 
+												class="edit-input"
+												v-model="taskDesc" type="textarea"
+												>
+												</textarea-autosize>
+												<div class="action-btns">
+													<button @click="saveTaskDesc" class="nch-button save-btn">Save</button>
+													<a @click="toggleEdit" class="cancel-btn icon-lg">
+													</a>
+												</div>
 										</div>
 									</div>
 								</div>
@@ -133,33 +151,106 @@
 						</div>
 						<template v-if="checkLists">
 							<template v-for="checklist in task.checklists">
-								<checkListPreview @updateTask="updateTask" @addTodo="addTodo" :task="task" :checklist="checklist" />
+								<checkListPreview
+								 :key="checklist.id"
+								  @updateTask="updateTask"
+								  @addTodo="addTodo"
+								  :task="task"
+								  :checklist="checklist" />
 							</template>
 						</template>
-						<div class="task-detail-activity window-module">
+						<div class="new-comment-section">
+							<div class="member"> 
+								<avatar :size="30" :username="loggedInUser.fullname" :title="`${loggedInUser.fullname}(${loggedInUser.username})`" />
+							</div>
+							<form>
+								<div class="comment-frame" :class="{'focused':isCommenting}">
+									<div class="comment-box" :class="{'focused':isCommenting}">
+										<textarea-autosize class="comment-box-input"
+										@click.native="isCommenting = true"
+										:class="{'focused':isCommenting}"
+										rows="1"
+										v-model="newCommentTxt"
+										 aria-label="Write a comment"
+										 placeholder="Write a comment…" dir="auto">
+										  </textarea-autosize>
+										<div v-show="isCommenting" class="comment-controls" :style="[ isCommenting ? {opacity: 1,transform: 'translateY(0)'} : '']">
+											<input @click="saveComment" class="nch-button save-btn" :class="{'primary': newCommentTxt}" type="submit" value="Save">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<template v-if="task.comments.length">
+							<template v-for="comment in task.comments">
+								<div class="comment-container" :key="comment.id">
+										<div class="comment-creator">
+											<div class="member">
+												<avatar :size="30"
+												:username="comment.byMember.fullname"
+												:title="`${comment.byMember.fullname}`" />
+											</div>
+										</div>
+									<div class="comment-desc">
+										<span>{{comment.byMember.fullname}} </span>
+										<span>{{comment.createdAt}}</span>
+										<div class="comment-content">
+											<div class="action-comment">
+												<div class="current-comment">{{comment.txt}} </div>
+											</div>
+										</div>
+									</div>
+									<div class="comment-actions">
+										<a @click="removeComment(comment)" class="comment-delete-btn" href="#">Delete</a>
+									</div>
+								</div>
+							</template>
+						</template>
+					<div class="task-detail-activity window-module">
 							<div class="window-module-title">
 								<span class="activity-icon icon-lg"></span>
 								<h3>Activity</h3>
 								<div class="window-module-title-options">
-									<a class="show-details-btn" href="#">Show details</a>
-									<a class="hide-details-btn" href="#">Hide details</a>
+									<a v-if="isShowActivity" @click="toggleActivity" class="show-details-btn" href="#">Show details</a>
+									<a v-else @click="toggleActivity" class="hide-details-btn" href="#">Hide details</a>
 								</div>
 							</div>
-						</div>
-						<!-- <div class="new-comment-section">
-                  <div class="member">
-                     <span>Avatar</span>
-                  </div>
-                  <form>
-                     <div class="comment-frame">
-                        <div class="comment-box">
-                           <textarea  class="comment-box-input" aria-label="Write a comment" placeholder="Write a comment…" dir="auto"></textarea>
-                        </div>
-                     </div>
-                  </form>
-               </div> -->
+							<div v-show="!isShowActivity">
+								<template v-for="activity in task.activities">
+									<div class="activity-container">
+										<div class="activity">
+											<div class="activity-creator">
+												<div class="member">
+													<avatar :size="30"
+													:username="activity.byMember.fullname"
+													:title="`${activity.byMember.fullname}`" />
+												</div>
+											</div>
+										<div class="activity-desc">
+											<span>{{activity.byMember.fullname}} </span>
+											<span>{{activity.txt}} </span>
+										</div>
+										<div><span>{{activity.createdAt}}</span></div>
+									</div>
+										</div>
+								</template>
+							</div>
+					</div>
+				
 					</div>
 					<div class="window-sidebar no-box-sizing">
+						<task-opts-list 
+							v-if="isListOpen" 
+							:info="info" 
+							@removeMember="removeTaskMember"
+							@addMember="addTaskMember"
+							@removeLabel="removeTaskLabel"
+							@addLabel="addTaskLabel"
+							@toggleList="toggleList" 
+							@addCheckList="addCheckList"
+							@changeTaskCover="changeTaskCover"
+							@removeTaskCover="removeTaskCover"
+						/>
 						<div v-if="!showSuggested" class="window-module suggested-actions-module">
 							<div class="suggested-actions-settings">
 								<span class="settings-icon icon-sm"></span>
@@ -175,15 +266,15 @@
 						<div class="window-module clearfix">
 							<h3>Add to card</h3>
 							<div>
-								<a class="button-link" title="Members">
+								<a @click="toggleMemberList" class="button-link" title="Members">
 									<span class="icon-sm icon-member"></span>
 									<span class="sidebar-action-text">Members</span>
 								</a>
-								<a class="button-link" title="Labels">
+								<a @click="toggleLabelsList" class="button-link" title="Labels">
 									<span class="icon-sm icon-label"></span>
 									<span class="sidebar-action-text">Labels</span>
 								</a>
-								<a class="button-link" title="Checklist" @click="toggleList">
+								<a @click="toggleCheckList" class="button-link" title="Checklist">
 									<span class="icon-sm icon-checklist"></span>
 									<span class="sidebar-action-text">Checklist</span>
 								</a>
@@ -200,7 +291,7 @@
 									<span class="icon-sm icon-location"></span>
 									<span class="sidebar-action-text">Location</span>
 								</a>
-								<a v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
+								<a @click="toggleCoverMenu" v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
 									<span class="icon-sm icon-cover"></span>
 									<span class="sidebar-action-text">Cover</span>
 								</a>
@@ -280,16 +371,6 @@
 			</div>
 		</div>
 	</div>
-		<task-opts-list 
-      v-if="isListOpen" 
-      :info="info" 
-      @removeMember="removeTaskMember"
-      @addMember="addTaskMember"
-	  @removeLabel="removeTaskLabel"
-	  @addLabel="addTaskLabel"
-      @toggleList="toggleList" 
-	  @addCheckList="addCheckList"
-	  />
 </div>
 </template>
 
@@ -311,16 +392,22 @@ export default {
 		return {
 			task: null,
 			groupTitle: '',
+			newTitle:'',
+			newCommentTxt:'',
 			loggedInUser: null,
 			profileOfUser: null,
 			isMiniProfileOpen: false,
 			modalPos: {},
 			isListOpen: false,
+			isEditing:false,
+			isCommenting:false,
+			taskDesc:'',
+			isShowActivity:true,
 			info: {
 				type: null,
 				task: this.task,
 				groupId: null,
-				modalPos: {}
+				modalPos: {},
 			}
 		};
 	},
@@ -330,6 +417,8 @@ export default {
 		this.getTask(taskId);
 		this.info.groupId = groupId;
 		this.info.task = this.task;
+		this.newTitle = this.task.title
+		this.taskDesc = this.task.description
 		this.loggedInUser = this.$store.getters.currLoggedUser;
 	},
 	methods: {
@@ -356,8 +445,51 @@ export default {
 			} else {
 				this.isMiniProfileOpen = false;
 				this.isListOpen = true;
-				this.info.type = 'check-list';
-			}
+			}	
+		},
+		toggleMemberList(ev){
+			this.toggleModals()
+			const {bottom} = ev.target.offsetParent.getBoundingClientRect()
+			this.info.modalPos.bottom = Math.ceil(bottom)
+			this.info.type = 'members-list'
+		},
+		toggleCoverMenu(ev){
+			// console.log('computed',window.getComputedStyle(ev.target).width)
+			// console.log('ev.target',ev.target)
+			// const top = ev.target.getBoundingClientRect().top + window.scrollY
+			// const right = ev.target.getBoundingClientRect().right + window.scrollX
+			// console.log(top)
+			// console.log(right)
+			this.toggleModals()
+			// const {top,bottom} = ev.target.offsetParent.getBoundingClientRect()
+			// this.info.modalPos.bottom = Math.ceil(bottom)
+			// this.info.modalPos.left = Math.ceil(left)
+			// this.info.modalPos.top = Math.ceil(top)
+			// this.info.modalPos.right = Math.ceil(right)
+			this.info.type = 'cover-menu'
+		},
+		toggleLabelsList(ev){
+			this.toggleModals()
+			const {bottom} = ev.target.offsetParent.getBoundingClientRect()
+			this.info.modalPos.bottom = Math.ceil(bottom)
+			this.info.type = 'labels-list'
+		},
+		toggleCheckList(ev){
+			this.toggleModals()
+			const {bottom} = ev.target.offsetParent.getBoundingClientRect()
+			this.info.modalPos.bottom = Math.ceil(bottom)
+			this.info.type = 'check-list'
+		},
+		toggleModals(){
+			// if (this.isListOpen) {
+			// 	this.isListOpen = !this.isListOpen;
+			// } else {
+				this.isMiniProfileOpen = false;
+				this.isListOpen = true;
+			// }
+		},
+		toggleActivity(){
+			this.isShowActivity = !this.isShowActivity
 		},
 		getTask(taskId) {
 			const currBoard = this.$store.getters.currBoard;
@@ -377,6 +509,7 @@ export default {
 				return;
 			} else {
 				if (user) this.task.members.push(user);
+				this.addActivity(`joined this task`)
 				this.updateTask()
 			}
 		},
@@ -384,12 +517,21 @@ export default {
 			const { groupId } = this.$route.params;
 			this.$store.dispatch({ type: 'updateTask', groupId,task:this.task }); 
 		},
+		addActivity(txt){
+			const activity = {
+				txt,
+				byMember:this.loggedInUser,
+				createdAt:Date.now(),
+			}
+			this.task.activities.unshift(activity);
+		},
 		addTaskMember(user) {
 			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
 			if (memberIdx !== -1) {
 				return;
 			} else {
 				if (user) this.task.members.push(user);
+				this.addActivity(`added ${user.fullname} to this task`)
 				this.updateTask()
 			}
 		},
@@ -397,6 +539,7 @@ export default {
 			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
 			if (memberIdx !== -1) {
 				if (user) this.task.members.splice(memberIdx, 1);
+				this.addActivity(`removed ${user.fullname} from this task`)
 				this.updateTask()
 			} else {
 				return;
@@ -408,6 +551,7 @@ export default {
 				return;
 			} else {
 				if (label) this.task.labels.push(label);
+				this.addActivity(`Labeled this task as ${label.title}`)
 				this.updateTask()
 			}
 		},
@@ -415,6 +559,54 @@ export default {
 			const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id);
 			if (labelIdx !== -1) {
 				if (label) this.task.labels.splice(labelIdx, 1);
+				this.addActivity(`Removed label ${label.title} from this task`)
+				this.updateTask()
+			} else {
+				return;
+			}
+		},
+		changeTaskCover(color){
+			this.task.style.bgColor = color
+			this.addActivity(`Changed this task cover`)
+			this.updateTask()
+		},
+		removeTaskCover(){
+			this.task.style.bgColor = '#ffffff'
+			this.addActivity(`Removed this task cover`)
+			this.updateTask()
+		},
+		changeTaskTitle(ev){
+			this.addActivity(`Changed this task title`)
+			this.task.title = ev.target.value
+			this.updateTask()
+		},
+		saveTaskDesc(){
+			this.task.description = this.taskDesc
+			this.isEditing = false
+			this.addActivity(`Updated the description`)
+			this.updateTask()
+		},
+		toggleEdit(){
+			this.isEditing = !this.isEditing
+		},
+		async saveComment(){
+			try{
+				var newComment = await this.$store.dispatch({ type: 'getEmptyComment'}); 
+				newComment.txt = this.newCommentTxt
+				newComment.byMember.fullname = this.loggedInUser.fullname
+				this.task.comments.push(newComment)
+				this.addActivity(`Added new comment '${newComment.txt}'`)
+				this.newCommentTxt = ''
+				this.updateTask()
+			}catch(err){
+				console.log(err)
+			}
+		},
+		removeComment(comment){
+			const commentIdx = this.task.comments.findIndex(currComment => currComment.id === comment.id);
+			if (commentIdx !== -1) {
+				this.task.comments.splice(commentIdx, 1);
+				this.addActivity(`Removed comment '${comment.txt}'`)
 				this.updateTask()
 			} else {
 				return;
@@ -435,6 +627,7 @@ export default {
 			try{
 				var newCheckList = await this.$store.dispatch({ type: 'getEmptyChecklist'})
 				newCheckList.title = title
+				this.addActivity(`Added new '${title}' checklist to this task`)
 				this.task.checklists.push(newCheckList)
 				this.updateTask()
 			}catch(err){

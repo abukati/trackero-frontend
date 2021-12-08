@@ -13,6 +13,7 @@ export default {
    name: 'openColors',
    props: {
       board: Object, required: true,
+      info:  Object,
    },
    data() {
       return {
@@ -25,13 +26,15 @@ export default {
             'pink':'#cd5a91',
             'lightgreen':'#4bbf6b',
             'cyan':'#00aecc',
-            'grayblue':'#838c91'
+            'grayblue':'#838c91',
+            'navy':'#172B4D'
          }
       }
    },
    methods: {
       selectColor(color) {
-         this.$store.dispatch('changeBoardBgc', {bgc: this.colors[color]})
+         if(!this.info) this.$store.dispatch('changeBoardBgc', {bgc: this.colors[color]})
+         else this.$emit('changeTaskCover',this.colors[color])
       }
    }
 }
