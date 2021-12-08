@@ -164,7 +164,10 @@
                   >Open card</span
                >
             </router-link>
-            <a class="quick-card-editor-buttons-item js-edit-labels">
+            <a
+               @click="renderLabels"
+               class="quick-card-editor-buttons-item js-edit-labels"
+            >
                <span class="icon-sm icon-label light"></span>
                <span class="quick-card-editor-buttons-item-text">
                   Edit labels
@@ -204,17 +207,21 @@
             </a>
          </div>
       </div>
+      <!-- <labels-list v-if="isListRendered" :info="info" /> -->
+      <attachment-list v-if="isListRendered" :info="info" />
    </div>
 </template>
 
 <script>
 import Avatar from 'vue-avatar'
+import labelsList from './dynamic/labels-list.vue'
+import attachmentList from './dynamic/attachment-list.vue'
 
 export default {
    name: 'task-edit',
    props: ['task', 'group', 'board', 'modalPos'],
    components: {
-      Avatar
+      Avatar, labelsList, attachmentList
    },
    data() {
       return {
@@ -226,7 +233,9 @@ export default {
          isTitleInputOpen: false,
          taskInput: '',
          taskToEdit: null,
-         isEditable: false
+         isEditable: false,
+         info: {},
+         isListRendered: false
 
       }
    },
@@ -237,6 +246,7 @@ export default {
       this.groupId = this.group.id
       this.boardId = this.board._id
       this.taskId = this.task.id
+      this.info.task = this.task
    },
    methods: {
       closePreviewEdit() {
@@ -267,6 +277,9 @@ export default {
          ev.target.style.display = 'none'
 
       },
+      renderLabels() {
+         this.isListRendered = !this.isListRendered
+      }
 
    },
    computed: {

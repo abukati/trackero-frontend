@@ -1,5 +1,6 @@
 import { boardService } from '@/services/board-service.js'
 // import { groupService } from '@/services/group-service.js'
+// import { socketService, SOCKET_EMIT_USER_WATCH, SOCKET_EVENT_USER_UPDATED } from '../services/socket.service'
 
 export const boardStore = {
    state: {
@@ -271,12 +272,12 @@ export const boardStore = {
             console.log(err)
          }
       },
-      async getEmptyChecklist({ state, commit }){
+      async getEmptyChecklist({ state, commit }) {
          try {
             return boardService.getEmptyChecklist()
-          } catch (err) {
+         } catch (err) {
             console.log(err)
-          }
+         }
       },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************

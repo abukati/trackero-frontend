@@ -85,12 +85,17 @@
                <div class="row py-5">
                   <div class="col-md-5 mb-3 mb-md-0">
                      <img
-                        :src="`https://image.freepik.com/free-vector/task-management-abstract-concept-illustration_335657-2127.jpg`"
+                        src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/features/b845022d8d738ba8fa5e8b293e434149/card-back.svg"
+                        width="339.13"
+                        height="275.31"
+                        class="img-fluid w-100"
                      />
                   </div>
                   <div class="col-md-7">
-                     <h2>Features to help your team succeed</h2>
-                     <p>
+                     <h2 class="text-sm-header">
+                        Features to help your team succeed
+                     </h2>
+                     <p class="text-gray">
                         Powering a productive team means using a powerful tool
                         (and plenty of snacks). From meetings and projects to
                         events and goal setting, Trackero’s intuitive features
@@ -99,7 +104,7 @@
                      </p>
                   </div>
                </div>
-               <div class="row py-5">
+               <div class="row py-5 reversed-row">
                   <div class="col-md-5 mb-3 mb-md-0">
                      <img
                         src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/features/5f90e4a913ac52092f2ac7ff308c45c4/view.svg"
@@ -109,8 +114,10 @@
                      />
                   </div>
                   <div class="col-md-7">
-                     <h5>Choose a view</h5>
-                     <h2>The board is just the beginning</h2>
+                     <!-- <h5>Choose a view</h5> -->
+                     <h2 class="text-sm-header">
+                        The board is just the beginning
+                     </h2>
                      <p class="text-gray">
                         Lists and cards are the building blocks of organizing
                         work on a Trackero board. Grow from there with task
@@ -122,15 +129,14 @@
                <div class="row py-5">
                   <div class="col-md-5 order-md-2 mb-3 mb-md-0">
                      <img
-                        src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/features/b845022d8d738ba8fa5e8b293e434149/card-back.svg"
-                        width="339.13"
-                        height="275.31"
-                        class="img-fluid w-100"
+                        :src="`https://image.freepik.com/free-vector/task-management-abstract-concept-illustration_335657-2127.jpg`"
                      />
                   </div>
                   <div class="col-md-7">
-                     <h5>Dive into the details</h5>
-                     <h2>Cards contain everything you need</h2>
+                     <!-- <h5>Dive into the details</h5> -->
+                     <h2 class="text-sm-header">
+                        Cards contain everything you need
+                     </h2>
                      <p class="text-gray">
                         Trackero cards are your portal to more organized
                         work—where every single part of your task can be

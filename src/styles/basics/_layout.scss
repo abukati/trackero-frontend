@@ -86,6 +86,25 @@
             padding-left: 15px;
             margin-right: auto;
             margin-left: auto;
+            .text-sm-header {
+               font-size: 24px;
+               // height: 24px;
+               margin-top: 0;
+               margin-bottom: 8px;
+               font-weight: 500;
+            }
+            h5 {
+               font-size: 20px;
+               line-height: 1.25;
+               text-transform: uppercase;
+            }
+            p.text-gray {
+               color: #7a869a;
+               margin-top: 0;
+               margin-bottom: 24px;
+               font-size: 20px;
+               line-height: 1.2;
+            }
          }
       }
    }
@@ -171,6 +190,19 @@
             }
             .mb-md-0 {
                margin-bottom: 0;
+            }
+
+            .col-md-7 {
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               justify-content: space-evenly;
+               flex: 0 0 58.333%;
+               max-width: 58.333%;
+               .text-sm-header {
+                  font-size: 36px;
+                  line-height: 1.333;
+               }
             }
          }
       }

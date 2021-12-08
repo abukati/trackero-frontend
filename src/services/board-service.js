@@ -1,9 +1,9 @@
 import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
-import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
+// import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
+// import { httpService } from './http-service'
 
-const KEY = 'boardsDB'
-const bgcs = ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc', '#838c91']
+const KEY = 'boards_db'
 
 // const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
 // const axios = require('axios')
@@ -39,11 +39,16 @@ export const boardService = {
 //----------------------------------------------------------- */
 
 var gBoards = _createBoards()
-// let currBoard = null
 
 async function query() {
    try {
+      //FE
       return await storageService.query(KEY)
+      //BE
+      // const res = await axios.get(BASE_URL, {
+      //    params: filterBy,
+      //  })
+      //  return res.data
    } catch (err) {
       console.log(err)
    }
@@ -53,18 +58,14 @@ function _deep(board) {
    return JSON.parse(JSON.stringify(board))
 }
 
-// async function getCurrBoard() {
-// 	try {
-// 		return JSON.parse(JSON.stringify(currBoard))
-// 	} catch (err) {
-// 		console.log(err)
-// 	}
-// }
-
 async function getById(boardId) {
    try {
+      //FE
       const currBoard = await storageService.get(KEY, boardId)
       return currBoard
+      //BE
+      // const res = await axios.get(BASE_URL + id)
+      // return res.data
    } catch (err) {
       console.log(err)
    }
@@ -72,7 +73,12 @@ async function getById(boardId) {
 
 async function remove(boardId) {
    try {
+      //FE
       return await storageService.remove(KEY, boardId)
+      //BE
+      //  const res = await axios.delete(BASE_URL + id, {
+      //    withCredentials: true,
+      //  })
    } catch (err) {
       console.log(err)
    }
@@ -80,13 +86,25 @@ async function remove(boardId) {
 
 async function save(board) {
    try {
+      //FE
       const savedBoard = board._id ? await _update(board) : await _add(board)
       return savedBoard
+      //BE
+      // if (board._id) {
+      //    const res = await axios.put(BASE_URL + board._id, board, {
+      //       withCredentials: true
+      //    })
+      //    return res.data
+      // } else {
+      //    const res = await axios.post(BASE_URL, board, { withCredentials: true })
+      //    return res.data
+      // }
    } catch (err) {
       console.log(err)
    }
 }
 
+//FE ONLY
 async function _add(board) {
    try {
       return await storageService.post(KEY, board)
@@ -95,6 +113,7 @@ async function _add(board) {
    }
 }
 
+//FE ONLY
 async function _update(board) {
    try {
       return await storageService.put(KEY, board)
@@ -131,7 +150,10 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
       ],
       activities: []
    }
+   //FE
    return board
+   //BE
+   // return Promise.resolve(board)
 }
 
 function getEmptyGroup(title = 'Default group title') {
@@ -143,9 +165,13 @@ function getEmptyGroup(title = 'Default group title') {
          bgColor: '#ebecf0'
       }
    }
+   //FE
    return group
+   //BE
+   // return Promise.resolve(group)
 }
 
+//FE ONLY
 async function _createBoards() {
    var boards = JSON.parse(localStorage.getItem(KEY))
    if (!boards || !boards.length) {
@@ -166,7 +192,10 @@ async function changeBoardBgc(bgc, board) {
    try {
       const currBoard = _deep(board)
       currBoard.style.bgColor = bgc
+      //FE
       return save(currBoard)
+      //BE
+      // return Promise.resolve(save(currBoard))
    } catch (err) {
       console.log(err)
    }
@@ -180,7 +209,10 @@ async function _getCurrGroup(groupId, board) {
       // const currBoard = await getCurrBoard()
       const currBoard = _deep(board)
       const currGroup = currBoard.groups.find(group => group.id === groupId)
+      //FE
       return currGroup
+      //BE
+      // return Promise.resolve(currGroup)
    } catch (err) {
       console.log(err)
    }
@@ -192,7 +224,10 @@ async function addGroup(group, board) {
       const currBoard = _deep(board)
       currBoard.groups.push(group)
       saveGroups(currBoard.groups, currBoard)
+      //FE
       return currBoard.groups
+      //BE
+      // return Promise.resolve(currBoard.groups)
    } catch (err) {
       console.log(err)
    }
@@ -203,7 +238,10 @@ async function updateGroupTitle(group, board) {
       const groupToUpdate = await _getCurrGroup(group.id, board)
       groupToUpdate.title = group.title
       await _updateGroup(groupToUpdate, groupToUpdate.id, board)
+      //FE
       return groupToUpdate
+      //BE
+      // return Promise.resolve(groupToUpdate)
    } catch (err) {
       console.log(err)
    }
