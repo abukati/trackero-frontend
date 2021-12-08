@@ -418,7 +418,7 @@ async function removeMember(user, board) {
    })
 })()
 
-function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: 'guestuser.png' }) {
+function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
    return {
       _id: utilService.makeId(),
       title,
@@ -1378,7 +1378,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                _id: 'u100',
                fullname: 'Guest',
                username: 'guest',
-               imgUrl: 'guestuser.png',
+               imgUrl: '',
                isAdmin: true
             },
             task: {
