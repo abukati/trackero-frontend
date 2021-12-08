@@ -28,8 +28,21 @@
                   <input
                      class="search-input"
                      placeholder="Paste any link here..."
+                     v-model="linkUrl"
+                     @click.once="changeIsEmpty"
                   />
-                  <button class="card-edit-btn">Attach</button>
+                  <div v-if="!linkIsEmpty">
+                     <label class="label">link name (optional) </label>
+                     <input
+                        class="name-input"
+                        placeholder="Paste any link here..."
+                        v-model="linkUrlName"
+                     />
+                  </div>
+
+                  <button @click="saveLink" class="card-edit-btn">
+                     Attach
+                  </button>
                </form>
             </div>
          </div>
@@ -49,15 +62,23 @@ export default {
       return {
          filterBy: {
             title: '',
-            files: []
+
          },
+         imgUrls: [],
+         linkUrlS: [],
+         newLink: '',
+         linkIsEmpty: true,
+         linkUrl: '',
+         linkUrlName: '',
+         task: this.info.task
       }
    },
    methods: {
       async onUploadImg(ev) {
          try {
             let res = await uploadImg(ev)
-            console.log('res.url', res.url)
+            console.log('res', res)
+            this.saveImg(res)
          } catch (err) {
             console.log(err)
          }
@@ -68,14 +89,7 @@ export default {
       attachmentLeave(ev) {
          ev.target.classList.remove('attachment-hover')
       },
-      toggleLabel(attachment) {
-         const attachmentIdx = this.info.task.attachments.findIndex(currLabel => currLabel.id === attachment.id)
-         if (attachmentIdx !== -1) {
-            this.$emit('removeLabel', attachment)
-         } else {
-            this.$emit('addLabel', attachment)
-         }
-      },
+
       isLabel(id) {
          const attachmentIdx = this.info.task.attachments.findIndex(attachment => attachment.id === id)
          if (attachmentIdx !== -1) return 'icon-check'
@@ -84,21 +98,23 @@ export default {
       toggleList() {
          this.$emit('toggleList')
       },
-      saveImg(imgUrl) {
-         console.log('imgUrl', imgUrl)
-         this.imgUrls.push(imgUrl)
-         console.log('this.imgUrls', this.imgUrls)
+      saveImg(res) {
+         this.task.attachments.push({ id: res.asset_id, url: res.url, title: res.original_filename + '.' + res.format })
+         this.$store.dispatch({ type: 'updateTask', groupId: 'g101', task: this.task })
+      },
+      saveLink() {
+         const id = 'f' + this.task.attachments.length + 1
+         this.task.attachments.push({ id, url: this.linkUrl, title: this.linkUrlName })
+         this.$store.dispatch({ type: 'updateTask', groupId: 'g101', task: this.task })
+
+      },
+      changeIsEmpty() {
+         this.linkIsEmpty = !this.linkIsEmpty
       }
 
    },
    computed: {
-      attachmentsToDisplay() {
-         const { title } = this.filterBy
-         const regex = new RegExp(title, 'i')
-         const attachments = this.$store.getters.attachments
-         var filteredAttachments = attachments.filter((attachment) => regex.test(attachment.title))
-         return filteredAttachments
-      }
+
    }
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
    <!-- <section class="list-card-preview"> -->
    <router-link
+      v-if="!task.isArchived"
       class="list-card"
       :to="`/board/${board._id}/${group.id}/${task.id}`"
    >
