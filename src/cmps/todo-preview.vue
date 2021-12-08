@@ -10,7 +10,8 @@
                       {{todo.text}}
                   </span>
                   <div class="checklist-item-controls">
-                      <button @click="remove(todo.id)">X</button>
+                      <a @click="remove(todo.id)" class="icon-lg icon-close"></a>
+                      <!-- <button >X</button> -->
                   </div>
               </div>
           </div>

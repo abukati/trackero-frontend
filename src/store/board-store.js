@@ -271,6 +271,14 @@ export const boardStore = {
             console.log(err)
          }
       },
+      async getEmptyComment({ state, commit }) {
+         try {
+            console.log('store')
+            return boardService.getEmptyComment()
+         } catch (err) {
+            console.log(err)
+         }
+      },
       async getEmptyChecklist({ state, commit }){
          try {
             return boardService.getEmptyChecklist()
