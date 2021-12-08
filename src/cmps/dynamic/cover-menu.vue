@@ -1,5 +1,5 @@
 <template>
-	<div :style="modalPos" class="cover-menu-modal pop-over is-shown details-popup">
+	<div :style="{top: info.modalPos.posY + 'px'}" class="cover-menu-modal pop-over is-shown details-popup">
 		<div class="no-back">
 			<div class="pop-over-header">
 				<span class="pop-over-header-title">Cover</span>
@@ -49,14 +49,5 @@ export default {
             this.$emit('removeTaskCover')
         }
 	},
-    computed:{
-        modalPos(){
-            // var elPopover = document.getElementById('pop-over-test')
-            // console.log(elPopover)
-            // console.log(window.getComputedStyle(elPopover))
-            // return { 'top': this.info.modalPos.top + 5 + 'px', 'right':this.info.modalPos.right}
-            // return { 'top': this.info.modalPos.top + 5 + 'px', 'left': this.info.modalPos.left + 5 + 'px' }
-        },
-    }
 };
 </script>

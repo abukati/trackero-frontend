@@ -9,7 +9,7 @@
 					<!-- <div class="task-cover"> -->
 					<div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
 						<div class="task-cover-menu">
-							<a @click="toggleCoverMenu" class="task-cover-menu-button">
+							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
 								<span class="icon-sm cover-menu-btn-icon"></span>
 								Cover
 							</a>
@@ -134,7 +134,8 @@
 											</p>
 										</div>
 										<div v-show="isEditing" class="edit-container">
-												<textarea-autosize 
+												<textarea-autosize
+												ref="descinput"
 												class="edit-input"
 												v-model="taskDesc" type="textarea"
 												>
@@ -175,7 +176,7 @@
 										 placeholder="Write a comment…" dir="auto">
 										  </textarea-autosize>
 										<div v-show="isCommenting" class="comment-controls" :style="[ isCommenting ? {opacity: 1,transform: 'translateY(0)'} : '']">
-											<input @click="saveComment" class="nch-button save-btn" :class="{'primary': newCommentTxt}" type="submit" value="Save">
+											<input ref="commentinput" @click="saveComment" class="nch-button save-btn" :class="{'primary': newCommentTxt}" type="submit" value="Save">
 										</div>
 									</div>
 								</div>
@@ -266,15 +267,15 @@
 						<div class="window-module clearfix">
 							<h3>Add to card</h3>
 							<div>
-								<a @click="toggleMemberList" class="button-link" title="Members">
+								<a @click="toggleListCmp($event,'members-list')" class="button-link" title="Members">
 									<span class="icon-sm icon-member"></span>
 									<span class="sidebar-action-text">Members</span>
 								</a>
-								<a @click="toggleLabelsList" class="button-link" title="Labels">
+								<a @click="toggleListCmp($event,'labels-list')" class="button-link" title="Labels">
 									<span class="icon-sm icon-label"></span>
 									<span class="sidebar-action-text">Labels</span>
 								</a>
-								<a @click="toggleCheckList" class="button-link" title="Checklist">
+								<a @click="toggleListCmp($event,'check-list')" class="button-link" title="Checklist">
 									<span class="icon-sm icon-checklist"></span>
 									<span class="sidebar-action-text">Checklist</span>
 								</a>
@@ -291,7 +292,7 @@
 									<span class="icon-sm icon-location"></span>
 									<span class="sidebar-action-text">Location</span>
 								</a>
-								<a @click="toggleCoverMenu" v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
+								<a @click="toggleListCmp($event,'cover-menu')" v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
 									<span class="icon-sm icon-cover"></span>
 									<span class="sidebar-action-text">Cover</span>
 								</a>
@@ -407,7 +408,10 @@ export default {
 				type: null,
 				task: this.task,
 				groupId: null,
-				modalPos: {},
+				modalPos: {
+					posX:null,
+					posY:null,
+				},
 			}
 		};
 	},
@@ -437,56 +441,22 @@ export default {
 			this.profileOfUser = null;
 			this.isMiniProfileOpen = false;
 		},
-		toggleList(ev) {
-			// const {top,right} = ev.target.offsetParent.getBoundingClientRect()
-			// this.info.modalPos.top = Math.ceil(top)
-			if (this.isListOpen) {
-				this.isListOpen = !this.isListOpen;
-			} else {
-				this.isMiniProfileOpen = false;
-				this.isListOpen = true;
-			}	
+		toggleListCmp(ev,cmpName) {
+			this.isMiniProfileOpen = false;
+			this.isListOpen = true;
+			this.info.type = cmpName
+			const pos = ev.target.offsetParent.getBoundingClientRect()
+			this.info.modalPos.posY = pos.top - 10
+			// this.info.modalPos.posY = ev.pageY - 100
+			// this.info.modalPos.posX = ev.pageX - 14
+			// this.info.modalPos.posX = pos.left - 14
+			//  if(ev.pageX >= 715 &&  ev.pageY >= 340 ){
+			// 	 this.info.modalPos.posY = 376
+			// 	 this.info.modalPos.posX = 830
+			//  }
 		},
-		toggleMemberList(ev){
-			this.toggleModals()
-			const {bottom} = ev.target.offsetParent.getBoundingClientRect()
-			this.info.modalPos.bottom = Math.ceil(bottom)
-			this.info.type = 'members-list'
-		},
-		toggleCoverMenu(ev){
-			// console.log('computed',window.getComputedStyle(ev.target).width)
-			// console.log('ev.target',ev.target)
-			// const top = ev.target.getBoundingClientRect().top + window.scrollY
-			// const right = ev.target.getBoundingClientRect().right + window.scrollX
-			// console.log(top)
-			// console.log(right)
-			this.toggleModals()
-			// const {top,bottom} = ev.target.offsetParent.getBoundingClientRect()
-			// this.info.modalPos.bottom = Math.ceil(bottom)
-			// this.info.modalPos.left = Math.ceil(left)
-			// this.info.modalPos.top = Math.ceil(top)
-			// this.info.modalPos.right = Math.ceil(right)
-			this.info.type = 'cover-menu'
-		},
-		toggleLabelsList(ev){
-			this.toggleModals()
-			const {bottom} = ev.target.offsetParent.getBoundingClientRect()
-			this.info.modalPos.bottom = Math.ceil(bottom)
-			this.info.type = 'labels-list'
-		},
-		toggleCheckList(ev){
-			this.toggleModals()
-			const {bottom} = ev.target.offsetParent.getBoundingClientRect()
-			this.info.modalPos.bottom = Math.ceil(bottom)
-			this.info.type = 'check-list'
-		},
-		toggleModals(){
-			// if (this.isListOpen) {
-			// 	this.isListOpen = !this.isListOpen;
-			// } else {
-				this.isMiniProfileOpen = false;
-				this.isListOpen = true;
-			// }
+		toggleList(){
+			this.isListOpen = false;
 		},
 		toggleActivity(){
 			this.isShowActivity = !this.isShowActivity
@@ -523,6 +493,7 @@ export default {
 				byMember:this.loggedInUser,
 				createdAt:Date.now(),
 			}
+			console.log(this.task.activities)
 			this.task.activities.unshift(activity);
 		},
 		addTaskMember(user) {
@@ -576,21 +547,28 @@ export default {
 			this.updateTask()
 		},
 		changeTaskTitle(ev){
-			this.addActivity(`Changed this task title`)
 			this.task.title = ev.target.value
+			this.addActivity(`Changed this task title`)
 			this.updateTask()
 		},
 		saveTaskDesc(){
-			this.task.description = this.taskDesc
 			this.isEditing = false
+			this.task.description = this.taskDesc
 			this.addActivity(`Updated the description`)
 			this.updateTask()
 		},
 		toggleEdit(){
 			this.isEditing = !this.isEditing
+			this.$nextTick(() => {
+				this.$refs.descinput.$el.focus()
+			})
 		},
 		async saveComment(){
 			try{
+				if(!this.newCommentTxt.length){
+					this.$refs.commentinput.focus()
+					return
+            	}
 				var newComment = await this.$store.dispatch({ type: 'getEmptyComment'}); 
 				newComment.txt = this.newCommentTxt
 				newComment.byMember.fullname = this.loggedInUser.fullname
