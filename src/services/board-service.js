@@ -123,6 +123,11 @@ async function _update(board) {
    }
 }
 
+// async function updateArchiveTasks(task,groupId,boardId){
+//    const board = await getById(boardId)
+//    board.archivedTasks.push()
+// }
+
 function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
    const board = {
       title,
@@ -361,6 +366,7 @@ function _createEmptyTask() {
          isComplete: false
       },
       comments: [],
+      isArchived: false,
       checklists: [
          // {
          //    id: utilService.makeId(),
@@ -387,7 +393,7 @@ function _createEmptyTask() {
    }
 }
 
-function getEmptyComment(){
+function getEmptyComment() {
    const comment = {
       txt: '',
       id: utilService.makeId(),
@@ -655,7 +661,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         ]
                      }
                   ],
-                  activities:[]
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't102',
@@ -740,7 +747,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      }
                   ],
                   checklists: [],
-                  activities:[]
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't103',
@@ -842,7 +850,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         ]
                      }
                   ],
-                  activities:[]
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't108',
@@ -927,12 +936,14 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      }
                   ],
                   checklists: [],
-                  activities:[],
+                  activities: [],
+                  isArchived: false
                }
             ],
             style: {
                bgColor: '#ebecf0'
-            }
+            },
+            archivedTasks: []
          },
          {
             id: 'g102',
@@ -1059,7 +1070,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         ]
                      }
                   ],
-                  activities:[],
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't104',
@@ -1138,7 +1150,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      }
                   ],
                   checklists: [],
-                  activities:[],
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't105',
@@ -1214,12 +1227,14 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      }
                   ],
                   checklists: [],
-                  activities:[],
+                  activities: [],
+                  isArchived: false
                }
             ],
             style: {
                bgColor: '#ebecf0'
-            }
+            },
+            archivedTasks: []
          },
          {
             id: 'g103',
@@ -1291,7 +1306,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      }
                   ],
                   checklists: [],
-                  activities:[],
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't107',
@@ -1359,7 +1375,9 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: []
+                  checklists: [],
+                  activities: [],
+                  isArchived: false
                },
                {
                   id: 't110',
@@ -1422,12 +1440,15 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                         }
                      }
                   ],
-                  checklists: []
+                  checklists: [],
+                  activities: [],
+                  isArchived: false
                }
             ],
             style: {
                bgColor: '#ebecf0'
-            }
+            },
+            archivedTasks: []
          }
       ],
       activities: [
@@ -1491,7 +1512,6 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      imgUrl: 'artiomuser.png'
                   }
                ]
-
             },
             id: 'a100'
          }
