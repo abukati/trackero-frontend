@@ -49,7 +49,7 @@ export default {
    },
    methods: {
       toggleBoardWatch() {
-         let userToUpdate = JSON.parse(JSON.stringify(this.loggedUser))
+         let userToUpdate = this.loggedUser
          const idx = userToUpdate.subscribedTo.findIndex(board => board === this.board._id)
          idx === -1 ? userToUpdate.subscribedTo.push(this.board._id) : userToUpdate.subscribedTo.splice(idx, 1)
          this.$store.dispatch('saveUser', { user: userToUpdate })
