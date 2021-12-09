@@ -52,10 +52,17 @@
 						background-color: #00000029;
 					}
 				}
-				img {
-					max-height: 20px;
-					max-width: 20px;
+				.icon-close{
+					font-size: 20px;
+					&::before{
+						content: "\e91c";
+					}
 				}
+				
+				// img {
+				// 	max-height: 20px;
+				// 	max-width: 20px;
+				// }
 			}
 			.task-detail {
 				min-height: 600px;

@@ -2,9 +2,10 @@
 	<div class="window-overlay" @click.prevent.self="closemodal()">
 		<div class="window">
 			<div class="window-wrapper">
-				<a @click="closemodal()" class="dialog-close-button" :class="[taskCover ? 'dark' : '']">
-					<img src="@/assets/img/close-icon.svg" />
-				</a>
+					<a @click="closemodal()" class="dialog-close-button" :class="[taskCover ? 'dark' : '']">
+						<span class="icon-close icon-sm"></span>
+						<!-- <img src="@/assets/img/close-icon.svg" /> -->
+					</a>
 				<div class="task-detail clearfix">
 					<!-- <div class="task-cover"> -->
 					<div v-if="taskCover" :class="{'img': task.style.url}" class="task-cover" :style="taskCover">

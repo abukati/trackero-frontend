@@ -1,12 +1,12 @@
 import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
-// import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
-// import { httpService } from './http-service'
+import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
+import { httpService } from './http-service.js'
 
-const KEY = 'boards_db'
+const KEY = 'board_db'
 
-// const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
-// const axios = require('axios')
+const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
+const axios = require('axios')
 
 export const boardService = {
    //BOARD
@@ -41,15 +41,13 @@ export const boardService = {
 
 var gBoards = _createBoards()
 
-async function query() {
+async function query(filterBy = {}) {
    try {
       //FE
       return await storageService.query(KEY)
       //BE
-      // const res = await axios.get(BASE_URL, {
-      //    params: filterBy,
-      //  })
-      //  return res.data
+      // const res = await httpService.get('board', { params: filterBy })
+      // return res
    } catch (err) {
       console.log(err)
    }
@@ -65,8 +63,8 @@ async function getById(boardId) {
       const currBoard = await storageService.get(KEY, boardId)
       return currBoard
       //BE
-      // const res = await axios.get(BASE_URL + id)
-      // return res.data
+      // const res = await httpService.get('board/' + boardId)
+      // return res
    } catch (err) {
       console.log(err)
    }
@@ -77,9 +75,8 @@ async function remove(boardId) {
       //FE
       return await storageService.remove(KEY, boardId)
       //BE
-      //  const res = await axios.delete(BASE_URL + id, {
-      //    withCredentials: true,
-      //  })
+      // const res = await httpService.delete('board/' + boardId, { withCredentials: true })
+      // return res
    } catch (err) {
       console.log(err)
    }
@@ -91,15 +88,13 @@ async function save(board) {
       const savedBoard = board._id ? await _update(board) : await _add(board)
       return savedBoard
       //BE
-      // if (board._id) {
-      //    const res = await axios.put(BASE_URL + board._id, board, {
-      //       withCredentials: true
-      //    })
-      //    return res.data
-      // } else {
-      //    const res = await axios.post(BASE_URL, board, { withCredentials: true })
-      //    return res.data
-      // }
+      if (board._id) {
+         // const res = await httpService.put('board/' + board._id, board, { withCredentials: true })
+         // return res
+      } else {
+         // const res = await httpService.post('board/', board, { withCredentials: true })
+         // return res
+      }
    } catch (err) {
       console.log(err)
    }
@@ -140,7 +135,7 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
          isAdmin: true
       },
       style: {
-         bgColor: '#29cce5',
+         bgColor: ''
       },
       labels: [],
       members: [],
@@ -157,24 +152,21 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
       activities: []
    }
    //FE
-   return board
+   // return board
    //BE
-   // return Promise.resolve(board)
+   return Promise.resolve(board)
 }
 
 function getEmptyGroup(title = 'Default group title') {
    const group = {
       id: utilService.makeId(),
       title,
-      tasks: [],
-      style: {
-         bgColor: '#ebecf0'
-      }
+      tasks: []
    }
    //FE
-   return group
+   // return group
    //BE
-   // return Promise.resolve(group)
+   return Promise.resolve(group)
 }
 
 //FE ONLY
@@ -199,9 +191,9 @@ async function changeBoardBgc(bgc, board) {
       const currBoard = _deep(board)
       currBoard.style.bgColor = bgc
       //FE
-      return save(currBoard)
+      // return save(currBoard)
       //BE
-      // return Promise.resolve(save(currBoard))
+      return Promise.resolve(save(currBoard))
    } catch (err) {
       console.log(err)
    }
@@ -216,9 +208,9 @@ async function _getCurrGroup(groupId, board) {
       const currBoard = _deep(board)
       const currGroup = currBoard.groups.find(group => group.id === groupId)
       //FE
-      return currGroup
+      // return currGroup
       //BE
-      // return Promise.resolve(currGroup)
+      return Promise.resolve(currGroup)
    } catch (err) {
       console.log(err)
    }
@@ -231,9 +223,9 @@ async function addGroup(group, board) {
       currBoard.groups.push(group)
       saveGroups(currBoard.groups, currBoard)
       //FE
-      return currBoard.groups
+      // return currBoard.groups
       //BE
-      // return Promise.resolve(currBoard.groups)
+      return Promise.resolve(currBoard.groups)
    } catch (err) {
       console.log(err)
    }
@@ -245,9 +237,9 @@ async function updateGroupTitle(group, board) {
       groupToUpdate.title = group.title
       await _updateGroup(groupToUpdate, groupToUpdate.id, board)
       //FE
-      return groupToUpdate
+      // return groupToUpdate
       //BE
-      // return Promise.resolve(groupToUpdate)
+      return Promise.resolve(groupToUpdate)
    } catch (err) {
       console.log(err)
    }
@@ -346,7 +338,6 @@ function _createEmptyTask() {
       attachments: [],
       location: {},
       style: {
-         // bgColor: '#0a9'
          bgColor: '#ffffff'
       },
       members: [],
@@ -358,38 +349,16 @@ function _createEmptyTask() {
          imgUrl: ''
       },
       startDate: {
-         date: `${new Date().getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'short' }).format(new Date())} ${new Date().getFullYear}`,
+         date: '',
          isComplete: false
       },
       dueDate: {
-         date: '14 Dec 2021',
+         date: '',
          isComplete: false
       },
       comments: [],
       isArchived: false,
-      checklists: [
-         // {
-         //    id: utilService.makeId(),
-         //    title: 'Checklist',
-         //    todos: [
-         //       {
-         //          text: 'Git permissions',
-         //          isDone: true,
-         //          id: utilService.makeId()
-         //       },
-         //       {
-         //          text: 'AWS permissions',
-         //          isDone: false,
-         //          id: utilService.makeId()
-         //       },
-         //       {
-         //          text: 'Mongo permissions',
-         //          isDone: false,
-         //          id: utilService.makeId()
-         //       }
-         //    ]
-         // }
-      ]
+      checklists: []
    }
 }
 
@@ -460,21 +429,21 @@ async function removeMember(user, board) {
 
 // Dummy socket for live testing
 
-;(async () => {
-   var boards = await storageService.query(KEY)
-   var groups = boards[0].groups
+// ;(async () => {
+//    var boards = await storageService.query(KEY)
+//    var groups = boards[0].groups
 
-   window.addEventListener('storage', async () => {
-      console.log('Storage updated')
-      const newBoards = await storageService.query(KEY)
-      const newGroups = newBoards[0].groups
-      if (newGroups.length === groups.length + 1) {
-         console.log('Review Added - localStorage updated from another browser')
-         socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length - 1])
-      }
-      boards = newGroups
-   })
-})()
+//    window.addEventListener('storage', async () => {
+//       console.log('Storage updated')
+//       const newBoards = await storageService.query(KEY)
+//       const newGroups = newBoards[0].groups
+//       if (newGroups.length === groups.length + 1) {
+//          console.log('Board Added - localStorage updated from another browser')
+//          socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length - 1])
+//       }
+//       boards = newGroups
+//    })
+// })()
 
 function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
    return {
