@@ -10,7 +10,6 @@ export const boardStore = {
       currBoard: null,
       groups: [],
       currGroup: null,
-
       checked: true
    },
    getters: {

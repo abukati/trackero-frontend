@@ -11,7 +11,6 @@ const KEY = 'users_db'
 
 const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/auth/' : '//localhost:3000/api/auth/'
 
-
 export const userService = {
    query,
    getUserById,
