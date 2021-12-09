@@ -157,26 +157,23 @@
 <script>
 export default {
    name: 'homePage',
-   components: {
-   },
    data() {
       return {
          isScroll: false
       }
    },
-
+   async created() {
+      await this.$store.dispatch({ type: 'loadBoards' })
+      await this.$store.dispatch({ type: 'loadUsers' })
+   },
    methods: {
       scrollListener(ev) {
          if (ev.target.scrollTop !== 0) {
             this.isScroll = true
-         }
-         else {
+         } else {
             this.isScroll = false
          }
       }
-   },
-
-
-
+   }
 }
 </script>

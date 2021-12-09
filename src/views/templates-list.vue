@@ -18,9 +18,7 @@
                   >
                      <div
                         class="board-preview"
-                        :style="{
-                           background: board.bgColor,
-                        }"
+                        :style="{ background: board.bgColor }"
                      >
                         <div class="board-preview-details">
                            <h3>{{ board.title }}</h3>
@@ -61,9 +59,7 @@
                   >
                      <div
                         class="board-preview"
-                        :style="{
-                           background: board.style.bgColor,
-                        }"
+                        :style="{ background: board.style.bgColor }"
                      >
                         <div class="board-preview-details">
                            <h3>{{ board.title }}</h3>
@@ -72,6 +68,7 @@
                            <span
                               class="icon-lg icon-star board-star-btn-icon"
                               @click.prevent="toggleIsStarred(board)"
+                              :class="{ 'is-on': isStarredIcon }"
                            ></span>
                         </div>
                      </div>
@@ -93,7 +90,7 @@
                               class="add-board-input"
                               type="text"
                               placeholder="Board title"
-                              v-model="newBoardTitle"
+                              v-model="newBoard.title"
                            />
                         </div>
                         <div class="add-board-control-section">
@@ -132,47 +129,45 @@
 </template>
 
 <script>
+import { boardService } from './../services/board-service.js'
+
 export default {
    name: 'templates-list',
    data() {
       return {
-         newBoardTitle: '',
+         newBoard: {
+            title: '',
+            bgColor: '#0079bf'
+         },
          boards: null,
          currBoardId: null,
          currBoard: null,
          starred: null,
          isInputOpen: false,
-         loggedUser: null,
+         loggedUser: null
       }
    },
    async created() {
-      try {
-         await this.$store.dispatch({ type: 'loadBoards' })
-         this.boards = this.$store.getters.boardsForDisplay
-         this.starred = this.$store.getters.starredBoards
-         console.log('this.starred', this.starred)
-         this.loggedUser = this.$store.getters.currLoggedUser
-      } catch (err) {
-         console.log(err)
-      }
+      await this.$store.dispatch({ type: 'loadBoards' })
+      this.boards = this.$store.getters.boardsForDisplay
+      this.starred = this.$store.getters.starredBoards
+      this.loggedUser = this.$store.getters.currLoggedUser
    },
    methods: {
-      async removeBoard(boardId) {
-         try {
-            this.$store.dispatch({ type: 'removeBoard', boardId })
-            await this.$store.dispatch({ type: 'loadBoards' })
-            this.boards = this.$store.getters.boardsForDisplay
-         } catch (err) {
-            console.log(err)
-         }
-      },
       async addBoard() {
          try {
-            this.$store.dispatch({ type: 'addBoard', boardTitle: this.newBoardTitle })
-            await this.$store.dispatch({ type: 'loadBoards' })
+            let boardToSave = boardService.getEmptyBoard()
+            const { _id, username, fullname, imgUrl } = this.loggedUser
+            const { title, bgColor } = this.newBoard
+            boardToSave.title = title
+            boardToSave.style.bgColor = bgColor
+            boardToSave.createdBy = { _id, username, fullname, imgUrl }
+            boardToSave.members.push(this.loggedUser)
+            this.$store.dispatch({ type: 'addBoard', board: boardToSave })
             this.boards = this.$store.getters.boardsForDisplay
-            this.newBoardTitle = ''
             this.toggleInput()
+            this.newBoard.title = ''
+            this.newBoard.bgColor = ''
          } catch (err) {
             console.log(err)
          }
@@ -188,7 +183,7 @@ export default {
       //       this.currBoard.isStarred = !this.currBoard.isStarred
       //       await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
       //       await this.$store.dispatch({ type: 'loadBoards' })
-      //       this.boards = this.$store.getters.boardsForDisplay
+      //       this.boards = this.$store.getters.allBoards
       //       this.starred = this.$store.getters.starredBoards
       //    } catch (err) {
       //       console.log(err)
@@ -197,17 +192,16 @@ export default {
       async toggleIsStarred(board) {
          try {
             const boardId = board._id
-            if (this.loggedUser.starredBoardsIds.length) {
-               var idx = this.loggedUser.starredBoardsIds.findIndex(board => board._id === boardId)
+            if (this.loggedUser.starredBoards.length) {
+               var idx = this.loggedUser.starredBoards.findIndex(board => board._id === boardId)
                if (idx === -1) {
                   const { _id, title, style } = board
-                  this.loggedUser.starredBoardsIds.push({ _id, title, ...style })
-               } else this.loggedUser.starredBoardsIds.splice(idx, 1)
+                  this.loggedUser.starredBoards.push({ _id, title, ...style })
+               } else this.loggedUser.starredBoards.splice(idx, 1)
             } else {
                const { _id, title, style } = board
-               this.loggedUser.starredBoardsIds.push({ _id, title, ...style })
+               this.loggedUser.starredBoards.push({ _id, title, ...style })
             }
-
             await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
             await this.$store.dispatch({ type: 'loadBoards' })
             this.boards = this.$store.getters.boardsForDisplay
@@ -216,7 +210,6 @@ export default {
             console.log(err)
          }
       },
-
       async toggleInput() {
          try {
             this.isInputOpen = !this.isInputOpen
@@ -251,8 +244,14 @@ export default {
          }
          return color
       },
-
-
+      isStarredIcon() {
+         // const boardId = board._id
+         // var idx = this.loggedUser.starredBoards.findIndex(board => board._id === boardId)
+         // console.log('idx', idx)
+         // if (idx !== -1) return true
+         // else return false
+         return false
+      }
    }
 }
 </script>

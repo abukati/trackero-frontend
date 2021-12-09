@@ -6,7 +6,7 @@
       @addMember="addMember"
       @removeLabel="removeLabel"
       @addLabel="addLabel"
-      @toggleList="toggleList"
+      @closeList="closeList"
       @addCheckList="addCheckList"
       @changeTaskCover="changeTaskCover"
       @removeTaskCover="removeTaskCover"
@@ -57,8 +57,8 @@ export default {
       removeTaskCover() {
          this.$emit('removeTaskCover')
       },
-      toggleList() {
-         this.$emit('toggleList')
+      closeList() {
+         this.$emit('closeList')
       },
    }
 }

@@ -117,7 +117,7 @@ export default {
          }
       },
       isBoardStarred() {
-         return this.$store.getters.currLoggedUser.starredBoardsIds.some(board => board._id === this.board._id)
+         return this.$store.getters.currLoggedUser.starredBoards.some(board => board._id === this.board._id)
       },
       isUserSubbed() {
          return this.$store.getters.currLoggedUser.subscribedTo.some(boardId => boardId === this.board._id)
@@ -149,12 +149,12 @@ export default {
       async toggleBoardStar() {
          try {
             let userToUpdate = this.loggedUser
-            const idx = userToUpdate.starredBoardsIds.findIndex(board => board._id === this.board._id)
+            const idx = userToUpdate.starredBoards.findIndex(board => board._id === this.board._id)
             if (idx === -1) {
                this.starredBoard = !this.starredBoard
                const { _id, title, style } = this.board
-               userToUpdate.starredBoardsIds.push({_id,title, ...style})
-            } else userToUpdate.starredBoardsIds.splice(idx, 1)
+               userToUpdate.starredBoards.push({_id,title, ...style})
+            } else userToUpdate.starredBoards.splice(idx, 1)
             await this.$store.dispatch({ type: 'saveUser', user: userToUpdate })
          } catch (err) {
             console.log(err)

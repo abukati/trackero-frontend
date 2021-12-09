@@ -7,11 +7,15 @@
       <task-opts-list
          v-if="isListOpen"
          :info="info"
+         :style="{
+            top: info.modalPos.posY + 'px',
+            left: info.modalPos.posX + 'px'
+         }"
          @removeMember="removeTaskMember"
          @addMember="addTaskMember"
          @removeLabel="removeTaskLabel"
          @addLabel="addTaskLabel"
-         @toggleList="toggleList"
+         @closeList="closeList"
          @toggleTaskCover="toggleTaskCover"
       />
       <span
@@ -321,13 +325,21 @@ export default {
             console.log(err)
          }
       },
-      toggleListCmp(ev, cmpName) {
-         this.isListOpen = true
-         this.info.type = cmpName
-         const pos = ev.target.offsetParent.getBoundingClientRect()
-         this.info.modalPos.posY = pos.top - 10
-      },
-      toggleList() {
+      toggleListCmp(ev,cmpName) {
+			if(cmpName === this.info.type){
+				 this.isListOpen = false;
+				 this.info.type=null;
+				 return
+			}else {
+				this.$nextTick(() => {
+            this.isListOpen = true;
+            this.info.modalPos.posY= ev.pageY + 20 // top
+            this.info.modalPos.posX = ev.pageX - 15 // left
+            this.info.type = cmpName
+				})
+			}
+		},
+      closeList() {
          this.isListOpen = false
       },
       addActivity(txt) {
@@ -429,11 +441,9 @@ export default {
       },
       taskCover() {
          const cover = this.taskToEdit.style
-         console.log(cover)
          var style = ''
          if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
          if (cover.url) style += `background-image: url('${cover.url}');`
-         console.log('style', style)
          return style
       },
    },
