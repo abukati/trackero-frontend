@@ -2,7 +2,6 @@ export const uploadImg = ev => {
    const UPLOAD_PRESET = 'presetNoa' //insert yours
    const CLOUD_NAME = 'daymipr66' //insert yours
    const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
-   console.log(UPLOAD_URL)
    const FORM_DATA = new FormData()
    FORM_DATA.append('file', ev.target.files[0])
    FORM_DATA.append('upload_preset', UPLOAD_PRESET)

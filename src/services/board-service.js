@@ -140,7 +140,7 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
          isAdmin: true
       },
       style: {
-         bgColor: '#29cce5'
+         bgColor: '#29cce5',
       },
       labels: [],
       members: [],
@@ -150,7 +150,7 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
             title: 'Default group title',
             tasks: [],
             style: {
-               bgColor: '#ebecf0'
+               bgColor: '#ebecf0',
             }
          }
       ],
@@ -489,7 +489,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
          isAdmin: true
       },
       style: {
-         bgColor: bgColor
+         bgColor: bgColor,
       },
       isLabelsShown: true,
       labels: [
@@ -570,7 +570,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -580,7 +580,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ff7'
+                     bgColor: '#ff7',
+                     url:'',
                   },
                   members: [
                      {
@@ -672,7 +673,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -682,7 +683,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ffffff'
+                     bgColor: '#ffffff',
+                     url:'',
                   },
                   members: [
                      {
@@ -758,7 +760,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -768,7 +770,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#61bd3a'
+                     bgColor: '#61bd3a',
+                     url:'',
                   },
                   members: [
                      {
@@ -861,7 +864,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -871,7 +874,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ffffff'
+                     bgColor: '#ffffff',
+                     url:'',
                   },
                   members: [
                      {
@@ -941,7 +945,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                }
             ],
             style: {
-               bgColor: '#ebecf0'
+               bgColor: '#ebecf0',
             },
             archivedTasks: []
          },
@@ -957,7 +961,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        uploadDate: Date.now(),
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -967,7 +972,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ff7'
+                     bgColor: '#ff7',
+                     url:'',
                   },
                   members: [
                      {
@@ -1081,7 +1087,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -1091,7 +1097,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ffffff'
+                     bgColor: '#ffffff',
+                     url:'',
                   },
                   members: [
                      {
@@ -1161,7 +1168,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -1171,7 +1178,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ffffff'
+                     bgColor: '#ffffff',
+                     url:'',
                   },
                   members: [
                      {
@@ -1232,7 +1240,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                }
             ],
             style: {
-               bgColor: '#ebecf0'
+               bgColor: '#ebecf0',
+               url:'',
             },
             archivedTasks: []
          },
@@ -1248,7 +1257,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -1258,7 +1267,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#c377e0'
+                     bgColor: '#c377e0',
+                     url:'',
                   },
                   members: [
                      {
@@ -1317,7 +1327,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -1327,7 +1337,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ff7'
+                     bgColor: '#ff7',
+                     url:'',
                   },
                   members: [
                      {
@@ -1387,7 +1398,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      {
                         id: 'f101',
                         title: 'flower',
-                        src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                        url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                      }
                   ],
                   location: {
@@ -1397,7 +1408,8 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                      lng: 34.855499
                   },
                   style: {
-                     bgColor: '#ff7'
+                     bgColor: '#ff7',
+                     url:'',
                   },
                   members: [
                      {
@@ -1446,7 +1458,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                }
             ],
             style: {
-               bgColor: '#ebecf0'
+               bgColor: '#ebecf0',
             },
             archivedTasks: []
          }
@@ -1470,7 +1482,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   {
                      id: 'f101',
                      title: 'flower',
-                     src: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
+                     url: 'https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg'
                   }
                ],
                location: {

@@ -2,19 +2,27 @@
 	<div class="window-overlay" @click.prevent.self="closemodal()">
 		<div class="window">
 			<div class="window-wrapper">
-				<a @click="closemodal()" class="dialog-close-button" :class="[isCoverBgc ? 'dark' : '']">
+				<a @click="closemodal()" class="dialog-close-button" :class="[taskCover ? 'dark' : '']">
 					<img src="@/assets/img/close-icon.svg" />
 				</a>
 				<div class="task-detail clearfix">
 					<!-- <div class="task-cover"> -->
-					<div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
+					<div v-if="taskCover" :class="{'img': task.style.url}" class="task-cover" :style="taskCover">
+						<div class="task-cover-menu">
+							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
+								<span class="icon-sm cover-menu-btn-icon"></span>
+								Cover
+							</a>
+					</div>
+					</div>
+					<!-- <div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
 						<div class="task-cover-menu">
 							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
 								<span class="icon-sm cover-menu-btn-icon"></span>
 								Cover
 							</a>
 						</div>
-					</div>
+					</div> -->
 					<!-- </div> -->
 					<div class="window-header">
 						<span class="window-header-icon icon-lg"></span>
@@ -150,6 +158,41 @@
 								</div>
 							</div>
 						</div>
+						<div v-if="task.attachments.length" class="task-detail-attachments">
+							<div class="window-module">
+								<div class="window-module-title">
+									<span class="attachments-icon icon-lg"></span>
+									<h3>Attachments</h3>
+								</div>
+								<div class="attachments-area clearfix">
+									<div class="attachment-list">
+										<template v-for="attachment in task.attachments">
+											<div class="attachment-thumbnail" :key="attachment.id">
+												<a :href="attachment.url" target="_blank" class="attachment-thumbnail-preview">
+													  <img :src="attachment.url" alt="Search menu" />
+												</a>
+												<p class="attachment-thumbnail-details">
+													<span class="attachment-thumbnail-name">{{attachment.title}}</span>
+													<span class="attachment-thumbnail-details-title-options">
+													<span> Added <span class="date"> {{attachment.uploadDate}} </span></span>
+													<span>
+														<a class="attachment-thumbnail-details-title-options-item" href="#">
+															<span @click="removeAttachment(attachment)" class="attachment-thumbnail-details-options-item-text delete-btn"> Delete </span>
+														</a>
+														</span>
+													</span>
+													<span class="attachment-thumbnail-details-options">
+														<span class="icon-sm icon-card-cover"></span>
+														<span v-show="task.style.url !== attachment.url" @click="toggleTaskImg(attachment.url)" class="attachment-thumbnail-details-options-item-text">Make cover</span>
+														<span @click="toggleTaskImg" v-show="task.style.url === attachment.url" class="attachment-thumbnail-details-options-item-text">Remove cover</span>
+													</span>
+												</p>
+											</div>
+										</template>
+									</div>
+								</div>
+							</div>
+						</div>
 						<template v-if="checkLists">
 							<template v-for="checklist in task.checklists">
 								<checkListPreview
@@ -249,8 +292,8 @@
 							@addLabel="addTaskLabel"
 							@toggleList="toggleList" 
 							@addCheckList="addCheckList"
-							@changeTaskCover="changeTaskCover"
-							@removeTaskCover="removeTaskCover"
+							@changeTaskCover="toggleTaskCover"
+							@removeTaskCover="toggleTaskCover"
 						/>
 						<div v-if="!showSuggested" class="window-module suggested-actions-module">
 							<div class="suggested-actions-settings">
@@ -292,7 +335,7 @@
 									<span class="icon-sm icon-location"></span>
 									<span class="sidebar-action-text">Location</span>
 								</a>
-								<a @click="toggleListCmp($event,'cover-menu')" v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
+								<a @click="toggleListCmp($event,'cover-menu')" v-if="!taskCover" class="button-link" href="#" title="Cover">
 									<span class="icon-sm icon-cover"></span>
 									<span class="sidebar-action-text">Cover</span>
 								</a>
@@ -449,7 +492,7 @@ export default {
 			// this.info.modalPos.posY = pos.top - 10
 			// this.info.modalPos.posX = pos.left
 			this.info.modalPos.posY = ev.pageY
-			// this.info.modalPos.posX = ev.pageX
+			this.info.modalPos.posX = ev.pageX
 			// this.info.modalPos.posX = pos.left - 14
 			//  if(ev.pageX >= 715 &&  ev.pageY >= 340 ){
 			// 	 this.info.modalPos.posY = 376
@@ -536,14 +579,43 @@ export default {
 				return;
 			}
 		},
+		removeAttachment(attachment){
+			const attachmentIdx = this.task.attachments.findIndex(currAttach => currAttach.id === attachment.id);
+			if (attachmentIdx !== -1) {
+				if (attachment) this.task.attachments.splice(attachmentIdx, 1);
+				this.addActivity(`Removed attachment ${attachment.title}`)
+				this.updateTask()
+			} else {
+				return;
+			}
+
+		},
 		changeTaskCover(color){
 			this.task.style.bgColor = color
 			this.addActivity(`Changed this task cover`)
 			this.updateTask()
 		},
+		toggleTaskCover(color){
+			if(color){
+				this.task.style.bgColor = color
+				this.addActivity(`Changed this task cover`)
+			}else{
+				this.task.style.bgColor = '#ffffff'
+				this.task.style.url = ''
+				this.addActivity(`Removed this task cover`)
+			}
+			this.updateTask()
+		},
 		removeTaskCover(){
 			this.task.style.bgColor = '#ffffff'
+			this.task.style.url = ''
 			this.addActivity(`Removed this task cover`)
+			this.updateTask()
+		},
+		toggleTaskImg(url){
+
+			if(url) this.task.style.url = url
+			else this.task.style.url = ''
 			this.updateTask()
 		},
 		changeTaskTitle(ev){
@@ -614,13 +686,20 @@ export default {
 		},
 	},
 	computed: {
-		isCoverBgc() {
-			if (this.task.style.bgColor !== '#ffffff') return true;
+		// isCoverBgc() {
+		// 	if (this.task.style.bgColor !== '#ffffff') return true;
+		// },
+		taskCover() {
+			const cover = this.task.style
+			var style = ''
+			if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+			if (cover.url) style += `background-image: url('${cover.url}');`
+			return style
 		},
-		isHeight() {
-			if (this.task.style.bgColor !== '#ffffff') return 32;
-			else return 0;
-		},
+		// isHeight() {
+		// 	if (this.task.style.bgColor !== '#ffffff') return 32;
+		// 	else return 0;
+		// },
 		dateToShow() {
 			if (this.task.startDate.date && this.task.dueDate.date) {
 				const from = this.task.startDate.date.slice(0, 6);

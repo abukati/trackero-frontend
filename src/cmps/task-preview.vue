@@ -6,13 +6,19 @@
       :to="`/board/${board._id}/${group.id}/${task.id}`"
    >
       <!-- cover -->
-      <div
+      <!-- <div
          v-if="isCoverBgc"
          class="list-card-cover"
          :style="{
             backgroundColor: task.style.bgColor,
             height: isHeight + 'px',
          }"
+      > -->
+      <div
+         v-if="taskCover"
+         class="list-card-cover"
+         :style="taskCover"
+         :class="{'img': task.style.url}"
       >
          <span
             class="icon-edit icon-sm list-card-operation"
@@ -21,10 +27,15 @@
       </div>
       <!-- pencil-edit -->
       <div
-         v-if="!isCoverBgc"
+         v-if="!taskCover"
          @click.prevent="openPreviewEdit($event)"
          class="list-card-edit-pencil"
       >
+      <!-- <div
+         v-if="!isCoverBgc"
+         @click.prevent="openPreviewEdit($event)"
+         class="list-card-edit-pencil"
+      > -->
          <span class="icon-sm icon-edit list-card-operation"></span>
       </div>
 
@@ -178,14 +189,20 @@ export default {
       getChecked() {
          return this.$store.getters.checked
       },
-
-      isCoverBgc() {
-         if (this.task.style.bgColor !== '#ffffff') return true
-      },
-      isHeight() {
-         if (this.task.style.bgColor !== '#ffffff') return 32
-         return 0
-      },
+      // isCoverBgc() {
+      //    if (this.task.style.bgColor !== '#ffffff') return true
+      // },
+      taskCover() {
+			const cover = this.task.style
+			var style = ''
+			if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+			if (cover.url) style += `background-image: url('${cover.url}');`
+			return style
+		},
+      // isHeight() {
+      //    if (this.task.style.bgColor !== '#ffffff') return 32
+      //    return 0
+      // },
       labelsHeight() {
          if (this.board.isLabelsShown) return 16
          return 8

@@ -12,8 +12,7 @@
          @removeLabel="removeTaskLabel"
          @addLabel="addTaskLabel"
          @toggleList="toggleList" 
-         @changeTaskCover="changeTaskCover"
-         @removeTaskCover="removeTaskCover"
+         @toggleTaskCover="toggleTaskCover"
    />
       <span
          @click="closePreviewEdit"
@@ -28,13 +27,19 @@
             class="list-card list-card-quick-edit js-stop"
             style="width: 256px"
          >
-            <div
-               v-if="isCoverBgc"
+            <!-- <div
+               v-if="taskCover"
                class="list-card-cover"
                :style="{
                   backgroundColor: taskToEdit.style.bgColor,
                   height: isHeight + 'px',
                }"
+            ></div> -->
+            <div
+               v-if="taskCover"
+               class="list-card-cover"
+               :style="taskCover"
+               :class="{'img': task.style.url}"
             ></div>
             <div class="list-card-details">
                <div
@@ -346,25 +351,28 @@ export default {
          if (label) this.taskToEdit.labels.push(label);
          this.addActivity(`Labeled this task as ${label.title}`)
 		},
-      changeTaskCover(color){
-			this.taskToEdit.style.bgColor = color
-			this.addActivity(`Changed this task cover`)
-		},
-		removeTaskCover(){
-			this.taskToEdit.style.bgColor = '#ffffff'
-			this.addActivity(`Removed this task cover`)
+      toggleTaskCover(color){
+			if(color){
+				this.task.style.bgColor = color
+				this.addActivity(`Changed this task cover`)
+			}else{
+				this.task.style.bgColor = '#ffffff'
+				this.task.style.url = ''
+				this.addActivity(`Removed this task cover`)
+			}
+			this.updateTask()
 		},
    },
    computed: {
-      isCoverBgc() {
-         // if (this.task.style.bgColor !== '#ffffff') return true
-         if (this.taskToEdit.style.bgColor !== '#ffffff') return true
-      },
-      isHeight() {
-         // if (this.task.style.bgColor !== '#ffffff') return 32
-         if (this.taskToEdit.style.bgColor !== '#ffffff') return 32
-         return 0
-      },
+      // isCoverBgc() {
+      //    // if (this.task.style.bgColor !== '#ffffff') return true
+      //    if (this.taskToEdit.style.bgColor !== '#ffffff') return true
+      // },
+      // isHeight() {
+      //    // if (this.task.style.bgColor !== '#ffffff') return 32
+      //    if (this.taskToEdit.style.bgColor !== '#ffffff') return 32
+      //    return 0
+      // },
       labelsHeight() {
          // if (this.board.isLabelsShown) return 16
          // return 8
@@ -409,8 +417,16 @@ export default {
       isChecklist() {
          // if (this.task.checklists[0] && this.task.checklists[0].id) return true
          if (this.taskToEdit.checklists[0] && this.taskToEdit.checklists[0].id) return true
-      }
-
+      },
+      taskCover() {
+			const cover = this.taskToEdit.style
+         console.log(cover)
+			var style = ''
+			if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+			if (cover.url) style += `background-image: url('${cover.url}');`
+         console.log('style',style)
+			return style
+		},
    },
 }
 </script>

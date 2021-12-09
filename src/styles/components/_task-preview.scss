@@ -5,13 +5,18 @@
       }
    }
    .list-card-cover {
-      height: 0px;
+      // height: 0px;
+      height: 32px;
       border-radius: 3px 3px 0 0;
       background-position: 50%;
       background-repeat: no-repeat;
       background-size: cover;
       user-select: none;
-
+      &.img{
+         min-height: 150px;
+         max-height: 240px;
+         object-fit: cover;
+      }
       &:hover {
          .list-card-operation {
             visibility: visible;
