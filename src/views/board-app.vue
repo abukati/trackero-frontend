@@ -6,91 +6,41 @@
                <router-view :class="{ 'window-up': isModalOpen }" />
             </div>
          </div>
-         <task-preview-edit
-            @closePreviewEdit="closePreviewEdit"
-            v-if="isPreviewEdit"
-            :task="this.task"
-            :board="board"
-            :group="this.group"
-            :modalPos="this.modalPos"
-            :key="task.id"
-         />
+         <task-preview-edit @closePreviewEdit="closePreviewEdit" v-if="isPreviewEdit" :task="this.task" :board="board" :group="this.group" :modalPos="this.modalPos" :key="task.id" />
          <div class="board-container">
             <div class="board-content">
                <div class="board-content-wrapper">
                   <div class="board-main-content">
-                     <board-nav
-                        @toggleBoardNavMenu="toggleBoardNavMenu"
-                        :board="board"
-                        :boardMembers="board.members"
-                        :boardBgc="board.style.bgColor"
-                     />
+                      
+                     <board-nav @toggleBoardNavMenu="toggleBoardNavMenu" :board="board" :boardMembers="board.members" :boardBgc="board.style.bgColor" />
 
                      <div class="groups-container-main">
-                        <draggable
-                           v-if="onlyOneEdit"
-                           class="groups-container"
-                           handle=".group-header-section"
-                           draggable=".board-group"
-                           group="groupsList"
-                           v-model="groupsList"
-                           filter=".group-header-title-textarea"
-                           preventOnFilter="true"
-                           delay="1"
-                        >
-                           <div
-                              class="board-group"
-                              v-for="(group, idx) in groupsList"
-                              :key="idx"
-                           >
-                              <group-preview
-                                 @onlyOneEdit="onlyOneEdit"
-                                 @toggleModal="toggleModalClass"
-                                 :group="group"
-                                 :board="board"
-                              />
+                        <draggable v-if="onlyOneEdit" class="groups-container" handle=".group-header-section" draggable=".board-group"
+                           group="groupsList" v-model="groupsList" filter=".group-header-title-textarea" preventOnFilter="true" delay="1">
+                           
+                           <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
+                              <group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </div>
 
                            <div class="add-list-section">
-                              <div
-                                 v-if="!isListInputOpen"
-                                 @click="toggleInput"
-                                 class="add-list-button"
-                              >
+                              <div v-if="!isListInputOpen" @click="toggleInput" class="add-list-button">
                                  <a class="list-composer">
                                     <span class="add-task-plus-icon">
                                        <img src="@/assets/img/plus-icon.svg" />
                                     </span>
-                                    <span class="add-task-span"
-                                       >Add another list</span
-                                    >
+                                    <span class="add-task-span">Add another list</span>
                                  </a>
                               </div>
 
                               <!-- list composer section -->
                               <div v-else class="list-composer-open">
                                  <div class="add-list-title-input-section">
-                                    <input
-                                       type="text"
-                                       class="add-list-title-input"
-                                       v-model="newListTitleInput"
-                                       placeholder="Enter list title..."
-                                    />
+                                    <input type="text" class="add-list-title-input" v-model="newListTitleInput" placeholder="Enter list title..." />
                                  </div>
                                  <div class="add-list-control-section">
-                                    <button
-                                       @click="addGroup"
-                                       class="add-list-confirm-btn"
-                                    >
-                                       Add list
-                                    </button>
-                                    <span
-                                       @click="toggleInput"
-                                       class="cancel-add-list"
-                                    >
-                                       <img
-                                          src="@/assets/img/cancel-icon.svg"
-                                       />
+                                    <button @click="addGroup" class="add-list-confirm-btn">Add list</button>
+                                    <span @click="toggleInput" class="cancel-add-list">
+                                       <img src="@/assets/img/cancel-icon.svg" />
                                     </span>
                                  </div>
                               </div>
@@ -101,11 +51,9 @@
                </div>
             </div>
          </div>
-         <board-nav-side-menu
-            :board="board"
-            :isBoardMenuOpen="isBoardMenuOpen"
-            :onSideMenuOpen="toggleBoardNavMenu"
-         />
+
+         <!-- PROBLEM -->
+         <board-nav-side-menu :board="board" :isBoardMenuOpen="isBoardMenuOpen" :onSideMenuOpen="toggleBoardNavMenu" />
          <!-- <div class="archived-tasks">
             <ul>
                <li v-for="(task, idx) in archivedList" :key="idx">
@@ -122,111 +70,109 @@
 </template>
 
 <script>
-import groupPreview from '@/cmps/group-preview'
-import boardNav from '@/cmps/board-nav'
-import boardNavSideMenu from '@/cmps/board-sidemenu'
-import draggable from 'vuedraggable'
-import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
+   import groupPreview from '@/cmps/group-preview'
+   import boardNav from '@/cmps/board-nav'
+   import boardNavSideMenu from '@/cmps/board-sidemenu'
+   import draggable from 'vuedraggable'
+   import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
 
-export default {
-   name: 'board-app',
-   components: {
-      groupPreview,
-      boardNav,
-      boardNavSideMenu,
-      taskPreviewEdit,
-      draggable,
-   },
-   data() {
-      return {
-         board: null,
-         isListInputOpen: false,
-         newListTitleInput: '',
-         isModalOpen: false,
-         isBoardMenuOpen: false,
-         isPreviewEdit: false,
-         task: null,
-         group: null,
-         modalPos: {},
-      }
-   },
-   created() {
-      window.addEventListener('storage', this.loadBoards)
-   },
-   computed: {
-      groupsList: {
-         get() {
-            return this.$store.getters.boardGroups
+   export default {
+      name: 'board-app',
+      components: {
+         groupPreview,
+         boardNav,
+         boardNavSideMenu,
+         taskPreviewEdit,
+         draggable
+      },
+      data() {
+         return {
+            board: null,
+            isListInputOpen: false,
+            newListTitleInput: '',
+            isModalOpen: false,
+            isBoardMenuOpen: false,
+            isPreviewEdit: false,
+            task: null,
+            group: null,
+            modalPos: {}
+         }
+      },
+      // async created() {
+      //    window.addEventListener('storage', this.loadBoards)
+      //    console.log(this.$store.getters.currBoard)
+      // },
+      computed: {
+         groupsList: {
+            get() {
+               return this.$store.getters.boardGroups
+            },
+            set(groups) {
+               this.$store.dispatch({ type: 'updateGroups', groups })
+            }
          },
-         set(groups) {
-            this.$store.dispatch({ type: 'updateGroups', groups })
+         archivedList() {
+            return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
          }
       },
-      archivedList() {
-         return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
-      }
-
-   },
-   methods: {
-      addGroup() {
-         this.$store.dispatch({ type: 'addGroup', title: this.newListTitleInput })
-         this.newListTitleInput = ''
-         this.isListInputOpen = false
-      },
-      toggleInput() {
-         this.isListInputOpen = !this.isListInputOpen
-      },
-      toggleModalClass(ev) {
-         this.isModalOpen = true
-      },
-      async loadBoards() {
-         try {
-            let boardId = this.$route.params.boardId
-            const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
-            this.board = currBoard
-         } catch (err) {
-            console.log(err)
-         }
-      },
-      toggleBoardNavMenu(ev) {
-         this.isBoardMenuOpen = !this.isBoardMenuOpen
-      },
-      onlyOneEdit(group, task, modalPos) {
-         this.isPreviewEdit = true
-         this.task = task
-         this.group = group
-         this.modalPos = modalPos
-      },
-      closePreviewEdit() {
-         this.isPreviewEdit = false
-      },
-      async restoreTask(task) {
-         try {
-            console.log('task', task)
-            task.isArchived = false
-            const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            console.log('groupId', groupId)
-            await this.$store.dispatch({ type: 'updateTask', groupId, task })
-         } catch (err) {
-            console.log(err)
-         }
-      },
-
-   },
-   watch: {
-      '$route.params.boardId': {
-         immediate: true,
-         deep: true,
-         async handler() {
+      methods: {
+         addGroup() {
+            this.$store.dispatch({ type: 'addGroup', title: this.newListTitleInput })
+            this.newListTitleInput = ''
+            this.isListInputOpen = false
+         },
+         toggleInput() {
+            this.isListInputOpen = !this.isListInputOpen
+         },
+         toggleModalClass(ev) {
+            this.isModalOpen = true
+         },
+         async loadBoard(boardId) {
             try {
-               this.loadBoards()
-               let taskId = this.$route.params.taskId
-               if (taskId) this.isModalOpen = true
+               const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+               this.board = currBoard
+            } catch (err) {
+               console.log(err)
+            }
+         },
+         toggleBoardNavMenu(ev) {
+            this.isBoardMenuOpen = !this.isBoardMenuOpen
+         },
+         onlyOneEdit(group, task, modalPos) {
+            this.isPreviewEdit = true
+            this.task = task
+            this.group = group
+            this.modalPos = modalPos
+         },
+         closePreviewEdit() {
+            this.isPreviewEdit = false
+         },
+         async restoreTask(task) {
+            try {
+               console.log('task', task)
+               task.isArchived = false
+               const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
+               console.log('groupId', groupId)
+               await this.$store.dispatch({ type: 'updateTask', groupId, task })
             } catch (err) {
                console.log(err)
             }
          }
+      },
+      watch: {
+         '$route.params.boardId': {
+            immediate: true,
+            deep: true,
+            async handler() {
+               try {
+                  this.loadBoard(this.$route.params.boardId)
+                  let taskId = this.$route.params.taskId
+                  if (taskId) this.isModalOpen = true
+               } catch (err) {
+                  console.log(err)
+               }
+            }
+         }
       }
    }
-}
 </script>
