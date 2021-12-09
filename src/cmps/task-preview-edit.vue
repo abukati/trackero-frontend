@@ -441,11 +441,9 @@ export default {
       },
       taskCover() {
          const cover = this.taskToEdit.style
-         console.log(cover)
          var style = ''
          if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
          if (cover.url) style += `background-image: url('${cover.url}');`
-         console.log('style', style)
          return style
       },
    },

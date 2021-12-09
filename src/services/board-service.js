@@ -174,7 +174,7 @@ function getEmptyBoard() {
    return board
 }
 
-function getEmptyGroup() {
+function getEmptyGroup(title) {
    const group = {
       id: utilService.makeId(),
       title,
@@ -276,7 +276,8 @@ function _createEmptyTask() {
       },
       comments: [],
       isArchived: false,
-      checklists: []
+      checklists: [],
+      activities: []
    }
 }
 

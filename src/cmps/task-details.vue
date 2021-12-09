@@ -173,8 +173,8 @@
 													</span>
 													<span class="attachment-thumbnail-details-options">
 														<span class="icon-sm icon-card-cover"></span>
-														<span v-show="task.style.url !== attachment.url" @click="toggleTaskImg(attachment.url)" class="attachment-thumbnail-details-options-item-text">Make cover</span>
-														<span @click="toggleTaskImg" v-show="task.style.url === attachment.url" class="attachment-thumbnail-details-options-item-text">Remove cover</span>
+														<span v-show="task.style.url !== attachment.url" @click="toggleTaskImg($event,attachment.url)" class="attachment-thumbnail-details-options-item-text">Make cover</span>
+														<span @click="toggleTaskImg($event)" v-show="task.style.url === attachment.url" class="attachment-thumbnail-details-options-item-text">Remove cover</span>
 													</span>
 												</p>
 											</div>
@@ -468,7 +468,6 @@ export default {
 		},
 		toggleMiniProfile(ev, user) {
 			if(this.isMiniProfileOpen && user._id === this.profileOfUser._id){
-				console.log('same user')
 				this.closeMiniProfile()
 				return
 			}
@@ -486,7 +485,6 @@ export default {
 		toggleListCmp(ev,cmpName) {
 			if(cmpName === this.info.type){
 				this.closeList()
-				console.log('same cmp type')
 				return
 			}else {
 				this.$nextTick(() => {
@@ -611,9 +609,8 @@ export default {
 			this.addActivity(`Removed this task cover`)
 			this.updateTask()
 		},
-		toggleTaskImg(url){
-
-			if(url) this.task.style.url = url
+		toggleTaskImg(ev,url = ''){
+			if(url)	this.task.style.url = url
 			else this.task.style.url = ''
 			this.updateTask()
 		},

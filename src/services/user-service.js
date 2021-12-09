@@ -29,7 +29,7 @@ export const userService = {
 
 var gUsers = _createUsers()
 
-login('guest','codingacademyisthebest')
+login('Basel','basel')
 
 async function login(username, password) {
    try {
