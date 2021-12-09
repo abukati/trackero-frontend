@@ -1,9 +1,9 @@
 <template>
-	<div :style="{top: info.modalPos.posY + 'px'}" class="cover-menu-modal pop-over is-shown details-popup">
+	<div class="cover-menu-modal pop-over is-shown details-popup">
 		<div class="no-back">
 			<div class="pop-over-header">
 				<span class="pop-over-header-title">Cover</span>
-				<a class="pop-over-header-close-btn icon-sm icon-close" @click="toggleList"></a>
+				<a class="pop-over-header-close-btn icon-sm icon-close" @click="closeList"></a>
 			</div>
 			<div class="pop-over-content">
 				<div>
@@ -39,8 +39,8 @@ export default {
         openColors
     },
 	methods: {
-		toggleList() {
-			this.$emit('toggleList');
+		closeList() {
+			this.$emit('closeList');
 		},
         changeTaskCover(color){
            this.$emit('changeTaskCover',color)

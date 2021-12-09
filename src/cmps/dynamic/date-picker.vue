@@ -1,0 +1,135 @@
+<template>
+   <div>
+      <h1>Datepicker Examples</h1>
+      <div class="example">
+         <h3>Default datepicker</h3>
+         <datepicker
+            class="start-date-picker"
+            :inline="true"
+            placeholder="Select start date"
+         ></datepicker>
+         <datepicker
+            class="due-date-picker"
+            :inline="true"
+            placeholder="Select due date"
+         ></datepicker>
+      </div>
+   </div>
+</template>
+
+<script>
+import datepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js"
+import * as lang from "vuejs-datepicker/src/locale"
+
+const state = {
+   date1: new Date()
+}
+
+export default {
+   name: "example-dates",
+   components: {
+      datepicker
+   },
+   data() {
+      return {
+         format: "d MMMM yyyy",
+         disabledDates: {},
+         disabledFn: {
+            customPredictor(date) {
+               if (date.getDate() % 3 === 0) {
+                  return true
+               }
+            }
+         },
+         highlightedFn: {
+            customPredictor(date) {
+               if (date.getDate() % 4 === 0) {
+                  return true
+               }
+            }
+         },
+         highlighted: {},
+         eventMsg: null,
+         state: state,
+         language: "en",
+         languages: lang,
+         vModelExample: null,
+         changedMonthLog: []
+      }
+   },
+   methods: {
+      highlightTo(val) {
+         if (typeof this.highlighted.to === "undefined") {
+            this.highlighted = {
+               to: null,
+               daysOfMonth: this.highlighted.daysOfMonth,
+               from: this.highlighted.from
+            }
+         }
+         this.highlighted.to = val
+      },
+      highlightFrom(val) {
+         if (typeof this.highlighted.from === "undefined") {
+            this.highlighted = {
+               to: this.highlighted.to,
+               daysOfMonth: this.highlighted.daysOfMonth,
+               from: null
+            }
+         }
+         this.highlighted.from = val
+      },
+      setHighlightedDays(elem) {
+         if (elem.target.value === "undefined") {
+            return
+         }
+         let highlightedDays = elem.target.value
+            .split(",")
+            .map(day => parseInt(day))
+         this.highlighted = {
+            from: this.highlighted.from,
+            to: this.highlighted.to,
+            daysOfMonth: highlightedDays
+         }
+      },
+      setDisabledDays(elem) {
+         if (elem.target.value === "undefined") {
+            return
+         }
+         let disabledDays = elem.target.value.split(",").map(day => parseInt(day))
+         this.disabledDates = {
+            from: this.disabledDates.from,
+            to: this.disabledDates.to,
+            daysOfMonth: disabledDays
+         }
+      },
+      disableTo(val) {
+         if (typeof this.disabled.to === "undefined") {
+            this.disabledDates = {
+               to: null,
+               daysOfMonth: this.disabledDates.daysOfMonth,
+               from: this.disabled.from
+            }
+         }
+         this.disabledDates.to = val
+      },
+      disableFrom(val) {
+         if (typeof this.disabledDates.from === "undefined") {
+            this.disabled = {
+               to: this.disabledDates.to,
+               daysOfMonth: this.disabled.daysOfMonth,
+               from: null
+            }
+         }
+         this.disabledDates.from = val
+      },
+      openPicker() {
+         this.$refs.programaticOpen.showCalendar()
+      },
+      logChangedMonth(date) {
+         this.changedMonthLog.push(date)
+      }
+   }
+};
+</script>
+
+

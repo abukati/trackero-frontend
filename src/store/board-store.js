@@ -126,6 +126,19 @@ export const boardStore = {
          const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === updatedTask.id)
          state.currBoard.groups[idx].tasks.splice(taskIdx, 1, updatedTask)
       },
+      removeTask(state, { groupId, task }) {
+         const currGroup = null
+         const idxGroup = null
+         state.groups.find((group, idx) => {
+            if (group.id === groupId) {
+               currGroup = group
+               idxGroup = idx
+            }
+         })
+         const idxTask = currGroup.findIndex(currTask => currTask.id === task.id)
+         currGroup.tasks.splice(idxTask, 1)
+         state.currBoard.groups[idxGroup] = currGroup
+      },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */
@@ -281,6 +294,17 @@ export const boardStore = {
          try {
             const updatedTask = await boardService.updateSingleTask(task, state.currBoard, groupId)
             if (updatedTask) commit({ type: 'updateTask', updatedTask, groupId })
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async removeTask({ state, commit }, { groupId, task }) {
+         try {
+            const idx = await boardService.removeTask(state.currBoard, groupId, task)
+            if (idx >= 0) {
+               commit({ type: 'removeTask', groupId, task })
+               return idx
+            }
          } catch (err) {
             console.log(err)
          }

@@ -1,9 +1,9 @@
 <template>
-<div :style="{top: info.modalPos.posY + 'px'}" class="labels-list-modal pop-over is-shown details-popup">
+<div class="labels-list-modal pop-over is-shown details-popup">
     <div class="no-back">
         <div class="pop-over-header">
             <span class="pop-over-header-title">Labels</span>
-            <a class="pop-over-header-close-btn icon-sm icon-close" @click="toggleList"></a>
+            <a class="pop-over-header-close-btn icon-sm icon-close" @click="closeList"></a>
         </div>
         <div class="pop-over-content">
             <input class="search-labels" type="text" placeholder="Search labels" v-model="filterBy.title">
@@ -63,8 +63,8 @@ export default {
             if (labelIdx !== -1) return 'icon-check'
             else return ''
         },
-        toggleList(){
-            this.$emit('toggleList')
+        closeList(){
+            this.$emit('closeList')
         },
     },
     computed:{

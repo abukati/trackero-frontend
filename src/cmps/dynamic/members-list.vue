@@ -1,9 +1,9 @@
 <template>
-    <div :style="{top:info.modalPos.posY + 'px'}" class="members-list-modal pop-over is-shown details-popup">
+    <div class="members-list-modal pop-over is-shown details-popup">
         <div class="no-back">
             <div class="pop-over-header">
                 <span class="pop-over-header-title">Members</span>
-                <a class="pop-over-header-close-btn icon-sm icon-close" @click="toggleList"></a>
+                <a class="pop-over-header-close-btn icon-sm icon-close" @click="closeList"></a>
             </div>
             <div class="pop-over-content">
                 <div>
@@ -49,7 +49,6 @@ export default {
             },
         }
     },
-
     methods: {
         toggleMember(user){
             const memberIdx = this.info.task.members.findIndex(member => member._id === user._id)
@@ -64,8 +63,8 @@ export default {
              if (memberIdx !== -1) return 'icon-check'
              else return ''
         },
-        toggleList(){
-            this.$emit('toggleList')
+        closeList(){
+            this.$emit('closeList')
         },
     },
     computed:{

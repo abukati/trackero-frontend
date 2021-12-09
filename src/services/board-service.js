@@ -80,7 +80,9 @@ async function save(board) {
    try {
       // const savedBoard = board._id ? await _update(board) : await _add(board)
       // return savedBoard
+
       socketService.emit('boardUpdate', board._id)
+      
       if (board._id) {
          const res = await httpService.put('board/' + board._id, board)
          return res
@@ -166,7 +168,7 @@ function getEmptyBoard() {
          {
             id: utilService.makeId(),
             title: 'Start here by creating your first list!',
-            tasks: [],
+            tasks: []
          }
       ],
       activities: []
@@ -174,7 +176,7 @@ function getEmptyBoard() {
    return board
 }
 
-function getEmptyGroup() {
+function getEmptyGroup(title) {
    const group = {
       id: utilService.makeId(),
       title,
@@ -184,9 +186,9 @@ function getEmptyGroup() {
 }
 
 function changeBoardBgc(bgc, board) {
-      const currBoard = _deep(board)
-      currBoard.style.bgColor = bgc
-      save(currBoard)
+   const currBoard = _deep(board)
+   currBoard.style.bgColor = bgc
+   save(currBoard)
 }
 
 //----------------------------------------------------------- */
@@ -276,7 +278,8 @@ function _createEmptyTask() {
       },
       comments: [],
       isArchived: false,
-      checklists: []
+      checklists: [],
+      activities: []
    }
 }
 
@@ -1453,21 +1456,20 @@ function removeMember(user, board) {
 //    }
 // }
 
+// Dummy socket for live testing - Move out of this function
 
-   // Dummy socket for live testing - Move out of this function
+// ;(async () => {
+//    var boards = await storageService.query(KEY)
+//    var groups = boards[0].groups
 
-   // ;(async () => {
-   //    var boards = await storageService.query(KEY)
-   //    var groups = boards[0].groups
-   
-   //    window.addEventListener('storage', async () => {
-   //       console.log('Storage updated')
-   //       const newBoards = await storageService.query(KEY)
-   //       const newGroups = newBoards[0].groups
-   //       if (newGroups.length === groups.length + 1) {
-   //          console.log('Board Added - localStorage updated from another browser')
-   //          socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length - 1])
-   //       }
-   //       boards = newGroups
-   //    })
-   // })()
+//    window.addEventListener('storage', async () => {
+//       console.log('Storage updated')
+//       const newBoards = await storageService.query(KEY)
+//       const newGroups = newBoards[0].groups
+//       if (newGroups.length === groups.length + 1) {
+//          console.log('Board Added - localStorage updated from another browser')
+//          socketService.emit(SOCKET_EVENT_BOARD_ADDED, newGroups[newGroups.length - 1])
+//       }
+//       boards = newGroups
+//    })
+// })()

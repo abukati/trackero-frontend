@@ -58,7 +58,6 @@ export default {
       },
       async deleteGroup() {
          try {
-            console.log('this.group.id', this.group.id)
             const groupId = this.group.id
             const deletedId = this.$store.dispatch({ type: 'removeGroup', groupId })
             this.isOptionsListOpen = false

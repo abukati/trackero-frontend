@@ -1,5 +1,9 @@
 <template>
-   <section class="home-page" @scroll.passive="scrollListener" :class="{ scrolled: isScroll }">
+   <section
+      class="home-page"
+      @scroll.passive="scrollListener"
+      :class="{ scrolled: isScroll }"
+   >
       <div class="home-header">
          <nav class="nav-header">
             <div class="logo">
@@ -14,7 +18,13 @@
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                >
-                  <linearGradient id="trello-logo-default" x1="50.048061%" x2="50.048061%" y1="100%" y2="0%">
+                  <linearGradient
+                     id="trello-logo-default"
+                     x1="50.048061%"
+                     x2="50.048061%"
+                     y1="100%"
+                     y2="0%"
+                  >
                      <stop offset="0" stop-color="#0052cc"></stop>
                      <stop offset="1" stop-color="#2684ff"></stop>
                   </linearGradient>
@@ -38,13 +48,19 @@
             <section class="hero">
                <div class="hero-info">
                   <h1>Trackero helps teams move work forward.</h1>
-                  <p>Collaborate, manage projects, and reach new productivity peaks. From high rises to the home office, the way your team works is unique - accomplish it all with Trackero.</p>
+                  <p>
+                     Collaborate, manage projects, and reach new productivity
+                     peaks. From high rises to the home office, the way your
+                     team works is unique - accomplish it all with Trackero.
+                  </p>
                   <div class="start-btn-container">
                      <a class="clean-link" href="#/board">Start!</a>
                   </div>
                </div>
                <div class="hero-img">
-                  <img :src="`https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/hero/6a3ccd8e5c9a0e8ebea4235d12da6b24/hero.png`" />
+                  <img
+                     :src="`https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/hero/6a3ccd8e5c9a0e8ebea4235d12da6b24/hero.png`"
+                  />
                </div>
             </section>
          </div>
@@ -52,13 +68,18 @@
             <div class="product-info">
                <h2>It's more than work. It's a way of working together.</h2>
                <p>
-                  Start with a Trackero board, lists, and cards. Customize and expand with more features as your teamwork grows. Manage projects, organize tasks, and build team spirit - all in one
+                  Start with a Trackero board, lists, and cards. Customize and
+                  expand with more features as your teamwork grows. Manage
+                  projects, organize tasks, and build team spirit - all in one
                   place.
                </p>
                <a class="start-doing-btn" href="/signup">Start doing →</a>
             </div>
             <div>
-               <img :src="`https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/product/89d378b845766a8f0c48e955336266f8/board.png`" alt="" />
+               <img
+                  :src="`https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/spirit/product/89d378b845766a8f0c48e955336266f8/board.png`"
+                  alt=""
+               />
             </div>
          </div>
          <div class="features">
@@ -73,10 +94,15 @@
                      />
                   </div>
                   <div class="col-md-7">
-                     <h2 class="text-sm-header">Features to help your team succeed</h2>
+                     <h2 class="text-sm-header">
+                        Features to help your team succeed
+                     </h2>
                      <p class="text-gray">
-                        Powering a productive team means using a powerful tool (and plenty of snacks). From meetings and projects to events and goal setting, Trackero’s intuitive features give any
-                        team the ability to quickly set up and customize workflows for just about anything.
+                        Powering a productive team means using a powerful tool
+                        (and plenty of snacks). From meetings and projects to
+                        events and goal setting, Trackero’s intuitive features
+                        give any team the ability to quickly set up and
+                        customize workflows for just about anything.
                      </p>
                   </div>
                </div>
@@ -91,22 +117,34 @@
                   </div>
                   <div class="col-md-7">
                      <!-- <h5>Choose a view</h5> -->
-                     <h2 class="text-sm-header">The board is just the beginning</h2>
+                     <h2 class="text-sm-header">
+                        The board is just the beginning
+                     </h2>
                      <p class="text-gray">
-                        Lists and cards are the building blocks of organizing work on a Trackero board. Grow from there with task assignments, timelines, productivity metrics, calendars, and more.
+                        Lists and cards are the building blocks of organizing
+                        work on a Trackero board. Grow from there with task
+                        assignments, timelines, productivity metrics, calendars,
+                        and more.
                      </p>
                   </div>
                </div>
                <div class="row py-5">
                   <div class="col-md-5 order-md-2 mb-3 mb-md-0">
-                     <img :src="`https://image.freepik.com/free-vector/task-management-abstract-concept-illustration_335657-2127.jpg`" />
+                     <img
+                        :src="`https://image.freepik.com/free-vector/task-management-abstract-concept-illustration_335657-2127.jpg`"
+                     />
                   </div>
                   <div class="col-md-7">
                      <!-- <h5>Dive into the details</h5> -->
-                     <h2 class="text-sm-header">Cards contain everything you need</h2>
+                     <h2 class="text-sm-header">
+                        Cards contain everything you need
+                     </h2>
                      <p class="text-gray">
-                        Trackero cards are your portal to more organized work—where every single part of your task can be managed, tracked, and shared with teammates. Open any card to uncover an
-                        ecosystem of checklists, due dates, attachments, conversations, and more.
+                        Trackero cards are your portal to more organized
+                        work—where every single part of your task can be
+                        managed, tracked, and shared with teammates. Open any
+                        card to uncover an ecosystem of checklists, due dates,
+                        attachments, conversations, and more.
                      </p>
                   </div>
                </div>
@@ -117,25 +155,25 @@
 </template>
 
 <script>
-   export default {
-      name: 'homePage',
-      data() {
-         return {
-            isScroll: false
-         }
-      },
-      async created() {
-         await this.$store.dispatch({ type: 'loadBoards' })
-         await this.$store.dispatch({ type: 'loadUsers' })
-      },
-      methods: {
-         scrollListener(ev) {
-            if (ev.target.scrollTop !== 0) {
-               this.isScroll = true
-            } else {
-               this.isScroll = false
-            }
+export default {
+   name: 'homePage',
+   data() {
+      return {
+         isScroll: false
+      }
+   },
+   async created() {
+      await this.$store.dispatch({ type: 'loadBoards' })
+      await this.$store.dispatch({ type: 'loadUsers' })
+   },
+   methods: {
+      scrollListener(ev) {
+         if (ev.target.scrollTop !== 0) {
+            this.isScroll = true
+         } else {
+            this.isScroll = false
          }
       }
    }
+}
 </script>

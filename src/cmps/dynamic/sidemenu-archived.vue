@@ -150,7 +150,7 @@
             <div class="archived-btns">
                <a @click="restoreTask(task)">Send to board</a>
                -
-               <a @click="deleteTask(task)">Delete</a>
+               <a @click="removeTask(task)">Delete</a>
             </div>
          </li>
       </ul>
@@ -223,11 +223,23 @@ export default {
       },
       async restoreTask(task) {
          try {
-            console.log('task', task)
+            console.log('task restore', task)
             task.isArchived = false
             const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
             console.log('groupId', groupId)
             await this.$store.dispatch({ type: 'updateTask', groupId, task })
+            this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async removeTask(task) {
+         try {
+            console.log('task remove', task)
+            // task.isArchived = false
+            const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
+            console.log('groupId', groupId)
+            await this.$store.dispatch({ type: 'removeTask', groupId, task })
             this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
          } catch (err) {
             console.log(err)

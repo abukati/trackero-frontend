@@ -1,11 +1,11 @@
 <template>
-   <div class="attachments-list-modal pop-over is-shown">
+   <div class="attachments-list-modal pop-over is-shown details-popup">
       <div class="no-back">
          <div class="pop-over-header">
             <span class="pop-over-header-title">Attach from...</span>
             <a
                class="pop-over-header-close-btn icon-sm icon-close"
-               @click="toggleList"
+               @click="closeList"
             ></a>
          </div>
          <div class="pop-over-content">
@@ -77,7 +77,6 @@ export default {
       async onUploadImg(ev) {
          try {
             let res = await uploadImg(ev)
-            console.log('res', res)
             this.saveImg(res)
          } catch (err) {
             console.log(err)
@@ -95,8 +94,8 @@ export default {
          if (attachmentIdx !== -1) return 'icon-check'
          else return ''
       },
-      toggleList() {
-         this.$emit('toggleList')
+      closeList() {
+         this.$emit('closeList')
       },
       addActivity(txt){
 			const activity = {
@@ -104,16 +103,15 @@ export default {
 				byMember:this.$store.getters.currLoggedUser,
 				createdAt:Date.now(),
 			}
-         console.log(activity)
 			this.task.activities.unshift(activity);
 		},
       saveImg(res) {
          this.task.attachments.push({ id: res.asset_id, url: res.url, title: res.original_filename + '.' + res.format })
          this.addActivity(`Added new attachment ${ res.original_filename}`)
-         this.$store.dispatch({ type: 'updateTask', groupId: 'g101', task: this.task })
+         this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
       },
       saveLink() {
-         const id = 'f' + this.task.attachments.length + 1
+         // const id = 'f' + this.task.attachments.length + 1
          this.task.attachments.push({ id, url: this.linkUrl, title: this.linkUrlName })
          this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
       },
