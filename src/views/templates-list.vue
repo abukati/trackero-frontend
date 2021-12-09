@@ -151,7 +151,6 @@ export default {
          await this.$store.dispatch({ type: 'loadBoards' })
          this.boards = this.$store.getters.allBoards
          this.starred = this.$store.getters.starredBoards
-         console.log('this.starred', this.starred)
          this.loggedUser = this.$store.getters.currLoggedUser
       } catch (err) {
          console.log(err)

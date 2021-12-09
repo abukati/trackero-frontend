@@ -7,10 +7,8 @@ export const boardStore = {
       boards: [],
       currBoardId: null,
       currBoard: null,
-
       groups: [],
       currGroup: null,
-
       checked: true
    },
    getters: {
@@ -158,8 +156,6 @@ export const boardStore = {
       async removeBoard({ commit }, { boardId }) {
          try {
             const removedBoardId = await boardService.remove(boardId)
-            // Might need this after adding httpService
-            // if (removedBoardId) commit({ type: 'removeBoard', boardId })
             commit({ type: 'removeBoard', boardId })
             return removedBoardId
          } catch (err) {
@@ -189,13 +185,6 @@ export const boardStore = {
             const board = await boardService.getById(boardId)
             commit({ type: 'setCurrBoard', currBoard: board })
             return board
-         } catch (err) {
-            console.log(err)
-         }
-      },
-      async getEmptyBoard() {
-         try {
-            return boardService.getEmptyBoard()
          } catch (err) {
             console.log(err)
          }

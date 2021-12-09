@@ -86,17 +86,14 @@
 
       methods: {
          toggleOptions() {
-            console.log('this.isOptionsListOpen', this.isOptionsListOpen)
             this.isOptionsListOpen = !this.isOptionsListOpen
          },
          toggleInput() {
-            console.log('this.group.id', this.group.id)
             this.isTaskInputOpen = !this.isTaskInputOpen
             this.isOptionsListOpen = false
          },
          async addTask() {
             try {
-               console.log('this.group.id', this.group.id)
                const groupId = this.group.id
                const newTask = this.$store.dispatch('addTask', { groupId, title: this.taskInput })
                this.isTaskInputOpen = false
