@@ -6,7 +6,7 @@
     @addMember="addMember"
     @removeLabel="removeLabel"
     @addLabel="addLabel"
-    @toggleList="toggleList"
+    @closeList="closeList"
     @addCheckList="addCheckList"
     @changeTaskCover="changeTaskCover" 
     @removeTaskCover="removeTaskCover"
@@ -31,8 +31,6 @@ export default {
         coverMenu,
         attachmentList
     },
-    created(){
-    },
     methods: {
         removeMember(user){
             this.$emit('removeMember',user)
@@ -55,8 +53,8 @@ export default {
         removeTaskCover(){
             this.$emit('removeTaskCover')
         },
-        toggleList(){
-            this.$emit('toggleList')
+        closeList(){
+            this.$emit('closeList')
         },
     }
 }

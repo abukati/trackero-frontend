@@ -1,9 +1,9 @@
 <template>
-    <div :style="{top: info.modalPos.posY + 'px'}" class="check-list-modal pop-over is-shown details-popup">
+    <div class="check-list-modal pop-over is-shown details-popup">
         <div class="no-back">
             <div class="pop-over-header">
                 <span class="pop-over-header-title">Add checklist</span>
-                <a class="pop-over-header-close-btn icon-sm icon-close" @click="toggleList"></a>
+                <a class="pop-over-header-close-btn icon-sm icon-close" @click="closeList"></a>
             </div>
             <div class="pop-over-content">
                 <div>
@@ -30,13 +30,13 @@ export default {
         }
     },
     methods:{
-        toggleList(){
-            this.$emit('toggleList')
+        closeList(){
+            this.$emit('closeList')
         },
         addCheckList(){
             if(this.title.length) {
                 this.$emit('addCheckList',this.title)
-                this.$emit('toggleList')
+                this.$emit('closeList')
             }else{
                 this.$refs.titleinp.focus()
             }

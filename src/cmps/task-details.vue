@@ -1,13 +1,11 @@
 <template>
-	<div class="window-overlay" @click.prevent.self="closemodal()">
+	<div class="window-overlay" @click.prevent.self="closeDetails">
 		<div class="window">
 			<div class="window-wrapper">
-					<a @click="closemodal()" class="dialog-close-button" :class="[taskCover ? 'dark' : '']">
+					<a @click="closeDetails" class="dialog-close-button" :class="[taskCover ? 'dark' : '']">
 						<span class="icon-close icon-sm"></span>
-						<!-- <img src="@/assets/img/close-icon.svg" /> -->
 					</a>
 				<div class="task-detail clearfix">
-					<!-- <div class="task-cover"> -->
 					<div v-if="taskCover" :class="{'img': task.style.url}" class="task-cover" :style="taskCover">
 						<div class="task-cover-menu">
 							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
@@ -16,15 +14,6 @@
 							</a>
 					</div>
 					</div>
-					<!-- <div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
-						<div class="task-cover-menu">
-							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
-								<span class="icon-sm cover-menu-btn-icon"></span>
-								Cover
-							</a>
-						</div>
-					</div> -->
-					<!-- </div> -->
 					<div class="window-header">
 						<span class="window-header-icon icon-lg"></span>
 						<div class="window-title">
@@ -60,7 +49,7 @@
 								<mini-profile
 									v-if="profileOfUser"
 									:isMiniProfileOpen="isMiniProfileOpen"
-									:modalPos="getModalPos"
+									:modalPos="modalPos"
 									:user="profileOfUser"
 									@closeMiniProfile="closeMiniProfile"
 									@removeTaskMember="removeTaskMember"
@@ -287,11 +276,15 @@
 						<task-opts-list 
 							v-if="isListOpen" 
 							:info="info" 
+							:style="{
+								top: info.modalPos.posY + 'px',
+								left: info.modalPos.posX + 'px'
+							}"
 							@removeMember="removeTaskMember"
 							@addMember="addTaskMember"
 							@removeLabel="removeTaskLabel"
 							@addLabel="addTaskLabel"
-							@toggleList="toggleList" 
+							@closeList="closeList" 
 							@addCheckList="addCheckList"
 							@changeTaskCover="toggleTaskCover"
 							@removeTaskCover="toggleTaskCover"
@@ -470,38 +463,44 @@ export default {
 		this.loggedInUser = this.$store.getters.currLoggedUser;
 	},
 	methods: {
-		closemodal() {
+		closeDetails() {
 			this.$router.go(-1);
 		},
 		toggleMiniProfile(ev, user) {
+			if(this.isMiniProfileOpen && user._id === this.profileOfUser._id){
+				console.log('same user')
+				this.closeMiniProfile()
+				return
+			}
+			this.isMiniProfileOpen = true
+			if(this.isListOpen) this.closeList()
 			const { left, top } = ev.target.offsetParent.getBoundingClientRect();
 			this.modalPos.left = Math.ceil(left);
 			this.modalPos.top = Math.ceil(top);
 			this.profileOfUser = user;
-			this.isListOpen = false;
-			this.isMiniProfileOpen = true;
 		},
 		closeMiniProfile() {
-			this.profileOfUser = null;
 			this.isMiniProfileOpen = false;
+			this.profileOfUser = null;
 		},
 		toggleListCmp(ev,cmpName) {
-			this.isMiniProfileOpen = false;
-			this.isListOpen = true;
-			this.info.type = cmpName
-			// const pos = ev.target.offsetParent.getBoundingClientRect()
-			// this.info.modalPos.posY = pos.top - 10
-			// this.info.modalPos.posX = pos.left
-			this.info.modalPos.posY = ev.pageY
-			this.info.modalPos.posX = ev.pageX
-			// this.info.modalPos.posX = pos.left - 14
-			//  if(ev.pageX >= 715 &&  ev.pageY >= 340 ){
-			// 	 this.info.modalPos.posY = 376
-			// 	 this.info.modalPos.posX = 830
-			//  }
+			if(cmpName === this.info.type){
+				this.closeList()
+				console.log('same cmp type')
+				return
+			}else {
+				this.$nextTick(() => {
+				this.isListOpen = true;
+				if(this.isMiniProfileOpen) this.closeMiniProfile()
+				this.info.modalPos.posY= ev.pageY + 20 // top
+				this.info.modalPos.posX = ev.pageX - 15 // left
+				this.info.type = cmpName
+				})
+			}
 		},
-		toggleList(){
+		closeList(){
 			this.isListOpen = false;
+			this.info.type=null;
 		},
 		toggleActivity(){
 			this.isShowActivity = !this.isShowActivity
@@ -589,7 +588,6 @@ export default {
 			} else {
 				return;
 			}
-
 		},
 		changeTaskCover(color){
 			this.task.style.bgColor = color
@@ -687,9 +685,6 @@ export default {
 		},
 	},
 	computed: {
-		// isCoverBgc() {
-		// 	if (this.task.style.bgColor !== '#ffffff') return true;
-		// },
 		taskCover() {
 			const cover = this.task.style
 			var style = ''
@@ -697,10 +692,6 @@ export default {
 			if (cover.url) style += `background-image: url('${cover.url}');`
 			return style
 		},
-		// isHeight() {
-		// 	if (this.task.style.bgColor !== '#ffffff') return 32;
-		// 	else return 0;
-		// },
 		dateToShow() {
 			if (this.task.startDate.date && this.task.dueDate.date) {
 				const from = this.task.startDate.date.slice(0, 6);
@@ -718,9 +709,6 @@ export default {
 				}
 			});
 			return isShowSuggest;
-		},
-		getModalPos() {
-			return this.modalPos;
 		},
 		checkLists(){
 			return this.task.checklists.length;

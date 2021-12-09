@@ -1,11 +1,11 @@
 <template>
-   <div class="attachments-list-modal pop-over is-shown">
+   <div class="attachments-list-modal pop-over is-shown details-popup">
       <div class="no-back">
          <div class="pop-over-header">
             <span class="pop-over-header-title">Attach from...</span>
             <a
                class="pop-over-header-close-btn icon-sm icon-close"
-               @click="toggleList"
+               @click="closeList"
             ></a>
          </div>
          <div class="pop-over-content">
@@ -95,8 +95,8 @@ export default {
          if (attachmentIdx !== -1) return 'icon-check'
          else return ''
       },
-      toggleList() {
-         this.$emit('toggleList')
+      closeList() {
+         this.$emit('closeList')
       },
       addActivity(txt){
 			const activity = {
