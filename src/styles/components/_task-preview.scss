@@ -340,22 +340,25 @@
 @keyframes openLabels {
    0% {
       min-width: 40px;
+      max-width: 50px;
       height: 8px;
       color: transparent;
    }
    10% {
-      min-width: 50px;
-      max-width: 75px;
+      min-width: 48px;
+      max-width: 55px;
       padding: 0 8px;
+      height: 8px;
    }
    75% {
       min-width: 56px;
-      max-width: 75px;
+      max-width: 65px;
       height: 8px;
    }
    99% {
       min-width: 56px;
       max-width: 75px;
+      height: 12px;
       color: transparent;
    }
    100% {

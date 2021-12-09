@@ -220,7 +220,7 @@ function _createUser(id, username, fullname, imgUrl = '') {
       ],
       subscribedTo: [],
       starredBoardsIds: [],
-      isAdmin: false
+      isAdmin: true
    }
    return user
 }
@@ -241,7 +241,7 @@ function getEmptyUser() {
       ],
       subscribedTo: [],
       starredBoardsIds: [],
-      isAdmin: false
+      isAdmin: true
    }
    return user
 }
