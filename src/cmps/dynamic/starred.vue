@@ -70,8 +70,8 @@
          async unstarBoard(boardId) {
             try {
                const userToUpdate = JSON.parse(JSON.stringify(this.loggedUser))
-               const idx = userToUpdate.starredBoardsIds.findIndex(board => board._id === boardId)
-               userToUpdate.starredBoardsIds.splice(idx, 1)
+               const idx = userToUpdate.starredBoards.findIndex(board => board._id === boardId)
+               userToUpdate.starredBoards.splice(idx, 1)
                await this.$store.dispatch({ type: 'saveUser', user: userToUpdate })
             } catch (err) {
                console.log(err)

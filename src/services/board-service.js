@@ -3,10 +3,10 @@ import { utilService } from './util-service.js'
 import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
 import { httpService } from './http-service.js'
 
-const KEY = 'board_db'
 
-const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
-const axios = require('axios')
+// const KEY = 'board_db'
+// const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/board/' : '//localhost:3000/api/board/'
+// const axios = require('axios')
 
 export const boardService = {
    //BOARD
@@ -39,15 +39,15 @@ export const boardService = {
 //********************BOARD*********************************
 //----------------------------------------------------------- */
 
-var gBoards = _createBoards()
+// var gBoards = _createBoards()
 
 async function query(filterBy = {}) {
    try {
       //FE
-      return await storageService.query(KEY)
+      // return await storageService.query(KEY)
       //BE
-      // const res = await httpService.get('board', { params: filterBy })
-      // return res
+      const res = await httpService.get('board', { params: filterBy })
+      return res
    } catch (err) {
       console.log(err)
    }
@@ -60,11 +60,11 @@ function _deep(board) {
 async function getById(boardId) {
    try {
       //FE
-      const currBoard = await storageService.get(KEY, boardId)
-      return currBoard
+      // const currBoard = await storageService.get(KEY, boardId)
+      // return currBoard
       //BE
-      // const res = await httpService.get('board/' + boardId)
-      // return res
+      const res = await httpService.get('board/' + boardId)
+      return res
    } catch (err) {
       console.log(err)
    }
@@ -73,10 +73,10 @@ async function getById(boardId) {
 async function remove(boardId) {
    try {
       //FE
-      return await storageService.remove(KEY, boardId)
+      // return await storageService.remove(KEY, boardId)
       //BE
-      // const res = await httpService.delete('board/' + boardId, { withCredentials: true })
-      // return res
+      const res = await httpService.delete('board/' + boardId)
+      return res
    } catch (err) {
       console.log(err)
    }
@@ -85,15 +85,15 @@ async function remove(boardId) {
 async function save(board) {
    try {
       //FE
-      const savedBoard = board._id ? await _update(board) : await _add(board)
-      return savedBoard
+      // const savedBoard = board._id ? await _update(board) : await _add(board)
+      // return savedBoard
       //BE
       if (board._id) {
-         // const res = await httpService.put('board/' + board._id, board, { withCredentials: true })
-         // return res
+         const res = await httpService.put('board/' + board._id, board)
+         return res
       } else {
-         // const res = await httpService.post('board/', board, { withCredentials: true })
-         // return res
+         const res = await httpService.post('board/', board)
+         return res
       }
    } catch (err) {
       console.log(err)
@@ -123,50 +123,71 @@ async function _update(board) {
 //    board.archivedTasks.push()
 // }
 
-function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname: 'guest', imgUrl: '' }) {
+function getEmptyBoard() {
    const board = {
-      title,
+      title: '',
       createdAt: Date.now(),
-      createdBy: {
-         _id: user._id,
-         username: user.username,
-         fullname: user.fullname,
-         imgUrl: user.imgUrl,
-         isAdmin: true
-      },
+      createdBy: '',
       style: {
          bgColor: ''
       },
-      labels: [],
+      labels: [
+         {
+            id: 'l101',
+            title: 'Done',
+            color: 'green'
+         },
+         {
+            id: 'l102',
+            title: 'Attention',
+            color: 'yellow'
+         },
+         {
+            id: 'l103',
+            title: 'Critical',
+            color: 'orange'
+         },
+         {
+            id: 'l104',
+            title: 'Bug',
+            color: 'red'
+         },
+         {
+            id: 'l105',
+            title: 'On it',
+            color: 'purple'
+         },
+         {
+            id: 'l106',
+            title: 'Idea',
+            color: 'blue'
+         },
+         {
+            id: 'l107',
+            title: 'Urgent',
+            color: 'navy'
+         }
+      ],
       members: [],
       groups: [
          {
             id: utilService.makeId(),
-            title: 'Default group title',
+            title: 'Start here by creating your first list!',
             tasks: [],
-            style: {
-               bgColor: '#ebecf0',
-            }
          }
       ],
       activities: []
    }
-   //FE
-   // return board
-   //BE
-   return Promise.resolve(board)
+   return board
 }
 
-function getEmptyGroup(title = 'Default group title') {
+function getEmptyGroup() {
    const group = {
       id: utilService.makeId(),
       title,
       tasks: []
    }
-   //FE
-   // return group
-   //BE
-   return Promise.resolve(group)
+   return group
 }
 
 //FE ONLY

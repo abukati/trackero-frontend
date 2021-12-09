@@ -33,7 +33,7 @@ export default {
    },
    methods: {
       selectColor(color) {
-         if(!this.info) this.$store.dispatch('changeBoardBgc', {bgc: this.colors[color]})
+         if(!this.info) this.$store.dispatch('changeBoardBgc', { bgc: this.colors[color] })
          else this.$emit('changeTaskCover',this.colors[color])
       }
    }

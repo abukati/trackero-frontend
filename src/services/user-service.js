@@ -7,12 +7,10 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 var gWatchedUser = null
 
 const STORAGE_KEY = 'user'
-
 const KEY = 'users_db'
 
 const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/auth/' : '//localhost:3000/api/auth/'
 
-const BASE_URL2 = process.env.NODE_ENV !== 'development' ? '/api/user/' : '//localhost:3000/api/user/'
 
 export const userService = {
    query,
@@ -32,18 +30,12 @@ export const userService = {
 
 var gUsers = _createUsers()
 
+login('guest','codingacademyisthebest')
+
 async function login(username, password) {
    try {
-      const res = await httpService.post(
-         // BASE_URL + 'login',
-         'auth/login',
-         {
-            username,
-            password
-         }
-         // { withCredentials: true }
+      const res = await httpService.post('auth/login', { username, password }
       )
-      //   console.log('res', res)
       sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(res.data))
       return _saveLocalUser(res)
    } catch (err) {
@@ -52,16 +44,9 @@ async function login(username, password) {
 }
 async function signup(username, password, fullname) {
    try {
-      const res = await httpService.post(
-         // BASE_URL + 'signup',
-         'auth/signup',
-         {
-            username,
-            password,
-            fullname
-         }
-         // { withCredentials: true }
-      )
+      const res = await httpService.post('auth/signup', { username, password, fullname })
+      console.log('res',res);
+      console.log('res data',res.data);
       sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(res.data))
       return _saveLocalUser(res)
    } catch (err) {
@@ -71,14 +56,7 @@ async function signup(username, password, fullname) {
 
 async function logout() {
    try {
-      const res = await httpService.post(
-         // BASE_URL + '/logout',
-         'auth/logout',
-         null
-         //  {
-         //   withCredentials: true,
-         // }
-      )
+      const res = await httpService.post('auth/logout', null)
       sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, null)
       return res.data
    } catch (err) {
@@ -94,6 +72,7 @@ function _saveLocalUser(user) {
    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
    return user
 }
+
 
 function getUsers() {
    // return storageService.query('user')
@@ -121,29 +100,30 @@ async function update(user) {
 
 // This IIFE functions for Dev purposes
 // It allows testing of real time updates (such as sockets) by listening to storage events
-;(async () => {
+// ;(async () => {
+//    var user = getLoggedinUser()
+//    // Dev Helper: Listens to when localStorage changes in OTHER browser
+
+//    // Here we are listening to changes for the watched user (comming from other browsers)
+//    window.addEventListener('storage', async () => {
+//       if (!gWatchedUser) return
+//       const freshUsers = await storageService.query('user')
+//       const watchedUser = freshUsers.find(u => u._id === gWatchedUser._id)
+//       if (!watchedUser) return
+//       if (gWatchedUser.score !== watchedUser.score) {
+//          console.log('Watched user score changed - localStorage updated from another browser')
+//          // socketService.emit(SOCKET_EVENT_USER_UPDATED, watchedUser)
+//       }
+//       gWatchedUser = watchedUser
+//    })
+// })()
+
+
+(async () => {
    var user = getLoggedinUser()
-   // Dev Helper: Listens to when localStorage changes in OTHER browser
+   if (user) socketService.emit('set-user-socket', user._id)
+})();
 
-   // Here we are listening to changes for the watched user (comming from other browsers)
-   window.addEventListener('storage', async () => {
-      if (!gWatchedUser) return
-      const freshUsers = await storageService.query('user')
-      const watchedUser = freshUsers.find(u => u._id === gWatchedUser._id)
-      if (!watchedUser) return
-      if (gWatchedUser.score !== watchedUser.score) {
-         console.log('Watched user score changed - localStorage updated from another browser')
-         // socketService.emit(SOCKET_EVENT_USER_UPDATED, watchedUser)
-      }
-      gWatchedUser = watchedUser
-   })
-})()
-
-// This is relevant when backend is connected
-// (async () => {
-//     var user = getLoggedinUser()
-//     if (user) socketService.emit('set-user-socket', user._id)
-// })();
 
 //
 //
@@ -220,29 +200,20 @@ function _createUser(id, username, fullname, imgUrl = '') {
          }
       ],
       subscribedTo: [],
-      starredBoardsIds: [],
-      isAdmin: true
+      starredBoards: [],
    }
    return user
 }
 
 function getEmptyUser() {
    const user = {
-      _id: utilService.makeId(),
-      username: '',
-      fullname: '',
-      password: '',
-      imgUrl: '',
-      mentions: [
-         {
-            id: '',
-            boardId: '',
-            taskId: ''
-         }
-      ],
+      username,
+      fullname,
+      password,
+      imgUrl,
+      mentions: [],
       subscribedTo: [],
-      starredBoardsIds: [],
-      isAdmin: true
+      starredBoards: [],
    }
    return user
 }

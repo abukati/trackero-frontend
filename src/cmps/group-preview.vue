@@ -4,17 +4,8 @@
          <h2 v-if="isEditable === false" @mouseup="toggleEditing" class="group-header-title-assist">
             {{ group.title }}
          </h2>
-         <textarea
-            v-else
-            ref="textareainp"
-            class="group-header-title-textarea"
-            :class="{ 'is-editing': isTitleInputOpen }"
-            @keydown.enter.exact.prevent
-            @keyup.enter.exact="updateGroupTitle"
-            @focus="titleInputFocus"
-            @blur="updateGroupTitle"
-            :value="group.title"
-         ></textarea>
+         <textarea v-else ref="textareainp" class="group-header-title-textarea" :class="{ 'is-editing': isTitleInputOpen }" @keydown.enter.exact.prevent 
+            @keyup.enter.exact="updateGroupTitle" @focus="titleInputFocus" @blur="updateGroupTitle" :value="group.title"></textarea>
          <div class="group-header-options">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
@@ -86,17 +77,14 @@
 
       methods: {
          toggleOptions() {
-            console.log('this.isOptionsListOpen', this.isOptionsListOpen)
             this.isOptionsListOpen = !this.isOptionsListOpen
          },
          toggleInput() {
-            console.log('this.group.id', this.group.id)
             this.isTaskInputOpen = !this.isTaskInputOpen
             this.isOptionsListOpen = false
          },
          async addTask() {
             try {
-               console.log('this.group.id', this.group.id)
                const groupId = this.group.id
                const newTask = this.$store.dispatch('addTask', { groupId, title: this.taskInput })
                this.isTaskInputOpen = false

@@ -16,8 +16,8 @@
             </a>
          </li>
          <li class="board-menu-navigation-item">
-            <a @click="leaveBoard" class="board-menu-navigation-item-link open-more">
-               &nbsp;Archive board...
+            <a @click="removeBoard" class="board-menu-navigation-item-link open-more">
+               &nbsp;Delete board...
             </a>
          </li>
       </ul>
@@ -54,11 +54,17 @@ export default {
          idx === -1 ? userToUpdate.subscribedTo.push(this.board._id) : userToUpdate.subscribedTo.splice(idx, 1)
          this.$store.dispatch('saveUser', { user: userToUpdate })
       },
-      closeBoard() {
-
-      },
       leaveBoard() {
-         this.$store.dispatch('updateUser', {  })
+         let userToUpdate = this.loggedUser
+         const idx = this.board.members.indexOf(member => member._id === userToUpdate._id)
+         if (idx !== -1) {
+            this.board.members.splice(idx, 1)
+            this.$store.dispatch('updateBoard', { board: this.board })
+         } else return
+      },
+      removeBoard() {
+         this.$store.dispatch({ type: 'removeBoard', boardId: this.board._id })
+         this.$router.push('/board')
       },
    },
    computed: {
