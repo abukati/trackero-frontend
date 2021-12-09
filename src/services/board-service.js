@@ -23,7 +23,6 @@ export const boardService = {
    createTask,
    updateTasks,
    saveTask,
-   removeTask,
    updateSingleTask,
    getEmptyTodo,
    getEmptyChecklist,
