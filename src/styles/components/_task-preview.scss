@@ -106,7 +106,7 @@
          position: relative;
          max-width: 205px;
 
-         input[type="checkbox"] {
+         input[type='checkbox'] {
             display: none;
          }
       }
@@ -196,6 +196,9 @@
       &.icon-checklist::before {
          content: '\e91a';
       }
+      &.icon-archive::before {
+         content: '\e907';
+      }
    }
 }
 
@@ -251,13 +254,13 @@
    input:checked + .label-toggler .card-label {
       animation-name: closeLabels;
       animation-fill-mode: forwards;
-      animation-duration: .45s;
+      animation-duration: 0.45s;
       animation-timing-function: ease-in;
    }
    input:not(:checked) + .label-toggler .card-label {
       animation-name: openLabels;
       animation-fill-mode: forwards;
-      animation-duration: .45s;
+      animation-duration: 0.45s;
       animation-timing-function: ease-out;
    }
 }
@@ -268,7 +271,8 @@
    position: relative;
    cursor: pointer;
 
-   &::before, &::after {
+   &::before,
+   &::after {
       content: '';
       position: absolute;
       left: 0;
@@ -299,7 +303,7 @@
       min-width: 40px;
       text-shadow: none;
       width: auto;
-   
+
       .label-text {
          display: initial;
       }
@@ -307,16 +311,16 @@
 }
 
 .card-label {
-    border-radius: 4px;
-    color: #fff;
-    display: block;
-    margin-right: 4px;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 4px 6px;
-    position: relative;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+   border-radius: 4px;
+   color: #fff;
+   display: block;
+   margin-right: 4px;
+   max-width: 100%;
+   overflow: hidden;
+   padding: 4px 6px;
+   position: relative;
+   text-overflow: ellipsis;
+   white-space: nowrap;
    &.task-detail-label {
       cursor: pointer;
       border-radius: 3px;
@@ -330,7 +334,7 @@
       min-width: 40px;
       padding: 0 12px;
       width: auto;
-      color:#fff;
+      color: #fff;
       &:hover {
          opacity: 0.8;
       }
@@ -382,8 +386,10 @@
       text-overflow: ellipsis;
       color: transparent;
    }
-   10% { height: 8px; }
-   50% { 
+   10% {
+      height: 8px;
+   }
+   50% {
       min-width: 56px;
       max-width: 70px;
       padding: 0 8px;

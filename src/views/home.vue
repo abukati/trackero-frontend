@@ -53,7 +53,9 @@
                      peaks. From high rises to the home office, the way your
                      team works is unique - accomplish it all with Trackero.
                   </p>
-                  <a class="clean-link" href="#/board">Start!</a>
+                  <div class="start-btn-container">
+                     <a class="clean-link" href="#/board">Start!</a>
+                  </div>
                </div>
                <div class="hero-img">
                   <img

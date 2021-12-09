@@ -29,19 +29,23 @@
                font-size: 1.25rem;
                margin-bottom: 24px;
             }
-            a {
-               display: block;
-               text-align: center;
-               border-radius: 6px;
-               font-size: 1.25rem;
-               line-height: 2.75rem;
-               letter-spacing: 1px;
-               color: #fff;
-               width: auto;
-               background-color: #0065ff;
-               transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
-               &:hover {
-                  background-color: #0051cc;
+            .start-btn-container {
+               width: 100%;
+               a {
+                  display: block;
+                  text-align: center;
+                  border-radius: 6px;
+                  font-size: 1.25rem;
+                  line-height: 2.75rem;
+                  letter-spacing: 1px;
+                  color: #fff;
+                  // width: auto;
+                  margin: auto;
+                  background-color: #0065ff;
+                  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+                  &:hover {
+                     background-color: #0051cc;
+                  }
                }
             }
          }

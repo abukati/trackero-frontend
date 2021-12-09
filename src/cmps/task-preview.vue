@@ -114,6 +114,10 @@
                   <span class="badge-icon icon-sm icon-checklist"></span>
                   <span class="badge-text">{{ checklistItems }}</span>
                </div>
+               <!-- <div class="badge hide" title="This card is archived">
+                  <span class="badge-icon icon-sm icon-archive"></span>
+                  <span class="badge-text">Archived</span>
+               </div> -->
             </span>
          </div>
 

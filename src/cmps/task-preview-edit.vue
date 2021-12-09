@@ -287,6 +287,7 @@ export default {
          try {
             this.taskToEdit.isArchived = true
             await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.taskToEdit })
+            this.closePreviewEdit()
          } catch (err) {
             console.log(err)
          }
