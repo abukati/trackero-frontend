@@ -5,6 +5,7 @@ import { boardService } from '@/services/board-service.js'
 export const boardStore = {
    state: {
       boards: [],
+
       currBoardId: null,
       currBoard: null,
       groups: [],
@@ -155,8 +156,8 @@ export const boardStore = {
       },
       async removeBoard({ commit }, { boardId }) {
          try {
-            const removedBoardId = await boardService.remove(boardId)
-            commit({ type: 'removeBoard', boardId })
+            const resMsg = await boardService.remove(boardId)
+            if (resMsg === 'Deleted successfully') commit({ type: 'removeBoard', boardId })
             return removedBoardId
          } catch (err) {
             console.log(err)
@@ -170,10 +171,9 @@ export const boardStore = {
             console.log(err)
          }
       },
-      async addBoard({ commit }, { boardTitle }) {
+      async addBoard({ commit }, { board }) {
          try {
-            const newBoard = await boardService.getEmptyBoard(boardTitle)
-            const savedBoard = await boardService.save(newBoard)
+            const savedBoard = await boardService.save(board)
             commit({ type: 'addBoard', board: savedBoard })
             return savedBoard
          } catch (err) {
@@ -190,8 +190,12 @@ export const boardStore = {
          }
       },
       async changeBoardBgc({ state, commit }, { bgc }) {
-         await boardService.changeBoardBgc(bgc, state.currBoard)
-         commit({ type: 'setBoardBgc', bgc })
+         try {
+            await boardService.changeBoardBgc(bgc, state.currBoard)
+            commit({ type: 'setBoardBgc', bgc })
+         } catch (err) {
+            console.log(err)
+         }
       },
 
       //----------------------------------------------------------- */
@@ -234,7 +238,6 @@ export const boardStore = {
             console.log(err)
          }
       },
-
       async getGroupIdByTaskId({ state, commit }, { taskId }) {
          try {
             var groupId = null
@@ -251,6 +254,7 @@ export const boardStore = {
             console.log(err)
          }
       },
+
       //----------------------------------------------------------- */
       //***********************TASKS********************************
       //----------------------------------------------------------- */

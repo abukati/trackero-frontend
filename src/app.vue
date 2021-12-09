@@ -1,9 +1,8 @@
 <template>
    <div id="app">
-       <!-- :style="{ background: pageBgc }" -->
-      <main>
-         <app-header v-if="loggedUser" />
-         <router-view v-if="loggedUser" />
+      <main :style=" setBg ">
+         <app-header v-if="!isHomePage" />
+         <router-view />
          <!-- <loading-overlay v-else /> -->
          <!-- {{ loggedUser }} -->
       </main>
@@ -21,26 +20,26 @@ export default {
    },
    data() {
       return {
-         // loggedUser: null
-         isHomePage: true
       }
    },
-   async created() {
-      await this.$store.dispatch({ type: 'loadBoards' })
-      await this.$store.dispatch({ type: 'loadUsers' })
-      // this.loggedUser = this.$store.getters.currLoggedUser
-   },
-
    computed: {
-      pageBgc() {
-         console.log(this.$store.getters.currBoard);
-         // if (this.isHomePage) return '#eae6ff'
-         // if (!this.$store.getters.currBoard || !this.$route.params.boardId) return '#025AA7'
-         // else return this.$store.getters.getBoardBgc
+      setBg() {
+         const currBoard = this.$store.getters.currBoard
+         let bg = null
+         if (currBoard) {
+            const regexp = new RegExp('https?:\/\/')
+            bg = (currBoard.style.bgColor.match(regexp)) 
+            ? 'backgroundImage:'+currBoard.style.bgColor
+            : `backgroundColor: ${currBoard.style.bgColor}`
+         } else bg = 'backgroungColor: #fff'
+         return bg
       },
       loggedUser() {
          return this.$store.getters.currLoggedUser
+      },
+      isHomePage() {
+         return this.$route.name === 'home' ? true : false
       }
-   },
+   }
 }
 </script>

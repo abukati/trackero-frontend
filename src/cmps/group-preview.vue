@@ -4,17 +4,8 @@
          <h2 v-if="isEditable === false" @mouseup="toggleEditing" class="group-header-title-assist">
             {{ group.title }}
          </h2>
-         <textarea
-            v-else
-            ref="textareainp"
-            class="group-header-title-textarea"
-            :class="{ 'is-editing': isTitleInputOpen }"
-            @keydown.enter.exact.prevent
-            @keyup.enter.exact="updateGroupTitle"
-            @focus="titleInputFocus"
-            @blur="updateGroupTitle"
-            :value="group.title"
-         ></textarea>
+         <textarea v-else ref="textareainp" class="group-header-title-textarea" :class="{ 'is-editing': isTitleInputOpen }" @keydown.enter.exact.prevent 
+            @keyup.enter.exact="updateGroupTitle" @focus="titleInputFocus" @blur="updateGroupTitle" :value="group.title"></textarea>
          <div class="group-header-options">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />

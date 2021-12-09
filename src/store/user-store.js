@@ -4,9 +4,9 @@ import { userService } from '@/services/user-service.js'
 export const userStore = {
    state: {
       users: [],
-      loggedUser: null,
+      // loggedUser: null,
       //B-E
-      // loggedUser: userService.getLoggedUser() || null,
+      loggedUser: userService.getLoggedinUser() || null,
       watchedUser: null
    },
    getters: {
@@ -17,7 +17,7 @@ export const userStore = {
          return state.loggedUser
       },
       starredBoards(state) {
-         return state.loggedUser.starredBoardsIds
+         return state.loggedUser.starredBoards
       },
       getIsLoggedUserAdmin(state) {
          return state.loggedUser?.isAdmin || false
