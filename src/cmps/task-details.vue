@@ -42,7 +42,7 @@
 										@click="toggleMiniProfile($event, member)">
 										<avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
 									</a>
-									<a class="task-detail-add-button">
+									<a @click="toggleListCmp($event,'members-list')" class="task-detail-add-button">
 										<span class="add-btn-icon icon-lg">
 											<img src="@/assets/img/plus-icon.svg" />
 										</span>
@@ -64,7 +64,7 @@
 										<span class="label-text">{{ label.title }}</span>
 									</span>
 									<a class="task-detail-add-button">
-										<span class="add-btn-icon icon-lg">
+										<span @click="toggleListCmp($event,'labels-list')" class="add-btn-icon icon-lg">
 											<img src="@/assets/img/plus-icon.svg" />
 										</span>
 									</a>
@@ -218,7 +218,7 @@
 							</div>
 							<div v-show="!isShowActivity">
 								<template v-for="activity in task.activities">
-									<div class="activity-container">
+									<div class="activity-container" :key="activity.id">
 										<div class="activity">
 											<div class="activity-creator">
 												<div class="member">
@@ -284,7 +284,7 @@
 										<svg width="16" height="16" ill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="ScheduleIcon" > <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" ></path> <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path> </svg> </span>
 									<span class="sidebar-action-text">Dates</span>
 								</a>
-								<a class="button-link" title="Attachment">
+								<a @click="toggleListCmp($event,'attachment-list')" class="button-link" title="Attachment">
 									<span class="icon-sm icon-attachment"></span>
 									<span class="sidebar-action-text">Attachment</span>
 								</a>
@@ -445,10 +445,11 @@ export default {
 			this.isMiniProfileOpen = false;
 			this.isListOpen = true;
 			this.info.type = cmpName
-			const pos = ev.target.offsetParent.getBoundingClientRect()
-			this.info.modalPos.posY = pos.top - 10
-			// this.info.modalPos.posY = ev.pageY - 100
-			// this.info.modalPos.posX = ev.pageX - 14
+			// const pos = ev.target.offsetParent.getBoundingClientRect()
+			// this.info.modalPos.posY = pos.top - 10
+			// this.info.modalPos.posX = pos.left
+			this.info.modalPos.posY = ev.pageY
+			// this.info.modalPos.posX = ev.pageX
 			// this.info.modalPos.posX = pos.left - 14
 			//  if(ev.pageX >= 715 &&  ev.pageY >= 340 ){
 			// 	 this.info.modalPos.posY = 376
@@ -493,7 +494,6 @@ export default {
 				byMember:this.loggedInUser,
 				createdAt:Date.now(),
 			}
-			console.log(this.task.activities)
 			this.task.activities.unshift(activity);
 		},
 		addTaskMember(user) {

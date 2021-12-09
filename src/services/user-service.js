@@ -8,7 +8,8 @@ var gWatchedUser = null
 
 const STORAGE_KEY = 'user'
 
-const KEY = 'board_db'
+// const KEY = 'board_db'
+const KEY = 'users_db'
 const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/auth/' : '//localhost:3000/api/auth/'
 
 const BASE_URL2 = process.env.NODE_ENV !== 'development' ? '/api/user/' : '//localhost:3000/api/user/'
