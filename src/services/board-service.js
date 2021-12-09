@@ -26,6 +26,7 @@ export const boardService = {
    createTask,
    updateTasks,
    saveTask,
+   removeTask,
    updateSingleTask,
    getEmptyTodo,
    getEmptyChecklist,
@@ -145,16 +146,16 @@ function getEmptyBoard(title, user = { _id: 'u100', username: 'guest', fullname:
             title: 'Default group title',
             tasks: [],
             style: {
-               bgColor: '#ebecf0',
+               bgColor: '#ebecf0'
             }
          }
       ],
       activities: []
    }
    //FE
-   // return board
+   return board
    //BE
-   return Promise.resolve(board)
+   // return Promise.resolve(board)
 }
 
 function getEmptyGroup(title = 'Default group title') {
@@ -164,9 +165,9 @@ function getEmptyGroup(title = 'Default group title') {
       tasks: []
    }
    //FE
-   // return group
+   return group
    //BE
-   return Promise.resolve(group)
+   // return Promise.resolve(group)
 }
 
 //FE ONLY
@@ -191,9 +192,9 @@ async function changeBoardBgc(bgc, board) {
       const currBoard = _deep(board)
       currBoard.style.bgColor = bgc
       //FE
-      // return save(currBoard)
+      return save(currBoard)
       //BE
-      return Promise.resolve(save(currBoard))
+      // return Promise.resolve(save(currBoard))
    } catch (err) {
       console.log(err)
    }
@@ -208,9 +209,9 @@ async function _getCurrGroup(groupId, board) {
       const currBoard = _deep(board)
       const currGroup = currBoard.groups.find(group => group.id === groupId)
       //FE
-      // return currGroup
+      return currGroup
       //BE
-      return Promise.resolve(currGroup)
+      // return Promise.resolve(currGroup)
    } catch (err) {
       console.log(err)
    }
@@ -223,9 +224,9 @@ async function addGroup(group, board) {
       currBoard.groups.push(group)
       saveGroups(currBoard.groups, currBoard)
       //FE
-      // return currBoard.groups
+      return currBoard.groups
       //BE
-      return Promise.resolve(currBoard.groups)
+      // return Promise.resolve(currBoard.groups)
    } catch (err) {
       console.log(err)
    }
@@ -237,9 +238,9 @@ async function updateGroupTitle(group, board) {
       groupToUpdate.title = group.title
       await _updateGroup(groupToUpdate, groupToUpdate.id, board)
       //FE
-      // return groupToUpdate
+      return groupToUpdate
       //BE
-      return Promise.resolve(groupToUpdate)
+      // return Promise.resolve(groupToUpdate)
    } catch (err) {
       console.log(err)
    }
@@ -306,8 +307,6 @@ async function saveTask(task, groupId, board) {
    }
 }
 
-async function removeTask(task, groupId, board) {}
-
 async function updateSingleTask(task, board, groupId) {
    try {
       const currGroup = await _getCurrGroup(groupId, board)
@@ -324,6 +323,17 @@ async function updateTasks(tasks, group, board) {
    try {
       const currGroup = await _getCurrGroup(group.id, board)
       currGroup.tasks = tasks
+      return await _updateGroup(currGroup, currGroup.id, board)
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+async function removeTask(board, groupId, task) {
+   try {
+      const currGroup = await _getCurrGroup(groupId, board)
+      const idx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+      currGroup.tasks.splice(idx, 1)
       return await _updateGroup(currGroup, currGroup.id, board)
    } catch (err) {
       console.log(err)
@@ -458,7 +468,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
          isAdmin: true
       },
       style: {
-         bgColor: bgColor,
+         bgColor: bgColor
       },
       isLabelsShown: true,
       labels: [
@@ -550,7 +560,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ff7',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -653,7 +663,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ffffff',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -740,7 +750,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#61bd3a',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -844,7 +854,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ffffff',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -914,7 +924,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                }
             ],
             style: {
-               bgColor: '#ebecf0',
+               bgColor: '#ebecf0'
             },
             archivedTasks: []
          },
@@ -942,7 +952,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ff7',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -1067,7 +1077,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ffffff',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -1148,7 +1158,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ffffff',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -1210,7 +1220,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
             ],
             style: {
                bgColor: '#ebecf0',
-               url:'',
+               url: ''
             },
             archivedTasks: []
          },
@@ -1237,7 +1247,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#c377e0',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -1307,7 +1317,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ff7',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -1378,7 +1388,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                   },
                   style: {
                      bgColor: '#ff7',
-                     url:'',
+                     url: ''
                   },
                   members: [
                      {
@@ -1427,7 +1437,7 @@ function _createBoard(bgColor, title, user = { _id: 'u100', username: 'guest', f
                }
             ],
             style: {
-               bgColor: '#ebecf0',
+               bgColor: '#ebecf0'
             },
             archivedTasks: []
          }

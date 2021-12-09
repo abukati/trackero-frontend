@@ -72,7 +72,6 @@
                            <span
                               class="icon-lg icon-star board-star-btn-icon"
                               @click.prevent="toggleIsStarred(board)"
-                              :class="{ 'is-on': isStarredIcon }"
                            ></span>
                         </div>
                      </div>
@@ -143,13 +142,13 @@ export default {
          currBoard: null,
          starred: null,
          isInputOpen: false,
-         loggedUser: null
+         loggedUser: null,
       }
    },
    async created() {
       try {
          await this.$store.dispatch({ type: 'loadBoards' })
-         this.boards = this.$store.getters.allBoards
+         this.boards = this.$store.getters.boardsForDisplay
          this.starred = this.$store.getters.starredBoards
          console.log('this.starred', this.starred)
          this.loggedUser = this.$store.getters.currLoggedUser
@@ -162,7 +161,7 @@ export default {
          try {
             this.$store.dispatch({ type: 'removeBoard', boardId })
             await this.$store.dispatch({ type: 'loadBoards' })
-            this.boards = this.$store.getters.allBoards
+            this.boards = this.$store.getters.boardsForDisplay
          } catch (err) {
             console.log(err)
          }
@@ -171,7 +170,7 @@ export default {
          try {
             this.$store.dispatch({ type: 'addBoard', boardTitle: this.newBoardTitle })
             await this.$store.dispatch({ type: 'loadBoards' })
-            this.boards = this.$store.getters.allBoards
+            this.boards = this.$store.getters.boardsForDisplay
             this.newBoardTitle = ''
             this.toggleInput()
          } catch (err) {
@@ -189,7 +188,7 @@ export default {
       //       this.currBoard.isStarred = !this.currBoard.isStarred
       //       await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
       //       await this.$store.dispatch({ type: 'loadBoards' })
-      //       this.boards = this.$store.getters.allBoards
+      //       this.boards = this.$store.getters.boardsForDisplay
       //       this.starred = this.$store.getters.starredBoards
       //    } catch (err) {
       //       console.log(err)
@@ -211,12 +210,13 @@ export default {
 
             await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
             await this.$store.dispatch({ type: 'loadBoards' })
-            this.boards = this.$store.getters.allBoards
+            this.boards = this.$store.getters.boardsForDisplay
             this.starred = this.$store.getters.starredBoards
          } catch (err) {
             console.log(err)
          }
       },
+
       async toggleInput() {
          try {
             this.isInputOpen = !this.isInputOpen
@@ -237,7 +237,7 @@ export default {
       },
       async allBoards() {
          try {
-            const all = await this.$store.getters.allBoards
+            const all = await this.$store.getters.boardsForDisplay
             return all
          } catch (err) {
             console.log(err)
@@ -251,14 +251,7 @@ export default {
          }
          return color
       },
-      isStarredIcon() {
-         // const boardId = board._id
-         // var idx = this.loggedUser.starredBoardsIds.findIndex(board => board._id === boardId)
-         // console.log('idx', idx)
-         // if (idx !== -1) return true
-         // else return false
-         return false
-      }
+
 
    }
 }

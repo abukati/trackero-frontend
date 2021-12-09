@@ -157,6 +157,8 @@
 <script>
 export default {
    name: 'homePage',
+   components: {
+   },
    data() {
       return {
          isScroll: false
