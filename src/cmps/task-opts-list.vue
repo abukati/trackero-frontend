@@ -19,6 +19,7 @@ import membersList from './dynamic/members-list'
 import labelsList from './dynamic/labels-list'
 import checkList from './dynamic/check-list'
 import coverMenu from './dynamic/cover-menu'
+import attachmentList from './dynamic/attachment-list'
 
 export default {
     name:"task-opts-list",
@@ -27,7 +28,8 @@ export default {
         membersList,
         labelsList,
         checkList,
-        coverMenu
+        coverMenu,
+        attachmentList
     },
     created(){
     },

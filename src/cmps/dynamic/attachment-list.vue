@@ -54,7 +54,7 @@
 import { uploadImg } from '@/services/imgUpload.service.js'
 
 export default {
-   name: "attachments-list",
+   name: "attachment-list",
    components: {
    },
    props: ['info'],
