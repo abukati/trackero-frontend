@@ -8,7 +8,7 @@
 			<div class="pop-over-content">
 				<div>
 					<div class="pop-over-section">
-						<h4>Size</h4>
+						<h4>Colors</h4>
                         <div>
                             <div role="button" class="bgc-btn" :style="{backgroundColor:info.task.style.bgColor} ">
                                 <div class="bgc-btn-style">

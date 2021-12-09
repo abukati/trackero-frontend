@@ -1,9 +1,19 @@
 <template>
    <div
-      v-if="task"
+      v-if="taskToEdit"
       class="quick-card-editor"
       @click.prevent.self="closePreviewEdit()"
    >
+      <task-opts-list
+         v-if="isListOpen"
+         :info="info"
+         @removeMember="removeTaskMember"
+         @addMember="addTaskMember"
+         @removeLabel="removeTaskLabel"
+         @addLabel="addTaskLabel"
+         @toggleList="toggleList"
+         @toggleTaskCover="toggleTaskCover"
+      />
       <span
          @click="closePreviewEdit"
          class="icon-lg icon-close quick-card-editor-close-icon"
@@ -17,21 +27,27 @@
             class="list-card list-card-quick-edit js-stop"
             style="width: 256px"
          >
-            <div
-               v-if="isCoverBgc"
+            <!-- <div
+               v-if="taskCover"
                class="list-card-cover"
                :style="{
-                  backgroundColor: task.style.bgColor,
+                  backgroundColor: taskToEdit.style.bgColor,
                   height: isHeight + 'px',
                }"
+            ></div> -->
+            <div
+               v-if="taskCover"
+               class="list-card-cover"
+               :style="taskCover"
+               :class="{ img: task.style.url }"
             ></div>
             <div class="list-card-details">
                <div
-                  v-if="task.labels && task.labels.length"
+                  v-if="taskToEdit.labels && taskToEdit.labels.length"
                   class="list-card-labels"
                >
                   <span
-                     v-for="label in task.labels"
+                     v-for="label in taskToEdit.labels"
                      :key="label.id"
                      class="card-label"
                      :class="'label-' + label.color"
@@ -40,14 +56,19 @@
                   </span>
                </div>
 
-               <textarea
+               <textarea-autosize
+                  class="list-card-edit-title"
+                  @focus="titleInputFocus"
+                  v-model="taskToEdit.title"
+               />
+               <!-- <textarea
                   class="list-card-edit-title"
                   @keydown.enter.exact.prevent
                   @keyup.enter.exact="updateTaskTitle"
                   @focus="titleInputFocus"
                   @blur="updateTaskTitle"
                   :value="taskToEdit.title"
-               />
+               /> -->
 
                <!-- badges -->
                <div class="badges">
@@ -77,7 +98,7 @@
                         </span>
                      </div>
                      <div
-                        v-if="task.description"
+                        v-if="taskToEdit.description"
                         class="badge is-icon-only"
                         title="This card has a description."
                      >
@@ -86,27 +107,30 @@
                         ></span>
                      </div>
                      <div
-                        v-if="task.comments && task.comments.length"
+                        v-if="taskToEdit.comments && taskToEdit.comments.length"
                         class="badge is-icon-only"
                         title="Comments"
                      >
                         <span class="badge-icon icon-sm icon-comment"></span>
                         <span class="badge-text">{{
-                           task.comments.length
+                           taskToEdit.comments.length
                         }}</span>
                      </div>
                      <div
-                        v-if="task.attachments && task.attachments.length"
+                        v-if="
+                           taskToEdit.attachments &&
+                           taskToEdit.attachments.length
+                        "
                         class="badge"
                         title="Attachments"
                      >
                         <span class="badge-icon icon-sm icon-attachment"></span>
                         <span class="badge-text">{{
-                           task.attachments.length
+                           taskToEdit.attachments.length
                         }}</span>
                      </div>
                      <div
-                        v-if="task.location.id"
+                        v-if="taskToEdit.location.id"
                         class="badge"
                         title="This card has a location."
                      >
@@ -126,12 +150,12 @@
                <!-- task-members -->
                <div
                   div
-                  v-if="task.members && task.members.length"
+                  v-if="taskToEdit.members && taskToEdit.members.length"
                   class="task-detail-members-list list-card-members"
                >
                   <a
                      class="member"
-                     v-for="member in task.members"
+                     v-for="member in taskToEdit.members"
                      :key="member._id"
                      style="float: left"
                   >
@@ -148,12 +172,10 @@
          <button
             class="nch-button nch-button-primary wide js-save-edits"
             type="submit"
-            @click="updateTaskTitle"
-            :value="taskToEdit.title"
+            @click="updateTask"
          >
             Save
          </button>
-
          <div class="quick-card-editor-buttons fade-in">
             <router-link
                :to="'/board/' + boardId + '/' + groupId + '/' + taskId"
@@ -165,7 +187,7 @@
                >
             </router-link>
             <a
-               @click="renderLabels"
+               @click="toggleListCmp($event, 'labels-list')"
                class="quick-card-editor-buttons-item js-edit-labels"
             >
                <span class="icon-sm icon-label light"></span>
@@ -173,13 +195,19 @@
                   Edit labels
                </span>
             </a>
-            <a class="quick-card-editor-buttons-item js-edit-members">
+            <a
+               @click="toggleListCmp($event, 'members-list')"
+               class="quick-card-editor-buttons-item js-edit-members"
+            >
                <span class="icon-sm icon-member light"></span>
                <span class="quick-card-editor-buttons-item-text">
                   Change members
                </span>
             </a>
-            <a class="quick-card-editor-buttons-item js-edit-cover">
+            <a
+               @click="toggleListCmp($event, 'cover-menu')"
+               class="quick-card-editor-buttons-item js-edit-cover"
+            >
                <span class="icon-sm icon-card-cover light"></span>
                <span class="quick-card-editor-buttons-item-text">
                   Change cover
@@ -210,21 +238,22 @@
             </a>
          </div>
       </div>
-      <!-- <labels-list v-if="isListRendered" :info="info" /> -->
-      <attachment-list v-if="isListRendered" :info="info" />
    </div>
 </template>
 
 <script>
 import Avatar from 'vue-avatar'
 import labelsList from './dynamic/labels-list.vue'
-import attachmentList from './dynamic/attachment-list.vue'
+import taskOptsList from './task-opts-list'
 
 export default {
    name: 'task-edit',
    props: ['task', 'group', 'board', 'modalPos'],
    components: {
-      Avatar, labelsList, attachmentList
+      Avatar,
+      labelsList,
+      taskOptsList
+
    },
    data() {
       return {
@@ -237,51 +266,51 @@ export default {
          taskInput: '',
          taskToEdit: null,
          isEditable: false,
-         info: {},
-         isListRendered: false
-
+         isListOpen: false,
+         loggedInUser: null,
+         info: {
+            type: null,
+            task: null,
+            groupId: this.groupId,
+            modalPos: {
+               posX: null,
+               posY: null,
+            },
+         },
       }
    },
    created() {
-      // console.log('this.task.id', this.task.id)
-      // this.getTask(this.t1askId)
       this.taskToEdit = JSON.parse(JSON.stringify(this.task))
       this.groupId = this.group.id
       this.boardId = this.board._id
       this.taskId = this.task.id
-      this.info.task = this.task
+      this.info.task = this.taskToEdit
+      this.loggedInUser = this.$store.getters.currLoggedUser
    },
    methods: {
       closePreviewEdit() {
-         // console.log('this.task', this.task)
          this.$emit('closePreviewEdit')
       },
-
-      async updateTaskTitle(ev) {
-         try {
-            this.isTitleInputOpen = false
-            this.isEditable = false
-            ev.target.blur()
-            this.taskToEdit.title = ev.target.value
-            await this.$store.dispatch({ type: 'updateTask', task: this.taskToEdit, groupId: this.groupId })
-            this.closePreviewEdit()
-         } catch (err) {
-            console.log(err)
-         }
-      },
+      // async updateTaskTitle(ev) {
+      //    try {
+      //       this.isTitleInputOpen = false
+      //       this.isEditable = false
+      //       ev.target.blur()
+      //       this.taskToEdit.title = ev.target.value
+      //       await this.$store.dispatch({ type: 'updateTask', task: this.taskToEdit, groupId: this.groupId })
+      //       this.closePreviewEdit()
+      //    } catch (err) {
+      //       console.log(err)
+      //    }
+      // },
       titleInputFocus(ev) {
          this.isTitleInputOpen = true
          ev.target.select()
          // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
       },
-
       toggleEditing(ev) {
          this.isEditable = true
          ev.target.style.display = 'none'
-
-      },
-      renderLabels() {
-         this.isListRendered = !this.isListRendered
       },
       async archiveTask() {
          try {
@@ -291,18 +320,68 @@ export default {
          } catch (err) {
             console.log(err)
          }
-      }
-
-
+      },
+      toggleListCmp(ev, cmpName) {
+         this.isListOpen = true
+         this.info.type = cmpName
+         const pos = ev.target.offsetParent.getBoundingClientRect()
+         this.info.modalPos.posY = pos.top - 10
+      },
+      toggleList() {
+         this.isListOpen = false
+      },
+      addActivity(txt) {
+         const activity = {
+            txt,
+            byMember: this.loggedInUser,
+            createdAt: Date.now(),
+         }
+         this.taskToEdit.activities.unshift(activity)
+      },
+      updateTask() {
+         this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.taskToEdit })
+         this.closePreviewEdit()
+      },
+      addTaskMember(user) {
+         if (user) this.taskToEdit.members.push(user)
+         this.addActivity(`added ${user.fullname} to this task`)
+      },
+      removeTaskMember(user) {
+         const memberIdx = this.taskToEdit.members.findIndex(member => member._id === user._id)
+         if (user) this.taskToEdit.members.splice(memberIdx, 1)
+         this.addActivity(`removed ${user.fullname} from this task`)
+      },
+      removeTaskLabel(label) {
+         const labelIdx = this.taskToEdit.labels.findIndex(currLabel => currLabel.id === label.id)
+         if (label) this.taskToEdit.labels.splice(labelIdx, 1)
+         this.addActivity(`Removed label ${label.title} from this task`)
+      },
+      addTaskLabel(label) {
+         if (label) this.taskToEdit.labels.push(label)
+         this.addActivity(`Labeled this task as ${label.title}`)
+      },
+      toggleTaskCover(color) {
+         if (color) {
+            this.task.style.bgColor = color
+            this.addActivity(`Changed this task cover`)
+         } else {
+            this.task.style.bgColor = '#ffffff'
+            this.task.style.url = ''
+            this.addActivity(`Removed this task cover`)
+         }
+         this.updateTask()
+      },
    },
    computed: {
-      isCoverBgc() {
-         if (this.task.style.bgColor !== '#ffffff') return true
-      },
-      isHeight() {
-         if (this.task.style.bgColor !== '#ffffff') return 32
-         return 0
-      },
+      // isCoverBgc() {
+      //    // if (this.task.style.bgColor !== '#ffffff') return true
+      //    if (this.taskToEdit.style.bgColor !== '#ffffff') return true
+      // },
+      // isHeight() {
+      //    // if (this.task.style.bgColor !== '#ffffff') return 32
+      //    if (this.taskToEdit.style.bgColor !== '#ffffff') return 32
+      //    return 0
+      // },
       labelsHeight() {
          // if (this.board.isLabelsShown) return 16
          // return 8
@@ -310,31 +389,53 @@ export default {
       },
       isWatchingBadge() {
          this.currLoggedUser = this.$store.getters.currLoggedUser
-         const idx = this.task.members.findIndex(member => member._id === this.currLoggedUser._id)
+         // const idx = this.task.members.findIndex(member => member._id === this.currLoggedUser._id)
+         const idx = this.taskToEdit.members.findIndex(member => member._id === this.currLoggedUser._id)
          if (idx !== -1) return true
       },
       isDatesBadge() {
-         if (this.task.startDate || this.task.dueDate) return true
+         // if (this.task.startDate || this.task.dueDate) return true
+         if (this.taskToEdit.startDate || this.taskToEdit.dueDate) return true
       },
       organizedDates() {
-         if (this.task.startDate.date && this.task.dueDate.date) {
-            const from = this.task.startDate.date.slice(0, 6)
-            const to = this.task.dueDate.date.slice(0, 6)
+         // if (this.task.startDate.date && this.task.dueDate.date) {
+         //    const from = this.task.startDate.date.slice(0, 6)
+         //    const to = this.task.dueDate.date.slice(0, 6)
+         //    return `${from}-${to}`
+         // } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
+         // return this.task.dueDate.date.slice(0, 6)
+         if (this.taskToEdit.startDate.date && this.taskToEdit.dueDate.date) {
+            const from = this.taskToEdit.startDate.date.slice(0, 6)
+            const to = this.taskToEdit.dueDate.date.slice(0, 6)
             return `${from}-${to}`
-         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
-         return this.task.dueDate.date.slice(0, 6)
+         } else if (this.taskToEdit.startDate) return this.taskToEdit.startDate.date.slice(0, 6)
+         return this.taskToEdit.dueDate.date.slice(0, 6)
       },
       checklistItems() {
+         // let count = 0
+         // this.task.checklists[0].todos.forEach(todo => {
+         //    if (todo.isDone) count++
+         // })
+         // return `${count} / ${this.task.checklists[0].todos.length}`
          let count = 0
-         this.task.checklists[0].todos.forEach(todo => {
+         this.taskToEdit.checklists[0].todos.forEach(todo => {
             if (todo.isDone) count++
          })
-         return `${count} / ${this.task.checklists[0].todos.length}`
+         return `${count} / ${this.taskToEdit.checklists[0].todos.length}`
       },
       isChecklist() {
-         if (this.task.checklists[0] && this.task.checklists[0].id) return true
-      }
-
+         // if (this.task.checklists[0] && this.task.checklists[0].id) return true
+         if (this.taskToEdit.checklists[0] && this.taskToEdit.checklists[0].id) return true
+      },
+      taskCover() {
+         const cover = this.taskToEdit.style
+         console.log(cover)
+         var style = ''
+         if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+         if (cover.url) style += `background-image: url('${cover.url}');`
+         console.log('style', style)
+         return style
+      },
    },
 }
 </script>

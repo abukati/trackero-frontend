@@ -1,14 +1,15 @@
 import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
-import { httpService } from './http-service'
+import { httpService } from './http-service.js'
+import { socketService, SOCKET_EVENT_USER_UPDATED } from './socket-service.js'
 
-// import { socketService, SOCKET_EVENT_USER_UPDATED } from './socket.service'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 var gWatchedUser = null
 
 const STORAGE_KEY = 'user'
 
-const KEY = 'board_db'
+const KEY = 'users_db'
+
 const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/auth/' : '//localhost:3000/api/auth/'
 
 const BASE_URL2 = process.env.NODE_ENV !== 'development' ? '/api/user/' : '//localhost:3000/api/user/'
@@ -220,7 +221,7 @@ function _createUser(id, username, fullname, imgUrl = '') {
       ],
       subscribedTo: [],
       starredBoardsIds: [],
-      isAdmin: false
+      isAdmin: true
    }
    return user
 }
@@ -241,7 +242,7 @@ function getEmptyUser() {
       ],
       subscribedTo: [],
       starredBoardsIds: [],
-      isAdmin: false
+      isAdmin: true
    }
    return user
 }

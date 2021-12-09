@@ -49,9 +49,7 @@ export default {
             },
         }
     },
-    created(){
-        console.log(this.info.modalPos)
-    },
+
     methods: {
         toggleMember(user){
             const memberIdx = this.info.task.members.findIndex(member => member._id === user._id)

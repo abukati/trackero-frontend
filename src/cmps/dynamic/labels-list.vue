@@ -43,9 +43,6 @@ export default {
             },
         }
     },
-    created(){
-        console.log(this.info.modalPos)
-    },
     methods: {
         labelEnter(ev){
             ev.target.classList.add('label-hover')

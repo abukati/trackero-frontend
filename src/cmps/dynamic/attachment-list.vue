@@ -54,7 +54,7 @@
 import { uploadImg } from '@/services/imgUpload.service.js'
 
 export default {
-   name: "attachments-list",
+   name: "attachment-list",
    components: {
    },
    props: ['info'],
@@ -98,15 +98,24 @@ export default {
       toggleList() {
          this.$emit('toggleList')
       },
+      addActivity(txt){
+			const activity = {
+				txt,
+				byMember:this.$store.getters.currLoggedUser,
+				createdAt:Date.now(),
+			}
+         console.log(activity)
+			this.task.activities.unshift(activity);
+		},
       saveImg(res) {
          this.task.attachments.push({ id: res.asset_id, url: res.url, title: res.original_filename + '.' + res.format })
+         this.addActivity(`Added new attachment ${ res.original_filename}`)
          this.$store.dispatch({ type: 'updateTask', groupId: 'g101', task: this.task })
       },
       saveLink() {
          const id = 'f' + this.task.attachments.length + 1
          this.task.attachments.push({ id, url: this.linkUrl, title: this.linkUrlName })
-         this.$store.dispatch({ type: 'updateTask', groupId: 'g101', task: this.task })
-
+         this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
       },
       changeIsEmpty() {
          this.linkIsEmpty = !this.linkIsEmpty

@@ -2,19 +2,28 @@
 	<div class="window-overlay" @click.prevent.self="closemodal()">
 		<div class="window">
 			<div class="window-wrapper">
-				<a @click="closemodal()" class="dialog-close-button" :class="[isCoverBgc ? 'dark' : '']">
-					<img src="@/assets/img/close-icon.svg" />
-				</a>
+					<a @click="closemodal()" class="dialog-close-button" :class="[taskCover ? 'dark' : '']">
+						<span class="icon-close icon-sm"></span>
+						<!-- <img src="@/assets/img/close-icon.svg" /> -->
+					</a>
 				<div class="task-detail clearfix">
 					<!-- <div class="task-cover"> -->
-					<div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
+					<div v-if="taskCover" :class="{'img': task.style.url}" class="task-cover" :style="taskCover">
+						<div class="task-cover-menu">
+							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
+								<span class="icon-sm cover-menu-btn-icon"></span>
+								Cover
+							</a>
+					</div>
+					</div>
+					<!-- <div v-if="isCoverBgc" class="task-cover" :style="{ backgroundColor: task.style.bgColor, height: isHeight + 'px' }">
 						<div class="task-cover-menu">
 							<a @click="toggleListCmp($event,'cover-menu')" class="task-cover-menu-button">
 								<span class="icon-sm cover-menu-btn-icon"></span>
 								Cover
 							</a>
 						</div>
-					</div>
+					</div> -->
 					<!-- </div> -->
 					<div class="window-header">
 						<span class="window-header-icon icon-lg"></span>
@@ -42,7 +51,7 @@
 										@click="toggleMiniProfile($event, member)">
 										<avatar :size="32" :username="member.fullname" :title="`${member.fullname}(${member.username})`" />
 									</a>
-									<a class="task-detail-add-button">
+									<a @click="toggleListCmp($event,'members-list')" class="task-detail-add-button">
 										<span class="add-btn-icon icon-lg">
 											<img src="@/assets/img/plus-icon.svg" />
 										</span>
@@ -64,7 +73,7 @@
 										<span class="label-text">{{ label.title }}</span>
 									</span>
 									<a class="task-detail-add-button">
-										<span class="add-btn-icon icon-lg">
+										<span @click="toggleListCmp($event,'labels-list')" class="add-btn-icon icon-lg">
 											<img src="@/assets/img/plus-icon.svg" />
 										</span>
 									</a>
@@ -150,6 +159,41 @@
 								</div>
 							</div>
 						</div>
+						<div v-if="task.attachments.length" class="task-detail-attachments">
+							<div class="window-module">
+								<div class="window-module-title">
+									<span class="attachments-icon icon-lg"></span>
+									<h3>Attachments</h3>
+								</div>
+								<div class="attachments-area clearfix">
+									<div class="attachment-list">
+										<template v-for="attachment in task.attachments">
+											<div class="attachment-thumbnail" :key="attachment.id">
+												<a :href="attachment.url" target="_blank" class="attachment-thumbnail-preview">
+													  <img :src="attachment.url" alt="Search menu" />
+												</a>
+												<p class="attachment-thumbnail-details">
+													<span class="attachment-thumbnail-name">{{attachment.title}}</span>
+													<span class="attachment-thumbnail-details-title-options">
+													<span> Added <span class="date"> {{attachment.uploadDate}} </span></span>
+													<span>
+														<a class="attachment-thumbnail-details-title-options-item" href="#">
+															<span @click="removeAttachment(attachment)" class="attachment-thumbnail-details-options-item-text delete-btn"> Delete </span>
+														</a>
+														</span>
+													</span>
+													<span class="attachment-thumbnail-details-options">
+														<span class="icon-sm icon-card-cover"></span>
+														<span v-show="task.style.url !== attachment.url" @click="toggleTaskImg(attachment.url)" class="attachment-thumbnail-details-options-item-text">Make cover</span>
+														<span @click="toggleTaskImg" v-show="task.style.url === attachment.url" class="attachment-thumbnail-details-options-item-text">Remove cover</span>
+													</span>
+												</p>
+											</div>
+										</template>
+									</div>
+								</div>
+							</div>
+						</div>
 						<template v-if="checkLists">
 							<template v-for="checklist in task.checklists">
 								<checkListPreview
@@ -218,7 +262,7 @@
 							</div>
 							<div v-show="!isShowActivity">
 								<template v-for="activity in task.activities">
-									<div class="activity-container">
+									<div class="activity-container" :key="activity.id">
 										<div class="activity">
 											<div class="activity-creator">
 												<div class="member">
@@ -249,8 +293,8 @@
 							@addLabel="addTaskLabel"
 							@toggleList="toggleList" 
 							@addCheckList="addCheckList"
-							@changeTaskCover="changeTaskCover"
-							@removeTaskCover="removeTaskCover"
+							@changeTaskCover="toggleTaskCover"
+							@removeTaskCover="toggleTaskCover"
 						/>
 						<div v-if="!showSuggested" class="window-module suggested-actions-module">
 							<div class="suggested-actions-settings">
@@ -284,7 +328,7 @@
 										<svg width="16" height="16" ill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="ScheduleIcon" > <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" ></path> <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path> </svg> </span>
 									<span class="sidebar-action-text">Dates</span>
 								</a>
-								<a class="button-link" title="Attachment">
+								<a @click="toggleListCmp($event,'attachment-list')" class="button-link" title="Attachment">
 									<span class="icon-sm icon-attachment"></span>
 									<span class="sidebar-action-text">Attachment</span>
 								</a>
@@ -292,7 +336,7 @@
 									<span class="icon-sm icon-location"></span>
 									<span class="sidebar-action-text">Location</span>
 								</a>
-								<a @click="toggleListCmp($event,'cover-menu')" v-if="!isCoverBgc" class="button-link" href="#" title="Cover">
+								<a @click="toggleListCmp($event,'cover-menu')" v-if="!taskCover" class="button-link" href="#" title="Cover">
 									<span class="icon-sm icon-cover"></span>
 									<span class="sidebar-action-text">Cover</span>
 								</a>
@@ -445,10 +489,11 @@ export default {
 			this.isMiniProfileOpen = false;
 			this.isListOpen = true;
 			this.info.type = cmpName
-			const pos = ev.target.offsetParent.getBoundingClientRect()
-			this.info.modalPos.posY = pos.top - 10
-			// this.info.modalPos.posY = ev.pageY - 100
-			// this.info.modalPos.posX = ev.pageX - 14
+			// const pos = ev.target.offsetParent.getBoundingClientRect()
+			// this.info.modalPos.posY = pos.top - 10
+			// this.info.modalPos.posX = pos.left
+			this.info.modalPos.posY = ev.pageY
+			this.info.modalPos.posX = ev.pageX
 			// this.info.modalPos.posX = pos.left - 14
 			//  if(ev.pageX >= 715 &&  ev.pageY >= 340 ){
 			// 	 this.info.modalPos.posY = 376
@@ -493,7 +538,6 @@ export default {
 				byMember:this.loggedInUser,
 				createdAt:Date.now(),
 			}
-			console.log(this.task.activities)
 			this.task.activities.unshift(activity);
 		},
 		addTaskMember(user) {
@@ -536,14 +580,43 @@ export default {
 				return;
 			}
 		},
+		removeAttachment(attachment){
+			const attachmentIdx = this.task.attachments.findIndex(currAttach => currAttach.id === attachment.id);
+			if (attachmentIdx !== -1) {
+				if (attachment) this.task.attachments.splice(attachmentIdx, 1);
+				this.addActivity(`Removed attachment ${attachment.title}`)
+				this.updateTask()
+			} else {
+				return;
+			}
+
+		},
 		changeTaskCover(color){
 			this.task.style.bgColor = color
 			this.addActivity(`Changed this task cover`)
 			this.updateTask()
 		},
+		toggleTaskCover(color){
+			if(color){
+				this.task.style.bgColor = color
+				this.addActivity(`Changed this task cover`)
+			}else{
+				this.task.style.bgColor = '#ffffff'
+				this.task.style.url = ''
+				this.addActivity(`Removed this task cover`)
+			}
+			this.updateTask()
+		},
 		removeTaskCover(){
 			this.task.style.bgColor = '#ffffff'
+			this.task.style.url = ''
 			this.addActivity(`Removed this task cover`)
+			this.updateTask()
+		},
+		toggleTaskImg(url){
+
+			if(url) this.task.style.url = url
+			else this.task.style.url = ''
 			this.updateTask()
 		},
 		changeTaskTitle(ev){
@@ -614,13 +687,20 @@ export default {
 		},
 	},
 	computed: {
-		isCoverBgc() {
-			if (this.task.style.bgColor !== '#ffffff') return true;
+		// isCoverBgc() {
+		// 	if (this.task.style.bgColor !== '#ffffff') return true;
+		// },
+		taskCover() {
+			const cover = this.task.style
+			var style = ''
+			if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+			if (cover.url) style += `background-image: url('${cover.url}');`
+			return style
 		},
-		isHeight() {
-			if (this.task.style.bgColor !== '#ffffff') return 32;
-			else return 0;
-		},
+		// isHeight() {
+		// 	if (this.task.style.bgColor !== '#ffffff') return 32;
+		// 	else return 0;
+		// },
 		dateToShow() {
 			if (this.task.startDate.date && this.task.dueDate.date) {
 				const from = this.task.startDate.date.slice(0, 6);

@@ -124,7 +124,7 @@ export default {
       boardNav,
       boardNavSideMenu,
       taskPreviewEdit,
-      draggable,
+      draggable
    },
    data() {
       return {
@@ -136,12 +136,13 @@ export default {
          isPreviewEdit: false,
          task: null,
          group: null,
-         modalPos: {},
+         modalPos: {}
       }
    },
-   created() {
-      window.addEventListener('storage', this.loadBoards)
-   },
+   // async created() {
+   //    window.addEventListener('storage', this.loadBoards)
+   //    console.log(this.$store.getters.currBoard)
+   // },
    computed: {
       groupsList: {
          get() {
@@ -154,7 +155,6 @@ export default {
       archivedList() {
          return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
       }
-
    },
    methods: {
       addGroup() {
@@ -168,9 +168,8 @@ export default {
       toggleModalClass(ev) {
          this.isModalOpen = true
       },
-      async loadBoards() {
+      async loadBoard(boardId) {
          try {
-            let boardId = this.$route.params.boardId
             const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
             this.board = currBoard
          } catch (err) {
@@ -189,8 +188,17 @@ export default {
       closePreviewEdit() {
          this.isPreviewEdit = false
       },
-
-
+      async restoreTask(task) {
+         try {
+            console.log('task', task)
+            task.isArchived = false
+            const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
+            console.log('groupId', groupId)
+            await this.$store.dispatch({ type: 'updateTask', groupId, task })
+         } catch (err) {
+            console.log(err)
+         }
+      }
    },
    watch: {
       '$route.params.boardId': {
@@ -198,7 +206,7 @@ export default {
          deep: true,
          async handler() {
             try {
-               this.loadBoards()
+               this.loadBoard(this.$route.params.boardId)
                let taskId = this.$route.params.taskId
                if (taskId) this.isModalOpen = true
             } catch (err) {

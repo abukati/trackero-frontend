@@ -6,13 +6,19 @@
       :to="`/board/${board._id}/${group.id}/${task.id}`"
    >
       <!-- cover -->
-      <div
+      <!-- <div
          v-if="isCoverBgc"
          class="list-card-cover"
          :style="{
             backgroundColor: task.style.bgColor,
-            height: isHeight + 'px',
+            height: isHeight + 'px'
          }"
+      > -->
+      <div
+         v-if="taskCover"
+         class="list-card-cover"
+         :style="taskCover"
+         :class="{ img: task.style.url }"
       >
          <span
             class="icon-edit icon-sm list-card-operation"
@@ -21,10 +27,15 @@
       </div>
       <!-- pencil-edit -->
       <div
-         v-if="!isCoverBgc"
+         v-if="!taskCover"
          @click.prevent="openPreviewEdit($event)"
          class="list-card-edit-pencil"
       >
+         <!-- <div
+         v-if="!isCoverBgc"
+         @click.prevent="openPreviewEdit($event)"
+         class="list-card-edit-pencil"
+      > -->
          <span class="icon-sm icon-edit list-card-operation"></span>
       </div>
 
@@ -56,65 +67,34 @@
          <!-- badges -->
          <div class="badges">
             <span class="js-badges">
-               <div
-                  v-if="isWatchingBadge"
-                  class="badge"
-                  title="You are watching this card."
-               >
+               <!-- <div v-if="isWatchingBadge" class="badge" title="You are watching this card.">
                   <span class="badge-icon icon-sm icon-subscribe"></span>
                </div>
-               <div
-                  v-if="isDatesBadge"
-                  class="badge is-due-soon"
-                  title="This card is due in less than twenty-four hours."
-               >
-                  <span
-                     class="
-                        badge-icon
-                        icon-sm icon-clock
-                        badge-due-icon
-                        is-due-soon-span
-                     "
-                  ></span>
+               <div v-if="isDatesBadge" class="badge is-due-soon" title="This card is due in less than twenty-four hours.">
+                  <span class="badge-icon icon-sm icon-clock badge-due-icon is-due-soon-span"></span>
                   <span class="badge-text js-due-date-text">
                      {{ organizedDates }}
                   </span>
                </div>
-               <div
-                  v-if="task.description"
-                  class="badge is-icon-only"
-                  title="This card has a description."
-               >
+               <div v-if="task.description" class="badge is-icon-only" title="This card has a description.">
                   <span class="badge-icon icon-sm icon-description"></span>
                </div>
-               <div
-                  v-if="task.comments && task.comments.length"
-                  class="badge is-icon-only"
-                  title="Comments"
-               >
+               <div v-if="task.comments && task.comments.length" class="badge is-icon-only" title="Comments">
                   <span class="badge-icon icon-sm icon-comment"></span>
                   <span class="badge-text">{{ task.comments.length }}</span>
                </div>
-               <div
-                  v-if="task.attachments && task.attachments.length"
-                  class="badge"
-                  title="Attachments"
-               >
+               <div v-if="task.attachments && task.attachments.length" class="badge" title="Attachments">
                   <span class="badge-icon icon-sm icon-attachment"></span>
                   <span class="badge-text">{{ task.attachments.length }}</span>
                </div>
-               <div
-                  v-if="task.location.id"
-                  class="badge"
-                  title="This card has a location."
-               >
+               <div v-if="task.location.id" class="badge" title="This card has a location.">
                   <span class="badge-icon icon-sm icon-location"></span>
                </div>
                <div v-if="isChecklist" class="badge" title="Checklist items">
                   <span class="badge-icon icon-sm icon-checklist"></span>
                   <span class="badge-text">{{ checklistItems }}</span>
                </div>
-               <!-- <div class="badge hide" title="This card is archived">
+                <div class="badge hide" title="This card is archived">
                   <span class="badge-icon icon-sm icon-archive"></span>
                   <span class="badge-text">Archived</span>
                </div> -->
@@ -159,7 +139,7 @@ export default {
       return {
          labelsAreOpen: true,
          currLoggedUser: null,
-         modalPos: {},
+         modalPos: {}
       }
    },
    methods: {
@@ -176,20 +156,26 @@ export default {
       toggle(ev) {
          ev.stopPropagation()
          this.$store.commit('toggleCheckbox', { checked: this.checked })
-      },
+      }
    },
    computed: {
+      // isCoverBgc() {
+      //    if (this.task.style.bgColor !== '#ffffff') return true
+      // },
       getChecked() {
          return this.$store.getters.checked
       },
-
-      isCoverBgc() {
-         if (this.task.style.bgColor !== '#ffffff') return true
+      taskCover() {
+         const cover = this.task.style
+         var style = ''
+         if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+         if (cover.url) style += `background-image: url('${cover.url}');`
+         return style
       },
-      isHeight() {
-         if (this.task.style.bgColor !== '#ffffff') return 32
-         return 0
-      },
+      // isHeight() {
+      //    if (this.task.style.bgColor !== '#ffffff') return 32
+      //    return 0
+      // },
       labelsHeight() {
          if (this.board.isLabelsShown) return 16
          return 8

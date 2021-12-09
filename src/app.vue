@@ -1,6 +1,7 @@
 <template>
    <div id="app">
-      <main :style="{ background: pageBgc }">
+       <!-- :style="{ background: pageBgc }" -->
+      <main>
          <app-header v-if="loggedUser" />
          <router-view v-if="loggedUser" />
          <!-- <loading-overlay v-else /> -->
@@ -25,15 +26,17 @@ export default {
       }
    },
    async created() {
+      await this.$store.dispatch({ type: 'loadBoards' })
       await this.$store.dispatch({ type: 'loadUsers' })
       // this.loggedUser = this.$store.getters.currLoggedUser
    },
 
    computed: {
       pageBgc() {
+         console.log(this.$store.getters.currBoard);
          // if (this.isHomePage) return '#eae6ff'
-         if (!this.$store.getters.currBoard || !this.$route.params.boardId) return '#025AA7'
-         else return this.$store.getters.getBoardBgc
+         // if (!this.$store.getters.currBoard || !this.$route.params.boardId) return '#025AA7'
+         // else return this.$store.getters.getBoardBgc
       },
       loggedUser() {
          return this.$store.getters.currLoggedUser
