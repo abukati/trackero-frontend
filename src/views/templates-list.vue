@@ -158,15 +158,15 @@ export default {
    methods: {
       async addBoard() {
          try {
-            let users = await this.$store.dispatch({ type: 'loadUsers' })
+            // let users = await this.$store.dispatch({ type: 'loadUsers' })
             let boardToSave = boardService.getEmptyBoard()
-            boardToSave.members = users
+            // boardToSave.members = users
             const { _id, username, fullname, imgUrl } = this.loggedUser
             const { title, bgColor } = this.newBoard
             boardToSave.title = title
             boardToSave.style.bgColor = bgColor
             boardToSave.createdBy = { _id, username, fullname, imgUrl }
-            boardToSave.members.push(this.loggedUser)
+            // boardToSave.members.push(this.loggedUser)
             this.$store.dispatch({ type: 'addBoard', board: boardToSave })
             this.boards = this.$store.getters.boardsForDisplay
             this.toggleInput()

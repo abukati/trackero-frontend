@@ -1,89 +1,124 @@
 <template>
-	<section class="board-app" v-if="board">
-		<div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
-			<div class="task-detail-modal-container">
-				<div class="modal-content">
-					<router-view :class="{ 'window-up': isModalOpen }" />
-				</div>
-			</div>
-			<task-preview-edit
-				@closePreviewEdit="closePreviewEdit"
-				v-if="isPreviewEdit"
-				:task="this.task"
-				:board="board"
-				:group="this.group"
-				:modalPos="this.modalPos"
-				:key="task.id"
-			/>
-			<div class="board-container">
-				<div class="board-content">
-					<div class="board-content-wrapper">
-						<div class="board-main-content">
-							<board-nav
-								@toggleBoardNavMenu="toggleBoardNavMenu"
-								:board="board"
-								:boardMembers="board.members"
-								:boardBgc="board.style.bgColor"
-							/>
-							<div class="groups-container-main">
-                         
-                          <!-- <Draggable class="board-group" :style="{'display':'inline-block','overflow':'unset'}"  v-for="group in boardGroups" :key="group.id">
+   <section class="board-app" v-if="board">
+      <div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
+         <div class="task-detail-modal-container">
+            <div class="modal-content">
+               <router-view :class="{ 'window-up': isModalOpen }" />
+            </div>
+         </div>
+         <task-preview-edit
+            @closePreviewEdit="closePreviewEdit"
+            v-if="isPreviewEdit"
+            :task="this.task"
+            :board="board"
+            :group="this.group"
+            :modalPos="this.modalPos"
+            :key="task.id"
+         />
+         <div class="board-container">
+            <div class="board-content">
+               <div class="board-content-wrapper">
+                  <div class="board-main-content">
+                     <board-nav
+                        @toggleBoardNavMenu="toggleBoardNavMenu"
+                        :board="board"
+                        :boardMembers="board.members"
+                        :boardBgc="board.style.bgColor"
+                     />
+                     <div class="groups-container-main">
+                        <!-- <Draggable class="board-group" :style="{'display':'inline-block','overflow':'unset'}"  v-for="group in boardGroups" :key="group.id">
                               	<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </Draggable> -->
-						   
-						   <!-- CONTAINER FOR THE D&D -->
-							   <Container
-							   	orientation="horizontal"
-								v-if="onlyOneEdit" 
-								:style="{'display':'block'}"
-								class="groups-container"
-								drag-class="card-ghost"
-								drop-class="card-ghost-drop"
-								group-name="1"
-								:get-child-payload="getChildPayload"
-								@drop="onDrop(board.groups, $event)"
-								:drop-placeholder="dropPlaceholderOptions"
-								drag-handle-selector=".group-header-section"
-								non-drag-area-selector=".is-editing">							   
-							    <Draggable class="board-group" :style="{'display':'inline-block'}" v-for="group in boardGroups" :key="group.id">
-                              		<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
-                           		</Draggable>
-								
-									<!-- <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
+
+                        <!-- CONTAINER FOR THE D&D -->
+                        <Container
+                           orientation="horizontal"
+                           v-if="onlyOneEdit"
+                           :style="{ display: 'block' }"
+                           class="groups-container"
+                           drag-class="card-ghost"
+                           drop-class="card-ghost-drop"
+                           group-name="1"
+                           :get-child-payload="getChildPayload"
+                           @drop="onDrop(board.groups, $event)"
+                           :drop-placeholder="dropPlaceholderOptions"
+                           drag-handle-selector=".group-header-section"
+                           non-drag-area-selector=".is-editing"
+                        >
+                           <Draggable
+                              class="board-group"
+                              :style="{ display: 'inline-block' }"
+                              v-for="group in boardGroups"
+                              :key="group.id"
+                           >
+                              <group-preview
+                                 @onlyOneEdit="onlyOneEdit"
+                                 @toggleModal="toggleModalClass"
+                                 :group="group"
+                                 :board="board"
+                              />
+                           </Draggable>
+
+                           <!-- <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
 										<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
 									</div> -->
-									<div class="add-list-section">
-										<div v-if="!isListInputOpen" @click="toggleInput" class="add-list-button">
-											<a class="list-composer">
-												<span class="add-task-plus-icon">
-													<img src="@/assets/img/plus-icon.svg" />
-												</span>
-												<span class="add-task-span">Add another list</span>
-											</a>
-										</div>
-										<!-- list composer section -->
-										<div v-else class="list-composer-open">
-											<div class="add-list-title-input-section">
-												<input type="text" class="add-list-title-input" v-model="newListTitleInput" placeholder="Enter list title..." />
-											</div>
-											<div class="add-list-control-section">
-												<button @click="addGroup" class="add-list-confirm-btn">Add list</button>
-												<span @click="toggleInput" class="cancel-add-list">
-													<img src="@/assets/img/cancel-icon.svg" />
-												</span>
-											</div>
-										</div>
-									</div>
-							  </Container>
-                        		<!-- </div> -->
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<board-nav-side-menu :board="board" :isBoardMenuOpen="isBoardMenuOpen" :onSideMenuOpen="toggleBoardNavMenu" />
-		</div>
-	</section>
+                           <div class="add-list-section">
+                              <div
+                                 v-if="!isListInputOpen"
+                                 @click="toggleInput"
+                                 class="add-list-button"
+                              >
+                                 <a class="list-composer">
+                                    <span class="add-task-plus-icon">
+                                       <img src="@/assets/img/plus-icon.svg" />
+                                    </span>
+                                    <span class="add-task-span"
+                                       >Add another list</span
+                                    >
+                                 </a>
+                              </div>
+                              <!-- list composer section -->
+                              <div v-else class="list-composer-open">
+                                 <div class="add-list-title-input-section">
+                                    <input
+                                       type="text"
+                                       class="add-list-title-input"
+                                       v-model="newListTitleInput"
+                                       placeholder="Enter list title..."
+                                    />
+                                 </div>
+                                 <div class="add-list-control-section">
+                                    <button
+                                       @click="addGroup"
+                                       class="add-list-confirm-btn"
+                                    >
+                                       Add list
+                                    </button>
+                                    <span
+                                       @click="toggleInput"
+                                       class="cancel-add-list"
+                                    >
+                                       <img
+                                          src="@/assets/img/cancel-icon.svg"
+                                       />
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                        </Container>
+                        <!-- </div> -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <board-nav-side-menu
+            :board="board"
+            :isBoardMenuOpen="isBoardMenuOpen"
+            :onSideMenuOpen="toggleBoardNavMenu"
+         />
+      </div>
+   </section>
 </template>
 
 <script>
@@ -165,6 +200,7 @@ export default {
       async loadBoard(boardId) {
          try {
             const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+            console.log('this.$store.getters.users', this.$store.getters.users)
             currBoard.members = this.$store.getters.users
             this.board = currBoard
          } catch (err) {
