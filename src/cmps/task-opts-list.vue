@@ -20,7 +20,7 @@ import labelsList from './dynamic/labels-list'
 import checkList from './dynamic/check-list'
 import coverMenu from './dynamic/cover-menu'
 import attachmentList from './dynamic/attachment-list'
-import datesList from './dynamic/dates-list'
+import datePicker from './dynamic/date-picker'
 
 export default {
    name: "task-opts-list",
@@ -31,7 +31,7 @@ export default {
       checkList,
       coverMenu,
       attachmentList,
-      datesList
+      datePicker
    },
    created() {
    },

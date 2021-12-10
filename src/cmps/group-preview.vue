@@ -1,23 +1,36 @@
 <template>
    <section class="group-preview-container">
       <section class="group-header-section">
-         <h2 v-if="isEditable === false" @mouseup="toggleEditing" class="group-header-title-assist">
+         <h2
+            v-if="isEditable === false"
+            @mouseup="toggleEditing"
+            class="group-header-title-assist"
+         >
             {{ group.title }}
          </h2>
-         <textarea rows="1" v-else ref="textareainp"
-          class="group-header-title-textarea"
-           :class="{ 'is-editing': isTitleInputOpen }"
-            @keydown.enter.exact.prevent 
+         <textarea
+            v-else
+            ref="textareainp"
+            class="group-header-title-textarea"
+            :class="{ 'is-editing': isTitleInputOpen }"
+            @keydown.enter.exact.prevent
             @keyup.enter.exact="updateGroupTitle"
             @focus="titleInputFocus"
             @blur="updateGroupTitle"
-            :value="group.title"></textarea>
+            :value="group.title"
+         ></textarea>
          <div class="group-header-options">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
             </button>
          </div>
-         <modal-list-actions v-if="this.isOptionsListOpen" :group="group" :board="board" @closeModal="toggleOptions" @openAddTask="toggleInput" />
+         <modal-list-actions
+            v-if="this.isOptionsListOpen"
+            :group="group"
+            :board="board"
+            @closeModal="toggleOptions"
+            @openAddTask="toggleInput"
+         />
       </section>
 
       <Container
@@ -49,11 +62,18 @@
                   <div class="add-task-input-details group-task-link">
                      <!-- <textarea type="text" class="add-task-input"
                         v-model="taskInput" placeholder="Enter a title for this card..." /> -->
-                     <textarea-autosize class="add-task-input" v-model="taskInput" type="text" placeholder="Enter a title for this card..." />
+                     <textarea-autosize
+                        class="add-task-input"
+                        v-model="taskInput"
+                        type="text"
+                        placeholder="Enter a title for this card..."
+                     />
                   </div>
                </div>
                <div class="add-task-control-section">
-                  <button @click="addTask" class="add-card-confirm-btn">Add card</button>
+                  <button @click="addTask" class="add-card-confirm-btn">
+                     Add card
+                  </button>
                   <span @click="toggleInput" class="cancel-add-card">
                      <img src="@/assets/img/cancel-icon.svg" />
                   </span>
@@ -75,123 +95,124 @@
 </template>
 
 <script>
-   import { showMsg } from '@/services/event-bus-service.js'
-   // import draggable from 'vuedraggable'
-   import taskPreview from './task-preview.vue'
-   import modalListActions from './modal-list-actions.vue'
+import { showMsg } from '@/services/event-bus-service.js'
+// import draggable from 'vuedraggable'
+import taskPreview from './task-preview.vue'
+import modalListActions from './modal-list-actions.vue'
 import { Container, Draggable } from 'vue-smooth-dnd'
-import { applyDrag } from '@/services/applyDrag.js';
+import { applyDrag } from '@/services/applyDrag.js'
 
-   export default {
-      props: ['group', 'board'],
-      name: 'groupPreview',
-      components: {
-         // draggable,
-         taskPreview,
-         modalListActions,
-         Container,
-         Draggable
+export default {
+   props: ['group', 'board'],
+   name: 'groupPreview',
+   components: {
+      // draggable,
+      taskPreview,
+      modalListActions,
+      Container,
+      Draggable
+   },
+   data() {
+      return {
+         isOptionsListOpen: false,
+         isTaskInputOpen: false,
+         isTitleInputOpen: false,
+         taskInput: '',
+         groupToEdit: null,
+         isEditable: false,
+         isPreviewEdit: false,
+         currTask: null,
+         task: null,
+         isDragging: false,
+         dropPlaceholderOptions: {
+            className: "drop-preview",
+            animationDuration: "500",
+            showOnTop: true
+         },
+      }
+   },
+   methods: {
+      toggleOptions() {
+         this.isOptionsListOpen = !this.isOptionsListOpen
       },
-      data() {
-         return {
-            isOptionsListOpen: false,
-            isTaskInputOpen: false,
-            isTitleInputOpen: false,
-            taskInput: '',
-            groupToEdit: null,
-            isEditable: false,
-            isPreviewEdit: false,
-            currTask: null,
-            task: null,
-            isDragging:false,
-            dropPlaceholderOptions: {
-               className: "drop-preview",
-               animationDuration: "500",
-               showOnTop: true
-            },
+      toggleInput() {
+         this.isTaskInputOpen = !this.isTaskInputOpen
+         this.isOptionsListOpen = false
+      },
+      async addTask() {
+         try {
+            const groupId = this.group.id
+            const newTask = this.$store.dispatch('addTask', { groupId, title: this.taskInput })
+            this.isTaskInputOpen = false
+            this.taskInput = ''
+            if (newTask) showMsg(`task added `)
+            else showMsg(`Yoy are not allowed to add task`, 'danger')
+         } catch (err) {
+            console.log(err)
          }
       },
-      methods: {
-         toggleOptions() {
-            this.isOptionsListOpen = !this.isOptionsListOpen
-         },
-         toggleInput() {
-            this.isTaskInputOpen = !this.isTaskInputOpen
+      async deleteGroup() {
+         try {
+            const groupId = this.group.id
+            const deletedId = this.$store.dispatch({ type: 'removeGroup', groupId })
             this.isOptionsListOpen = false
-         },
-         async addTask() {
-            try {
-               const groupId = this.group.id
-               const newTask = this.$store.dispatch('addTask', { groupId, title: this.taskInput })
-               this.isTaskInputOpen = false
-               this.taskInput = ''
-               if (newTask) showMsg(`task added `)
-               else showMsg(`Yoy are not allowed to add task`, 'danger')
-            } catch (err) {
-               console.log(err)
-            }
-         },
-         async deleteGroup() {
-            try {
-               const groupId = this.group.id
-               const deletedId = this.$store.dispatch({ type: 'removeGroup', groupId })
-               this.isOptionsListOpen = false
-               if (deletedId) showMsg(`group removed ${deletedId}`)
-               else showMsg(`Yoy are not allowed to remove group`, 'danger')
-            } catch (err) {
-               console.log(err)
-            }
-         },
-         async updateGroupTitle(ev) {
-            try {
-               this.isTitleInputOpen = false
-               this.isEditable = false
-               ev.target.blur()
-               this.groupToEdit.title = ev.target.value
-               this.$store.dispatch({ type: 'updateGroup', group: this.groupToEdit })
-            } catch (err) {
-               console.log(err)
-            }
-         },
-         titleInputFocus(ev) {
-            this.isTitleInputOpen = true
-            ev.target.select()
-            // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
-            this.groupToEdit = this.group
-         },
-         toggleModal(ev) {
-            this.$emit('toggleModal', ev)
-         },
-         toggleEditing(ev) {
-            this.isEditable = true
-            ev.target.style.display = 'none'
-            this.$nextTick(() => {
-               this.$refs.textareainp.select()
-            })
-         },
-         openPreviewEdit(group, task, modalPos) {
-            this.task = task
-            this.isPreviewEdit = true
-            this.$emit('onlyOneEdit', group, task, modalPos)
-         },
+            if (deletedId) showMsg(`group removed ${deletedId}`)
+            else showMsg(`Yoy are not allowed to remove group`, 'danger')
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async updateGroupTitle(ev) {
+         try {
+            this.isTitleInputOpen = false
+            this.isEditable = false
+            ev.target.blur()
+            this.groupToEdit.title = ev.target.value
+            this.$store.dispatch({ type: 'updateGroup', group: this.groupToEdit })
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      titleInputFocus(ev) {
+         this.isTitleInputOpen = true
+         ev.target.select()
+         // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
+         this.groupToEdit = this.group
+      },
+      toggleModal(ev) {
+         this.$emit('toggleModal', ev)
+      },
+      toggleEditing(ev) {
+         this.isEditable = true
+         ev.target.style.display = 'none'
+         this.$nextTick(() => {
+            this.$refs.textareainp.select()
+         })
+      },
+      openPreviewEdit(group, task, modalPos) {
+         this.task = task
+         this.isPreviewEdit = true
+         this.$emit('onlyOneEdit', group, task, modalPos)
+      },
       async onDrop(items, dropResult) {
-			const tasks = applyDrag(items, dropResult)
+         const tasks = applyDrag(items, dropResult)
          this.group.tasks = tasks
-         this.$store.dispatch({ type: 'updateGroup', group:this.group})
-		},
-		getChildPayload(index) {
-			return this.group.tasks[index]
-		},
+         this.$store.dispatch({ type: 'updateGroup', group: this.group })
       },
-      computed: {
-         // tasksList: {
-         //    get() {
-         //       return this.group.tasks
-         //    },
-         //    set(tasks) {
-         //       this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
-         //    }
-         // }
+      getChildPayload(index) {
+         return this.group.tasks[index]
       },
-   }
+   },
+   computed: {
+      // tasksList: {
+      //    get() {
+      //       return this.group.tasks
+      //    },
+      //    set(tasks) {
+      //       this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
+      //    }
+      // }
+   },
+}
+
 </script>

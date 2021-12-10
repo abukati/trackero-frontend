@@ -187,7 +187,7 @@ export default {
          this.$store.commit('toggleCheckbox', { checked: this.checked })
       },
       isCoverBgc(task) {
-         console.log('task', task)
+         // console.log('task', task)
          if (task.style.bgColor !== '#ffffff') return true
          else return false
       },
@@ -205,11 +205,11 @@ export default {
       },
       organizedDates(task) {
          if (task.startDate.date && task.dueDate.date) {
-            const from = task.startDate.date.slice(0, 6)
-            const to = task.dueDate.date.slice(0, 6)
+            const from = task.startDate.date.slice(0, 5)
+            const to = task.dueDate.date.slice(0, 5)
             return `${from}-${to}`
-         } else if (task.startDate) return task.startDate.date.slice(0, 6)
-         return task.dueDate.date.slice(0, 6)
+         } else if (task.startDate) return task.startDate.date.slice(0, 5)
+         return task.dueDate.date.slice(0, 5)
       },
       checklistItems(task) {
          let count = 0
@@ -223,10 +223,10 @@ export default {
       },
       async restoreTask(task) {
          try {
-            console.log('task restore', task)
+            // console.log('task restore', task)
             task.isArchived = false
             const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            console.log('groupId', groupId)
+            // console.log('groupId', groupId)
             await this.$store.dispatch({ type: 'updateTask', groupId, task })
             this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
          } catch (err) {
@@ -235,10 +235,10 @@ export default {
       },
       async removeTask(task) {
          try {
-            console.log('task remove', task)
+            // console.log('task remove', task)
             // task.isArchived = false
             const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            console.log('groupId', groupId)
+            // console.log('groupId', groupId)
             await this.$store.dispatch({ type: 'removeTask', groupId, task })
             this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
          } catch (err) {

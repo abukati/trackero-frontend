@@ -215,6 +215,7 @@ export const boardStore = {
             console.log(err)
          }
       },
+
       async changeBoardBgc({ state, commit }, { bgc }) {
          try {
             await boardService.changeBoardBgc(bgc, state.currBoard)
@@ -332,8 +333,11 @@ export const boardStore = {
       },
       async removeTask({ state, commit }, { groupId, task }) {
          try {
-            const idx = await boardService.removeTask(state.currBoard, groupId, task)
-            if (idx >= 0) {
+            console.log('groupId', groupId)
+            console.log('task', task)
+            console.log('state.currBoard', state.currBoard)
+            var updatedTask = await boardService.removeTask(state.currBoard, groupId, task)
+            if (updatedTask) {
                commit({ type: 'removeTask', groupId, task })
                return idx
             }

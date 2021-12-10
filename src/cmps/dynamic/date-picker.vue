@@ -1,135 +1,165 @@
 <template>
-   <div>
-      <h1>Datepicker Examples</h1>
-      <div class="example">
-         <h3>Default datepicker</h3>
-         <datepicker
-            class="start-date-picker"
-            :inline="true"
-            placeholder="Select start date"
-         ></datepicker>
-         <datepicker
-            class="due-date-picker"
-            :inline="true"
-            placeholder="Select due date"
-         ></datepicker>
+   <div class="dates-list-modal pop-over is-shown details-popup">
+      <div class="no-back">
+         <div class="pop-over-header">
+            <span class="pop-over-header-title">Dates</span>
+            <a
+               class="pop-over-header-close-btn icon-sm icon-close"
+               @click="closeList"
+            ></a>
+         </div>
+         <div class="pop-over-content">
+            <div class="pop-over-section">
+               <vc-date-picker v-model="value" :masks="masks" ref="picker" />
+            </div>
+            <div class="checkboxes-dates">
+               <div class="start-date-checkbox">
+                  <button @click="isStartShow = true" class="btn-start-date">
+                     Start date
+                  </button>
+                  <div v-if="isStartShow" class="start-date-section">
+                     <!-- <label class="label-start" for="strt-date"
+                        >Start date</label
+                     > -->
+                     <div class="start-date-box">
+                        <input
+                           v-model="valueString"
+                           type="text"
+                           placeholder="MM/DD/YYYY"
+                           class="input-start-date"
+                        />
+                     </div>
+                  </div>
+               </div>
+               <div class="due-date-checkbox">
+                  <button @click="isStartShow = false" class="btn-due-date">
+                     Due date
+                  </button>
+                  <div v-if="!isStartShow" class="due-date-section">
+                     <!-- <label class="label-start" for="strt-date">Due date</label> -->
+                     <div class="start-date-box">
+                        <input
+                           v-model="valueString"
+                           type="text"
+                           placeholder="MM/DD/YYYY"
+                           class="input-start-date"
+                        />
+                     </div>
+                  </div>
+               </div>
+               <div class="total-dates">
+                  <span class="total-dates-text">
+                     Task dates: <span>{{ totalDates }}</span>
+                  </span>
+               </div>
+               <div class="btns-action">
+                  <button @click="saveDates" class="btn-save">Save</button>
+                  <button @click="removeDates" class="btn-remove">
+                     Remove
+                  </button>
+               </div>
+            </div>
+         </div>
       </div>
    </div>
 </template>
 
 <script>
-import datepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js"
-import * as lang from "vuejs-datepicker/src/locale"
-
-const state = {
-   date1: new Date()
-}
-
+import { Locale } from "v-calendar"
+const locale = new Locale()
+const mask = "MM/DD/YYYY"
 export default {
-   name: "example-dates",
+   name: 'datePicker',
+   props: ['info'],
    components: {
-      datepicker
+
+   },
+   created() {
+      this.firstStartDate = this.info.task.startDate.date || ""
+      this.firstdueDate = this.info.task.dueDate.date || ""
+      console.log('this.firstStartDate', this.firstStartDate)
+      console.log(' this.firstdueDate', this.firstdueDate)
    },
    data() {
       return {
-         format: "d MMMM yyyy",
-         disabledDates: {},
-         disabledFn: {
-            customPredictor(date) {
-               if (date.getDate() % 3 === 0) {
-                  return true
-               }
-            }
+         task: this.info.task,
+         valueString: this.info.task.dueDate.date || "MM/DD/YYYY",
+         // valueString: this.info.task.dueDate.date || "12/14/2021",
+         masks: {
+            input: mask
          },
-         highlightedFn: {
-            customPredictor(date) {
-               if (date.getDate() % 4 === 0) {
-                  return true
-               }
-            }
+         startChecked: false,
+         isStartShow: false,
+         firstStartDate: null,
+         firstdueDate: null
+      }
+   },
+   computed: {
+      value: {
+         get() {
+            return this.valueString ? locale.parse(this.valueString, mask) : null
          },
-         highlighted: {},
-         eventMsg: null,
-         state: state,
-         language: "en",
-         languages: lang,
-         vModelExample: null,
-         changedMonthLog: []
+         set(val) {
+            this.valueString = val ? locale.format(val, mask) : ""
+         }
+      },
+      taskStart() {
+         return this.task.startDate.date || ''
+      },
+      taskDue() {
+         return this.task.dueDate.date || ''
+      },
+      // startChecked() {
+      //    return this.task.startDate.date || false
+      // },
+      dueChecked() {
+         return this.task.dueDate.date || false
+      },
+      valueStringTemp() {
+         if (this.isStartShow && this.task.startDate.date) return this.task.startDate.date
+         else if (!this.isStartShow && !this.task.startDate.date) return this.task.dueDate.date
+         else return false
+      },
+      totalDates() {
+         let str = ''
+         str += (this.task.startDate.date) + ' - ' + (this.task.dueDate.date)
+         return str
       }
    },
    methods: {
-      highlightTo(val) {
-         if (typeof this.highlighted.to === "undefined") {
-            this.highlighted = {
-               to: null,
-               daysOfMonth: this.highlighted.daysOfMonth,
-               from: this.highlighted.from
-            }
-         }
-         this.highlighted.to = val
+      closeList() {
+         this.$emit('closeList')
       },
-      highlightFrom(val) {
-         if (typeof this.highlighted.from === "undefined") {
-            this.highlighted = {
-               to: this.highlighted.to,
-               daysOfMonth: this.highlighted.daysOfMonth,
-               from: null
-            }
+      addActivity(txt) {
+         const activity = {
+            txt,
+            byMember: this.$store.getters.currLoggedUser,
+            createdAt: Date.now(),
          }
-         this.highlighted.from = val
+         this.task.activities.unshift(activity)
       },
-      setHighlightedDays(elem) {
-         if (elem.target.value === "undefined") {
-            return
-         }
-         let highlightedDays = elem.target.value
-            .split(",")
-            .map(day => parseInt(day))
-         this.highlighted = {
-            from: this.highlighted.from,
-            to: this.highlighted.to,
-            daysOfMonth: highlightedDays
-         }
+      saveDates() {
+         this.closeList()
       },
-      setDisabledDays(elem) {
-         if (elem.target.value === "undefined") {
-            return
-         }
-         let disabledDays = elem.target.value.split(",").map(day => parseInt(day))
-         this.disabledDates = {
-            from: this.disabledDates.from,
-            to: this.disabledDates.to,
-            daysOfMonth: disabledDays
-         }
-      },
-      disableTo(val) {
-         if (typeof this.disabled.to === "undefined") {
-            this.disabledDates = {
-               to: null,
-               daysOfMonth: this.disabledDates.daysOfMonth,
-               from: this.disabled.from
-            }
-         }
-         this.disabledDates.to = val
-      },
-      disableFrom(val) {
-         if (typeof this.disabledDates.from === "undefined") {
-            this.disabled = {
-               to: this.disabledDates.to,
-               daysOfMonth: this.disabled.daysOfMonth,
-               from: null
-            }
-         }
-         this.disabledDates.from = val
-      },
-      openPicker() {
-         this.$refs.programaticOpen.showCalendar()
-      },
-      logChangedMonth(date) {
-         this.changedMonthLog.push(date)
+      removeDates() {
+         this.task.startDate.date = this.firstStartDate
+         this.task.dueDate.date = this.firstDueDate
+         this.addActivity(`Removed new dates`)
+         this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
+         this.closeList()
+      }
+   },
+   watch: {
+      valueString(val) {
+         if (this.isStartShow) this.task.startDate.date = val
+         else this.task.dueDate.date = val
+         this.addActivity(`Added new due date ${val}`)
+         this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
+         console.log('start date:', this.task.startDate.date)
+         console.log('due date:', this.task.dueDate.date)
+
       }
    }
 };
 </script>
-
 

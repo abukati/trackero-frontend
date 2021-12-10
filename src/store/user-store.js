@@ -28,9 +28,7 @@ export const userStore = {
       loggedUserId(state) {
          return state.loggedUser._id
       },
-      users({ users }) {
-         return users
-      },
+
       watchedUser({ watchedUser }) {
          return watchedUser
       }
@@ -63,14 +61,14 @@ export const userStore = {
    },
    actions: {
       //FRONTEND
-      async loadUsers({ state, commit }) {
-         try {
-            const users = await userService.query()
-            commit({ type: 'setUsers', users })
-         } catch (err) {
-            console.error(err)
-         }
-      },
+      // async loadUsers({ state, commit }) {
+      //    try {
+      //       const users = await userService.query()
+      //       commit({ type: 'setUsers', users })
+      //    } catch (err) {
+      //       console.error(err)
+      //    }
+      // },
       async saveUser({ state, commit }, { user }) {
          try {
             const userToSave = await userService.save(user)
@@ -117,16 +115,17 @@ export const userStore = {
             throw err
          }
       },
-      // async loadUsers({ commit }) {
-      //    // TODO: loading
-      //    try {
-      //       const users = await userService.getUsers()
-      //       commit({ type: 'setUsers', users })
-      //    } catch (err) {
-      //       console.log('userStore: Error in loadUsers', err)
-      //       throw err
-      //    }
-      // },
+      async loadUsers({ commit }) {
+         // TODO: loading
+         try {
+            const users = await userService.getUsers()
+            commit({ type: 'setUsers', users })
+            return users
+         } catch (err) {
+            console.log('userStore: Error in loadUsers', err)
+            throw err
+         }
+      },
       async loadAndWatchUser({ commit }, { userId }) {
          try {
             const user = await userService.getById(userId)
