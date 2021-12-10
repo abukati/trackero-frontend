@@ -25,7 +25,7 @@
 								:boardMembers="board.members"
 								:boardBgc="board.style.bgColor"
 							/>
-							<div class="groups-container-main">
+							<div class="groups-container-main" >
                          
                           <!-- <Draggable class="board-group" :style="{'display':'inline-block','overflow':'unset'}"  v-for="group in boardGroups" :key="group.id">
                               	<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />

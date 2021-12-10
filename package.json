@@ -23,6 +23,7 @@
       "vue-loading-overlay": "^4.0.4",
       "vue-moment": "^4.1.0",
       "vue-router": "^3.2.0",
+      "vue-smooth-dnd": "^0.8.1",
       "vue-textarea-autosize": "^1.1.1",
       "vuedraggable": "^2.24.3",
       "vuejs-datepicker": "^1.6.2",
