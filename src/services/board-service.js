@@ -1,6 +1,6 @@
 // import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
-import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
+import { socketService } from './socket-service.js'
 import { httpService } from './http-service.js'
 
 // const KEY = 'board_db'
@@ -80,6 +80,9 @@ async function save(board) {
    try {
       // const savedBoard = board._id ? await _update(board) : await _add(board)
       // return savedBoard
+
+      socketService.emit('boardUpdate', board._id)
+      
       if (board._id) {
          const res = await httpService.put('board/' + board._id, board)
          return res

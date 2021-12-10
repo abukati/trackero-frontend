@@ -1,69 +1,39 @@
 import io from 'socket.io-client'
-
-export const SOCKET_EVENT_BOARD_ADDED = 'group-added'
+import { httpService } from './http-service'
 
 const baseUrl = process.env.NODE_ENV === 'production' ? '' : '//localhost:3000'
 
 export const socketService = createSocketService()
-// export const socketService = createDummySocketService()
-
-window.socketService = socketService
 
 var socketIsReady = false
-socketService.setup()
 
+socketService.setup()
 function createSocketService() {
    var socket = null
    const socketService = {
       async setup() {
-         socket = io(baseUrl)
+         if (socket) return
+         // await httpService.get('setup-session')
+         socket = io(baseUrl, { reconnection: false })
+         socketIsReady = true
       },
-      on(eventName, cb) {
+      async on(eventName, cb) {
+         if (!socket) await socketService.setup()
          socket.on(eventName, cb)
       },
-      off(eventName, cb = null) {
-         if (!socket) return
+      async off(eventName, cb = null) {
+         if (!socket) await socketService.setup()
          if (!cb) socket.removeAllListeners(eventName)
          else socket.off(eventName, cb)
       },
-      emit(eventName, data) {
+      async emit(eventName, data) {
+         console.log(eventName);
+         if (!socket) await socketService.setup()
          socket.emit(eventName, data)
       },
       terminate() {
          socket = null
-      }
-   }
-   return socketService
-}
-
-// eslint-disable-next-line
-function createDummySocketService() {
-   var listenersMap = {}
-   const socketService = {
-      listenersMap,
-      setup() {
-         listenersMap = {}
-         window.mapmap = listenersMap
-      },
-      terminate() {
-         this.setup()
-      },
-      on(eventName, cb) {
-         listenersMap[eventName] = [...(listenersMap[eventName] || []), cb]
-      },
-      off(eventName, cb) {
-         if (!listenersMap[eventName]) return
-         if (!cb) delete listenersMap[eventName]
-         else listenersMap[eventName] = listenersMap[eventName].filter(l => l !== cb)
-      },
-      emit(eventName, data) {
-         if (!listenersMap[eventName]) return
-         listenersMap[eventName].forEach(listener => {
-            listener(data)
-         })
-      },
-      debugMsg() {
-         this.emit('chat addMsg', { from: 'Someone', txt: 'Aha it worked!' })
+         socketIsReady = false
       }
    }
    return socketService
