@@ -636,11 +636,11 @@
                         </span>
                         <span class="sidebar-action-text">Custom Fields</span>
                      </a> -->
-                     </div>
-                  </div>
+							</div>
+						</div>
 
-                  <!-- UnDone features -->
-                  <!-- <div class="powerups-buttons">
+						<!-- UnDone features -->
+						<!-- <div class="powerups-buttons">
                   <div class="window-module clearfix">
                      <h3 class="no-top-margin">Power-Ups</h3>
                      <div>
@@ -653,7 +653,7 @@
                      </div>
                   </div>
                </div> -->
-                  <!-- <div class="automation-buttons">
+						<!-- <div class="automation-buttons">
                    <div class="window-module">
                       <div class="automation-title">
                         <h3 class="no-top-margin">Automation</h3>
@@ -671,72 +671,51 @@
                      </div>
                   </div>
                </div> -->
-                  <div class="window-module clearfix action-buttons">
-                     <h3 class="no-top-margin">Actions</h3>
-                     <div class="clearfix">
-                        <a class="button-link" title="Move" href="#">
-                           <span class="icon-sm move-icon"></span>
-                           <span class="sidebar-action-text">Move</span>
-                        </a>
-                        <a class="button-link" title="Copy" href="#">
-                           <span class="icon-sm copy-icon"></span>
-                           <span class="sidebar-action-text">Copy</span>
-                        </a>
-                        <!-- <a class="button-link" title="Make template" href="#">
+						<div class="window-module clearfix action-buttons">
+							<h3 class="no-top-margin">Actions</h3>
+							<div class="clearfix">
+								<a class="button-link" title="Move" href="#">
+									<span class="icon-sm move-icon"></span>
+									<span class="sidebar-action-text">Move</span>
+								</a>
+								<a class="button-link" title="Copy" href="#">
+									<span class="icon-sm copy-icon"></span>
+									<span class="sidebar-action-text">Copy</span>
+								</a>
+								<!-- <a class="button-link" title="Make template" href="#">
                            <span class="icon-sm">
                            </span>
                            <span class="sidebar-action-text">Make template</span>
                         </a> -->
-                        <a
-                           class="button-link"
-                           title="Watch the card to get notifications when something changes."
-                           href="#"
-                        >
-                           <span class="icon-sm watch-icon"></span>
-                           <span class="sidebar-action-text">Watch</span>
-                        </a>
-                        <hr />
-                        <a
-                           v-if="!taskIsArchived"
-                           @click="archiveTask(task)"
-                           class="button-link"
-                           title="Archive"
-                        >
-                           <span class="icon-sm archive-icon"></span>
-                           <span class="sidebar-action-text">Archive</span>
-                        </a>
-                        <a
-                           v-if="taskIsArchived"
-                           @click="restoreTask(task)"
-                           class="button-link"
-                           title="Send to board"
-                        >
-                           <span class="icon-sm restore-icon"></span>
-                           <span class="sidebar-action-text"
-                              >Send to board</span
-                           >
-                        </a>
-                        <a
-                           v-if="taskIsArchived"
-                           @click="removeTask(task)"
-                           class="button-link card-delete-btn"
-                           title="Delete"
-                        >
-                           <span class="icon-sm remove-icon"></span>
-                           <span class="sidebar-action-text">Delete</span>
-                        </a>
+								<a class="button-link" title="Watch the card to get notifications when something changes." href="#">
+									<span class="icon-sm watch-icon"></span>
+									<span class="sidebar-action-text">Watch</span>
+								</a>
+								<hr />
+								<a v-if="!taskIsArchived" @click="archiveTask(task)" class="button-link" title="Archive">
+									<span class="icon-sm archive-icon"></span>
+									<span class="sidebar-action-text">Archive</span>
+								</a>
+								<a v-if="taskIsArchived" @click="restoreTask(task)" class="button-link" title="Send to board">
+									<span class="icon-sm restore-icon"></span>
+									<span class="sidebar-action-text">Send to board</span>
+								</a>
+								<a v-if="taskIsArchived" @click="removeTask(task)" class="button-link card-delete-btn" title="Delete">
+									<span class="icon-sm remove-icon"></span>
+									<span class="sidebar-action-text">Delete</span>
+								</a>
 
-                        <a class="button-link" title="Share" href="#">
-                           <span class="icon-sm share-icon"></span>
-                           <span class="sidebar-action-text">Share</span>
-                        </a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+								<a class="button-link" title="Share" href="#">
+									<span class="icon-sm share-icon"></span>
+									<span class="sidebar-action-text">Share</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>

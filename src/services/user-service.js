@@ -29,7 +29,7 @@ export const userService = {
 
 var gUsers = _createUsers()
 
-login('Basel','basel')
+window.loginDiff = login
 
 async function login(username, password) {
    try {
@@ -118,10 +118,10 @@ async function update(user) {
 // })()
 
 
-(async () => {
-   var user = getLoggedinUser()
-   if (user) socketService.emit('set-user-socket', user._id)
-})();
+// (async () => {
+//    var user = getLoggedinUser()
+//    if (user) socketService.emit('set-user-socket', user._id)
+// })();
 
 
 //

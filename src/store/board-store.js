@@ -1,12 +1,10 @@
 import { boardService } from '@/services/board-service.js'
-import { userService } from '../services/user-service'
+import { socketService } from './../services/socket-service.js'
 // import { groupService } from '@/services/group-service.js'
-// import { socketService, SOCKET_EMIT_USER_WATCH, SOCKET_EVENT_USER_UPDATED } from '../services/socket.service'
 
 export const boardStore = {
    state: {
       boards: [],
-
       currBoardId: null,
       currBoard: null,
       groups: [],
@@ -67,6 +65,13 @@ export const boardStore = {
       },
       checked(state) {
          return state.checked
+      },
+      getEmptyGroup(){
+         const group = {
+            title:'',
+            tasks: []
+         }
+         return group
       }
    },
 
@@ -140,6 +145,11 @@ export const boardStore = {
          currGroup.tasks.splice(idxTask, 1)
          state.currBoard.groups[idxGroup] = currGroup
       },
+      setTasks(state, { groupId, tasksToSave }) {
+         const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === groupId)
+         if (groupIdx < 0) return
+         state.currBoard.groups[groupIdx].tasks = tasksToSave
+     },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */
@@ -179,9 +189,9 @@ export const boardStore = {
       },
       async updateBoard({ commit }, { board }) {
          try {
-            console.log('board', board)
-            await boardService.save(board)
-            commit({ type: 'updateBoard', board })
+            const updatedBoard = await boardService.save(board)
+            commit({ type: 'updateBoard', updatedBoard })
+            return updatedBoard
          } catch (err) {
             console.log(err)
          }
@@ -195,6 +205,7 @@ export const boardStore = {
             console.log(err)
          }
       },
+
       async getBoardbyId({ commit }, { boardId }) {
          try {
             const board = await boardService.getById(boardId)
@@ -213,7 +224,6 @@ export const boardStore = {
             console.log(err)
          }
       },
-
       //----------------------------------------------------------- */
       //***********************GROUPS********************************
       //----------------------------------------------------------- */
@@ -221,16 +231,35 @@ export const boardStore = {
       async updateGroups({ state, commit }, { groups }) {
          try {
             const board = await boardService.saveGroups(groups, state.currBoard)
-            commit({ type: 'setCurrBoard', currBoard: board })
+            // commit({ type: 'setCurrBoard', currBoard: board })
+            return board
          } catch (err) {
             console.log(err)
          }
       },
-      async addGroup({ state, commit }, { title }) {
+      // async addGroup({ state, commit }, { title }) {
+      //    try {
+      //       const newGroup = await boardService.getEmptyGroup(title)
+      //       state.currBoard.groups.push(newGroup)
+      //       await boardService.addGroup(newGroup, state.currBoard)
+      //       commit({ type: 'addGroup', group: newGroup })
+      //    } catch (err) {
+      //       console.log(err)
+      //    }
+      // },
+      async addGroup({ state, commit }, { group }) {
          try {
-            const newGroup = await boardService.getEmptyGroup(title)
-            await boardService.addGroup(newGroup, state.currBoard)
-            commit({ type: 'addGroup', group: newGroup })
+            console.log('group',group)
+            const newGroup = await boardService.addGroup(group, state.currBoard)
+            const idx = state.currBoard.groups.findIndex(currGroup => currGroup.id === newGroup.id)
+            console.log('idx',idx)
+            if(idx === -1){
+               // state.currBoard.groups.push(newGroup)
+               commit({ type: 'addGroup', group:newGroup })
+               return newGroup
+            }else{
+               console.log('nope')
+            }
          } catch (err) {
             console.log(err)
          }
@@ -248,8 +277,9 @@ export const boardStore = {
       },
       async updateGroup({ state, commit }, { group }) {
          try {
-            const updatedGroup = await boardService.updateGroupTitle(group, state.currBoard)
+            const updatedGroup = await boardService.updateGroup(group, state.currBoard)
             commit({ type: 'updateCurrGroup', group, groupId: updatedGroup.id })
+            return updatedGroup
          } catch (err) {
             console.log(err)
          }

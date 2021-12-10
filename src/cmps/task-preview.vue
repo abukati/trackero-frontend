@@ -1,5 +1,6 @@
 <template>
    <!-- <section class="list-card-preview"> -->
+
    <router-link
       v-if="!task.isArchived"
       class="list-card"
@@ -153,9 +154,10 @@
          </div>
       </div>
    </router-link>
+   
    <!-- </section> -->
-</template>
 
+</template>
 <script>
 import Avatar from 'vue-avatar'
 import labelCheckboxes from './task-preview-label-checkboxes'

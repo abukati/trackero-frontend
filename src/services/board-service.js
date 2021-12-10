@@ -1,6 +1,6 @@
 // import { storageService } from './async-storage-service.js'
 import { utilService } from './util-service.js'
-import { SOCKET_EVENT_BOARD_ADDED, socketService } from './socket-service.js'
+import { socketService } from './socket-service.js'
 import { httpService } from './http-service.js'
 
 // const KEY = 'board_db'
@@ -19,7 +19,7 @@ export const boardService = {
    removeTask,
    saveGroups,
    getEmptyGroup,
-   updateGroupTitle,
+   updateGroup,
    //TASK
    createTask,
    updateTasks,
@@ -82,6 +82,8 @@ async function save(board) {
       // const savedBoard = board._id ? await _update(board) : await _add(board)
       // return savedBoard
 
+      socketService.emit('boardUpdate', board._id)
+      
       if (board._id) {
          const res = await httpService.put('board/' + board._id, board)
          return res
@@ -194,6 +196,13 @@ function changeBoardBgc(bgc, board) {
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
 
+
+function updateGroup(group, board) {
+   const groupToUpdate = _getCurrGroup(group.id, board)
+   _updateGroup(groupToUpdate, groupToUpdate.id, board)
+   return groupToUpdate
+}
+
 function saveGroups(groups, board) {
    const deepBoard = _deep(board)
    deepBoard.groups = groups
@@ -208,10 +217,13 @@ function _getCurrGroup(groupId, board) {
 }
 
 function addGroup(group, board) {
-   const currBoard = _deep(board)
-   currBoard.groups.push(group)
-   saveGroups(currBoard.groups, currBoard)
-   return currBoard.groups
+   if(!group.id){
+      group.id = utilService.makeId()
+      const currBoard = _deep(board)
+      currBoard.groups.push(group)
+      saveGroups(currBoard.groups, currBoard)
+      return group
+   }
 }
 
 function removeGroup(id, board) {
@@ -223,12 +235,6 @@ function removeGroup(id, board) {
    return idx
 }
 
-function updateGroupTitle(group, board) {
-   const groupToUpdate = _getCurrGroup(group.id, board)
-   groupToUpdate.title = group.title
-   _updateGroup(groupToUpdate, groupToUpdate.id, board)
-   return groupToUpdate
-}
 
 function _updateGroup(updatedGroup, groupId, board) {
    const currBoard = _deep(board)

@@ -32,23 +32,30 @@
             @openAddTask="toggleInput"
          />
       </section>
-      <draggable
-         class="group-tasks-section"
-         v-model="tasksList"
-         group="group"
-         draggable=".list-card"
-      >
-         <template v-for="task in group.tasks">
-            <task-preview
-               @openPreviewEdit="openPreviewEdit"
-               :task="task"
-               :board="board"
-               :group="group"
-               :key="task.id"
-            >
-            </task-preview>
-         </template>
 
+      <Container
+       	orientation="vertical"
+         class="group-tasks-section"
+			drag-class="card-ghost"
+			drop-class="card-ghost-drop"
+			group-name="2"
+         :get-child-payload="getChildPayload"
+			@drop="onDrop(group.tasks, $event)"
+			:drop-placeholder="dropPlaceholderOptions"
+		   drag-handle-selector=".list-card" 
+      >
+      <Draggable v-for="task in group.tasks" :key="task.id" >
+            <task-preview 
+            @openPreviewEdit="openPreviewEdit"
+            :task="task"
+            :board="board"
+            :group="group" />
+       </Draggable>
+      <!-- <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
+         <template v-for="task in group.tasks">
+            <task-preview @openPreviewEdit="openPreviewEdit" :task="task" :board="board" :group="group" :key="task.id"> </task-preview>
+         </template> -->
+      
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
                <div class="add-task-input-section">
@@ -73,7 +80,8 @@
                </div>
             </div>
          </div>
-      </draggable>
+     </Container>
+         
       <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
          <a class="card-composer">
             <span class="add-task-plus-icon">
@@ -82,22 +90,27 @@
             <span class="add-task-span">Add a card</span>
          </a>
       </div>
+       
    </section>
 </template>
 
 <script>
 import { showMsg } from '@/services/event-bus-service.js'
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable'
 import taskPreview from './task-preview.vue'
 import modalListActions from './modal-list-actions.vue'
+import { Container, Draggable } from 'vue-smooth-dnd'
+import { applyDrag } from '@/services/applyDrag.js'
 
 export default {
    props: ['group', 'board'],
    name: 'groupPreview',
    components: {
-      draggable,
+      // draggable,
       taskPreview,
-      modalListActions
+      modalListActions,
+      Container,
+      Draggable
    },
    data() {
       return {
@@ -109,10 +122,15 @@ export default {
          isEditable: false,
          isPreviewEdit: false,
          currTask: null,
-         task: null
+         task: null,
+         isDragging: false,
+         dropPlaceholderOptions: {
+            className: "drop-preview",
+            animationDuration: "500",
+            showOnTop: true
+         },
       }
    },
-
    methods: {
       toggleOptions() {
          this.isOptionsListOpen = !this.isOptionsListOpen
@@ -168,24 +186,33 @@ export default {
          this.isEditable = true
          ev.target.style.display = 'none'
          this.$nextTick(() => {
-            this.$refs.textareainp.focus()
+            this.$refs.textareainp.select()
          })
       },
       openPreviewEdit(group, task, modalPos) {
          this.task = task
          this.isPreviewEdit = true
          this.$emit('onlyOneEdit', group, task, modalPos)
-      }
+      },
+      async onDrop(items, dropResult) {
+         const tasks = applyDrag(items, dropResult)
+         this.group.tasks = tasks
+         this.$store.dispatch({ type: 'updateGroup', group: this.group })
+      },
+      getChildPayload(index) {
+         return this.group.tasks[index]
+      },
    },
    computed: {
-      tasksList: {
-         get() {
-            return this.group.tasks
-         },
-         set(tasks) {
-            this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
-         }
-      }
-   }
+      // tasksList: {
+      //    get() {
+      //       return this.group.tasks
+      //    },
+      //    set(tasks) {
+      //       this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
+      //    }
+      // }
+   },
 }
+
 </script>
