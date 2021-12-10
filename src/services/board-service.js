@@ -18,7 +18,7 @@ export const boardService = {
    removeGroup,
    saveGroups,
    getEmptyGroup,
-   updateGroupTitle,
+   updateGroup,
    //TASK
    createTask,
    updateTasks,
@@ -80,7 +80,6 @@ async function save(board) {
    try {
       // const savedBoard = board._id ? await _update(board) : await _add(board)
       // return savedBoard
-
       if (board._id) {
          const res = await httpService.put('board/' + board._id, board)
          return res
@@ -193,6 +192,13 @@ function changeBoardBgc(bgc, board) {
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
 
+
+function updateGroup(group, board) {
+   const groupToUpdate = _getCurrGroup(group.id, board)
+   _updateGroup(groupToUpdate, groupToUpdate.id, board)
+   return groupToUpdate
+}
+
 function saveGroups(groups, board) {
    const deepBoard = _deep(board)
    deepBoard.groups = groups
@@ -207,10 +213,13 @@ function _getCurrGroup(groupId, board) {
 }
 
 function addGroup(group, board) {
-   const currBoard = _deep(board)
-   currBoard.groups.push(group)
-   saveGroups(currBoard.groups, currBoard)
-   return currBoard.groups
+   if(!group.id){
+      group.id = utilService.makeId()
+      const currBoard = _deep(board)
+      currBoard.groups.push(group)
+      saveGroups(currBoard.groups, currBoard)
+      return group
+   }
 }
 
 function removeGroup(id, board) {
@@ -222,12 +231,6 @@ function removeGroup(id, board) {
    return idx
 }
 
-function updateGroupTitle(group, board) {
-   const groupToUpdate = _getCurrGroup(group.id, board)
-   groupToUpdate.title = group.title
-   _updateGroup(groupToUpdate, groupToUpdate.id, board)
-   return groupToUpdate
-}
 
 function _updateGroup(updatedGroup, groupId, board) {
    const currBoard = _deep(board)

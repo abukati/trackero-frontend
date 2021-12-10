@@ -316,3 +316,22 @@
    padding: 8px 12px;
    text-align: center;
 }
+
+
+// DND
+
+.card-ghost {
+   transition: transform 0.18s ease;
+   transform: rotateZ(5deg);
+}
+
+.card-ghost-drop {
+   transition: transform 0.18s ease-in-out;
+   transform: rotateZ(0deg);
+}
+
+// .drop-preview {
+//      background-color: rgba(241, 189, 189, 0.308);
+//      border-radius: 3px;
+//      box-shadow: 0 1px #091e4240;
+//   }

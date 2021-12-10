@@ -4,14 +4,8 @@
          <h2 v-if="isEditable === false" @mouseup="toggleEditing" class="group-header-title-assist">
             {{ group.title }}
          </h2>
-         <textarea rows="1" v-else ref="textareainp"
-          class="group-header-title-textarea"
-           :class="{ 'is-editing': isTitleInputOpen }"
-            @keydown.enter.exact.prevent 
-            @keyup.enter.exact="updateGroupTitle"
-            @focus="titleInputFocus"
-            @blur="updateGroupTitle"
-            :value="group.title"></textarea>
+         <textarea v-else ref="textareainp" class="group-header-title-textarea" :class="{ 'is-editing': isTitleInputOpen }" @keydown.enter.exact.prevent 
+            @keyup.enter.exact="updateGroupTitle" @focus="titleInputFocus" @blur="updateGroupTitle" :value="group.title"></textarea>
          <div class="group-header-options">
             <button @click="toggleOptions">
                <img :src="require(`@/assets/img/option.png`)" />
@@ -19,30 +13,11 @@
          </div>
          <modal-list-actions v-if="this.isOptionsListOpen" :group="group" :board="board" @closeModal="toggleOptions" @openAddTask="toggleInput" />
       </section>
-
-      <Container
-       	orientation="vertical"
-         class="group-tasks-section"
-			drag-class="card-ghost"
-			drop-class="card-ghost-drop"
-			group-name="2"
-         :get-child-payload="getChildPayload"
-			@drop="onDrop(group.tasks, $event)"
-			:drop-placeholder="dropPlaceholderOptions"
-		   drag-handle-selector=".list-card" 
-      >
-      <Draggable v-for="task in group.tasks" :key="task.id" >
-            <task-preview 
-            @openPreviewEdit="openPreviewEdit"
-            :task="task"
-            :board="board"
-            :group="group" />
-       </Draggable>
-      <!-- <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
+      <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
          <template v-for="task in group.tasks">
             <task-preview @openPreviewEdit="openPreviewEdit" :task="task" :board="board" :group="group" :key="task.id"> </task-preview>
-         </template> -->
-      
+         </template>
+
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
                <div class="add-task-input-section">
@@ -60,8 +35,7 @@
                </div>
             </div>
          </div>
-     </Container>
-         
+      </draggable>
       <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
          <a class="card-composer">
             <span class="add-task-plus-icon">
@@ -70,27 +44,22 @@
             <span class="add-task-span">Add a card</span>
          </a>
       </div>
-       
    </section>
 </template>
 
 <script>
    import { showMsg } from '@/services/event-bus-service.js'
-   // import draggable from 'vuedraggable'
+   import draggable from 'vuedraggable'
    import taskPreview from './task-preview.vue'
    import modalListActions from './modal-list-actions.vue'
-import { Container, Draggable } from 'vue-smooth-dnd'
-import { applyDrag } from '@/services/applyDrag.js';
 
    export default {
       props: ['group', 'board'],
       name: 'groupPreview',
       components: {
-         // draggable,
+         draggable,
          taskPreview,
-         modalListActions,
-         Container,
-         Draggable
+         modalListActions
       },
       data() {
          return {
@@ -102,15 +71,10 @@ import { applyDrag } from '@/services/applyDrag.js';
             isEditable: false,
             isPreviewEdit: false,
             currTask: null,
-            task: null,
-            isDragging:false,
-            dropPlaceholderOptions: {
-               className: "drop-preview",
-               animationDuration: "500",
-               showOnTop: true
-            },
+            task: null
          }
       },
+
       methods: {
          toggleOptions() {
             this.isOptionsListOpen = !this.isOptionsListOpen
@@ -166,32 +130,24 @@ import { applyDrag } from '@/services/applyDrag.js';
             this.isEditable = true
             ev.target.style.display = 'none'
             this.$nextTick(() => {
-               this.$refs.textareainp.select()
+               this.$refs.textareainp.focus()
             })
          },
          openPreviewEdit(group, task, modalPos) {
             this.task = task
             this.isPreviewEdit = true
             this.$emit('onlyOneEdit', group, task, modalPos)
-         },
-      async onDrop(items, dropResult) {
-			const tasks = applyDrag(items, dropResult)
-         this.group.tasks = tasks
-         this.$store.dispatch({ type: 'updateGroup', group:this.group})
-		},
-		getChildPayload(index) {
-			return this.group.tasks[index]
-		},
+         }
       },
       computed: {
-         // tasksList: {
-         //    get() {
-         //       return this.group.tasks
-         //    },
-         //    set(tasks) {
-         //       this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
-         //    }
-         // }
-      },
+         tasksList: {
+            get() {
+               return this.group.tasks
+            },
+            set(tasks) {
+               this.$store.dispatch('updateTaskPositions', { tasks, group: this.group })
+            }
+         }
+      }
    }
 </script>
