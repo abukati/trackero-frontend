@@ -15,6 +15,7 @@
                      :key="idx"
                      class="board-link"
                      :to="`board/${board._id}`"
+                     @click.native="goToBoard(board._id)"
                   >
                      <div
                         class="board-preview"
@@ -56,6 +57,7 @@
                      :key="idx"
                      class="board-link"
                      :to="`/board/${board._id}`"
+                     @click.native="goToBoard(board._id)"
                   >
                      <div
                         class="board-preview"
@@ -156,7 +158,9 @@ export default {
    methods: {
       async addBoard() {
          try {
+            let users = await this.$store.dispatch({ type: 'loadUsers' })
             let boardToSave = boardService.getEmptyBoard()
+            boardToSave.members = users
             const { _id, username, fullname, imgUrl } = this.loggedUser
             const { title, bgColor } = this.newBoard
             boardToSave.title = title
@@ -216,13 +220,20 @@ export default {
          } catch (err) {
             console.log(err)
          }
+      },
+      async goToBoard(boardId) {
+         try {
+            console.log('boardId', boardId)
+            // let boardd = await this.$store.dispatch({ type: "getBoardbyId", boardId })
+         } catch (err) {
+            console.log(err)
+         }
       }
    },
    computed: {
       async starredBoards() {
          try {
             const starred = await this.$store.getters.starredBoards
-            console.log('starred', starred)
             return starred
          } catch (err) {
             console.log(err)

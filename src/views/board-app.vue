@@ -139,6 +139,7 @@ export default {
          modalPos: {}
       }
    },
+
    // async created() {
    //    window.addEventListener('storage', this.loadBoards)
    //    console.log(this.$store.getters.currBoard)
@@ -171,6 +172,7 @@ export default {
       async loadBoard(boardId) {
          try {
             const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+            currBoard.members = this.$store.getters.users
             this.board = currBoard
          } catch (err) {
             console.log(err)
@@ -188,17 +190,7 @@ export default {
       closePreviewEdit() {
          this.isPreviewEdit = false
       },
-      async restoreTask(task) {
-         try {
-            console.log('task', task)
-            task.isArchived = false
-            const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            console.log('groupId', groupId)
-            await this.$store.dispatch({ type: 'updateTask', groupId, task })
-         } catch (err) {
-            console.log(err)
-         }
-      }
+
    },
    watch: {
       '$route.params.boardId': {
@@ -206,6 +198,7 @@ export default {
          deep: true,
          async handler() {
             try {
+               await this.$store.dispatch({ type: 'loadUsers' })
                this.loadBoard(this.$route.params.boardId)
                let taskId = this.$route.params.taskId
                if (taskId) this.isModalOpen = true

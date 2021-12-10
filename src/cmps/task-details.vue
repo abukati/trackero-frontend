@@ -26,6 +26,10 @@
                      </a>
                   </div>
                </div>
+               <div v-if="taskIsArchived" class="card-is-archived">
+                  <span class="icon-lg archive-icon"></span>
+                  <span class="sidebar-action-text">This card is archived</span>
+               </div>
                <div class="window-header">
                   <span class="window-header-icon icon-lg"></span>
                   <div class="window-title">
@@ -131,7 +135,7 @@
                            <div class="content-container">
                               <button class="dates-btn">
                                  <span>{{
-                                    task.startDate.date.slice(0, 6)
+                                    task.startDate.date.slice(0, 5)
                                  }}</span>
                                  <span class="icon-container">
                                     <span class="open-dates-icon">
@@ -164,6 +168,7 @@
                         >
                            Dates
                         </h3>
+
                         <h3 v-else class="task-detail-item-header">Due date</h3>
                         <div class="task-detail-dates-badge">
                            <a class="complete-box" href="#" role="button">
@@ -588,25 +593,19 @@
                            <span class="icon-sm icon-checklist"></span>
                            <span class="sidebar-action-text">Checklist</span>
                         </a>
-                        <a class="button-link" title="Dates">
-                           <span class="icon-sm">
-                              <svg
-                                 width="16"
-                                 height="16"
-                                 ill="currentColor"
-                                 focusable="false"
-                                 viewBox="0 0 24 24"
-                                 aria-hidden="true"
-                                 data-testid="ScheduleIcon"
-                              >
-                                 <path
-                                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                 ></path>
-                                 <path
-                                    d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                                 ></path>
-                              </svg>
-                           </span>
+                        <a
+                           @click="toggleListCmp($event, 'date-picker')"
+                           class="button-link"
+                           title="Dates"
+                        >
+                           <span
+                              class="
+                                 badge-icon
+                                 icon-sm icon-clock
+                                 badge-due-icon
+                                 is-due-soon-span
+                              "
+                           ></span>
                            <span class="sidebar-action-text">Dates</span>
                         </a>
                         <a
@@ -745,6 +744,8 @@ import Avatar from 'vue-avatar'
 import miniProfile from './user-mini-profile'
 import taskOptsList from './task-opts-list'
 import checkListPreview from './checklist-preview'
+import datePicker from '@/cmps/dynamic/date-picker.vue'
+
 
 export default {
    name: 'task-details',
@@ -752,7 +753,8 @@ export default {
       Avatar,
       miniProfile,
       taskOptsList,
-      checkListPreview
+      checkListPreview,
+      datePicker
    },
    data() {
       return {
@@ -1030,9 +1032,10 @@ export default {
          try {
             console.log('task remove', task)
             // task.isArchived = false
+            console.log('this.info.groupId', this.info.groupId)
             await this.$store.dispatch({ type: 'removeTask', groupId: this.info.groupId, task })
             // this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
-            this.closemodal()
+            this.closeDetails()
          } catch (err) {
             console.log(err)
          }
@@ -1048,11 +1051,11 @@ export default {
       },
       dateToShow() {
          if (this.task.startDate.date && this.task.dueDate.date) {
-            const from = this.task.startDate.date.slice(0, 6)
-            const to = this.task.dueDate.date.slice(0, 6)
+            const from = this.task.startDate.date.slice(0, 5)
+            const to = this.task.dueDate.date.slice(0, 5)
             return `${from} - ${to}`
-         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
-         return this.task.dueDate.date.slice(0, 6)
+         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 5)
+         return this.task.dueDate.date.slice(0, 5)
       },
       showSuggested() {
          const loggedInUserId = this.loggedInUser._id
@@ -1066,7 +1069,10 @@ export default {
       },
       checkLists() {
          return this.task.checklists.length
-      }
+      },
+      taskIsArchived() {
+         return this.task.isArchived
+      },
    }
 };
 </script>

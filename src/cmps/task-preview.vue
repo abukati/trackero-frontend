@@ -67,34 +67,65 @@
          <!-- badges -->
          <div class="badges">
             <span class="js-badges">
-               <!-- <div v-if="isWatchingBadge" class="badge" title="You are watching this card.">
+               <div
+                  v-if="isWatchingBadge"
+                  class="badge"
+                  title="You are watching this card."
+               >
                   <span class="badge-icon icon-sm icon-subscribe"></span>
                </div>
-               <div v-if="isDatesBadge" class="badge is-due-soon" title="This card is due in less than twenty-four hours.">
-                  <span class="badge-icon icon-sm icon-clock badge-due-icon is-due-soon-span"></span>
+               <div
+                  v-if="isDatesBadge"
+                  class="badge is-due-soon"
+                  title="This card is due in less than twenty-four hours."
+               >
+                  <span
+                     class="
+                        badge-icon
+                        icon-sm icon-clock
+                        badge-due-icon
+                        is-due-soon-span
+                     "
+                  ></span>
                   <span class="badge-text js-due-date-text">
                      {{ organizedDates }}
                   </span>
                </div>
-               <div v-if="task.description" class="badge is-icon-only" title="This card has a description.">
+               <div
+                  v-if="task.description"
+                  class="badge is-icon-only"
+                  title="This card has a description."
+               >
                   <span class="badge-icon icon-sm icon-description"></span>
                </div>
-               <div v-if="task.comments && task.comments.length" class="badge is-icon-only" title="Comments">
+               <div
+                  v-if="task.comments && task.comments.length"
+                  class="badge is-icon-only"
+                  title="Comments"
+               >
                   <span class="badge-icon icon-sm icon-comment"></span>
                   <span class="badge-text">{{ task.comments.length }}</span>
                </div>
-               <div v-if="task.attachments && task.attachments.length" class="badge" title="Attachments">
+               <div
+                  v-if="task.attachments && task.attachments.length"
+                  class="badge"
+                  title="Attachments"
+               >
                   <span class="badge-icon icon-sm icon-attachment"></span>
                   <span class="badge-text">{{ task.attachments.length }}</span>
                </div>
-               <div v-if="task.location.id" class="badge" title="This card has a location.">
+               <div
+                  v-if="task.location.id"
+                  class="badge"
+                  title="This card has a location."
+               >
                   <span class="badge-icon icon-sm icon-location"></span>
                </div>
                <div v-if="isChecklist" class="badge" title="Checklist items">
                   <span class="badge-icon icon-sm icon-checklist"></span>
                   <span class="badge-text">{{ checklistItems }}</span>
                </div>
-                <div class="badge hide" title="This card is archived">
+               <!-- <div class="badge hide" title="This card is archived">
                   <span class="badge-icon icon-sm icon-archive"></span>
                   <span class="badge-text">Archived</span>
                </div> -->
@@ -186,15 +217,15 @@ export default {
          if (idx !== -1) return true
       },
       isDatesBadge() {
-         if (this.task.startDate || this.task.dueDate) return true
+         if (this.task.startDate.date || this.task.dueDate.date) return true
       },
       organizedDates() {
          if (this.task.startDate.date && this.task.dueDate.date) {
-            const from = this.task.startDate.date.slice(0, 6)
-            const to = this.task.dueDate.date.slice(0, 6)
+            const from = this.task.startDate.date.slice(0, 5)
+            const to = this.task.dueDate.date.slice(0, 5)
             return `${from}-${to}`
-         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
-         return this.task.dueDate.date.slice(0, 6)
+         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 5)
+         return this.task.dueDate.date.slice(0, 5)
       },
       checklistItems() {
          let count = 0

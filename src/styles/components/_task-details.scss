@@ -452,6 +452,7 @@
                               padding-bottom: 56px;
                            }
                            .comment-box-input {
+                              background: transparent;
                               box-shadow: none;
                               box-sizing: initial;
                               height: 20px;
@@ -751,6 +752,14 @@
                      content: '\e95c';
                   }
                }
+               .icon-clock {
+                  color: rgb(66, 82, 110);
+                  display: inline-block;
+                  vertical-align: text-bottom;
+                  &::before {
+                     content: '\e91b';
+                  }
+               }
             }
          }
       }
@@ -828,16 +837,7 @@
 
 .card-is-archived {
    background-color: #fdfae5;
-   background-image: linear-gradient(
-      to bottom right,
-      rgba(0, 0, 0, 0.05) 25%,
-      transparent 0,
-      transparent 50%,
-      rgba(0, 0, 0, 0.05) 0,
-      rgba(0, 0, 0, 0.05) 75%,
-      transparent 0,
-      transparent
-   );
+   background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.05) 25%, transparent 0, transparent 50%, rgba(0, 0, 0, 0.05) 0, rgba(0, 0, 0, 0.05) 75%, transparent 0, transparent);
    background-size: 14px 14px;
    min-height: 30px;
    padding: 12px;

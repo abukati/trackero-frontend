@@ -16,6 +16,7 @@ export const boardService = {
    //GROUP
    addGroup,
    removeGroup,
+   removeTask,
    saveGroups,
    getEmptyGroup,
    updateGroupTitle,
@@ -23,7 +24,6 @@ export const boardService = {
    createTask,
    updateTasks,
    saveTask,
-   removeTask,
    updateSingleTask,
    getEmptyTodo,
    getEmptyChecklist,
@@ -301,6 +301,15 @@ function updateTasks(tasks, group, board) {
    const currGroup = _getCurrGroup(group.id, board)
    currGroup.tasks = tasks
    return _updateGroup(currGroup, currGroup.id, board)
+}
+
+function removeTask(board, groupId, task) {
+   // const currBoard = _deep(board)
+   let currGroup = _getCurrGroup(groupId, board)
+   let taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+   currGroup.tasks.splice(taskIdx, 1)
+   let updatedGroup = _updateGroup(currGroup, currGroup.id, board)
+   return updatedGroup[taskIdx]
 }
 
 function getEmptyComment() {

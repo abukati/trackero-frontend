@@ -9,7 +9,7 @@
          :info="info"
          :style="{
             top: info.modalPos.posY + 'px',
-            left: info.modalPos.posX + 'px'
+            left: info.modalPos.posX + 'px',
          }"
          @removeMember="removeTaskMember"
          @addMember="addTaskMember"
@@ -225,7 +225,10 @@
                <span class="icon-sm icon-card light"></span>
                <span class="quick-card-editor-buttons-item-text"> Copy</span>
             </a>
-            <a class="quick-card-editor-buttons-item js-edit-due-date">
+            <a
+               @click="toggleListCmp($event, 'date-picker')"
+               class="quick-card-editor-buttons-item js-edit-due-date"
+            >
                <span class="icon-sm icon-clock light"> </span>
                <span class="quick-card-editor-buttons-item-text">
                   Edit dates
@@ -325,20 +328,20 @@ export default {
             console.log(err)
          }
       },
-      toggleListCmp(ev,cmpName) {
-			if(cmpName === this.info.type){
-				 this.isListOpen = false;
-				 this.info.type=null;
-				 return
-			}else {
-				this.$nextTick(() => {
-            this.isListOpen = true;
-            this.info.modalPos.posY= ev.pageY + 20 // top
-            this.info.modalPos.posX = ev.pageX - 15 // left
-            this.info.type = cmpName
-				})
-			}
-		},
+      toggleListCmp(ev, cmpName) {
+         if (cmpName === this.info.type) {
+            this.isListOpen = false
+            this.info.type = null
+            return
+         } else {
+            this.$nextTick(() => {
+               this.isListOpen = true
+               this.info.modalPos.posY = ev.pageY + 20 // top
+               this.info.modalPos.posX = ev.pageX - 15 // left
+               this.info.type = cmpName
+            })
+         }
+      },
       closeList() {
          this.isListOpen = false
       },
@@ -407,7 +410,7 @@ export default {
       },
       isDatesBadge() {
          // if (this.task.startDate || this.task.dueDate) return true
-         if (this.taskToEdit.startDate || this.taskToEdit.dueDate) return true
+         if (this.taskToEdit.startDate.date || this.taskToEdit.dueDate.date) return true
       },
       organizedDates() {
          // if (this.task.startDate.date && this.task.dueDate.date) {
@@ -417,11 +420,11 @@ export default {
          // } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
          // return this.task.dueDate.date.slice(0, 6)
          if (this.taskToEdit.startDate.date && this.taskToEdit.dueDate.date) {
-            const from = this.taskToEdit.startDate.date.slice(0, 6)
-            const to = this.taskToEdit.dueDate.date.slice(0, 6)
+            const from = this.taskToEdit.startDate.date.slice(0, 5)
+            const to = this.taskToEdit.dueDate.date.slice(0, 5)
             return `${from}-${to}`
-         } else if (this.taskToEdit.startDate) return this.taskToEdit.startDate.date.slice(0, 6)
-         return this.taskToEdit.dueDate.date.slice(0, 6)
+         } else if (this.taskToEdit.startDate) return this.taskToEdit.startDate.date.slice(0, 5)
+         return this.taskToEdit.dueDate.date.slice(0, 5)
       },
       checklistItems() {
          // let count = 0

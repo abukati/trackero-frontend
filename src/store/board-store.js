@@ -1,4 +1,5 @@
 import { boardService } from '@/services/board-service.js'
+import { userService } from '../services/user-service'
 // import { groupService } from '@/services/group-service.js'
 // import { socketService, SOCKET_EMIT_USER_WATCH, SOCKET_EVENT_USER_UPDATED } from '../services/socket.service'
 
@@ -178,6 +179,7 @@ export const boardStore = {
       },
       async updateBoard({ commit }, { board }) {
          try {
+            console.log('board', board)
             await boardService.save(board)
             commit({ type: 'updateBoard', board })
          } catch (err) {
@@ -202,6 +204,7 @@ export const boardStore = {
             console.log(err)
          }
       },
+
       async changeBoardBgc({ state, commit }, { bgc }) {
          try {
             await boardService.changeBoardBgc(bgc, state.currBoard)
@@ -300,8 +303,11 @@ export const boardStore = {
       },
       async removeTask({ state, commit }, { groupId, task }) {
          try {
-            const idx = await boardService.removeTask(state.currBoard, groupId, task)
-            if (idx >= 0) {
+            console.log('groupId', groupId)
+            console.log('task', task)
+            console.log('state.currBoard', state.currBoard)
+            var updatedTask = await boardService.removeTask(state.currBoard, groupId, task)
+            if (updatedTask) {
                commit({ type: 'removeTask', groupId, task })
                return idx
             }
