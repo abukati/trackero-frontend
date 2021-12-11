@@ -117,6 +117,7 @@ export const userStore = {
       async loadUsers({ commit }) {
          // TODO: loading
          try {
+            
             const users = await userService.getUsers()
             commit({ type: 'setUsers', users })
             return users

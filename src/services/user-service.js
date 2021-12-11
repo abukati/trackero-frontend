@@ -9,7 +9,6 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser';
 // const STORAGE_KEY = 'user'
 // const KEY = 'users_db'
 
-const BASE_URL = process.env.NODE_ENV !== 'development' ? '/api/auth/' : '//localhost:3000/api/auth/';
 
 export const userService = {
 	query,
@@ -34,6 +33,7 @@ login('Basel', 'basel');
 
 async function login(username, password) {
 	try {
+		console.log('login', {username,password})
       const res = await httpService.post('auth/login', { username, password });
 		sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(res.data));
 		return _saveLocalUser(res);
@@ -72,7 +72,7 @@ function _saveLocalUser(user) {
 
 function getUsers() {
 	// return storageService.query('user')
-	return httpService.get(`user`);
+	return httpService.get(`user`)
 }
 
 async function getById(userId) {
