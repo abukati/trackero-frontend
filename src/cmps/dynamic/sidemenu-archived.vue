@@ -257,10 +257,6 @@ export default {
          if (this.board.isLabelsShown) return 16
          return 8
       },
-
-
-
-
    },
 }
 </script>

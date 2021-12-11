@@ -25,6 +25,10 @@ main {
    height: 100%;
    display: flex;
    flex-direction: column;
+
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center center;
 }
 
 #app {

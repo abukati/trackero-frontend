@@ -9,7 +9,7 @@
 import sidemenuMainDynamic from './dynamic/sidemenu-main'
 import aboutBoardCmp from './dynamic/sidemenu-about'
 import changeBgcCmp from './dynamic/sidemenu-boardbg'
-import labelsList from './dynamic/labels-list'
+import labelsList from '@/cmps/dynamic/task-details-cmps/labels-list'
 import archiveCmp from './dynamic/sidemenu-archived'
 
 export default {

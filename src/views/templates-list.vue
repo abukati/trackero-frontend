@@ -157,14 +157,13 @@ export default {
       async removeBoard(boardId) {
          try {
             console.log('boardId', boardId)
-            await this.$store.dispatch({ type: "removeBoard", boardId })
+            await this.$store.dispatch({ type: 'removeBoard', boardId })
             await this.$store.dispatch({ type: 'loadBoards' })
             this.boards = this.$store.getters.boardsForDisplay
          } catch (err) {
             console.log(err)
          }
       },
-
       async toggleIsStarred(board) {
          try {
             const boardId = board._id
@@ -192,17 +191,12 @@ export default {
          } catch (err) {
             console.log(err)
          }
-      },
-
+      }
    },
    computed: {
-      async starredBoards() {
-         try {
-            const starred = await this.$store.getters.starredBoards
-            return starred
-         } catch (err) {
-            console.log(err)
-         }
+      starredBoards() {
+         const starred = this.$store.getters.starredBoards
+         return starred
       },
       getRandomColor() {
          var letters = 'BCDEF'.split('')
@@ -211,8 +205,7 @@ export default {
             color += letters[Math.floor(Math.random() * letters.length)]
          }
          return color
-      },
-
+      }
    }
-}
+};
 </script>
