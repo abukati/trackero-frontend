@@ -8,7 +8,7 @@ export const boardStore = {
       currBoard: null,
       groups: [],
       currGroup: null,
-      checked: true
+      checked: false
    },
    getters: {
       //----------------------------------------------------------- */
@@ -207,10 +207,10 @@ export const boardStore = {
          try {
             const newGroup = await boardService.addGroup(group, state.currBoard)
             const idx = state.currBoard.groups.findIndex(currGroup => currGroup.id === newGroup.id)
-            if(idx === -1){
+            if (idx === -1) {
                commit({ type: 'addGroup', group: newGroup })
                return newGroup
-            }else{
+            } else {
                console.log('cannot remove')
             }
          } catch (err) {
@@ -268,7 +268,7 @@ export const boardStore = {
          try {
             const newTask = await boardService.getEmptyTask(title)
             await boardService.saveTask(newTask, groupId, state.currBoard)
-            commit({ type: 'addTask', savedTask:newTask, groupId })
+            commit({ type: 'addTask', savedTask: newTask, groupId })
             return newTask
          } catch (err) {
             console.log(err)

@@ -27,7 +27,7 @@ export default {
    },
    methods: {
       selectBg(url) {
-         this.$store.dispatch('changeBoardBgc', {bgc:`url('${url}&fit=max')`})
+         this.$store.dispatch('changeBoardBgc', {bgc:`url('${url}&fm=jpg&fit=crop&w=1080&q=80&fit=max')`})
       }
 
    },

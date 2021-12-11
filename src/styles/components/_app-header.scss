@@ -7,7 +7,7 @@ header {
       padding: 6px 4px;
       max-height: 44px;
 
-      background-color: rgba(0, 0, 0, .30);
+      background-color: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(6px);
 
       img {
@@ -22,7 +22,7 @@ header {
    outline: none;
    z-index: 0;
 
-   &>* {
+   & > * {
       outline: none;
    }
 
@@ -45,7 +45,7 @@ header {
          white-space: nowrap;
 
          &:hover {
-            @include nav-btn-hover
+            @include nav-btn-hover;
          }
 
          .atlassian-app-icon-container {
@@ -78,13 +78,13 @@ header {
    position: relative;
    flex-shrink: 0;
    margin-left: 10px;
-   
+
    padding: 0 8px;
    border-radius: 3px;
    height: 32px;
 
-   &:hover { 
-      @include nav-btn-hover
+   &:hover {
+      @include nav-btn-hover;
    }
 
    .logo-img-container {
@@ -98,14 +98,15 @@ header {
          display: flex;
          align-items: center;
 
-         width: 79px;
+         width: 90px;
          height: 16px;
          padding: 8px 0;
          margin: 0;
          opacity: 1;
          position: relative;
-   
-         &::before, &::after {
+
+         &::before,
+         &::after {
             content: '';
             display: block;
             background-image: url('~@/assets/img/logo-static-test.gif');
@@ -122,7 +123,9 @@ header {
             opacity: 0;
          }
 
-         &:hover::before, &:focus::before, &:focus::after {
+         &:hover::before,
+         &:focus::before,
+         &:focus::after {
             background-image: url('~@/assets/img/logo-hover.gif');
             opacity: 1;
          }
@@ -130,13 +133,13 @@ header {
          p {
             margin: 0;
             margin-left: 17px;
-            
+
             font-family: source-sans;
             line-height: 16px;
             font-weight: 800;
             font-size: 1.4em;
             letter-spacing: normal;
-            
+
             color: #fff;
          }
       }
@@ -156,7 +159,7 @@ header {
       height: 100%;
       position: relative;
 
-      &>* {
+      & > * {
          display: flex;
          flex-shrink: 0;
          margin: 0 4px;
@@ -166,9 +169,12 @@ header {
          display: flex;
          flex-shrink: 0;
          margin: 0 5px;
-
          color: #fff;
 
+         &.mobile {
+            display: flex;
+            flex-direction: column;
+         }
          .nav-link-btn {
             color: #fff;
             background-color: transparent;
@@ -185,8 +191,9 @@ header {
             padding: 6px 12px;
             border: none;
 
-            &:hover, &.modal-active {
-               @include nav-btn-hover
+            &:hover,
+            &.modal-active {
+               @include nav-btn-hover;
             }
 
             .btn-text {
@@ -200,7 +207,8 @@ header {
                line-height: 1;
                white-space: nowrap;
 
-               .modal-icon, .starred-icon {
+               .modal-icon,
+               .starred-icon {
                   display: inline-block;
                   flex-shrink: 0;
                   line-height: 1;
@@ -213,8 +221,9 @@ header {
             }
          }
       }
-      
-      .nav-board-create, .nav-small-more-opts {
+
+      .nav-board-create,
+      .nav-small-more-opts {
          display: flex;
          flex-shrink: 0;
          margin: 0 4px;
@@ -236,7 +245,7 @@ header {
             text-decoration: none;
 
             &:hover {
-               @include nav-btn-hover
+               @include nav-btn-hover;
             }
 
             &.modal-active {
@@ -261,12 +270,12 @@ header {
             align-items: center;
             margin: 0;
             line-height: 1;
-            
+
             .modal-icon {
                display: flex;
                flex-shrink: 0;
                line-height: 1;
-               
+
                svg {
                   width: 20px;
                   height: 20px;
@@ -291,8 +300,9 @@ header {
          padding: 6px 12px;
          border: none;
 
-         &:hover, &.modal-active {
-            @include nav-btn-hover
+         &:hover,
+         &.modal-active {
+            @include nav-btn-hover;
          }
 
          .btn-text {
@@ -306,7 +316,8 @@ header {
             line-height: 1;
             white-space: nowrap;
 
-            .modal-icon, .starred-icon {
+            .modal-icon,
+            .starred-icon {
                display: inline-block;
                flex-shrink: 0;
                line-height: 1;
@@ -388,7 +399,7 @@ header {
          box-shadow: none;
 
          background-color: rgba(255, 255, 255, 0.3);
-         color:rgba(255, 255, 255, 0.5);
+         color: rgba(255, 255, 255, 0.5);
          font-size: 14px;
          transition: width 150ms;
 
@@ -397,7 +408,7 @@ header {
          }
 
          &:hover {
-            @include nav-input-hover
+            @include nav-input-hover;
          }
       }
 
@@ -419,7 +430,7 @@ header {
             align-items: center;
 
             .search-icon {
-               color:rgb(255, 255, 255);
+               color: rgb(255, 255, 255);
                display: inline-block;
                fill: inherit;
                flex-shrink: 0;
@@ -456,7 +467,7 @@ header {
       box-shadow: none;
 
       &:hover {
-         @include nav-btn-hover
+         @include nav-btn-hover;
       }
 
       .info-icon-container {
@@ -501,7 +512,7 @@ header {
       color: #fff;
 
       &:hover {
-         @include nav-btn-hover
+         @include nav-btn-hover;
       }
 
       .notifications-icon-container {
@@ -654,7 +665,6 @@ header {
                vertical-align: bottom;
                font-size: 14px;
                font-weight: 400;
-               
             }
          }
       }
@@ -668,20 +678,34 @@ header {
       overflow-x: hidden;
       overflow-y: auto;
 
-      .header-modal-body-content {
+      &.mobile-nav {
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
+         margin-left: 11px;
+         margin-right: 11px;
+      }
 
+      .nav-main-links {
+         &.mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+         }
+      }
+      .header-modal-body-content {
          .workspace-title {
             display: flex;
 
             p {
                font-size: 12px;
-               color: #5E6C84;
+               color: #5e6c84;
                font-weight: 600;
                margin: 12px;
                line-height: 16px;
             }
          }
-         
+
          .workspace-showcase {
             display: flex;
             flex-direction: row;
@@ -694,7 +718,7 @@ header {
 
             .workspace-avatar {
                background: linear-gradient(#0747a6, #008da6);
-               
+
                span {
                   font-size: 20px;
                   font-weight: bold;
@@ -728,13 +752,13 @@ header {
 
             p {
                font-size: 12px;
-               color: #5E6C84;
+               color: #5e6c84;
                font-weight: 600;
                margin: 12px;
                line-height: 16px;
             }
          }
-         
+
          .starred-boards-container {
             overflow-x: hidden;
             overflow-y: auto;
@@ -745,7 +769,7 @@ header {
 
             .no-starred-boards-desc {
                text-align: center;
-               color: #5E6C84;
+               color: #5e6c84;
                margin-top: 12px;
             }
          }
@@ -769,7 +793,7 @@ header {
                   width: 100%;
 
                   &:hover {
-                     background-color: #EBECF0;
+                     background-color: #ebecf0;
 
                      .board-bg-color {
                         opacity: 0.5;
@@ -794,7 +818,6 @@ header {
                      width: 40px;
                      position: relative;
                      opacity: 1;
-
                   }
 
                   .starred-board-info {
@@ -815,7 +838,7 @@ header {
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         font-size: 14px;
-                        color: #172B4D;
+                        color: #172b4d;
                         line-height: 18px;
                         font-weight: 500;
                      }
@@ -840,7 +863,7 @@ header {
                         justify-content: center;
 
                         .header-btn.header-star-container:hover,
-                        .header-btn.header-star-container:focus>.header-btn-icon {
+                        .header-btn.header-star-container:focus > .header-btn-icon {
                            cursor: pointer;
                            transform: scale(1.1);
                         }
@@ -854,7 +877,7 @@ header {
                            }
                         }
                      }
-                  }                       
+                  }
                }
             }
          }
@@ -941,7 +964,7 @@ header {
                            height: 20px;
                            justify-content: center;
                            align-items: center;
-                           
+
                            .toggle-list-icon {
                               color: rgb(107, 119, 140);
                               display: inline-block;
@@ -964,11 +987,11 @@ header {
                      overflow: hidden;
                      margin-bottom: 10px;
                      transition-property: height;
-                     transition-duration: .2s;
+                     transition-duration: 0.2s;
                      transition-timing-function: ease-in;
 
                      &.collapsed {
-                        display:none;
+                        display: none;
                      }
 
                      .template-board {
@@ -977,7 +1000,7 @@ header {
                         height: 32px;
                         margin-top: 8px;
                         align-items: center;
-                        
+
                         .template-board-link {
                            font-size: 14px;
                            letter-spacing: -0.003em;
@@ -993,7 +1016,7 @@ header {
                            flex-grow: 1;
                            overflow: hidden;
                            position: relative;
-                           color: #172B4D;
+                           color: #172b4d;
                            align-items: center;
                            justify-content: flex-start;
                            box-sizing: border-box;
@@ -1027,11 +1050,11 @@ header {
 
                   .working-on-more-templates-container {
                      background: white;
-                     border: 1px solid #EBECF0;
+                     border: 1px solid #ebecf0;
                      margin: 0 -12px -12px;
                      padding: 12px;
                      border-radius: 0 0 3px 3px;
-                     box-shadow: 0 8px 16px 4px rgba(9, 30, 66, .25);
+                     box-shadow: 0 8px 16px 4px rgba(9, 30, 66, 0.25);
                      display: flex;
                      align-items: center;
                      color: #5e6c84;
@@ -1039,7 +1062,7 @@ header {
                      .logo-container {
                         padding: 4px 10px;
                         flex-shrink: 0;
-                        
+
                         .logo {
                            color: rgb(0, 121, 191);
                            display: inline-block;
@@ -1076,7 +1099,7 @@ header {
             background-position: center center;
             background-size: cover;
             border-radius: 3px;
-            box-shadow: 0 7px 15px rgba(0, 0, 0, .2);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1102,10 +1125,11 @@ header {
          }
 
          .background-options {
-            .image-backgrounds, .color-backgrounds {
+            .image-backgrounds,
+            .color-backgrounds {
                display: flex;
                justify-content: space-between;
-               
+
                li {
                   width: 64px;
                   height: 40px;
@@ -1128,7 +1152,7 @@ header {
                background-size: cover;
                border-radius: 3px;
                box-shadow: none;
-               color: rgba(255, 255, 255, .4);
+               color: rgba(255, 255, 255, 0.4);
                display: flex;
                height: 100%;
                justify-content: center;
@@ -1268,5 +1292,15 @@ header {
             cursor: not-allowed;
          }
       }
+   }
+}
+
+.btn-option-mobile {
+   line-height: 24px;
+   font-size: 16px;
+   font-weight: 600;
+   padding-left: 5px;
+   &:hover {
+      background-color: rgb(236, 236, 236);
    }
 }

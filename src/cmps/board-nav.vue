@@ -1,7 +1,7 @@
 <template>
    <div class="board-nav clearfix">
       <div class="board-views-btn-container">
-         <button class="btn-board-views" type="button" title="Board views">
+         <!-- <button class="btn-board-views" type="button" title="Board views">
             <span class="board-views-icon-container">
                <span class="board-views-icon">
                   <svg
@@ -52,7 +52,7 @@
                   </svg>
                </span>
             </span>
-         </button>
+         </button> -->
       </div>
       <div class="board-header-btn board-name inline-rename-board">
          <h1 class="board-header-btn-text">{{ board.title }}</h1>
@@ -65,6 +65,7 @@
          />
       </div>
       <a
+         v-if="showStar"
          @click="toggleBoardStar"
          class="board-header-btn board-header-star-container"
          title="Click to star or unstar this board. Starred board show up at the top of your boards list"
@@ -109,7 +110,7 @@
             </svg>
          </span>
       </a>
-      <div class="board-header-btn-org-wrapper">
+      <div v-if="breakpointBig" class="board-header-btn-org-wrapper">
          <span class="board-header-btn-divider"></span>
          <!-- LINK TO USER'S WORKSPACE -->
          <a class="board-header-btn board-header-btn-org-name open-org-menu">
@@ -119,7 +120,7 @@
          </a>
          <span class="board-header-btn-divider"></span>
          <div class="board-header-btns mod-left"></div>
-         <a
+         <!-- <a
             id="permission-level"
             class="board-header-btn perms-btn change-vis"
             title="All members of the Workspace can see and edit this board"
@@ -128,11 +129,12 @@
                class="board-header-btn-icon icon-sm icon-organization-visible"
             ></span>
             <span class="board-header-btn-text">Workspace visible</span>
-         </a>
+         </a> -->
       </div>
-      <span class="board-header-btn-divider"></span>
+      <!-- <span class="board-header-btn-divider"></span> -->
       <div class="board-header-btns mod-left">
          <draggable
+            v-if="showListMembers"
             class="board-header-facepile board-member-list"
             v-model="memberList"
             group="memberList"
@@ -157,7 +159,28 @@
                </a>
             </template>
          </draggable>
+         <div v-if="!breakpointBig && !showListMembers">
+            <a
+               @click="toggleListMembers"
+               class="board-header-btn members-list-svg"
+            >
+               <svg
+                  stroke="white"
+                  fill="white"
+                  stroke-width="0"
+                  viewBox="0 0 512 512"
+                  height="16px"
+                  width="16px"
+                  xmlns="http://www.w3.org/2000/svg"
+               >
+                  <path
+                     d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z"
+                  ></path>
+               </svg>
+            </a>
+         </div>
          <a
+            v-if="breakpointBig"
             class="board-header-btn-invite manage-board-members"
             title="Invite to board"
          >
@@ -174,7 +197,7 @@
             <span class="icon-subscribed icon-sm board-header-btn-icon"></span>
             <span class="board-header-btn-text">Watching</span>
          </a>
-         <span class="board-header-btn-divider"></span>
+         <span v-if="breakpointBig" class="board-header-btn-divider"></span>
          <span class="board-header-special-btn-container">
             <div class="board-header-filter-btn">
                <button
@@ -204,7 +227,11 @@
                         </svg>
                      </span>
                   </span>
-                  Filter
+                  <span
+                     class="board-header-btn-text-filter"
+                     v-if="breakpointBig"
+                     >Filter</span
+                  >
                </button>
             </div>
          </span>
@@ -215,7 +242,7 @@
             <span
                class="icon-overflow-menu icon-sm board-header-btn-icon"
             ></span>
-            <span class="board-header-btn-text">Show menu</span>
+            <span class="text" v-if="breakpointBig">Show menu </span>
          </a>
       </div>
    </div>
@@ -234,8 +261,17 @@ export default {
    data() {
       return {
          loggedUser: this.$store.getters.currLoggedUser,
-         starredBoard: false
+         starredBoard: false,
+         breakpointBig: true,
+         showListMembers: true,
+         showStar: true
       }
+   },
+   created() {
+      window.addEventListener('resize', this.onResize)
+   },
+   destroyed() {
+      window.removeEventListener('resize', this.onResize)
    },
    computed: {
       memberList: {
@@ -289,6 +325,16 @@ export default {
          } catch (err) {
             console.log(err)
          }
+      },
+      onResize() {
+         this.breakpointBig = window.innerWidth < 810 ? false : true
+         // return window.innerWidth < 768 ? false : true
+         this.showListMembers = window.innerWidth < 810 ? false : true
+         this.showStar = window.innerWidth < 360 ? false : true
+      },
+      toggleListMembers() {
+         console.log('here')
+         this.showListMembers = !this.showListMembers
       }
    }
 }

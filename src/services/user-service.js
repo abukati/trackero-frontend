@@ -115,10 +115,11 @@ async function update(user) {
 //    })
 // })()
 
-// (async () => {
-//    var user = getLoggedinUser()
-//    if (user) socketService.emit('set-user-socket', user._id)
-// })();
+
+(async () => {
+   var user = getLoggedinUser()
+   if (user) socketService.emit('set-user-socket', user._id)
+})();
 
 //
 //

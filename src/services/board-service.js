@@ -79,9 +79,9 @@ async function save(board) {
 	try {
 		// const savedBoard = board._id ? await _update(board) : await _add(board)
 		// return savedBoard
-		// socketService.emit('boardUpdate', board._id)
 		if (board._id) {
-			const res = await httpService.put('board/' + board._id, board);
+         const res = await httpService.put('board/' + board._id, board);
+         socketService.emit('boardUpdate', board._id)
 			return res;
 		} else {
 			const res = await httpService.post('board/', board);

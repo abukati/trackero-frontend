@@ -13,7 +13,6 @@ function createSocketService() {
    const socketService = {
       async setup() {
          if (socket) return
-         // await httpService.get('setup-session')
          socket = io(baseUrl, { reconnection: false })
          socketIsReady = true
       },
