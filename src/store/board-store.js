@@ -9,7 +9,7 @@ export const boardStore = {
       currBoard: null,
       groups: [],
       currGroup: null,
-      checked: true
+      checked: false
    },
    getters: {
       //----------------------------------------------------------- */
@@ -23,20 +23,6 @@ export const boardStore = {
       },
       currBoard(state) {
          return state.currBoard
-      },
-      boardsIds(state) {
-         let ids = []
-         state.boards.map(board => {
-            ids.push(board._id)
-         })
-         return ids
-      },
-      allBoards(state) {
-         let all = []
-         state.boards.filter(board => {
-            all.push(board)
-         })
-         return all
       },
       boardGroups(state) {
          return state.currBoard.groups
@@ -252,11 +238,11 @@ export const boardStore = {
          try {
             const newGroup = await boardService.addGroup(group, state.currBoard)
             const idx = state.currBoard.groups.findIndex(currGroup => currGroup.id === newGroup.id)
-            if(idx === -1){
+            if (idx === -1) {
                // state.currBoard.groups.push(newGroup)
                commit({ type: 'addGroup', group: newGroup })
                return newGroup
-            }else{
+            } else {
                console.log('cannot remove')
             }
          } catch (err) {

@@ -25,10 +25,10 @@
    }
 
    &.mod-show-menu {
-      transition: .1s ease;
+      transition: 0.1s ease;
 
       & .icon-overflow-menu::before {
-         content: "\e952";
+         content: '\e952';
       }
    }
 }
@@ -48,7 +48,7 @@
       background-color: #c1c7d0;
 
       div {
-         opacity: .8;
+         opacity: 0.8;
       }
    }
 
@@ -89,6 +89,20 @@
    white-space: nowrap;
 }
 
+.board-header-btn {
+   &.members-list-svg {
+      padding: 0 6px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+   }
+}
+
+.board-header-btn-text-filter {
+   padding-left: 6px;
+   padding-right: 6px;
+}
+
 .board-header-btns {
    display: block;
    position: relative;
@@ -104,7 +118,7 @@
          float: left;
       }
    }
-} 
+}
 
 .board-header-special-btn {
    background-color: rgba(255, 255, 255, 0.2);
@@ -127,7 +141,16 @@
    transition-timing-function: ease;
    // margin: 0;
 }
-   
+
+.board-header-btn {
+   &.mod-show-menu {
+      &.show-sidebar {
+         .text {
+            padding-right: 6px;
+         }
+      }
+   }
+}
 
 .board-nav {
    // background-color: #0000003d; // Only on image backgrounds
@@ -266,7 +289,7 @@
    }
 
    .board-header-btn.board-header-star-container .board-header-btn-icon:hover,
-   .board-header-btn.board-header-star-container:focus>.board-header-btn-icon {
+   .board-header-btn.board-header-star-container:focus > .board-header-btn-icon {
       cursor: pointer;
       transform: scale(1.1);
    }
@@ -286,7 +309,7 @@
    .board-header-btn-org-wrapper {
       float: left;
       position: relative;
-      
+
       .board-header-btn-org-name {
          max-width: 400px;
          overflow: hidden;
@@ -329,7 +352,7 @@
    }
 
    .icon-organization-visible::before {
-      content: "\e951";
+      content: '\e951';
    }
 
    .board-header-btn-invite {
@@ -348,13 +371,11 @@
       text-decoration: none;
       text-overflow: ellipsis;
 
-      
-
       .board-header-btn-icon {
          color: #42526e;
 
          &.icon-add-member::before {
-            content: "\e902";
+            content: '\e902';
          }
       }
       .board-header-btn-text {
@@ -373,7 +394,7 @@
       position: relative;
 
       .icon-subscribed::before {
-         content: "\e969";
+         content: '\e969';
       }
    }
 
@@ -384,9 +405,11 @@
          margin: 0;
          display: inline-flex;
          float: none;
+         min-width: 32px;
+         padding: 5px;
 
          .board-header-filter-btn-icon-container {
-            margin-right: 8px;
+            // margin-right: 8px;
             display: inline-block;
             line-height: 1;
 

@@ -15,7 +15,6 @@
                      :key="idx"
                      class="board-link"
                      :to="`board/${board._id}`"
-                     @click.native="goToBoard(board._id)"
                   >
                      <div
                         class="board-preview"
@@ -69,7 +68,6 @@
                            <span
                               class="icon-lg icon-star board-star-btn-icon"
                               @click.prevent="toggleIsStarred(board)"
-                              :class="{ 'is-on': isStarredIcon }"
                            ></span>
                         </div>
                      </div>
@@ -109,23 +107,6 @@
             </div>
          </div>
       </div>
-      <!-- <aside class="workspace-side-nav">
-         <nav class="workspace-left-sidebar-container">
-            <div>
-               <ul class="clean-list workspace-main-btns">
-                  <li>
-                     <a href="#"><span>Boards</span></a>
-                  </li>
-                  <li>
-                     <a href="#"><span>Templates</span></a>
-                  </li>
-                  <li>
-                     <a href="#"><span>Home</span></a>
-                  </li>
-               </ul>
-            </div>
-         </nav>
-      </aside> -->
    </section>
 </template>
 
@@ -157,12 +138,12 @@ export default {
    methods: {
       async addBoard() {
          try {
-            if(!this.newBoard.title) return
+            if (!this.newBoard.title) return
             let boardToSave = boardService.getEmptyBoard()
             const { _id, username, fullname, imgUrl } = this.loggedUser
             const { title, bgColor } = this.newBoard
             boardToSave.title = title
-            if(boardToSave.style.bgColor !== '') boardToSave.style.bgColor = bgColor
+            if (boardToSave.style.bgColor !== '') boardToSave.style.bgColor = bgColor
             else boardToSave.style.bgColor = this.newBoard.bgColor
             boardToSave.createdBy = { _id, username, fullname, imgUrl }
             await this.$store.dispatch({ type: 'addBoard', board: boardToSave })
@@ -183,23 +164,7 @@ export default {
             console.log(err)
          }
       },
-      // async toggleIsStarred(board) {
-      //    try {
-      //       // const idx = this.loggedUser.starredBoards.findIndex(board => board._id === this.board._id)
-      //       // if (idx === -1) this.loggedUser.starredBoards.push(this.board)
-      //       // else this.loggedUser.starredBoards.splice(1, idx)
-      //       // await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
 
-      //       this.currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId: board._id })
-      //       this.currBoard.isStarred = !this.currBoard.isStarred
-      //       await this.$store.dispatch({ type: 'updateBoard', board: this.currBoard })
-      //       await this.$store.dispatch({ type: 'loadBoards' })
-      //       this.boards = this.$store.getters.allBoards
-      //       this.starred = this.$store.getters.starredBoards
-      //    } catch (err) {
-      //       console.log(err)
-      //    }
-      // },
       async toggleIsStarred(board) {
          try {
             const boardId = board._id
@@ -228,27 +193,13 @@ export default {
             console.log(err)
          }
       },
-      async goToBoard(boardId) {
-         try {
-            // let boardd = await this.$store.dispatch({ type: "getBoardbyId", boardId })
-         } catch (err) {
-            console.log(err)
-         }
-      }
+
    },
    computed: {
       async starredBoards() {
          try {
             const starred = await this.$store.getters.starredBoards
             return starred
-         } catch (err) {
-            console.log(err)
-         }
-      },
-      async allBoards() {
-         try {
-            const all = await this.$store.getters.boardsForDisplay
-            return all
          } catch (err) {
             console.log(err)
          }
@@ -261,14 +212,7 @@ export default {
          }
          return color
       },
-      isStarredIcon() {
-         // const boardId = board._id
-         // var idx = this.loggedUser.starredBoards.findIndex(board => board._id === boardId)
-         // console.log('idx', idx)
-         // if (idx !== -1) return true
-         // else return false
-         return false
-      }
+
    }
 }
 </script>
