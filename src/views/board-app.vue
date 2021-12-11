@@ -131,6 +131,8 @@ import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
 import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag } from '@/services/applyDrag.js'
 
+import { socketService } from '../services/socket-service.js'
+
 export default {
    name: 'board-app',
    components: {
@@ -160,10 +162,9 @@ export default {
          },
       }
    },
-   // async created() {
-   //    window.addEventListener('storage', this.loadBoards)
-   //    console.log(this.$store.getters.currBoard)
-   // },
+   async created() {
+      socketService.on('boardUpdate',this.loadBoard)
+   },
    computed: {
       // groupsList: {
       // 	get() {
