@@ -250,7 +250,6 @@
 
 <script>
 import Avatar from 'vue-avatar'
-import labelsList from './dynamic/labels-list.vue'
 import taskOptsList from './task-opts-list'
 
 export default {
@@ -258,7 +257,6 @@ export default {
    props: ['task', 'group', 'board', 'modalPos'],
    components: {
       Avatar,
-      labelsList,
       taskOptsList
 
    },
@@ -298,22 +296,9 @@ export default {
       closePreviewEdit() {
          this.$emit('closePreviewEdit')
       },
-      // async updateTaskTitle(ev) {
-      //    try {
-      //       this.isTitleInputOpen = false
-      //       this.isEditable = false
-      //       ev.target.blur()
-      //       this.taskToEdit.title = ev.target.value
-      //       await this.$store.dispatch({ type: 'updateTask', task: this.taskToEdit, groupId: this.groupId })
-      //       this.closePreviewEdit()
-      //    } catch (err) {
-      //       console.log(err)
-      //    }
-      // },
       titleInputFocus(ev) {
          this.isTitleInputOpen = true
          ev.target.select()
-         // this.groupToEdit = JSON.parse(JSON.stringify(this.group))
       },
       toggleEditing(ev) {
          this.isEditable = true
@@ -393,7 +378,6 @@ export default {
       },
       isWatchingBadge() {
          this.currLoggedUser = this.$store.getters.currLoggedUser
-         // const idx = this.task.members.findIndex(member => member._id === this.currLoggedUser._id)
          const idx = this.taskToEdit.members.findIndex(member => member._id === this.currLoggedUser._id)
          if (idx !== -1) return true
       },
@@ -402,12 +386,6 @@ export default {
          if (this.taskToEdit.startDate.date || this.taskToEdit.dueDate.date) return true
       },
       organizedDates() {
-         // if (this.task.startDate.date && this.task.dueDate.date) {
-         //    const from = this.task.startDate.date.slice(0, 6)
-         //    const to = this.task.dueDate.date.slice(0, 6)
-         //    return `${from}-${to}`
-         // } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
-         // return this.task.dueDate.date.slice(0, 6)
          if (this.taskToEdit.startDate.date && this.taskToEdit.dueDate.date) {
             const from = this.taskToEdit.startDate.date.slice(0, 5)
             const to = this.taskToEdit.dueDate.date.slice(0, 5)
@@ -424,7 +402,6 @@ export default {
          return `${count} / ${this.taskToEdit.checklists[0].todos.length}`
       },
       isChecklist() {
-         // if (this.task.checklists[0] && this.task.checklists[0].id) return true
          if (this.taskToEdit.checklists[0] && this.taskToEdit.checklists[0].id) return true
       },
       taskCover() {

@@ -141,8 +141,9 @@ export default {
       },
       async addTask() {
          try {
+            if(!this.taskInput) return
             const groupId = this.group.id
-            const newTask = this.$store.dispatch('addTask', { groupId, title: this.taskInput })
+            const newTask = await this.$store.dispatch('addTask', { groupId, title: this.taskInput })
             this.isTaskInputOpen = false
             this.taskInput = ''
             if (newTask) showMsg(`task added `)

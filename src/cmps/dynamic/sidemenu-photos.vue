@@ -6,11 +6,6 @@
       </div>
       <div class="board-background-list-observer">
          <div class="board-backgrounds-list">
-            <!-- <template v-for="n in 10">
-               <div @click="selectBg" class="board-background-select" :key="n">
-                  <span class="background-box" style="backgroundImage:url('https://images.unsplash.com/photo-1637952112301-6090dca83ccb?fm=jpg&fit=max')"></span>
-               </div>
-            </template> -->
             <template v-for="(photo,idx) in photos">
                <div @click="selectBg(photo.urls.regular)" class="board-background-select" :key="idx">
                   <span class="background-box" :style="{'backgroundImage':`url(${photo.urls.regular})`}"></span>
@@ -43,7 +38,3 @@ export default {
    }
 }
 </script>
-
-<style>
-
-</style>

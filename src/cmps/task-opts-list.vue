@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import membersList from './dynamic/members-list'
-import labelsList from './dynamic/labels-list'
-import checkList from './dynamic/check-list'
-import coverMenu from './dynamic/cover-menu'
-import attachmentList from './dynamic/attachment-list'
-import datePicker from './dynamic/date-picker'
+import membersList from '@/cmps/dynamic/task-details-cmps/members-list'
+import labelsList from '@/cmps/dynamic/task-details-cmps/labels-list'
+import checkList from '@/cmps/dynamic/task-details-cmps/check-list'
+import coverMenu from '@/cmps/dynamic/task-details-cmps/cover-menu'
+import attachmentList from '@/cmps/dynamic/task-details-cmps/attachment-list'
+import datePicker from '@/cmps/dynamic/task-details-cmps/date-picker'
 
 export default {
    name: "task-opts-list",
