@@ -25,130 +25,75 @@
          </router-link>
          <div class="nav-main-wrapper">
             <div class="nav-main-container">
-               <div class="nav-main-links">
-                  <a
-                     @click.self.stop="modalOpen"
-                     data-cmp="Workspaces"
-                     class="nav-link-btn"
-                     :class="{
-                        'modal-active':
-                           isModalOpen && modalCmp.type === 'Workspaces',
-                     }"
-                  >
-                     <span
-                        @click.self.stop="modalOpen"
-                        data-cmp="Workspaces"
-                        class="btn-text"
-                        >Workspaces</span
-                     >
-                     <span data-cmp="Workspaces" class="btn-icon-container">
-                        <span data-cmp="Workspaces" class="modal-icon">
-                           <svg
-                              width="24px"
-                              height="24px"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                           >
-                              <path
-                                 fill-rule="evenodd"
-                                 clip-rule="evenodd"
-                                 d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z"
-                                 fill="currentColor"
-                              />
-                           </svg>
+               <template v-if="breakpointBig">
+                  <div class="nav-main-links">
+                     <a @click.self.stop="modalOpen" data-cmp="Workspaces" class="nav-link-btn" :class="{'modal-active': isModalOpen && modalCmp.type === 'Workspaces' }">
+                        <span @click.self.stop="modalOpen" data-cmp="Workspaces" class="btn-text">Workspaces</span>
+                        <span data-cmp="Workspaces" class="btn-icon-container">
+                           <span data-cmp="Workspaces" class="modal-icon">
+                              <svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z" fill="currentColor"/></svg>
+                           </span>
                         </span>
-                     </span>
-                  </a>
-                  <a
-                     @click.self.stop="modalOpen"
-                     data-cmp="Starred"
-                     class="nav-link-btn"
-                     :class="{
-                        'modal-active':
-                           isModalOpen && modalCmp.type === 'Starred',
-                     }"
-                  >
-                     <span
-                        @click.self.stop="modalOpen"
-                        data-cmp="Starred"
-                        class="btn-text"
-                        >Starred</span
-                     >
-                     <span data-cmp="Starred" class="btn-icon-container">
-                        <span class="modal-icon">
-                           <svg
-                              width="24px"
-                              height="24px"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                           >
-                              <path
-                                 fill-rule="evenodd"
-                                 clip-rule="evenodd"
-                                 d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z"
-                                 fill="currentColor"
-                              />
-                           </svg>
+                     </a>
+                     <a @click.self.stop="modalOpen" data-cmp="Starred" class="nav-link-btn" :class="{'modal-active': isModalOpen && modalCmp.type === 'Starred' }">
+                        <span @click.self.stop="modalOpen" data-cmp="Starred" class="btn-text">Starred</span>
+                        <span data-cmp="Starred" class="btn-icon-container">
+                           <span class="modal-icon">
+                              <svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z" fill="currentColor"/></svg>
+                           </span>
                         </span>
-                     </span>
-                  </a>
-                  <a
-                     @click.self.stop="modalOpen"
-                     data-cmp="Templates"
-                     class="nav-link-btn"
-                     :class="{
-                        'modal-active':
-                           isModalOpen && modalCmp.type === 'Templates',
-                     }"
-                  >
-                     <span
-                        @click.self.stop="modalOpen"
-                        data-cmp="Templates"
-                        class="btn-text"
-                        >Templates</span
-                     >
-                     <span data-cmp="Templates" class="btn-icon-container">
-                        <span class="modal-icon">
-                           <svg
-                              width="24px"
-                              height="24px"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                           >
-                              <path
-                                 fill-rule="evenodd"
-                                 clip-rule="evenodd"
-                                 d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z"
-                                 fill="currentColor"
-                              />
-                           </svg>
+                     </a>
+                     <a @click.self.stop="modalOpen" data-cmp="Templates" class="nav-link-btn" :class="{'modal-active': isModalOpen && modalCmp.type === 'Templates' }">
+                        <span @click.self.stop="modalOpen" data-cmp="Templates" class="btn-text">Templates</span>
+                        <span data-cmp="Templates" class="btn-icon-container">
+                           <span class="modal-icon">
+                              <svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z" fill="currentColor"/></svg>
+                           </span>
                         </span>
-                     </span>
-                  </a>
-               </div>
-               <div class="nav-board-create">
-                  <a
-                     @click.stop="modalOpen"
-                     data-cmp="Create"
-                     class="nav-item"
-                     :class="{
-                        'modal-active':
-                           isModalOpen && modalCmp.type === 'Create',
-                     }"
-                  >
-                     <p @click.stop="modalOpen" data-cmp="Create">Create</p>
-                  </a>
-               </div>
-               <div class="spacer">
-                  <div class="spacer-content"></div>
-               </div>
+                     </a>
+                  </div>
+                  <div class="nav-board-create">
+                     <a @click.stop="modalOpen" data-cmp="Create" class="nav-item" :class="{'modal-active': isModalOpen && modalCmp.type === 'Create' }">
+                        <p @click.stop="modalOpen" data-cmp="Create">Create</p>
+                     </a>
+                  </div>
+                  <div class="spacer">
+                     <div class="spacer-content"></div>
+                  </div>
+               </template>
+               <template v-else>
+                  <!-- <div class="nav-small-more-opts">
+                     <a @click.stop="modalOpen" data-cmp="More" class="nav-item" :class="{'modal-active': isModalOpen && modalCmp.type === 'More' }">
+                        <p @click.stop="modalOpen" data-cmp="More">More</p>
+                     </a>
+                  </div> -->
+                  <div class="more-opts-btn-container">
+                     <button @click.stop="modalOpen" data-cmp="More" class="nav-link-btn nav-item" :class="{'modal-active': isModalOpen && modalCmp.type === 'More' }">
+                        <span @click.stop="modalOpen" data-cmp="More" class="btn-text">More</span>
+                        <span data-cmp="More" class="btn-icon-container">
+                           <span class="modal-icon">
+                              <svg @click.stop="modalOpen" width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z" fill="currentColor"/></svg>
+                           </span>
+                        </span>
+                     </button>
+                  </div>
+                  <div class="nav-board-create nav-small-more-opts">
+                     <a @click.stop="modalOpen" data-cmp="Create" class="nav-item" :class="{'modal-active': isModalOpen && modalCmp.type === 'Create' }">
+                        <span data-cmp="More" class="btn-icon-container">
+                           <span class="modal-icon">
+                              <svg @click.stop="modalOpen" width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C11.4477 3 11 3.44772 11 4V11L4 11C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H11V20C11 20.5523 11.4477 21 12 21C12.5523 21 13 20.5523 13 20V13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11L13 11V4C13 3.44772 12.5523 3 12 3Z" fill="currentColor"></path></svg>
+                           </span>
+                        </span>
+                     </a>
+                  </div>
+                  <div class="spacer">
+                     <div class="spacer-content"></div>
+                  </div>
+               </template>
             </div>
          </div>
          <div class="nav-reactive-links">
-            <div class="nav-search-bar">
+            <!-- <div class="nav-search-bar">
                <label for="search-input-area" class="nav-label">
                   Jump to recent and starred boards, or search
                </label>
@@ -175,12 +120,8 @@
                      </span>
                   </label>
                </span>
-            </div>
-            <button
-               class="info-btn"
-               type="button"
-               aria-label="Open information menu"
-            >
+            </div> -->
+            <button class="info-btn" type="button" aria-label="Open information menu">
                <span class="info-icon-container">
                   <span class="info-icon">
                      <svg
@@ -263,6 +204,7 @@ import Workspaces from './dynamic/workspaces'
 import Starred from './dynamic/starred'
 import Templates from './dynamic/templates'
 import Create from './dynamic/create'
+import More from './dynamic/more'
 
 export default {
    components: {
@@ -270,8 +212,9 @@ export default {
       Workspaces,
       Starred,
       Templates,
-      Create
-   },
+      Create,
+      More
+	},
    data() {
       return {
          loggedUser: null,
@@ -281,10 +224,15 @@ export default {
             posX: null,
             user: null
          },
+         breakpointBig: true
       }
    },
    created() {
       this.setLoggedUser()
+      window.addEventListener('resize', this.onResize)
+   },
+   destroyed() {
+      window.removeEventListener('resize', this.onResize)
    },
    methods: {
       setLoggedUser() {
@@ -302,12 +250,16 @@ export default {
       },
       modalClose() {
          this.isModalOpen = false
+      },
+      onResize() {
+         this.breakpointBig = window.innerWidth < 768 ? false : true
+         // return window.innerWidth < 768 ? false : true
       }
    },
    computed: {
       imgSrc() {
-         return `require(@/assets/img/${this.loggedUser.imgUrl})`
-      }
+         return `require('@/assets/img/'${this.loggedUser.imgUrl})`
+      },
    }
 }
 </script>

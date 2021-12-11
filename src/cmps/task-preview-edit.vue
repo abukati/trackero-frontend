@@ -16,7 +16,8 @@
          @removeLabel="removeTaskLabel"
          @addLabel="addTaskLabel"
          @closeList="closeList"
-         @toggleTaskCover="toggleTaskCover"
+         @changeTaskCover="toggleTaskCover"
+         @removeTaskCover="toggleTaskCover"
       />
       <span
          @click="closePreviewEdit"
@@ -172,11 +173,10 @@
                </div>
             </div>
          </div>
-
          <button
             class="nch-button nch-button-primary wide js-save-edits"
             type="submit"
-            @click="updateTask"
+            @click="updateTask('save')"
          >
             Save
          </button>
@@ -319,14 +319,10 @@ export default {
          this.isEditable = true
          ev.target.style.display = 'none'
       },
-      async archiveTask() {
-         try {
-            this.taskToEdit.isArchived = true
-            await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.taskToEdit })
-            this.closePreviewEdit()
-         } catch (err) {
-            console.log(err)
-         }
+      archiveTask() {
+         this.taskToEdit.isArchived = true
+         this.updateTask()
+         this.closePreviewEdit()
       },
       toggleListCmp(ev, cmpName) {
          if (cmpName === this.info.type) {
@@ -353,9 +349,11 @@ export default {
          }
          this.taskToEdit.activities.unshift(activity)
       },
-      updateTask() {
-         this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.taskToEdit })
-         this.closePreviewEdit()
+      updateTask(action) {
+         const groupId = this.groupId
+         const task = this.taskToEdit
+         this.$store.dispatch({ type: 'updateTask', groupId, task })
+         if(action === 'save') this.closePreviewEdit()
       },
       addTaskMember(user) {
          if (user) this.taskToEdit.members.push(user)
@@ -377,26 +375,17 @@ export default {
       },
       toggleTaskCover(color) {
          if (color) {
-            this.task.style.bgColor = color
+            this.taskToEdit.style.bgColor = color
             this.addActivity(`Changed this task cover`)
          } else {
-            this.task.style.bgColor = '#ffffff'
-            this.task.style.url = ''
+            this.taskToEdit.style.bgColor = '#ffffff'
+            this.taskToEdit.style.url = ''
             this.addActivity(`Removed this task cover`)
          }
          this.updateTask()
       },
    },
    computed: {
-      // isCoverBgc() {
-      //    // if (this.task.style.bgColor !== '#ffffff') return true
-      //    if (this.taskToEdit.style.bgColor !== '#ffffff') return true
-      // },
-      // isHeight() {
-      //    // if (this.task.style.bgColor !== '#ffffff') return 32
-      //    if (this.taskToEdit.style.bgColor !== '#ffffff') return 32
-      //    return 0
-      // },
       labelsHeight() {
          // if (this.board.isLabelsShown) return 16
          // return 8
@@ -427,11 +416,7 @@ export default {
          return this.taskToEdit.dueDate.date.slice(0, 5)
       },
       checklistItems() {
-         // let count = 0
-         // this.task.checklists[0].todos.forEach(todo => {
-         //    if (todo.isDone) count++
-         // })
-         // return `${count} / ${this.task.checklists[0].todos.length}`
+         // Currently checks only the first checklist and not all checklists in TODO
          let count = 0
          this.taskToEdit.checklists[0].todos.forEach(todo => {
             if (todo.isDone) count++

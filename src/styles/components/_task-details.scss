@@ -492,6 +492,11 @@
                                     margin-top: 0;
                                  }
                               }
+                              .cancel-btn {
+                                 &::before {
+                                    content: '\e91c';
+                                 }
+                              }
                            }
                         }
                      }
