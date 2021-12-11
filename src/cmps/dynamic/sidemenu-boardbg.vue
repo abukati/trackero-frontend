@@ -2,11 +2,11 @@
    <div class="board-background-section-tiles clearfix">
       <template v-if="!currCmp">
          <div @click="openPhotos" class="board-background-section-tile board-background-photos-tile">
-            <div class="image"></div>
+            <div :style="{'background-image': 'url(https://a.trellocdn.com/prgb/dist/images/photos-thumbnail@3x.8f9c1323c9c16601a9a4.jpg)'}" class="image"></div>
             <div class="title">Photos</div>
          </div>
          <div @click="openColors" class="board-background-section-tile board-colors-photos-tile">
-            <div class="image"></div>
+            <div :style="{'background-image': 'url(https://a.trellocdn.com/prgb/dist/images/colors@2x.ec32a2ed8dd8198b8ef0.jpg)'}" class="image"></div>
             <div class="title">Colors</div>
          </div>
       </template>

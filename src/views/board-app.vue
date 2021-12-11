@@ -1,47 +1,56 @@
 <template>
-   <section class="board-app" v-if="board">
-      <div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
-         <div class="task-detail-modal-container">
-            <div class="modal-content">
-               <router-view :class="{ 'window-up': isModalOpen }" />
-            </div>
-         </div>
-         <task-preview-edit
-            @closePreviewEdit="closePreviewEdit"
-            v-if="isPreviewEdit"
-            :task="this.task"
-            :board="board"
-            :group="this.group"
-            :modalPos="this.modalPos"
-            :key="task.id"
-         />
-         <div class="board-container">
-            <div class="board-content">
-               <div class="board-content-wrapper">
-                  <div class="board-main-content">
-                     <board-nav
-                        @toggleBoardNavMenu="toggleBoardNavMenu"
-                        :board="board"
-                        :boardMembers="board.members"
-                        :boardBgc="board.style.bgColor"
-                     />
+	<section class="board-app" v-if="board">
+		<div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
+			<div class="task-detail-modal-container">
+				<div class="modal-content">
+					<router-view :class="{ 'window-up': isModalOpen }" />
+				</div>
+			</div>
+			<task-preview-edit
+				@closePreviewEdit="closePreviewEdit"
+				v-if="isPreviewEdit"
+				:task="this.task"
+				:board="board"
+				:group="this.group"
+				:modalPos="this.modalPos"
+				:key="task.id"
+			/>
+			<div class="board-container">
+				<div class="board-content">
+					<div class="board-content-wrapper">
+						<div class="board-main-content">
+							<board-nav
+								@toggleBoardNavMenu="toggleBoardNavMenu"
+								:board="board"
+								:boardMembers="board.members"
+								:boardBgc="board.style.bgColor"
+							/>
+							<div class="groups-container-main" >
+                         
+                          <!-- <Draggable class="board-group" :style="{'display':'inline-block','overflow':'unset'}"  v-for="group in boardGroups" :key="group.id">
+                              	<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
+                           </Draggable> -->
 
-                     <div class="groups-container-main">
-                        <draggable
+                        <!-- CONTAINER FOR THE D&D -->
+                        <Container
+                           orientation="horizontal"
                            v-if="onlyOneEdit"
+                           :style="{ display: 'block' }"
                            class="groups-container"
-                           handle=".group-header-section"
-                           draggable=".board-group"
-                           group="groupsList"
-                           v-model="groupsList"
-                           filter=".group-header-title-textarea"
-                           preventOnFilter="true"
-                           delay="1"
+                           drag-class="card-ghost"
+                           drop-class="card-ghost-drop"
+                           group-name="1"
+                           :get-child-payload="getChildPayload"
+                           @drop="onDrop(board.groups, $event)"
+                           :drop-placeholder="dropPlaceholderOptions"
+                           drag-handle-selector=".group-header-section"
+                           non-drag-area-selector=".is-editing"
                         >
-                           <div
+                           <Draggable
                               class="board-group"
-                              v-for="(group, idx) in groupsList"
-                              :key="idx"
+                              :style="{ display: 'inline-block' }"
+                              v-for="group in boardGroups"
+                              :key="group.id"
                            >
                               <group-preview
                                  @onlyOneEdit="onlyOneEdit"
@@ -49,8 +58,11 @@
                                  :group="group"
                                  :board="board"
                               />
-                           </div>
+                           </Draggable>
 
+                           <!-- <div class="board-group" v-for="(group, idx) in groupsList" :key="idx">
+										<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
+									</div> -->
                            <div class="add-list-section">
                               <div
                                  v-if="!isListInputOpen"
@@ -66,7 +78,6 @@
                                     >
                                  </a>
                               </div>
-
                               <!-- list composer section -->
                               <div v-else class="list-composer-open">
                                  <div class="add-list-title-input-section">
@@ -95,7 +106,8 @@
                                  </div>
                               </div>
                            </div>
-                        </draggable>
+                        </Container>
+                        <!-- </div> -->
                      </div>
                   </div>
                </div>
@@ -114,8 +126,10 @@
 import groupPreview from '@/cmps/group-preview'
 import boardNav from '@/cmps/board-nav'
 import boardNavSideMenu from '@/cmps/board-sidemenu'
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable';
 import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
+import { Container, Draggable } from 'vue-smooth-dnd'
+import { applyDrag } from '@/services/applyDrag.js'
 
 export default {
    name: 'board-app',
@@ -124,7 +138,9 @@ export default {
       boardNav,
       boardNavSideMenu,
       taskPreviewEdit,
-      draggable
+      // draggable,
+      Container,
+      Draggable
    },
    data() {
       return {
@@ -136,7 +152,12 @@ export default {
          isPreviewEdit: false,
          task: null,
          group: null,
-         modalPos: {}
+         modalPos: {},
+         dropPlaceholderOptions: {
+            className: "drop-preview",
+            animationDuration: "0",
+            showOnTop: false
+         },
       }
    },
    // async created() {
@@ -144,23 +165,32 @@ export default {
    //    console.log(this.$store.getters.currBoard)
    // },
    computed: {
-      groupsList: {
-         get() {
-            return this.$store.getters.boardGroups
-         },
-         set(groups) {
-            this.$store.dispatch({ type: 'updateGroups', groups })
-         }
-      },
+      // groupsList: {
+      // 	get() {
+      // 		return this.$store.getters.boardGroups;
+      // 	},
+      // 	set(groups) {
+      // 		this.$store.dispatch({ type: 'updateGroups', groups });
+      // 	}
+      // },
       archivedList() {
          return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
+      },
+      boardGroups() {
+         return this.$store.getters.boardGroups
       }
    },
    methods: {
-      addGroup() {
-         this.$store.dispatch({ type: 'addGroup', title: this.newListTitleInput })
-         this.newListTitleInput = ''
-         this.isListInputOpen = false
+      async addGroup() {
+         try {
+            var group = JSON.parse(JSON.stringify(this.$store.getters.getEmptyGroup))
+            group.title = this.newListTitleInput
+            await this.$store.dispatch({ type: 'addGroup', group })
+            this.newListTitleInput = ''
+            this.isListInputOpen = false
+         } catch (err) {
+            console.log(err)
+         }
       },
       toggleInput() {
          this.isListInputOpen = !this.isListInputOpen
@@ -171,6 +201,8 @@ export default {
       async loadBoard(boardId) {
          try {
             const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+            console.log('this.$store.getters.users', this.$store.getters.users)
+            currBoard.members = this.$store.getters.users
             this.board = currBoard
          } catch (err) {
             console.log(err)
@@ -190,15 +222,21 @@ export default {
       },
       async restoreTask(task) {
          try {
-            console.log('task', task)
             task.isArchived = false
             const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            console.log('groupId', groupId)
             await this.$store.dispatch({ type: 'updateTask', groupId, task })
          } catch (err) {
             console.log(err)
          }
-      }
+      },
+      async onDrop(items, dropResult) {
+         const groups = applyDrag(items, dropResult)
+         this.board.groups = groups
+         this.$store.dispatch({ type: 'updateGroups', groups })
+      },
+      getChildPayload(index) {
+         return this.board.groups[index]
+      },
    },
    watch: {
       '$route.params.boardId': {
@@ -215,5 +253,5 @@ export default {
          }
       }
    }
-}
+};
 </script>

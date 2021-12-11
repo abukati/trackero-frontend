@@ -1,6 +1,6 @@
 <template>
    <div id="app">
-      <main :style=" setBg ">
+      <main :style="setBg">
          <app-header v-if="!isHomePage" />
          <router-view />
          <!-- <loading-overlay v-else /> -->
@@ -22,15 +22,18 @@ export default {
       return {
       }
    },
+   created() {
+      this.$store.dispatch({ type: 'loadUsers' })
+   },
    computed: {
       setBg() {
          const currBoard = this.$store.getters.currBoard
          let bg = null
          if (currBoard) {
             const regexp = new RegExp('https?:\/\/')
-            bg = (currBoard.style.bgColor.match(regexp)) 
-            ? 'backgroundImage:'+currBoard.style.bgColor
-            : `backgroundColor: ${currBoard.style.bgColor}`
+            bg = (currBoard.style.bgColor.match(regexp))
+               ? 'backgroundImage:' + currBoard.style.bgColor
+               : `backgroundColor: ${currBoard.style.bgColor}`
          } else bg = 'backgroungColor: #fff'
          return bg
       },

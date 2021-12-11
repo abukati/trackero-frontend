@@ -16,9 +16,10 @@ export const boardService = {
    //GROUP
    addGroup,
    removeGroup,
+   removeTask,
    saveGroups,
    getEmptyGroup,
-   updateGroupTitle,
+   updateGroup,
    //TASK
    createTask,
    updateTasks,
@@ -195,6 +196,13 @@ function changeBoardBgc(bgc, board) {
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
 
+
+function updateGroup(group, board) {
+   const groupToUpdate = _getCurrGroup(group.id, board)
+   _updateGroup(groupToUpdate, groupToUpdate.id, board)
+   return groupToUpdate
+}
+
 function saveGroups(groups, board) {
    const deepBoard = _deep(board)
    deepBoard.groups = groups
@@ -209,10 +217,13 @@ function _getCurrGroup(groupId, board) {
 }
 
 function addGroup(group, board) {
-   const currBoard = _deep(board)
-   currBoard.groups.push(group)
-   saveGroups(currBoard.groups, currBoard)
-   return currBoard.groups
+   if(!group.id){
+      group.id = utilService.makeId()
+      const currBoard = _deep(board)
+      currBoard.groups.push(group)
+      saveGroups(currBoard.groups, currBoard)
+      return group
+   }
 }
 
 function removeGroup(id, board) {
@@ -224,12 +235,6 @@ function removeGroup(id, board) {
    return idx
 }
 
-function updateGroupTitle(group, board) {
-   const groupToUpdate = _getCurrGroup(group.id, board)
-   groupToUpdate.title = group.title
-   _updateGroup(groupToUpdate, groupToUpdate.id, board)
-   return groupToUpdate
-}
 
 function _updateGroup(updatedGroup, groupId, board) {
    const currBoard = _deep(board)
@@ -302,6 +307,15 @@ function updateTasks(tasks, group, board) {
    const currGroup = _getCurrGroup(group.id, board)
    currGroup.tasks = tasks
    return _updateGroup(currGroup, currGroup.id, board)
+}
+
+function removeTask(board, groupId, task) {
+   // const currBoard = _deep(board)
+   let currGroup = _getCurrGroup(groupId, board)
+   let taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
+   currGroup.tasks.splice(taskIdx, 1)
+   let updatedGroup = _updateGroup(currGroup, currGroup.id, board)
+   return updatedGroup[taskIdx]
 }
 
 function getEmptyComment() {

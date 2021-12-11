@@ -136,6 +136,10 @@
                   </div>
                   <div class="col-md-7">
                      <!-- <h5>Dive into the details</h5> -->
+                     <!-- <date-picker
+                        :range1="range"
+                        @click.native="dayClicked"
+                     ></date-picker> -->
                      <h2 class="text-sm-header">
                         Cards contain everything you need
                      </h2>
@@ -155,11 +159,17 @@
 </template>
 
 <script>
+// import datePicker from '@/cmps/dynamic/date-picker.vue'
+
 export default {
    name: 'homePage',
+   components: {
+      // datePicker
+   },
    data() {
       return {
-         isScroll: false
+         isScroll: false,
+
       }
    },
    async created() {
@@ -173,7 +183,9 @@ export default {
          } else {
             this.isScroll = false
          }
-      }
-   }
+      },
+
+   },
+
 }
 </script>
