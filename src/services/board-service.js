@@ -82,8 +82,8 @@ async function save(board) {
       // const savedBoard = board._id ? await _update(board) : await _add(board)
       // return savedBoard
 
-      socketService.emit('boardUpdate', board._id)
-      
+      // socketService.emit('boardUpdate', board._id)
+
       if (board._id) {
          const res = await httpService.put('board/' + board._id, board)
          return res
@@ -196,7 +196,6 @@ function changeBoardBgc(bgc, board) {
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
 
-
 function updateGroup(group, board) {
    const groupToUpdate = _getCurrGroup(group.id, board)
    _updateGroup(groupToUpdate, groupToUpdate.id, board)
@@ -217,7 +216,7 @@ function _getCurrGroup(groupId, board) {
 }
 
 function addGroup(group, board) {
-   if(!group.id){
+   if (!group.id) {
       group.id = utilService.makeId()
       const currBoard = _deep(board)
       currBoard.groups.push(group)
@@ -234,7 +233,6 @@ function removeGroup(id, board) {
    saveGroups(currGroups, currBoard)
    return idx
 }
-
 
 function _updateGroup(updatedGroup, groupId, board) {
    const currBoard = _deep(board)

@@ -154,9 +154,8 @@
          </div>
       </div>
    </router-link>
-   
-   <!-- </section> -->
 
+   <!-- </section> -->
 </template>
 <script>
 import Avatar from 'vue-avatar'
@@ -231,10 +230,15 @@ export default {
       },
       checklistItems() {
          let count = 0
-         this.task.checklists[0].todos.forEach(todo => {
-            if (todo.isDone) count++
+         let str = ''
+         this.task.checklists.forEach(cl => {
+            cl.todos.forEach(todo => {
+               if (todo.isDone) count++
+            })
+            str += `${count}/${this.task.checklists[0].todos.length}, `
          })
-         return `${count} / ${this.task.checklists[0].todos.length}`
+
+         return str.slice(0, str.length - 2)
       },
       isChecklist() {
          if (this.task.checklists[0] && this.task.checklists[0].id) return true

@@ -57,7 +57,6 @@
                      :key="idx"
                      class="board-link"
                      :to="`/board/${board._id}`"
-                     @click.native="goToBoard(board._id)"
                   >
                      <div
                         class="board-preview"
@@ -170,6 +169,16 @@ export default {
             this.boards = this.$store.getters.boardsForDisplay
             this.newBoard.title = ''
             this.toggleInput()
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      async removeBoard(boardId) {
+         try {
+            console.log('boardId', boardId)
+            await this.$store.dispatch({ type: "removeBoard", boardId })
+            await this.$store.dispatch({ type: 'loadBoards' })
+            this.boards = this.$store.getters.boardsForDisplay
          } catch (err) {
             console.log(err)
          }
