@@ -1,5 +1,8 @@
 <template>
+<div>
    <component @changeCmp="setCurrCmp" :is="currCmp" :board="board" :moreOptions="moreOptions"></component>
+   <hr class="board-menu-header-divider">
+</div>
 </template>
 
 <script>

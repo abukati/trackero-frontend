@@ -84,7 +84,7 @@
                         v-if="!isInputOpen"
                         class="add-board-input-closed"
                      >
-                        <h2>create new board</h2>
+                        <h2>Create new board</h2>
                      </div>
                      <div v-if="isInputOpen" class="add-board-form-section">
                         <div class="add-board-input-section">
@@ -158,20 +158,18 @@ export default {
    methods: {
       async addBoard() {
          try {
-            // let users = await this.$store.dispatch({ type: 'loadUsers' })
+            if(!this.newBoard.title) return
             let boardToSave = boardService.getEmptyBoard()
-            // boardToSave.members = users
             const { _id, username, fullname, imgUrl } = this.loggedUser
             const { title, bgColor } = this.newBoard
             boardToSave.title = title
-            boardToSave.style.bgColor = bgColor
+            if(boardToSave.style.bgColor !== '') boardToSave.style.bgColor = bgColor
+            else boardToSave.style.bgColor = this.newBoard.bgColor
             boardToSave.createdBy = { _id, username, fullname, imgUrl }
-            // boardToSave.members.push(this.loggedUser)
-            this.$store.dispatch({ type: 'addBoard', board: boardToSave })
+            await this.$store.dispatch({ type: 'addBoard', board: boardToSave })
             this.boards = this.$store.getters.boardsForDisplay
-            this.toggleInput()
             this.newBoard.title = ''
-            this.newBoard.bgColor = ''
+            this.toggleInput()
          } catch (err) {
             console.log(err)
          }
