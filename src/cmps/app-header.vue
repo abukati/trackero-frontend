@@ -19,7 +19,7 @@
          <router-link class="logo-link" to="/">
             <div class="logo-img-container">
                <div class="logo-content">
-                  <p>Trell</p>
+                  <p>Trackero</p>
                </div>
             </div>
          </router-link>

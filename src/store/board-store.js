@@ -66,9 +66,9 @@ export const boardStore = {
       checked(state) {
          return state.checked
       },
-      getEmptyGroup(){
+      getEmptyGroup() {
          const group = {
-            title:'',
+            title: '',
             tasks: []
          }
          return group
@@ -149,7 +149,7 @@ export const boardStore = {
          const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === groupId)
          if (groupIdx < 0) return
          state.currBoard.groups[groupIdx].tasks = tasksToSave
-     },
+      },
       //----------------------------------------------------------- */
       //***********************MEMBERS********************************
       //----------------------------------------------------------- */
@@ -181,8 +181,9 @@ export const boardStore = {
       async removeBoard({ commit }, { boardId }) {
          try {
             const resMsg = await boardService.remove(boardId)
-            if (resMsg === 'Deleted successfully') commit({ type: 'removeBoard', boardId })
-            return removedBoardId
+            console.log('resMsg', resMsg)
+            commit({ type: 'removeBoard', boardId })
+            // return removedBoardId
          } catch (err) {
             console.log(err)
          }
@@ -249,15 +250,15 @@ export const boardStore = {
       // },
       async addGroup({ state, commit }, { group }) {
          try {
-            console.log('group',group)
+            console.log('group', group)
             const newGroup = await boardService.addGroup(group, state.currBoard)
             const idx = state.currBoard.groups.findIndex(currGroup => currGroup.id === newGroup.id)
-            console.log('idx',idx)
-            if(idx === -1){
+            console.log('idx', idx)
+            if (idx === -1) {
                // state.currBoard.groups.push(newGroup)
-               commit({ type: 'addGroup', group:newGroup })
+               commit({ type: 'addGroup', group: newGroup })
                return newGroup
-            }else{
+            } else {
                console.log('nope')
             }
          } catch (err) {
