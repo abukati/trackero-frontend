@@ -15,7 +15,6 @@ const apiClient = axios.create({
 })
 
 function getPhotos(){
-    console.log('here service')
     return apiClient.get(
         `/collections/17098/photos?client_id=${API_KEY}`
       )

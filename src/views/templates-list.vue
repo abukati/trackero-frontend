@@ -221,7 +221,6 @@ export default {
       },
       async goToBoard(boardId) {
          try {
-            console.log('boardId', boardId)
             // let boardd = await this.$store.dispatch({ type: "getBoardbyId", boardId })
          } catch (err) {
             console.log(err)

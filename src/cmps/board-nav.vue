@@ -237,10 +237,6 @@ export default {
          starredBoard: false
       }
    },
-   created() {
-      // console.log('this.boardMembers', this.boardMembers)
-      console.log('this.board', this.board)
-   },
    computed: {
       memberList: {
          get() {

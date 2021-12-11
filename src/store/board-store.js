@@ -249,16 +249,13 @@ export const boardStore = {
       // },
       async addGroup({ state, commit }, { group }) {
          try {
-            console.log('group',group)
             const newGroup = await boardService.addGroup(group, state.currBoard)
             const idx = state.currBoard.groups.findIndex(currGroup => currGroup.id === newGroup.id)
-            console.log('idx',idx)
             if(idx === -1){
                // state.currBoard.groups.push(newGroup)
                commit({ type: 'addGroup', group:newGroup })
                return newGroup
             }else{
-               console.log('nope')
             }
          } catch (err) {
             console.log(err)
@@ -290,7 +287,6 @@ export const boardStore = {
             state.currBoard.groups.forEach(group => {
                group.tasks.find(task => {
                   if (task.id === taskId) {
-                     console.log('groupId', group.id)
                      groupId = group.id
                   }
                })
@@ -333,9 +329,6 @@ export const boardStore = {
       },
       async removeTask({ state, commit }, { groupId, task }) {
          try {
-            console.log('groupId', groupId)
-            console.log('task', task)
-            console.log('state.currBoard', state.currBoard)
             var updatedTask = await boardService.removeTask(state.currBoard, groupId, task)
             if (updatedTask) {
                commit({ type: 'removeTask', groupId, task })

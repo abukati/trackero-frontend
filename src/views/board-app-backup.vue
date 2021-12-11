@@ -156,10 +156,8 @@ export default {
 		},
 		async restoreTask(task) {
 			try {
-				console.log('task', task);
 				task.isArchived = false;
 				const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id });
-				console.log('groupId', groupId);
 				await this.$store.dispatch({ type: 'updateTask', groupId, task });
 			} catch (err) {
 				console.log(err);
