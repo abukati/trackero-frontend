@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import home from '@/views/home.vue'
 import templatesList from '@/views/templates-list.vue'
 import boardApp from '@/views/board-app.vue'
-import taskDetails from '@/cmps/task-details.vue'
+import taskDetails from '@/views/task-details.vue'
 
 Vue.use(VueRouter)
 

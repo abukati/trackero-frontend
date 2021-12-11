@@ -206,7 +206,7 @@
       },
       computed: {
          imgSrc() {
-            return `require('@/assets/img/'${this.loggedUser.imgUrl})`
+            return this.loggedUser.imgUrl
          }
       }
    }

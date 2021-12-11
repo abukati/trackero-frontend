@@ -276,7 +276,7 @@
 												type="submit"
 												value="Save"
 											/>
-											<a @click="isCommenting=false" class="cancel-btn icon-lg"> </a>
+											<a @click="isCommenting = false" class="cancel-btn icon-lg"> </a>
 										</div>
 									</div>
 								</div>
@@ -291,8 +291,8 @@
 										</div>
 									</div>
 									<div class="comment-desc">
-										<span :style="{'font-weight':'bold'}">{{ comment.byMember.fullname }} </span>
-										<span :style="{'font-size':'12px'}">{{ moment(comment.createdAt).fromNow() }}</span>
+										<span :style="{ 'font-weight': 'bold' }">{{ comment.byMember.fullname }} </span>
+										<span :style="{ 'font-size': '12px' }">{{ moment(comment.createdAt).fromNow() }}</span>
 										<div class="comment-content">
 											<div class="action-comment">
 												<div class="current-comment">
@@ -326,11 +326,11 @@
 												</div>
 											</div>
 											<div class="activity-desc">
-												<span :style="{'font-weight':'bold'}">{{ activity.byMember.fullname }} </span>
+												<span :style="{ 'font-weight': 'bold' }">{{ activity.byMember.fullname }} </span>
 												<span>{{ activity.txt }} </span>
 											</div>
 											<div>
-												<span>{{moment(activity.createdAt).fromNow() }}</span>
+												<span>{{ moment(activity.createdAt).fromNow() }}</span>
 											</div>
 										</div>
 									</div>
@@ -488,11 +488,9 @@
 
 <script>
 import Avatar from 'vue-avatar';
-import miniProfile from './user-mini-profile';
-import taskOptsList from './task-opts-list';
-import checkListPreview from './checklist-preview';
-import datePicker from '@/cmps/dynamic/date-picker.vue';
-
+import miniProfile from '@/cmps/user-mini-profile';
+import taskOptsList from '@/cmps/task-opts-list';
+import checkListPreview from '@/cmps/checklist-preview';
 
 export default {
 	name: 'task-details',
@@ -501,7 +499,6 @@ export default {
 		miniProfile,
 		taskOptsList,
 		checkListPreview,
-		datePicker,
 	},
 	data() {
 		return {
@@ -543,10 +540,10 @@ export default {
 		shareViaWebShare() {
 			navigator.share({
 				title: this.task.title,
-				text: 'Check out my board on trackero!',
+				text: 'Check out my board!',
 				url: this.$route.path
-			})
-			},
+			});
+		},
 		closeDetails() {
 			this.$router.go(-1);
 		},
@@ -756,6 +753,7 @@ export default {
 		async archiveTask(task) {
 			try {
 				task.isArchived = true;
+				this.addActivity(`Archived this task`);
 				await this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task });
 			} catch (err) {
 				console.log(err);
@@ -764,6 +762,7 @@ export default {
 		async restoreTask(task) {
 			try {
 				task.isArchived = false;
+				this.addActivity(`Restored this task from archive`);
 				await this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task });
 			} catch (err) {
 				console.log(err);
@@ -771,9 +770,7 @@ export default {
 		},
 		async removeTask(task) {
 			try {
-				// task.isArchived = false
 				await this.$store.dispatch({ type: 'removeTask', groupId: this.info.groupId, task });
-				// this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
 				this.closeDetails();
 			} catch (err) {
 				console.log(err);
@@ -811,7 +808,7 @@ export default {
 		},
 		taskIsArchived() {
 			return this.task.isArchived;
-		},		
+		}
 	}
 };
 </script>

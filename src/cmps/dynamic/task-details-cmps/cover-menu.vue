@@ -42,8 +42,7 @@
 </template>
 
 <script>
-// import openColors from './sidemenu-colors'
-import openColors from './sidemenu-cover-colors'
+import openColors from '@/cmps/dynamic/sidemenu-cover-colors'
 
 export default {
    name: 'cover-menu',

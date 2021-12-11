@@ -1,350 +1,335 @@
 // import { storageService } from './async-storage-service.js'
-import { utilService } from './util-service.js'
-import { socketService } from './socket-service.js'
-import { httpService } from './http-service.js'
+import { utilService } from './util-service.js';
+import { socketService } from './socket-service.js';
+import { httpService } from './http-service.js';
 
 // const KEY = 'board_db'
+// var gBoards = _createBoards()
 
 export const boardService = {
-   //BOARD
-   query,
-   getById,
-   remove,
-   save,
-   getEmptyBoard,
-   changeBoardBgc,
-   //GROUP
-   addGroup,
-   removeGroup,
-   removeTask,
-   saveGroups,
-   getEmptyGroup,
-   updateGroup,
-   //TASK
-   createTask,
-   updateTasks,
-   saveTask,
-   updateSingleTask,
-   getEmptyTodo,
-   getEmptyChecklist,
-   getEmptyComment,
-   //MEMBER
-   addMember,
-   removeMember
-}
+	//BOARD
+	query,
+	getById,
+	remove,
+	save,
+	getEmptyBoard,
+	changeBoardBgc,
+	//GROUP
+	addGroup,
+	removeGroup,
+	removeTask,
+	saveGroups,
+	getEmptyGroup,
+	updateGroup,
+	//TASK
+	getEmptyTask,
+	updateTasks,
+	saveTask,
+	updateSingleTask,
+	getEmptyTodo,
+	getEmptyChecklist,
+	getEmptyComment,
+	//MEMBER
+	addMember,
+	removeMember
+};
+
+// Util Function to make deep copy
 
 function _deep(board) {
-   return JSON.parse(JSON.stringify(board))
+	return JSON.parse(JSON.stringify(board));
 }
 
 //----------------------------------------------------------- */
 //********************BOARD*********************************
 //----------------------------------------------------------- */
 
-// var gBoards = _createBoards()
-
 async function query(filterBy = {}) {
-   try {
-      // return await storageService.query(KEY)
-
-      const res = await httpService.get('board', { params: filterBy })
-      return res
-   } catch (err) {
-      console.log(err)
-   }
+	try {
+		// return await storageService.query(KEY)
+		const res = await httpService.get('board', { params: filterBy });
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
 }
 
 async function getById(boardId) {
-   try {
-      // const currBoard = await storageService.get(KEY, boardId)
-      // return currBoard
-      socketService.emit('set-board-socket', boardId)
-      const res = await httpService.get('board/' + boardId)
-      return res
-   } catch (err) {
-      console.log(err)
-   }
+	try {
+		// const currBoard = await storageService.get(KEY, boardId)
+		// return currBoard
+		const res = await httpService.get('board/' + boardId);
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
 }
 
 async function remove(boardId) {
-   try {
-      // return await storageService.remove(KEY, boardId)
-
-      const res = await httpService.delete('board/' + boardId)
-      return res
-   } catch (err) {
-      console.log(err)
-   }
+	try {
+		// return await storageService.remove(KEY, boardId)
+		const res = await httpService.delete('board/' + boardId);
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
 }
 
 async function save(board) {
-   try {
-      // const savedBoard = board._id ? await _update(board) : await _add(board)
-      // return savedBoard
-
-      socketService.emit('boardUpdate', board._id)
-
-      if (board._id) {
-         const res = await httpService.put('board/' + board._id, board)
-         return res
-      } else {
-         const res = await httpService.post('board/', board)
-         return res
-      }
-   } catch (err) {
-      console.log(err)
-   }
+	try {
+		// const savedBoard = board._id ? await _update(board) : await _add(board)
+		// return savedBoard
+		// socketService.emit('boardUpdate', board._id)
+		if (board._id) {
+			const res = await httpService.put('board/' + board._id, board);
+			return res;
+		} else {
+			const res = await httpService.post('board/', board);
+			return res;
+		}
+	} catch (err) {
+		console.log(err);
+	}
 }
 
-//FE ONLY
+//FE ONLY - Development without backend
 async function _add(board) {
-   try {
-      return await storageService.post(KEY, board)
-   } catch (err) {
-      console.log(err)
-   }
+	try {
+		return await storageService.post(KEY, board);
+	} catch (err) {
+		console.log(err);
+	}
 }
 
-//FE ONLY
+//FE ONLY - Development without backend
 async function _update(board) {
-   try {
-      return await storageService.put(KEY, board)
-   } catch (err) {
-      console.log(err)
-   }
+	try {
+		return await storageService.put(KEY, board);
+	} catch (err) {
+		console.log(err);
+	}
 }
-
-// async function updateArchiveTasks(task,groupId,boardId){
-//    const board = await getById(boardId)
-//    board.archivedTasks.push()
-// }
 
 function getEmptyBoard() {
-   const board = {
-      title: '',
-      createdAt: Date.now(),
-      createdBy: '',
-      style: {
-         bgColor: ''
-      },
-      labels: [
-         {
-            id: 'l101',
-            title: 'Done',
-            color: 'green'
-         },
-         {
-            id: 'l102',
-            title: 'Attention',
-            color: 'yellow'
-         },
-         {
-            id: 'l103',
-            title: 'Critical',
-            color: 'orange'
-         },
-         {
-            id: 'l104',
-            title: 'Bug',
-            color: 'red'
-         },
-         {
-            id: 'l105',
-            title: 'On it',
-            color: 'purple'
-         },
-         {
-            id: 'l106',
-            title: 'Idea',
-            color: 'blue'
-         },
-         {
-            id: 'l107',
-            title: 'Urgent',
-            color: 'navy'
-         }
-      ],
-      members: [],
-      groups: [
-         {
-            id: utilService.makeId(),
-            title: 'Start here by creating your first list!',
-            tasks: []
-         }
-      ],
-      activities: []
-   }
-   return board
+	const board = {
+		title: '',
+		createdAt: Date.now(),
+		createdBy: '',
+		style: {
+			bgColor: ''
+		},
+		labels: [
+			{
+				id: 'l101',
+				title: 'Done',
+				color: 'green'
+			},
+			{
+				id: 'l102',
+				title: 'Attention',
+				color: 'yellow'
+			},
+			{
+				id: 'l103',
+				title: 'Critical',
+				color: 'orange'
+			},
+			{
+				id: 'l104',
+				title: 'Bug',
+				color: 'red'
+			},
+			{
+				id: 'l105',
+				title: 'On it',
+				color: 'purple'
+			},
+			{
+				id: 'l106',
+				title: 'Idea',
+				color: 'blue'
+			},
+			{
+				id: 'l107',
+				title: 'Urgent',
+				color: 'navy'
+			}
+		],
+		members: [],
+		groups: [
+			{
+				id: utilService.makeId(),
+				title: 'Start here by creating your first list!',
+				tasks: []
+			}
+		],
+		activities: []
+	};
+	return board;
 }
 
 function getEmptyGroup(title) {
-   const group = {
-      id: utilService.makeId(),
-      title,
-      tasks: []
-   }
-   return group
+	const group = {
+		id: utilService.makeId(),
+		title,
+		tasks: []
+	};
+	return group;
 }
 
 function changeBoardBgc(bgc, board) {
-   const currBoard = _deep(board)
-   currBoard.style.bgColor = bgc
-   save(currBoard)
+	const currBoard = _deep(board);
+	currBoard.style.bgColor = bgc;
+	save(currBoard);
 }
 
 //----------------------------------------------------------- */
 //***********************GROUPS********************************
 //----------------------------------------------------------- */
 
-function updateGroup(group, board) {
-   const groupToUpdate = _getCurrGroup(group.id, board)
-   _updateGroup(groupToUpdate, groupToUpdate.id, board)
-   return groupToUpdate
-}
-
-function saveGroups(groups, board) {
-   const deepBoard = _deep(board)
-   deepBoard.groups = groups
-   const savedBoard = save(deepBoard)
-   return savedBoard
-}
-
-function _getCurrGroup(groupId, board) {
-   const currBoard = _deep(board)
-   const currGroup = currBoard.groups.find(group => group.id === groupId)
-   return currGroup
+function _getGroupById(groupId, board) {
+   const currBoard = _deep(board);
+	const currGroup = currBoard.groups.find(group => group.id === groupId);
+	return currGroup;
 }
 
 function addGroup(group, board) {
-   if (!group.id) {
-      group.id = utilService.makeId()
-      const currBoard = _deep(board)
-      currBoard.groups.push(group)
-      saveGroups(currBoard.groups, currBoard)
-      return group
-   }
+	if (!group.id) {
+		group.id = utilService.makeId();
+		const currBoard = _deep(board);
+		currBoard.groups.push(group);
+		saveGroups(currBoard.groups, currBoard);
+		return group;
+	}
 }
 
 function removeGroup(id, board) {
-   const currBoard = _deep(board)
-   let currGroups = currBoard.groups
-   let idx = currGroups.findIndex(group => group.id === id)
-   currGroups.splice(idx, 1)
-   saveGroups(currGroups, currBoard)
-   return idx
+	const currBoard = _deep(board);
+	let currGroups = currBoard.groups;
+	let idx = currGroups.findIndex(group => group.id === id);
+	currGroups.splice(idx, 1);
+	saveGroups(currGroups, currBoard);
+	return idx;
+}
+
+function updateGroup(group, board) {
+	return _updateGroup(group, group.id, board);
+}
+
+function saveGroups(groups, board) {
+	const deepBoard = _deep(board);
+	deepBoard.groups = groups;
+	const savedBoard = save(deepBoard);
+	return savedBoard;
 }
 
 function _updateGroup(updatedGroup, groupId, board) {
-   const currBoard = _deep(board)
-   currBoard.groups.forEach((group, idx, array) => {
-      if (array[idx].id === groupId) array[idx] = updatedGroup
-   })
-   saveGroups(currBoard.groups, currBoard)
-   return updatedGroup
+	const currBoard = _deep(board);
+	currBoard.groups.forEach((group, idx, array) => {
+		if (array[idx].id === groupId) array[idx] = updatedGroup;
+	});
+	saveGroups(currBoard.groups, currBoard);
+	return updatedGroup;
 }
 
 //----------------------------------------------------------- */
 //***********************TASKS********************************
 //----------------------------------------------------------- */
 
-function createTask(title) {
-   let task = _createEmptyTask()
-   task.title = title
-   return task
-}
 
-function _createEmptyTask() {
-   return {
-      id: utilService.makeId(),
-      title: '',
-      description: '',
-      attachments: [],
-      location: {},
-      style: {
-         bgColor: '#ffffff'
-      },
-      members: [],
-      labels: [],
-      byUser: {
-         _id: 'u100',
-         fullname: 'Guest',
-         username: 'guest',
-         imgUrl: ''
-      },
-      startDate: {
-         date: '',
-         isComplete: false
-      },
-      dueDate: {
-         date: '',
-         isComplete: false
-      },
-      comments: [],
-      isArchived: false,
-      checklists: [],
-      activities: []
-   }
+function getEmptyTask(title) {
+	const task = {
+		id: utilService.makeId(),
+		title,
+		description: '',
+		attachments: [],
+		location: {},
+		style: {
+			bgColor: '#ffffff'
+		},
+		members: [],
+		labels: [],
+		byUser: {
+			_id: 'u100',
+			fullname: 'Guest',
+			username: 'guest',
+			imgUrl: ''
+		},
+		startDate: {
+			date: '',
+			isComplete: false
+		},
+		dueDate: {
+			date: '',
+			isComplete: false
+		},
+		comments: [],
+		isArchived: false,
+		checklists: [],
+		activities: []
+	};
+	return task;
 }
 
 function saveTask(task, groupId, board) {
-   const currGroup = _getCurrGroup(groupId, board)
-   currGroup.tasks.push(task)
-   _updateGroup(currGroup, groupId, board)
-   return task
+	const currGroup = _getGroupById(groupId, board);
+	currGroup.tasks.push(task);
+	_updateGroup(currGroup, groupId, board);
 }
 
 function updateSingleTask(task, board, groupId) {
-   const currGroup = _getCurrGroup(groupId, board)
-   const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
-   currGroup.tasks[taskIdx] = task
-   const updatedGroup = _updateGroup(currGroup, currGroup.id, board)
-   return updatedGroup.tasks[taskIdx]
+	const currGroup = _getGroupById(groupId, board);
+	const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id);
+	currGroup.tasks[taskIdx] = task;
+	const updatedGroup = _updateGroup(currGroup, currGroup.id, board);
+	return updatedGroup.tasks[taskIdx];
 }
 
 function updateTasks(tasks, group, board) {
-   const currGroup = _getCurrGroup(group.id, board)
-   currGroup.tasks = tasks
-   return _updateGroup(currGroup, currGroup.id, board)
+	const currGroup = _getGroupById(group.id, board);
+	currGroup.tasks = tasks;
+	return _updateGroup(currGroup, currGroup.id, board);
 }
 
-function removeTask(board, groupId, task) {
-   // const currBoard = _deep(board)
-   let currGroup = _getCurrGroup(groupId, board)
-   let taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
-   currGroup.tasks.splice(taskIdx, 1)
-   let updatedGroup = _updateGroup(currGroup, currGroup.id, board)
-   return updatedGroup[taskIdx]
+function removeTask(task, groupId, board) {
+	let currGroup = _getGroupById(groupId, board);
+	let taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id);
+	currGroup.tasks.splice(taskIdx, 1);
+	// let updatedGroup = _updateGroup(currGroup, currGroup.id, board);
+	 _updateGroup(currGroup, groupId, board);
+    return taskIdx;
+	// return updatedGroup[taskIdx];
 }
 
 function getEmptyComment() {
-   const comment = {
-      txt: '',
-      id: utilService.makeId(),
-      createdAt: Date.now(),
-      byMember: {
-         fullname: '',
-         _id: ''
-      }
-   }
-   return comment
+	const comment = {
+		txt: '',
+		id: utilService.makeId(),
+		createdAt: Date.now(),
+		byMember: {
+			fullname: '',
+			_id: ''
+		}
+	};
+	return comment;
 }
 
 function getEmptyTodo() {
-   const todo = {
-      id: utilService.makeId(),
-      text: '',
-      isDone: false
-   }
-   return todo
+	const todo = {
+		id: utilService.makeId(),
+		text: '',
+		isDone: false
+	};
+	return todo;
 }
 
 function getEmptyChecklist() {
-   const todo = {
-      id: utilService.makeId(),
-      title: '',
-      todos: []
-   }
-   return todo
+	const todo = {
+		id: utilService.makeId(),
+		title: '',
+		todos: []
+	};
+	return todo;
 }
 
 //----------------------------------------------------------- */
@@ -352,23 +337,23 @@ function getEmptyChecklist() {
 //----------------------------------------------------------- */
 
 function addMember(user, board) {
-   const deepBoard = _deep(board)
-   const idx = deepBoard.members.findIndex(member => member._id === user._id)
-   if (idx !== -1) {
-      console.log('Member is already in the board')
-      return
-   } else {
-      deepBoard.members.push(user)
-      save(deepBoard)
-      return user
-   }
+	const deepBoard = _deep(board);
+	const idx = deepBoard.members.findIndex(member => member._id === user._id);
+	if (idx !== -1) {
+		console.log('Member is already in the board');
+		return;
+	} else {
+		deepBoard.members.push(user);
+		save(deepBoard);
+		return user;
+	}
 }
 
 function removeMember(user, board) {
-   const deepBoard = _deep(board)
-   const idx = deepBoard.members.findIndex(member => member._id === user._id)
-   deepBoard.members.splice(idx, 1)
-   save(deepBoard)
+	const deepBoard = _deep(board);
+	const idx = deepBoard.members.findIndex(member => member._id === user._id);
+	deepBoard.members.splice(idx, 1);
+	save(deepBoard);
 }
 
 //FE ONLY
