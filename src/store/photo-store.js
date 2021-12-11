@@ -24,7 +24,6 @@ export const photoStore = {
 	},
 	actions: {
 		fetchPhotos({ commit, state }) {
-            console.log('here store')
 			PhotoService.getPhotos()
 				.then(response => {
 					commit('SET_PHOTOS', response.data);

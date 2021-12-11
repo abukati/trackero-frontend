@@ -44,8 +44,6 @@ async function login(username, password) {
 async function signup(username, password, fullname) {
    try {
       const res = await httpService.post('auth/signup', { username, password, fullname })
-      console.log('res',res);
-      console.log('res data',res.data);
       sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(res.data))
       return _saveLocalUser(res)
    } catch (err) {

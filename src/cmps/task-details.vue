@@ -292,7 +292,7 @@
 									</div>
 									<div class="comment-desc">
 										<span :style="{'font-weight':'bold'}">{{ comment.byMember.fullname }} </span>
-										<span>{{ moment(comment.createdAt).fromNow() }}</span>
+										<span :style="{'font-size':'12px'}">{{ moment(comment.createdAt).fromNow() }}</span>
 										<div class="comment-content">
 											<div class="action-comment">
 												<div class="current-comment">
@@ -538,7 +538,6 @@ export default {
 		this.newTitle = this.task.title;
 		this.taskDesc = this.task.description;
 		this.loggedInUser = this.$store.getters.currLoggedUser;
-		console.log(this.$route)
 	},
 	methods: {
 		shareViaWebShare() {

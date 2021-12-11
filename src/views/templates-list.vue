@@ -57,7 +57,6 @@
                      :key="idx"
                      class="board-link"
                      :to="`/board/${board._id}`"
-                     @click.native="goToBoard(board._id)"
                   >
                      <div
                         class="board-preview"
@@ -174,6 +173,16 @@ export default {
             console.log(err)
          }
       },
+      async removeBoard(boardId) {
+         try {
+            console.log('boardId', boardId)
+            await this.$store.dispatch({ type: "removeBoard", boardId })
+            await this.$store.dispatch({ type: 'loadBoards' })
+            this.boards = this.$store.getters.boardsForDisplay
+         } catch (err) {
+            console.log(err)
+         }
+      },
       // async toggleIsStarred(board) {
       //    try {
       //       // const idx = this.loggedUser.starredBoards.findIndex(board => board._id === this.board._id)
@@ -221,7 +230,6 @@ export default {
       },
       async goToBoard(boardId) {
          try {
-            console.log('boardId', boardId)
             // let boardd = await this.$store.dispatch({ type: "getBoardbyId", boardId })
          } catch (err) {
             console.log(err)

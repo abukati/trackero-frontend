@@ -77,8 +77,6 @@ export default {
    created() {
       this.firstStartDate = this.info.task.startDate.date || ""
       this.firstdueDate = this.info.task.dueDate.date || ""
-      console.log('this.firstStartDate', this.firstStartDate)
-      console.log(' this.firstdueDate', this.firstdueDate)
    },
    data() {
       return {
@@ -155,8 +153,6 @@ export default {
          else this.task.dueDate.date = val
          this.addActivity(`Added new due date ${val}`)
          this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
-         console.log('start date:', this.task.startDate.date)
-         console.log('due date:', this.task.dueDate.date)
 
       }
    }

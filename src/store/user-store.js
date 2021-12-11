@@ -97,7 +97,6 @@ export const userStore = {
       },
       async signup({ commit }, { username, password, fullname }) {
          try {
-            console.log(username, password, fullname)
             const user = await userService.signup(username, password, fullname)
             commit({ type: 'setLoggedUser', user })
             return user
