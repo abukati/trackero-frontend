@@ -9,38 +9,37 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 // const STORAGE_KEY = 'user'
 // const KEY = 'users_db'
 
-
 export const userService = {
-	login,
-	logout,
-	signup,
-	getLoggedinUser,
-	getUsers,
-	getById,
-	remove,
-	update
-};
+   login,
+   logout,
+   signup,
+   getLoggedinUser,
+   getUsers,
+   getById,
+   remove,
+   update
+}
 
 // var gUsers = _createUsers()
 
 // window.loginDiff = login;
-login('Basel', 'basel');
+login('guest', 'Best Guest')
 
 async function login(username, password) {
-	try {
-      const res = await httpService.post('auth/login', { username, password });
-		return _saveLocalUser(res);
-	} catch (err) {
-		console.log(err);
-	}
+   try {
+      const res = await httpService.post('auth/login', { username, password })
+      return _saveLocalUser(res)
+   } catch (err) {
+      console.log(err)
+   }
 }
 async function signup(username, password, fullname) {
-	try {
-		const res = await httpService.post('auth/signup', { username, password, fullname });
-		return _saveLocalUser(res);
-	} catch (err) {
-		console.log(err);
-	}
+   try {
+      const res = await httpService.post('auth/signup', { username, password, fullname })
+      return _saveLocalUser(res)
+   } catch (err) {
+      console.log(err)
+   }
 }
 
 async function logout() {
@@ -63,8 +62,8 @@ function _saveLocalUser(user) {
 }
 
 function getUsers() {
-	// return storageService.query('user')
-	return httpService.get(`user`)
+   // return storageService.query('user')
+   return httpService.get(`user`)
 }
 
 async function getById(userId) {

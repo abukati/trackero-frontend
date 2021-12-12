@@ -76,6 +76,7 @@
                               @click="toggleMiniProfile($event, member)"
                            >
                               <avatar
+                                 :src="member.imgUrl"
                                  :size="32"
                                  :username="member.fullname"
                                  :title="`${member.fullname}(${member.username})`"
@@ -396,6 +397,7 @@
                   <div class="new-comment-section">
                      <div class="member">
                         <avatar
+                           :src="loggedInUser.imgUrl"
                            :size="30"
                            :username="loggedInUser.fullname"
                            :title="`${loggedInUser.fullname}(${loggedInUser.username})`"
@@ -457,6 +459,7 @@
                            <div class="comment-creator">
                               <div class="member">
                                  <avatar
+                                    :src="loggedInUser.imgUrl"
                                     :size="30"
                                     :username="comment.byMember.fullname"
                                     :title="`${comment.byMember.fullname}`"
@@ -517,6 +520,7 @@
                                  <div class="activity-creator">
                                     <div class="member">
                                        <avatar
+                                          :src="loggedInUser.imgUrl"
                                           :size="30"
                                           :username="activity.byMember.fullname"
                                           :title="`${activity.byMember.fullname}`"
@@ -1076,7 +1080,8 @@ export default {
       },
       taskIsArchived() {
          return this.task.isArchived
-      }
+      },
+
    }
 };
 </script>

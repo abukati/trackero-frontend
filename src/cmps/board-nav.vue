@@ -147,6 +147,7 @@
                   :key="member._id"
                >
                   <avatar
+                     :src="member.imgUrl"
                      :size="28"
                      :username="member.fullname"
                      :title="`${member.fullname}(${member.username})`"

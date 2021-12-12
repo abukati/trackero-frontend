@@ -165,6 +165,7 @@
                      style="float: left"
                   >
                      <avatar
+                        :src="member.imgUrl"
                         :size="28"
                         :username="member.fullname"
                         :title="`${member.fullname}(${member.username})`"
@@ -338,7 +339,7 @@ export default {
          const groupId = this.groupId
          const task = this.taskToEdit
          this.$store.dispatch({ type: 'updateTask', groupId, task })
-         if(action === 'save') this.closePreviewEdit()
+         if (action === 'save') this.closePreviewEdit()
       },
       addTaskMember(user) {
          if (user) this.taskToEdit.members.push(user)
