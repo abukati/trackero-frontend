@@ -1,33 +1,50 @@
 <template>
-	<section class="board-app" v-if="board">
-		<div class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
-			<div class="task-detail-modal-container">
-				<div class="modal-content">
-					<router-view :class="{ 'window-up': isModalOpen }" />
-				</div>
-			</div>
-			<task-preview-edit
-				@closePreviewEdit="closePreviewEdit"
-				v-if="isPreviewEdit"
-				:task="this.task"
-				:board="board"
-				:group="this.group"
-				:modalPos="this.modalPos"
-				:key="task.id"
-			/>
-			<div class="board-container">
-				<div class="board-content">
-					<div class="board-content-wrapper">
-						<div class="board-main-content" >
-							<board-nav
-								@toggleBoardNavMenu="toggleBoardNavMenu"
-								:board="board"
-								:boardMembers="board.members"
-								:boardBgc="board.style.bgColor"
-							/>
-							<div class="groups-container-main" >
-                         
-                          <!-- <Draggable class="board-group" :style="{'display':'inline-block','overflow':'unset'}"  v-for="group in boardGroups" :key="group.id">
+   <section class="board-app">
+      <div
+         class="loader-gif"
+         v-if="!board"
+         :style="{
+            display: 'flex',
+            'justify-content': 'center',
+            'align-self': 'center',
+         }"
+      >
+         <img
+            :src="require(`@/assets/img/loader1.gif`)"
+            :style="{ width: 200 + 'px', height: 200 + 'px' }"
+         />
+      </div>
+      <div
+         v-else
+         class="board-wrapper"
+         :class="{ 'is-show-menu': isBoardMenuOpen }"
+      >
+         <div class="task-detail-modal-container">
+            <div class="modal-content">
+               <router-view :class="{ 'window-up': isModalOpen }" />
+            </div>
+         </div>
+         <task-preview-edit
+            @closePreviewEdit="closePreviewEdit"
+            v-if="isPreviewEdit"
+            :task="this.task"
+            :board="board"
+            :group="this.group"
+            :modalPos="this.modalPos"
+            :key="task.id"
+         />
+         <div class="board-container">
+            <div class="board-content">
+               <div class="board-content-wrapper">
+                  <div class="board-main-content">
+                     <board-nav
+                        @toggleBoardNavMenu="toggleBoardNavMenu"
+                        :board="board"
+                        :boardMembers="board.members"
+                        :boardBgc="board.style.bgColor"
+                     />
+                     <div class="groups-container-main">
+                        <!-- <Draggable class="board-group" :style="{'display':'inline-block','overflow':'unset'}"  v-for="group in boardGroups" :key="group.id">
                               	<group-preview @onlyOneEdit="onlyOneEdit" @toggleModal="toggleModalClass" :group="group" :board="board" />
                            </Draggable> -->
 
@@ -165,7 +182,7 @@ export default {
       }
    },
    async created() {
-      socketService.on('boardUpdate',this.loadBoard)
+      socketService.on('boardUpdate', this.loadBoard)
    },
    computed: {
       // groupsList: {

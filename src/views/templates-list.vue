@@ -1,6 +1,20 @@
 <template>
    <section class="workspace-container-wrapper">
       <div class="workspace-container">
+         <div
+            class="loader-gif"
+            v-if="!boards || !starred"
+            :style="{
+               display: 'flex',
+               'justify-content': 'center',
+               'align-items': 'center',
+            }"
+         >
+            <img
+               :src="require(`@/assets/img/loader1.gif`)"
+               :style="{ width: 200 + 'px', height: 200 + 'px' }"
+            />
+         </div>
          <div class="boards-wrapper" v-if="boards && starred">
             <div class="starred-boards">
                <div class="preview-title" v-if="boards">
@@ -133,6 +147,7 @@ export default {
       await this.$store.dispatch({ type: 'loadBoards' })
       this.boards = this.$store.getters.boardsForDisplay
       this.starred = this.$store.getters.starredBoards
+      console.log('this.starred', this.starred)
       this.loggedUser = this.$store.getters.currLoggedUser
    },
    methods: {
@@ -177,10 +192,11 @@ export default {
                const { _id, title, style } = board
                this.loggedUser.starredBoards.push({ _id, title, ...style })
             }
-            await this.$store.dispatch({ type: 'saveUser', user: this.loggedUser })
+            await this.$store.dispatch({ type: 'updateUser', user: this.loggedUser })
             await this.$store.dispatch({ type: 'loadBoards' })
-            this.boards = this.$store.getters.boardsForDisplay
-            this.starred = this.$store.getters.starredBoards
+            // this.boards = this.$store.getters.boardsForDisplay
+            // this.starred = this.$store.getters.starredBoards
+            console.log('this.starred', this.starred)
          } catch (err) {
             console.log(err)
          }

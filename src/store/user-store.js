@@ -36,7 +36,8 @@ export const userStore = {
          state.loggedUser = users[0]
       },
       saveUser(state, { userToSave }) {
-         const idx = state.users.findIndex(user => user._id === userToSave._id)
+         console.log('userToSave', userToSave)
+         const idx = state.users.findIndex(user => user.id === userToSave.id)
          state.users.splice(idx, 1, userToSave)
          state.loggedUser = userToSave // TEMP - NEEDS TO BE CHANGED
       },
@@ -66,14 +67,14 @@ export const userStore = {
       //       console.error(err)
       //    }
       // },
-      async saveUser({ state, commit }, { user }) {
-         try {
-            const userToSave = await userService.save(user)
-            commit({ type: 'saveUser', userToSave })
-         } catch (err) {
-            console.log(err)
-         }
-      },
+      // async saveUser({ state, commit }, { user }) {
+      //    try {
+      //       const userToSave = await userService.update(user)
+      //       commit({ type: 'saveUser', userToSave })
+      //    } catch (err) {
+      //       console.log(err)
+      //    }
+      // },
       //BACKEND
       async setLoggedUser({ commit }, { user }) {
          try {
@@ -150,7 +151,8 @@ export const userStore = {
       async updateUser({ commit }, { user }) {
          try {
             user = await userService.update(user)
-            commit({ type: 'setUser', user })
+            console.log('user', user)
+            commit({ type: 'saveUser', userToSave: user })
          } catch (err) {
             console.log('userStore: Error in updateUser', err)
             throw err
