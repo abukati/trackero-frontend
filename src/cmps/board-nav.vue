@@ -269,6 +269,7 @@ export default {
    },
    created() {
       window.addEventListener('resize', this.onResize)
+      this.onResize()
    },
    destroyed() {
       window.removeEventListener('resize', this.onResize)
