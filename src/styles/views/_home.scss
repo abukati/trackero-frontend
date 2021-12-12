@@ -91,7 +91,7 @@
       margin: auto;
       align-items: center;
       flex-direction: column;
-      text-align: center;
+      text-align: left;
       position: relative;
       top: 66px;
 
@@ -123,7 +123,7 @@
                   letter-spacing: 1px;
                   color: #fff;
                   // width: auto;
-                  margin: auto;
+                  // margin: auto;
                   background-color: #0065ff;
                   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
                   &:hover {

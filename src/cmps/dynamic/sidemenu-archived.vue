@@ -139,6 +139,7 @@
                         style="float: left"
                      >
                         <avatar
+                           :src="member.imgUrl"
                            :size="28"
                            :username="member.fullname"
                            :title="`${member.fullname}(${member.username})`"

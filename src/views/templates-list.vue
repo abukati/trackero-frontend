@@ -147,7 +147,6 @@ export default {
       await this.$store.dispatch({ type: 'loadBoards' })
       this.boards = this.$store.getters.boardsForDisplay
       this.starred = this.$store.getters.starredBoards
-      console.log('this.starred', this.starred)
       this.loggedUser = this.$store.getters.currLoggedUser
    },
    methods: {
@@ -196,7 +195,6 @@ export default {
             await this.$store.dispatch({ type: 'loadBoards' })
             // this.boards = this.$store.getters.boardsForDisplay
             // this.starred = this.$store.getters.starredBoards
-            console.log('this.starred', this.starred)
          } catch (err) {
             console.log(err)
          }

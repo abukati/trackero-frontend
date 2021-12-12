@@ -54,7 +54,7 @@
                      team works is unique - accomplish it all with Trackero.
                   </p>
                   <div class="start-btn-container">
-                     <a class="clean-link" href="#/board">Start demo</a>
+                     <a class="clean-link" href="#/board">Try Demo</a>
                   </div>
                </div>
                <div class="hero-img">
@@ -73,7 +73,7 @@
                   projects, organize tasks, and build team spirit - all in one
                   place.
                </p>
-               <a class="start-doing-btn" href="/signup">Start doing →</a>
+               <a class="start-doing-btn" href="#/board">Start doing →</a>
             </div>
             <div>
                <img
