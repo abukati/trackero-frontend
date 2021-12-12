@@ -2,6 +2,8 @@
 import { utilService } from './util-service.js';
 import { socketService } from './socket-service.js';
 import { httpService } from './http-service.js';
+// Requiring lodash library
+const _ = require('lodash');
 
 // const KEY = 'board_db'
 // var gBoards = _createBoards()
@@ -75,13 +77,15 @@ async function remove(boardId) {
 	}
 }
 
-async function save(board) {
+
+
+var save = _.debounce(async function save(board) {
 	try {
 		// const savedBoard = board._id ? await _update(board) : await _add(board)
 		// return savedBoard
 		if (board._id) {
-         const res = await httpService.put('board/' + board._id, board);
-         socketService.emit('boardUpdate', board._id)
+         	const res = await httpService.put('board/' + board._id, board);
+         	socketService.emit('boardUpdate', board._id)
 			return res;
 		} else {
 			const res = await httpService.post('board/', board);
@@ -90,7 +94,7 @@ async function save(board) {
 	} catch (err) {
 		console.log(err);
 	}
-}
+},100)
 
 //FE ONLY - Development without backend
 async function _add(board) {
@@ -188,7 +192,7 @@ function changeBoardBgc(bgc, board) {
 //----------------------------------------------------------- */
 
 function _getGroupById(groupId, board) {
-   const currBoard = _deep(board);
+	const currBoard = _deep(board);
 	const currGroup = currBoard.groups.find(group => group.id === groupId);
 	return currGroup;
 }
@@ -212,9 +216,9 @@ function removeGroup(id, board) {
 	return idx;
 }
 
-function updateGroup(group, board) {
-	return _updateGroup(group, group.id, board);
-}
+// function updateGroup(group, board) {
+// 	return _updateGroup(group, group.id, board);
+// }
 
 function saveGroups(groups, board) {
 	const deepBoard = _deep(board);
@@ -223,11 +227,11 @@ function saveGroups(groups, board) {
 	return savedBoard;
 }
 
-function _updateGroup(updatedGroup, groupId, board) {
+function updateGroup(updatedGroup, groupId, board) {
 	const currBoard = _deep(board);
-	currBoard.groups.forEach((group, idx, array) => {
-		if (array[idx].id === groupId) array[idx] = updatedGroup;
-	});
+	const idx = currBoard.groups.findIndex(currGroup => currGroup.id === groupId)
+	currBoard.groups.splice(idx, 1, updatedGroup)
+	// save(currBoard)
 	saveGroups(currBoard.groups, currBoard);
 	return updatedGroup;
 }
@@ -274,21 +278,21 @@ function getEmptyTask(title) {
 function saveTask(task, groupId, board) {
 	const currGroup = _getGroupById(groupId, board);
 	currGroup.tasks.push(task);
-	_updateGroup(currGroup, groupId, board);
+	updateGroup(currGroup, groupId, board);
 }
 
 function updateSingleTask(task, board, groupId) {
 	const currGroup = _getGroupById(groupId, board);
 	const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id);
 	currGroup.tasks[taskIdx] = task;
-	const updatedGroup = _updateGroup(currGroup, currGroup.id, board);
+	const updatedGroup = updateGroup(currGroup, currGroup.id, board);
 	return updatedGroup.tasks[taskIdx];
 }
 
 function updateTasks(tasks, group, board) {
 	const currGroup = _getGroupById(group.id, board);
 	currGroup.tasks = tasks;
-	return _updateGroup(currGroup, currGroup.id, board);
+	return updateGroup(currGroup, currGroup.id, board);
 }
 
 function removeTask(task, groupId, board) {
@@ -296,7 +300,7 @@ function removeTask(task, groupId, board) {
 	let taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id);
 	currGroup.tasks.splice(taskIdx, 1);
 	// let updatedGroup = _updateGroup(currGroup, currGroup.id, board);
-	 _updateGroup(currGroup, groupId, board);
+	updateGroup(currGroup, groupId, board);
     return taskIdx;
 	// return updatedGroup[taskIdx];
 }

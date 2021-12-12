@@ -10,6 +10,8 @@ import TextareaAutosize from 'vue-textarea-autosize'
 import VCalendar from 'v-calendar'
 import moment from 'moment'
 
+import VueDragscroll from 'vue-dragscroll'
+Vue.use(VueDragscroll)
 Vue.prototype.moment = moment
 Vue.use(TextareaAutosize)
 Vue.use(Vuex)

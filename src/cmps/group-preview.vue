@@ -195,7 +195,7 @@ export default {
          this.isPreviewEdit = true
          this.$emit('onlyOneEdit', group, task, modalPos)
       },
-      async onDrop(items, dropResult) {
+      onDrop(items, dropResult) {
          const tasks = applyDrag(items, dropResult)
          this.group.tasks = tasks
          this.$store.dispatch({ type: 'updateGroup', group: this.group })

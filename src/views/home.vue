@@ -159,13 +159,9 @@
 </template>
 
 <script>
-// import datePicker from '@/cmps/dynamic/date-picker.vue'
 
 export default {
    name: 'homePage',
-   components: {
-      // datePicker
-   },
    data() {
       return {
          isScroll: false,
@@ -174,7 +170,7 @@ export default {
    },
    async created() {
       await this.$store.dispatch({ type: 'loadBoards' })
-      await this.$store.dispatch({ type: 'loadUsers' })
+      // await this.$store.dispatch({ type: 'loadUsers' })
    },
    methods: {
       scrollListener(ev) {

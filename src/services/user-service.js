@@ -11,11 +11,6 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser';
 
 
 export const userService = {
-	query,
-	getUserById,
-	getEmptyUser,
-	save,
-	//WORKS WITH BACKEND
 	login,
 	logout,
 	signup,
@@ -28,14 +23,12 @@ export const userService = {
 
 // var gUsers = _createUsers()
 
-window.loginDiff = login;
+// window.loginDiff = login;
 login('Basel', 'basel');
 
 async function login(username, password) {
 	try {
-		console.log('login', {username,password})
       const res = await httpService.post('auth/login', { username, password });
-		sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(res.data));
 		return _saveLocalUser(res);
 	} catch (err) {
 		console.log(err);
@@ -44,7 +37,6 @@ async function login(username, password) {
 async function signup(username, password, fullname) {
 	try {
 		const res = await httpService.post('auth/signup', { username, password, fullname });
-		sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(res.data));
 		return _saveLocalUser(res);
 	} catch (err) {
 		console.log(err);
@@ -125,91 +117,91 @@ async function update(user) {
 //
 //
 //************************ONLY-FRONT-END*********************************** */
-async function query() {
-	try {
-		return await storageService.query(KEY);
-	} catch (err) {
-		console.log(err);
-	}
-}
+// async function query() {
+// 	try {
+// 		return await storageService.query(KEY);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// }
 
-async function getUserById(userId) {
-	try {
-		const users = await query();
-		return users.find(user => user._id === userId);
-	} catch (err) {
-		console.log(err);
-	}
-}
+// async function getUserById(userId) {
+// 	try {
+// 		const users = await query();
+// 		return users.find(user => user._id === userId);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// }
 
-async function save(user) {
-	try {
-		const savedUser = user._id ? await _update(user) : await _add(user);
-		return savedUser;
-	} catch (err) {
-		console.log(err);
-	}
-}
+// async function save(user) {
+// 	try {
+// 		const savedUser = user._id ? await _update(user) : await _add(user);
+// 		return savedUser;
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// }
 
-async function _add(user) {
-	try {
-		return await storageService.post(KEY, user);
-	} catch (err) {
-		console.log(err);
-	}
-}
+// async function _add(user) {
+// 	try {
+// 		return await storageService.post(KEY, user);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// }
 
-async function _update(user) {
-	try {
-		return await storageService.put(KEY, user);
-	} catch (err) {
-		console.log(err);
-	}
-}
+// async function _update(user) {
+// 	try {
+// 		return await storageService.put(KEY, user);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// }
 
-function _createUsers() {
-	var users = JSON.parse(localStorage.getItem(KEY));
-	if (!users || !users.length) {
-		users = [
-			_createUser('u100', 'guest', 'guest', ''),
-			_createUser('u101', 'baselB', 'Basel Boulos', 'baseluser.png'),
-			_createUser('u102', 'ArtiomB', 'Artiom Bukati', 'artiomuser.png'),
-			_createUser('u103', 'NoaN', 'Noa Nissim', 'noauser.png')
-		];
-		localStorage.setItem(KEY, JSON.stringify(users));
-		return users;
-	}
-}
+// function _createUsers() {
+// 	var users = JSON.parse(localStorage.getItem(KEY));
+// 	if (!users || !users.length) {
+// 		users = [
+// 			_createUser('u100', 'guest', 'guest', ''),
+// 			_createUser('u101', 'baselB', 'Basel Boulos', 'baseluser.png'),
+// 			_createUser('u102', 'ArtiomB', 'Artiom Bukati', 'artiomuser.png'),
+// 			_createUser('u103', 'NoaN', 'Noa Nissim', 'noauser.png')
+// 		];
+// 		localStorage.setItem(KEY, JSON.stringify(users));
+// 		return users;
+// 	}
+// }
 
-function _createUser(id, username, fullname, imgUrl = '') {
-	const user = {
-		_id: id,
-		username,
-		fullname,
-		password: '',
-		imgUrl,
-		mentions: [
-			{
-				id: '',
-				boardId: '',
-				taskId: ''
-			}
-		],
-		subscribedTo: [],
-		starredBoards: []
-	};
-	return user;
-}
+// function _createUser(id, username, fullname, imgUrl = '') {
+// 	const user = {
+// 		_id: id,
+// 		username,
+// 		fullname,
+// 		password: '',
+// 		imgUrl,
+// 		mentions: [
+// 			{
+// 				id: '',
+// 				boardId: '',
+// 				taskId: ''
+// 			}
+// 		],
+// 		subscribedTo: [],
+// 		starredBoards: []
+// 	};
+// 	return user;
+// }
 
-function getEmptyUser() {
-	const user = {
-		username,
-		fullname,
-		password,
-		imgUrl,
-		mentions: [],
-		subscribedTo: [],
-		starredBoards: []
-	};
-	return user;
-}
+// function getEmptyUser() {
+// 	const user = {
+// 		username,
+// 		fullname,
+// 		password,
+// 		imgUrl,
+// 		mentions: [],
+// 		subscribedTo: [],
+// 		starredBoards: []
+// 	};
+// 	return user;
+// }

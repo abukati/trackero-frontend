@@ -18,7 +18,7 @@
 			<div class="board-container">
 				<div class="board-content">
 					<div class="board-content-wrapper">
-						<div class="board-main-content">
+						<div class="board-main-content" >
 							<board-nav
 								@toggleBoardNavMenu="toggleBoardNavMenu"
 								:board="board"
@@ -33,6 +33,7 @@
 
                         <!-- CONTAINER FOR THE D&D -->
                         <Container
+                           v-dragscroll:nochilddrag
                            orientation="horizontal"
                            v-if="onlyOneEdit"
                            :style="{ display: 'block' }"
@@ -47,6 +48,7 @@
                            non-drag-area-selector=".is-editing"
                         >
                            <Draggable
+                              data-dragscroll
                               class="board-group"
                               :style="{ display: 'inline-block' }"
                               v-for="group in boardGroups"
@@ -184,6 +186,7 @@ export default {
    methods: {
       async addGroup() {
          try {
+            if(!this.newListTitleInput) return
             var group = JSON.parse(JSON.stringify(this.$store.getters.getEmptyGroup))
             group.title = this.newListTitleInput
             await this.$store.dispatch({ type: 'addGroup', group })

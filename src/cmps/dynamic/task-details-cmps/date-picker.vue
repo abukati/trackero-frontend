@@ -149,11 +149,14 @@ export default {
    },
    watch: {
       valueString(val) {
-         if (this.isStartShow) this.task.startDate.date = val
-         else this.task.dueDate.date = val
-         this.addActivity(`Added new due date ${val}`)
+         if (this.isStartShow) {
+            this.task.startDate.date = val
+            this.addActivity(`Added new start date ${val}`)
+         }else{
+            this.task.dueDate.date = val
+            this.addActivity(`Added new due date ${val}`)
+         } 
          this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
-
       }
    }
 };

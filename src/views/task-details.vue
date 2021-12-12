@@ -312,11 +312,11 @@
 								<span class="activity-icon icon-lg"></span>
 								<h3>Activity</h3>
 								<div class="window-module-title-options">
-									<a v-if="isShowActivity" @click="toggleActivity" class="show-details-btn" href="#">Show details</a>
+									<a v-if="!isShowActivity" @click="toggleActivity" class="show-details-btn" href="#">Show details</a>
 									<a v-else @click="toggleActivity" class="hide-details-btn" href="#">Hide details</a>
 								</div>
 							</div>
-							<div v-show="!isShowActivity">
+							<div v-show="isShowActivity">
 								<template v-for="activity in task.activities">
 									<div class="activity-container" :key="activity.id">
 										<div class="activity">
@@ -390,10 +390,10 @@
 									<span class="icon-sm icon-attachment"></span>
 									<span class="sidebar-action-text">Attachment</span>
 								</a>
-								<a class="button-link" title="Location">
+								<!-- <a class="button-link" title="Location">
 									<span class="icon-sm icon-location"></span>
 									<span class="sidebar-action-text">Location</span>
-								</a>
+								</a> -->
 								<a @click="toggleListCmp($event, 'cover-menu')" v-if="!taskCover" class="button-link" href="#" title="Cover">
 									<span class="icon-sm icon-cover"></span>
 									<span class="sidebar-action-text">Cover</span>
@@ -442,14 +442,14 @@
 						<div class="window-module clearfix action-buttons">
 							<h3 class="no-top-margin">Actions</h3>
 							<div class="clearfix">
-								<a class="button-link" title="Move" href="#">
+								<!-- <a class="button-link" title="Move" href="#">
 									<span class="icon-sm move-icon"></span>
 									<span class="sidebar-action-text">Move</span>
-								</a>
-								<a class="button-link" title="Copy" href="#">
+								</a> -->
+								<!-- <a class="button-link" title="Copy" href="#">
 									<span class="icon-sm copy-icon"></span>
 									<span class="sidebar-action-text">Copy</span>
-								</a>
+								</a> -->
 								<!-- <a class="button-link" title="Make template" href="#">
                            <span class="icon-sm">
                            </span>
@@ -571,7 +571,7 @@ export default {
 				this.$nextTick(() => {
 					this.isListOpen = true;
 					if (this.isMiniProfileOpen) this.closeMiniProfile();
-					this.info.modalPos.posY = ev.pageY + 20; // top
+					this.info.modalPos.posY = ev.pageY - 20; // top
 					this.info.modalPos.posX = ev.pageX - 15; // left
 					this.info.type = cmpName;
 				});

@@ -1,7 +1,7 @@
 <template>
    <div id="app">
       <main :style="setBg">
-         <app-header v-if="!isHomePage" />
+         <app-header v-if="!isHomePage && loggedUser" />
          <router-view />
          <!-- <loading-overlay v-else /> -->
          <!-- {{ loggedUser }} -->

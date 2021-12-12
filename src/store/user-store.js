@@ -4,9 +4,7 @@ import { userService } from '@/services/user-service.js'
 export const userStore = {
    state: {
       users: [],
-      // loggedUser: null,
-      //B-E
-      loggedUser: userService.getLoggedinUser() || null,
+      loggedUser: null,
       watchedUser: null
    },
    getters: {
@@ -28,7 +26,6 @@ export const userStore = {
       loggedUserId(state) {
          return state.loggedUser._id
       },
-
       watchedUser({ watchedUser }) {
          return watchedUser
       }
@@ -117,9 +114,10 @@ export const userStore = {
       async loadUsers({ commit }) {
          // TODO: loading
          try {
-            
             const users = await userService.getUsers()
+            const LoggedUser = await userService.getLoggedinUser()
             commit({ type: 'setUsers', users })
+            commit({ type: 'setLoggedUser', user:LoggedUser })
             return users
          } catch (err) {
             console.log('userStore: Error in loadUsers', err)

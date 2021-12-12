@@ -1,5 +1,5 @@
 <template>
-   <header>
+   <header >
       <nav>
          <!-- <div>
             <div class="atlassian-btn-wrapper">
@@ -279,6 +279,7 @@
             <router-link class="user-profile-btn" to="/user">
                <div class="user-avatar-container">
                   <avatar
+                     v-if="loggedUser"
                      class="user-avatar"
                      :src="imgSrc"
                      :username="loggedUser.fullname"
@@ -327,7 +328,7 @@ export default {
          breakpointBig: true
       }
    },
-   created() {
+   async created() {
       this.setLoggedUser()
       window.addEventListener('resize', this.onResize)
       if (window.innerWidth < 768) this.breakpointBig = false
@@ -337,7 +338,7 @@ export default {
    },
    methods: {
       setLoggedUser() {
-         this.loggedUser = this.$store.getters.currLoggedUser
+          this.loggedUser = this.$store.getters.currLoggedUser
       },
       modalOpen(ev) {
          if (this.isModalOpen && ev.target.dataset.cmp === this.modalCmp.type) return (this.isModalOpen = false)
@@ -358,8 +359,8 @@ export default {
    },
    computed: {
       imgSrc() {
-         return this.loggedUser.imgUrl
+        return this.loggedUser.imgUrl
       }
-   }
+   },
 }
 </script>

@@ -92,8 +92,8 @@ export const boardStore = {
          const idx = state.groups.findIndex(group => group.id === groupId)
          state.groups.splice(idx, 1)
       },
-      updateGroup(state, { group, groupId }) {
-         const idx = state.groups.findIndex(group => group.id === groupId)
+      updateGroup(state, { group }) {
+         const idx = state.groups.findIndex(currGroup => currGroup.id === group.id)
          state.groups.splice(idx, 1, group)
       },
       //----------------------------------------------------------- */
@@ -228,11 +228,10 @@ export const boardStore = {
             console.log(err)
          }
       },
-      async updateGroup({ state, commit }, { group }) {
+      async updateGroup({ state, commit}, { group }) {
          try {
-            const updatedGroup = await boardService.updateGroup(group, state.currBoard)
-            commit({ type: 'updateGroup', group, groupId: updatedGroup.id })
-            return updatedGroup
+            const updatedGroup = await boardService.updateGroup(group, group.id, state.currBoard)
+            commit({ type: 'updateGroup', group:updatedGroup })
          } catch (err) {
             console.log(err)
          }
