@@ -333,7 +333,6 @@ export default {
          this.showStar = window.innerWidth < 360 ? false : true
       },
       toggleListMembers() {
-         console.log('here')
          this.showListMembers = !this.showListMembers
       }
    }
