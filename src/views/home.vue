@@ -54,7 +54,7 @@
                      team works is unique - accomplish it all with Trackero.
                   </p>
                   <div class="start-btn-container">
-                     <a class="clean-link" href="#/board">Start!</a>
+                     <a class="clean-link" href="#/board">Start demo</a>
                   </div>
                </div>
                <div class="hero-img">

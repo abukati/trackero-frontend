@@ -1,5 +1,4 @@
 import { boardService } from '@/services/board-service.js'
-import { socketService } from './../services/socket-service.js'
 
 export const boardStore = {
    state: {
@@ -111,11 +110,6 @@ export const boardStore = {
          const currGroup = state.groups.find(currGroup => currGroup.id === groupId)
          const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === updatedTask.id)
          currGroup.tasks.splice(taskIdx, 1, updatedTask)
-      },
-      setTasks(state, { groupId, tasksToSave }) {
-         const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === groupId)
-         if (groupIdx < 0) return
-         state.currBoard.groups[groupIdx].tasks = tasksToSave
       },
       updateTaskPositions(state, { updatedGroup }) {
          const idx = state.groups.findIndex(group => group.id === updatedGroup.id)
