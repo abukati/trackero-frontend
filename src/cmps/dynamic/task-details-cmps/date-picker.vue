@@ -75,6 +75,8 @@ export default {
 
    },
    created() {
+      console.log( this.info.task.startDate.date)
+      console.log(  this.info.task.dueDate.date )
       this.firstStartDate = this.info.task.startDate.date || ""
       this.firstdueDate = this.info.task.dueDate.date || ""
    },
@@ -88,8 +90,8 @@ export default {
          },
          startChecked: false,
          isStartShow: false,
-         firstStartDate: null,
-         firstdueDate: null
+         firstStartDate: '',
+         firstDueDate: ''
       }
    },
    computed: {

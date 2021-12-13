@@ -244,7 +244,8 @@ function getEmptyTask(title) {
 		attachments: [],
 		location: {},
 		style: {
-			bgColor: '#ffffff'
+			bgColor: '#ffffff',
+			url:''
 		},
 		members: [],
 		labels: [],

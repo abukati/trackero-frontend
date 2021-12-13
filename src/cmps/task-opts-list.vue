@@ -55,7 +55,7 @@ export default {
          this.$emit('changeTaskCover', color)
       },
       removeTaskCover() {
-         this.$emit('removeTaskCover')
+         this.$emit('removeTaskCover','#ffffff')
       },
       closeList() {
          this.$emit('closeList')

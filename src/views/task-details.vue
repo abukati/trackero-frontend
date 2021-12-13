@@ -6,7 +6,6 @@
 					<span class="icon-close icon-sm"></span>
 				</a>
 				<div class="task-detail clearfix">
-               
 					<div v-if="taskCover" :class="{ img: task.style.url }" class="task-cover" :style="taskCover">
 						<div class="task-cover-menu">
 							<a @click="toggleListCmp($event, 'cover-menu')" class="task-cover-menu-button">
@@ -567,7 +566,10 @@ export default {
 			});
 		},
 		closeDetails() {
-			this.$router.go(-1);
+			const { boardId } = this.$route.params;
+			const url = `/board/${boardId}`
+			this.$router.push(url)
+			// this.$router.go(-1);
 		},
 		toggleMiniProfile(ev, user) {
 			if (this.isMiniProfileOpen && user._id === this.profileOfUser._id) {
@@ -592,7 +594,6 @@ export default {
 			} else {
 				this.$nextTick(() => {
 					this.isListOpen = true;
-
 					if (this.isMiniProfileOpen) this.closeMiniProfile();
 					this.info.modalPos.posY = ev.pageY + 20; // top
 					this.info.modalPos.posX = ev.pageX - 15; // left
@@ -685,6 +686,7 @@ export default {
 			const attachmentIdx = this.task.attachments.findIndex(currAttach => currAttach.id === attachment.id);
 			if (attachmentIdx !== -1) {
 				if (attachment) this.task.attachments.splice(attachmentIdx, 1);
+				this.task.style.url = '';
 				this.addActivity(`Removed attachment ${attachment.title}`);
 				this.updateTask();
 			} else {
@@ -692,7 +694,8 @@ export default {
 			}
 		},
 		toggleTaskCover(color) {
-			if (color) {
+			if(this.task.style.bgColor === color) return
+			if (color !== '#ffffff') {
 				this.task.style.bgColor = color;
 				this.addActivity(`Changed this task cover`);
 			} else {
@@ -813,7 +816,7 @@ export default {
 				const from = this.task.startDate.date.slice(0, 6);
 				const to = this.task.dueDate.date.slice(0, 6);
 				return `${from} - ${to}`;
-			} else if (this.task.startDate) return this.task.startDate.date.slice(0, 6);
+			} else if (this.task.startDate.date) return this.task.startDate.date.slice(0, 6);
 			return this.task.dueDate.date.slice(0, 6);
 		},
 		showSuggested() {
