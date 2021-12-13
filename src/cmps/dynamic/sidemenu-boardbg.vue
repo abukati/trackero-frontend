@@ -29,7 +29,8 @@ export default {
    },
    data() {
       return {
-         currCmp: null
+         currCmp: null,
+         isBoardMainPage: true,
       }
    },
    methods: {
