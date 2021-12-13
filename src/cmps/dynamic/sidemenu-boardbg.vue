@@ -22,6 +22,7 @@ export default {
    name: 'changeBgcCmp',
    props: {
       board: Object, required: true,
+      moreOptions: Function, required: true,
    },
    components: {
       openColors,
