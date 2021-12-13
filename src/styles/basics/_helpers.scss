@@ -321,7 +321,6 @@
 // DND
 
 .card-ghost {
-   pointer-events: none;
    transition: transform 0.18s ease;
    transform: rotateZ(5deg);
 }
@@ -332,7 +331,8 @@
 }
 
 // .drop-preview {
-//      background-color: rgba(241, 189, 189, 0.308);
-//      border-radius: 3px;
-//      box-shadow: 0 1px #091e4240;
-//   }
+//    background-color: rgba(241, 189, 189, 0.308);
+//    border-radius: 3px;
+//    margin:0 4px 0 7px;
+//    box-shadow: 0 1px #091e4240;
+// }

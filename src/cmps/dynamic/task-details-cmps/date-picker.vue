@@ -74,11 +74,11 @@ export default {
    components: {
 
    },
-   created() {
-      console.log( this.info.task.startDate.date)
-      console.log(  this.info.task.dueDate.date )
+   async created() {
       this.firstStartDate = this.info.task.startDate.date || ""
       this.firstdueDate = this.info.task.dueDate.date || ""
+      this.groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: this.info.task.id })
+
    },
    data() {
       return {
@@ -90,8 +90,9 @@ export default {
          },
          startChecked: false,
          isStartShow: false,
-         firstStartDate: '',
-         firstDueDate: ''
+         firstStartDate: null,
+         firstdueDate: null,
+         groupId: null
       }
    },
    computed: {
@@ -141,24 +142,35 @@ export default {
       saveDates() {
          this.closeList()
       },
-      removeDates() {
-         this.task.startDate.date = this.firstStartDate
-         this.task.dueDate.date = this.firstDueDate
-         this.addActivity(`Removed new dates`)
-         this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
-         this.closeList()
+      async removeDates() {
+         try {
+            this.task.startDate.date = ''
+            this.task.dueDate.date = ''
+            this.addActivity(`Removed new dates`)
+            await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.task })
+            this.closeList()
+         } catch (err) {
+            console.log(err)
+         }
+
       }
    },
    watch: {
-      valueString(val) {
-         if (this.isStartShow) {
-            this.task.startDate.date = val
-            this.addActivity(`Added new start date ${val}`)
-         } else {
-            this.task.dueDate.date = val
-            this.addActivity(`Added new due date ${val}`)
+      async valueString(val) {
+         try {
+            if (this.isStartShow) {
+               this.task.startDate.date = val
+               this.addActivity(`Added new start date ${val}`)
+
+            } else {
+               this.task.dueDate.date = val
+               this.addActivity(`Added new due date ${val}`)
+            }
+            await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.task })
+         } catch (err) {
+            console.log(err)
          }
-         this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
+
       }
    }
 };

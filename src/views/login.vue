@@ -2,24 +2,37 @@
    <section class="login-signup-page main-container">
       <div class="login-signup-header">
          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
             role="img"
-            viewBox="0 0 24 24"
-            height="1em"
-            width="1em"
+            alt="Trackero"
+            aria-label="Trackero"
+            height="40px"
+            viewBox="0 0 63.4 62.4"
+            width="40px"
+            class="d-block"
             xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
          >
-            <title></title>
-            <path
-               d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.656 1.343 3 3 3h18c1.656 0 3-1.344 3-3V3c0-1.657-1.344-3-3-3zM10.44 18.18c0 .795-.645 1.44-1.44 1.44H4.56c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.645-1.44 1.44-1.44H9c.795 0 1.44.645 1.44 1.44v13.62zm10.44-6c0 .794-.645 1.44-1.44 1.44H15c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.646-1.44 1.44-1.44h4.44c.795 0 1.44.645 1.44 1.44v7.62z"
-            ></path>
+            <linearGradient
+               id="trello-logo-default"
+               x1="50.048061%"
+               x2="50.048061%"
+               y1="100%"
+               y2="0%"
+            >
+               <stop offset="0" stop-color="#0052cc"></stop>
+               <stop offset="1" stop-color="#2684ff"></stop>
+            </linearGradient>
+            <g fill="none" fill-rule="evenodd">
+               <path
+                  d="m55.59.07h-47.59c-4.09405078 0-7.41448241 3.31595294-7.42006073 7.41v47.52c-.00791682 1.9730991.77030774 3.8681213 2.16269326 5.2661365 1.39238553 1.3980151 3.28425224 2.1838635 5.25736747 2.1838635h47.59c1.9713817-.0026407 3.8606757-.7896772 5.250897-2.1874031s2.1670753-3.2912295 2.1591638-5.2625969v-47.52c-.0055694-4.09014608-3.3199147-7.40449138-7.4100608-7.41zm-28.09 44.93c-.0026377.6594819-.2678382 1.2907542-.7369724 1.7542587-.4691341.4635046-1.1035619.721065-1.7630276.7158222h-10.4c-1.3602365-.005588-2.46-1.1098333-2.46-2.4700809v-30.95c0-1.3602476 1.0997635-2.4644929 2.46-2.47h10.4c1.3618668.0054804 2.4645196 1.1081332 2.47 2.47zm24-14.21c0 .6603158-.2642968 1.2931595-.7340204 1.7572465-.4697237.464087-1.1057125.7207735-1.7659796.7129359h-10.4c-1.3618668-.0056628-2.4645196-1.1083156-2.47-2.4701824v-16.74c.0054804-1.3618668 1.1081332-2.4645196 2.47-2.47h10.4c1.3602365.0055071 2.4600111 1.1097524 2.46 2.47z"
+                  fill="url(#trello-logo-default)"
+               ></path>
+            </g>
          </svg>
          <h3 class="logo-text">Trackero</h3>
       </div>
       <div class="login-signup flex column">
-         <h3>Log in to Marshmello</h3>
+         <h3>Log in to Trackero</h3>
          <form action="#" class="login-form flex column">
             <input
                name="username"
@@ -136,13 +149,11 @@ export default {
             this.user = user
             this.$store.commit({ type: "setLoggedinUser", user })
             this.userId = this.$store.getters.loggedinUserId
-            console.log("this.userId", this.userId)
             // this.$store.dispatch({
             //   type: "loadReviews",
             //   userId: this.userId,
             // });
             this.reviews = this.$store.getters.reviews
-            console.log("reviews", this.reviews)
             this.$router.push("/toy")
          } catch (err) {
             console.log(err)
@@ -165,7 +176,6 @@ export default {
       async removeUser(userId) {
          try {
             await this.$store.dispatch({ type: "removeUser", userId })
-            console.log("User removed")
          } catch (err) {
             console.log("Failed to remove user")
          }

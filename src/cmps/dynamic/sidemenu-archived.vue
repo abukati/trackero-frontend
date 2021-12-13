@@ -188,7 +188,6 @@ export default {
          this.$store.commit('toggleCheckbox', { checked: this.checked })
       },
       isCoverBgc(task) {
-         // console.log('task', task)
          if (task.style.bgColor !== '#ffffff') return true
          else return false
       },
@@ -224,10 +223,8 @@ export default {
       },
       async restoreTask(task) {
          try {
-            // console.log('task restore', task)
             task.isArchived = false
             const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            // console.log('groupId', groupId)
             await this.$store.dispatch({ type: 'updateTask', groupId, task })
             this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
          } catch (err) {
@@ -236,10 +233,7 @@ export default {
       },
       async removeTask(task) {
          try {
-            // console.log('task remove', task)
-            // task.isArchived = false
             const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
-            // console.log('groupId', groupId)
             await this.$store.dispatch({ type: 'removeTask', groupId, task })
             this.archivedList = this.$store.getters.allBoardTasks.filter(task => task.isArchived)
          } catch (err) {

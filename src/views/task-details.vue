@@ -19,7 +19,6 @@
 						<span class="sidebar-action-text">This card is archived</span>
 					</div>
 					<div class="window-header">
-                  
 						<span class="window-header-icon icon-lg"></span>
 						<div class="window-title">
 							<textarea-autosize v-model="newTitle" @blur.native="changeTaskTitle" class="task-detail-title-input" rows="1" />
@@ -31,7 +30,6 @@
 						</div>
 					</div>
 					<div class="window-main-col no-box-sizing">
-                  
 						<div class="task-detail-data clearfix">
 							<div class="task-detail-item hide">
 								<h3 class="task-detail-item-header">List</h3>
@@ -78,37 +76,43 @@
 									</a>
 								</div>
 							</div>
-							<div class="task-detail-item" v-if="task.startDate.date && !task.dueDate.date">
-								<h3 class="task-detail-item-header">Start date</h3>
-								<div class="start-date-badge">
-									<div class="content-container">
-										<button class="dates-btn">
-											<span>{{ task.startDate.date.slice(0, 6) }}</span>
-											<span class="icon-container">
-												<span class="open-dates-icon">
-													<svg
-														width="24"
-														height="24"
-														role="presentation"
-														focusable="false"
-														viewBox="0 0 24 24"
-														xmlns="http://www.w3.org/2000/svg"
-													>
-														<path
-															d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
-															fill="currentColor"
-														></path>
-													</svg>
-												</span>
-											</span>
-										</button>
-									</div>
-								</div>
-							</div>
+							<!-- <div
+                        class="task-detail-item"
+                        v-if="task.startDate.date && !task.dueDate.date"
+                     >
+                        <h3 class="task-detail-item-header">Start date</h3>
+                        <div class="start-date-badge">
+                           <div class="content-container">
+                              <button class="dates-btn">
+                                 <span>{{
+                                    task.startDate.date.slice(0, 6)
+                                 }}</span>
+                                 <span class="icon-container">
+                                    <span class="open-dates-icon">
+                                       <svg
+                                          width="24"
+                                          height="24"
+                                          role="presentation"
+                                          focusable="false"
+                                          viewBox="0 0 24 24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                       >
+                                          <path
+                                             d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
+                                             fill="currentColor"
+                                          ></path>
+                                       </svg>
+                                    </span>
+                                 </span>
+                              </button>
+                           </div>
+                        </div>
+                     </div> -->
 							<div class="task-detail-item" v-if="task.startDate.date || task.dueDate.date">
 								<h3 v-if="task.startDate.date && task.dueDate.date" class="task-detail-item-header">Dates</h3>
 
-								<h3 v-else class="task-detail-item-header">Due date</h3>
+								<h3 v-if="task.dueDate.date && !task.startDate.date" class="task-detail-item-header">Due date</h3>
+								<h3 v-if="task.startDate.date && !task.dueDate.date" class="task-detail-item-header">Start date</h3>
 								<div class="task-detail-dates-badge">
 									<a class="complete-box" href="#" role="button">
 										<span class="complete-icon">
@@ -329,8 +333,8 @@
 								</div>
 							</div>
 							<div v-show="isShowActivity">
-								<template v-for="activity in task.activities">
-									<div class="activity-container" :key="activity.id">
+								<template v-for="(activity,idx) in task.activities">
+									<div class="activity-container" :key="idx">
 										<div class="activity">
 											<div class="activity-creator">
 												<div class="member">
@@ -356,23 +360,13 @@
 						</div>
 					</div>
 					<div class="window-sidebar no-box-sizing">
-						
-						<div v-if="!showSuggested" class="window-module suggested-actions-module">
-							<div class="suggested-actions-settings">
-								<span class="settings-icon icon-sm"></span>
-							</div>
-							<h3>Suggested</h3>
-							<div class="clearfix">
-						
-								<a @click="joinTask" class="button-link" title="Join" href="#">
-									<span class="icon-sm icon-member"></span>
-									<span class="sidebar-action-text">Join</span>
-								</a>
-							</div>
-						</div>
-					  <task-opts-list
+						<task-opts-list
 							v-if="isListOpen"
 							:info="info"
+							:style="{
+								top: info.modalPos.posY + 'px',
+								left: info.modalPos.posX + 'px'
+							}"
 							@removeMember="removeTaskMember"
 							@addMember="addTaskMember"
 							@removeLabel="removeTaskLabel"
@@ -381,17 +375,26 @@
 							@addCheckList="addCheckList"
 							@changeTaskCover="toggleTaskCover"
 							@removeTaskCover="toggleTaskCover"
-							:style="{top: info.modalPos.posY + 'px',left: info.modalPos.posX + 'px',}"
 						/>
-                  <div class="u-clearfix">
+						<div v-if="!showSuggested" class="window-module suggested-actions-module">
+							<div class="suggested-actions-settings">
+								<span class="settings-icon icon-sm"></span>
+							</div>
+							<h3>Suggested</h3>
+							<div class="clearfix">
+								<a @click="joinTask" class="button-link" title="Join" href="#">
+									<span class="icon-sm icon-member"></span>
+									<span class="sidebar-action-text">Join</span>
+								</a>
+							</div>
+						</div>
 						<div class="window-module clearfix">
-							
 							<h3>Add to card</h3>
+							<div class="u-clearfix">
 								<a @click="toggleListCmp($event, 'members-list')" class="button-link" title="Members">
 									<span class="icon-sm icon-member"></span>
 									<span class="sidebar-action-text">Members</span>
 								</a>
-								 
 								<a @click="toggleListCmp($event, 'labels-list')" class="button-link" title="Labels">
 									<span class="icon-sm icon-label"></span>
 									<span class="sidebar-action-text">Labels</span>
@@ -496,13 +499,10 @@
 									<span @click="shareViaWebShare" class="sidebar-action-text">Share</span>
 								</a>
 							</div>
-                     
 						</div>
-           
 					</div>
 				</div>
 			</div>
-         
 		</div>
 	</div>
 </template>
@@ -567,8 +567,8 @@ export default {
 		},
 		closeDetails() {
 			const { boardId } = this.$route.params;
-			const url = `/board/${boardId}`
-			this.$router.push(url)
+			const url = `/board/${boardId}`;
+			this.$router.push(url);
 			// this.$router.go(-1);
 		},
 		toggleMiniProfile(ev, user) {
@@ -694,8 +694,132 @@ export default {
 			}
 		},
 		toggleTaskCover(color) {
-			if(this.task.style.bgColor === color) return
+			if (this.task.style.bgColor === color) return;
 			if (color !== '#ffffff') {
+				this.task.style.bgColor = color;
+				this.addActivity(`Changed this task cover`);
+			} else {
+				this.task.style.bgColor = '#ffffff';
+				this.task.style.url = '';
+				this.addActivity(`Removed this task cover`);
+			}
+			this.updateTask();
+		},
+		toggleTaskImg(ev, url = '') {
+			if (url) this.task.style.url = url;
+			else this.task.style.url = '';
+			this.updateTask();
+		},
+		changeTaskTitle(ev) {
+			this.task.title = ev.target.value;
+			this.addActivity(`Changed this task title`);
+			this.updateTask();
+		},
+		saveTaskDesc() {
+			this.isEditing = false;
+			this.task.description = this.taskDesc;
+			this.addActivity(`Updated the description`);
+			this.updateTask();
+		},
+		toggleEdit() {
+			this.isEditing = !this.isEditing;
+			this.$nextTick(() => {
+				this.$refs.descinput.$el.focus();
+			});
+		},
+		closeList() {
+			this.isListOpen = false;
+			this.info.type = null;
+		},
+		toggleActivity() {
+			this.isShowActivity = !this.isShowActivity;
+		},
+		getTask(taskId) {
+			const currBoard = this.$store.getters.currBoard;
+			currBoard.groups.forEach(group =>
+				group.tasks.find(task => {
+					if (task.id === taskId) {
+						this.task = task;
+						this.groupTitle = group.title;
+					}
+				})
+			);
+		},
+		joinTask() {
+			const user = this.loggedInUser;
+			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
+			if (memberIdx !== -1) {
+				return;
+			} else {
+				if (user) this.task.members.push(user);
+				this.addActivity(`joined this task`);
+				this.updateTask();
+			}
+		},
+		updateTask() {
+			const { groupId } = this.$route.params;
+			this.$store.dispatch({ type: 'updateTask', groupId, task: this.task });
+		},
+		addActivity(txt) {
+			const activity = {
+				txt,
+				byMember: this.loggedInUser,
+				createdAt: Date.now()
+			};
+			this.task.activities.unshift(activity);
+		},
+		addTaskMember(user) {
+			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
+			if (memberIdx !== -1) {
+				return;
+			} else {
+				if (user) this.task.members.push(user);
+				this.addActivity(`added ${user.fullname} to this task`);
+				this.updateTask();
+			}
+		},
+		removeTaskMember(user) {
+			const memberIdx = this.task.members.findIndex(member => member._id === user._id);
+			if (memberIdx !== -1) {
+				if (user) this.task.members.splice(memberIdx, 1);
+				this.addActivity(`removed ${user.fullname} from this task`);
+				this.updateTask();
+			} else {
+				return;
+			}
+		},
+		addTaskLabel(label) {
+			const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id);
+			if (labelIdx !== -1) {
+				return;
+			} else {
+				if (label) this.task.labels.push(label);
+				this.addActivity(`Labeled this task as ${label.title}`);
+				this.updateTask();
+			}
+		},
+		removeTaskLabel(label) {
+			const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id);
+			if (labelIdx !== -1) {
+				if (label) this.task.labels.splice(labelIdx, 1);
+				this.addActivity(`Removed label ${label.title} from this task`);
+				this.updateTask();
+			} else {
+				return;
+			}
+		},
+		removeAttachment(attachment) {
+			const attachmentIdx = this.task.attachments.findIndex(currAttach => currAttach.id === attachment.id);
+			if (attachmentIdx !== -1) {
+				if (attachment) this.task.attachments.splice(attachmentIdx, 1);
+				this.addActivity(`Removed attachment ${attachment.title}`);
+				this.updateTask();
+			} else {
+				return;
+			}
+		},
+		toggleTaskCover(color) {
+			if (color) {
 				this.task.style.bgColor = color;
 				this.addActivity(`Changed this task cover`);
 			} else {
@@ -816,7 +940,7 @@ export default {
 				const from = this.task.startDate.date.slice(0, 6);
 				const to = this.task.dueDate.date.slice(0, 6);
 				return `${from} - ${to}`;
-			} else if (this.task.startDate.date) return this.task.startDate.date.slice(0, 6);
+			} else if (this.task.startDate) return this.task.startDate.date.slice(0, 6);
 			return this.task.dueDate.date.slice(0, 6);
 		},
 		showSuggested() {

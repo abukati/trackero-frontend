@@ -125,11 +125,10 @@ export default {
          isPreviewEdit: false,
          currTask: null,
          task: null,
-         isDragging: false,
          dropPlaceholderOptions: {
             className: "drop-preview",
             animationDuration: "0",
-            showOnTop: false
+            showOnTop: true
          },
       }
    },

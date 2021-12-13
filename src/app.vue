@@ -1,7 +1,7 @@
 <template>
    <div id="app">
       <main :style="setBg">
-         <app-header v-if="!isHomePage && loggedUser" />
+         <app-header v-if="!isHomePage && !isLoginPage && loggedUser" />
          <router-view />
          <!-- <loading-overlay v-else /> -->
          <!-- {{ loggedUser }} -->
@@ -42,7 +42,10 @@ export default {
       },
       isHomePage() {
          return this.$route.name === 'home' ? true : false
-      }
+      },
+      isLoginPage() {
+         return this.$route.name === 'login' ? true : false
+      },
    }
 }
 </script>

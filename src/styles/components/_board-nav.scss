@@ -26,6 +26,9 @@
 
    &.mod-show-menu {
       transition: 0.1s ease;
+      background-color: #ffffff52;
+      cursor: pointer;
+      color: white;
 
       & .icon-overflow-menu::before {
          content: '\e952';
