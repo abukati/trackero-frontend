@@ -216,7 +216,7 @@ export default {
             const from = this.task.startDate.date.slice(0, 6)
             const to = this.task.dueDate.date.slice(0, 6)
             return `${from}-${to}`
-         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
+         } else if (this.task.startDate.date) return this.task.startDate.date.slice(0, 6)
          return this.task.dueDate.date.slice(0, 6)
       },
       checklistItems() {

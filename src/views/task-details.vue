@@ -127,7 +127,7 @@
                            </a>
                         </div>
                      </div>
-                     <div
+                     <!-- <div
                         class="task-detail-item"
                         v-if="task.startDate.date && !task.dueDate.date"
                      >
@@ -158,7 +158,7 @@
                               </button>
                            </div>
                         </div>
-                     </div>
+                     </div> -->
                      <div
                         class="task-detail-item"
                         v-if="task.startDate.date || task.dueDate.date"
@@ -170,7 +170,18 @@
                            Dates
                         </h3>
 
-                        <h3 v-else class="task-detail-item-header">Due date</h3>
+                        <h3
+                           v-if="task.dueDate.date && !task.startDate.date"
+                           class="task-detail-item-header"
+                        >
+                           Due date
+                        </h3>
+                        <h3
+                           v-if="task.startDate.date && !task.dueDate.date"
+                           class="task-detail-item-header"
+                        >
+                           Start date
+                        </h3>
                         <div class="task-detail-dates-badge">
                            <a class="complete-box" href="#" role="button">
                               <span class="complete-icon">
@@ -1062,7 +1073,7 @@ export default {
             const from = this.task.startDate.date.slice(0, 6)
             const to = this.task.dueDate.date.slice(0, 6)
             return `${from} - ${to}`
-         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
+         } else if (this.task.startDate.date) return this.task.startDate.date.slice(0, 6)
          return this.task.dueDate.date.slice(0, 6)
       },
       showSuggested() {

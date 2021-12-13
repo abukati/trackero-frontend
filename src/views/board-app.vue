@@ -224,7 +224,6 @@ export default {
       async loadBoard(boardId) {
          try {
             const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
-            console.log('here',currBoard)
             currBoard.members = this.$store.getters.users
             this.board = currBoard
          } catch (err) {

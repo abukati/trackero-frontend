@@ -1,44 +1,19 @@
-.login-section {
-   background: white;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   width: 80%;
-   position: relative;
-   margin: 20px auto;
-   padding: 40px;
+.login-signup-page {
+   height: 100vh;
+   background-color: #f8f0f8;
 
-   h1,
-   h2 {
-      font-size: rem(40px);
-      color: $clr6;
-      font-weight: bold;
-      text-align: center;
-   }
-
-   h2 {
-      color: rgb(159, 76, 218);
-   }
-
-   .preview-img {
-      width: 130px;
-   }
-
-   .login-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+   .login-signup-header {
+      color: #293856;
+      margin: auto;
+      // font-size: 32px;
+      grid-gap: 10px;
       gap: 10px;
-
-      .btn-login {
-         background-color: #9fe6a0;
-         border: 1px solid black;
-         width: rem(75px);
-
-         &:hover {
-            background-color: #57d483;
-         }
+      display: flex;
+      align-items: center;
+      h3 {
+         font-size: 40px;
+         margin: 0;
+         font-weight: 700;
       }
    }
 }

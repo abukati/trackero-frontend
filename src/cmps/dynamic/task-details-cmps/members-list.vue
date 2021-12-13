@@ -100,7 +100,6 @@ export default {
          const { name } = this.filterBy
          const regex = new RegExp(name, 'i')
          const members = this.$store.getters.boardMembers
-         console.log('members', members)
          var filteredMembers = members.filter((member) => regex.test(member.fullname))
          return filteredMembers
       }
