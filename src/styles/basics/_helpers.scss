@@ -321,6 +321,7 @@
 // DND
 
 .card-ghost {
+   pointer-events: none;
    transition: transform 0.18s ease;
    transform: rotateZ(5deg);
 }

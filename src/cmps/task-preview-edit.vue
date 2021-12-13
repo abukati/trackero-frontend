@@ -4,21 +4,7 @@
       class="quick-card-editor"
       @click.prevent.self="closePreviewEdit()"
    >
-      <task-opts-list
-         v-if="isListOpen"
-         :info="info"
-         :style="{
-            top: info.modalPos.posY + 'px',
-            left: info.modalPos.posX + 'px',
-         }"
-         @removeMember="removeTaskMember"
-         @addMember="addTaskMember"
-         @removeLabel="removeTaskLabel"
-         @addLabel="addTaskLabel"
-         @closeList="closeList"
-         @changeTaskCover="toggleTaskCover"
-         @removeTaskCover="toggleTaskCover"
-      />
+
       <span
          @click="closePreviewEdit"
          class="icon-lg icon-close quick-card-editor-close-icon"
@@ -28,10 +14,12 @@
          class="quick-card-editor-card"
          :style="{ left: modalPos.left + 'px', top: modalPos.top + 'px' }"
       >
+         
          <div
             class="list-card list-card-quick-edit js-stop"
             style="width: 256px"
          >
+        
             <!-- <div
                v-if="taskCover"
                class="list-card-cover"
@@ -45,12 +33,17 @@
                class="list-card-cover"
                :style="taskCover"
                :class="{ img: task.style.url }"
-            ></div>
+            >
+              
+            </div>
+            
             <div class="list-card-details">
+               
                <div
                   v-if="taskToEdit.labels && taskToEdit.labels.length"
                   class="list-card-labels"
                >
+              
                   <span
                      v-for="label in taskToEdit.labels"
                      :key="label.id"
@@ -66,6 +59,7 @@
                   @focus="titleInputFocus"
                   v-model="taskToEdit.title"
                />
+              
                <!-- <textarea
                   class="list-card-edit-title"
                   @keydown.enter.exact.prevent
@@ -191,6 +185,17 @@
                   >Open card</span
                >
             </router-link>
+            <task-opts-list
+               v-if="isListOpen"
+               :info="info"
+               @removeMember="removeTaskMember"
+               @addMember="addTaskMember"
+               @removeLabel="removeTaskLabel"
+               @addLabel="addTaskLabel"
+               @closeList="closeList"
+               @changeTaskCover="toggleTaskCover"
+               @removeTaskCover="toggleTaskCover"
+            />
             <a
                @click="toggleListCmp($event, 'labels-list')"
                class="quick-card-editor-buttons-item js-edit-labels"
@@ -200,6 +205,7 @@
                   Edit labels
                </span>
             </a>
+            
             <a
                @click="toggleListCmp($event, 'members-list')"
                class="quick-card-editor-buttons-item js-edit-members"
@@ -209,6 +215,7 @@
                   Change members
                </span>
             </a>
+             
             <a
                @click="toggleListCmp($event, 'cover-menu')"
                class="quick-card-editor-buttons-item js-edit-cover"
@@ -246,6 +253,7 @@
             </a>
          </div>
       </div>
+         
    </div>
 </template>
 

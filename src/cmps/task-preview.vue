@@ -1,9 +1,12 @@
 <template>
    <!-- <section class="list-card-preview"> -->
 
-   <router-link
-      v-if="!task.isArchived"
+<article
+      role="button"
       class="list-card"
+      v-if="!task.isArchived"
+      >
+   <router-link
       :to="`/board/${board._id}/${group.id}/${task.id}`"
    >
       <!-- cover -->
@@ -155,7 +158,7 @@
          </div>
       </div>
    </router-link>
-
+</article>
    <!-- </section> -->
 </template>
 <script>
