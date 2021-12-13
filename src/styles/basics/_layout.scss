@@ -36,6 +36,13 @@
 }
 
 @media screen and (max-width: 750px) {
+   .main-container {
+      display: grid;
+      grid-template-columns: 20px 1fr 20px;
+      > * {
+         grid-column: 2;
+      }
+   }
    .task-detail-modal-container {
       .window-overlay {
          .window {
@@ -93,6 +100,16 @@
 }
 
 @media screen and (min-width: 768px) {
+   .main-container {
+      display: grid;
+      grid-template-columns:
+         minmax(20px, 1fr)
+         minmax(auto, 728px)
+         minmax(20px, 1fr);
+      > * {
+         grid-column: 2;
+      }
+   }
    .home-container {
       flex-direction: column;
       text-align: left;
@@ -154,6 +171,16 @@
 }
 
 @media screen and (min-width: 960px) {
+   .main-container {
+      display: grid;
+      grid-template-columns:
+         minmax(20px, 1fr)
+         minmax(auto, 920px)
+         minmax(20px, 1fr);
+      > * {
+         grid-column: 2;
+      }
+   }
    .home-container {
       flex-direction: column;
       text-align: center;

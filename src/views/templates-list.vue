@@ -170,7 +170,6 @@ export default {
       },
       async removeBoard(boardId) {
          try {
-            console.log('boardId', boardId)
             await this.$store.dispatch({ type: 'removeBoard', boardId })
             await this.$store.dispatch({ type: 'loadBoards' })
             this.boards = this.$store.getters.boardsForDisplay

@@ -222,10 +222,10 @@ export const boardStore = {
             console.log(err)
          }
       },
-      async updateGroup({ state, commit}, { group }) {
+      async updateGroup({ state, commit }, { group }) {
          try {
             const updatedGroup = await boardService.updateGroup(group, group.id, state.currBoard)
-            commit({ type: 'updateGroup', group:updatedGroup })
+            commit({ type: 'updateGroup', group: updatedGroup })
          } catch (err) {
             console.log(err)
          }
