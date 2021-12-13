@@ -59,7 +59,7 @@ export default {
       async deleteGroup() {
          try {
             const groupId = this.group.id
-            const deletedId = this.$store.dispatch({ type: 'removeGroup', groupId })
+            await this.$store.dispatch({ type: 'removeGroup', groupId })
             this.isOptionsListOpen = false
             this.closeModal()
          } catch (err) {

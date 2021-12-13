@@ -1093,6 +1093,245 @@ export default {
          return this.task.isArchived
       },
 
+      if(this.isMiniProfileOpen) this.closeMiniProfile()
+      this.info.modalPos.posY = ev.pageY + 20 // top
+      this.info.modalPos.posX = ev.pageX - 15 // left
+      this.info.type = cmpName
+   })
+}
+		},
+closeList() {
+   this.isListOpen = false
+   this.info.type = null
+},
+toggleActivity() {
+   this.isShowActivity = !this.isShowActivity
+},
+getTask(taskId) {
+   const currBoard = this.$store.getters.currBoard
+   currBoard.groups.forEach(group =>
+      group.tasks.find(task => {
+         if (task.id === taskId) {
+            this.task = task
+            this.groupTitle = group.title
+         }
+      })
+   )
+},
+joinTask() {
+   const user = this.loggedInUser
+   const memberIdx = this.task.members.findIndex(member => member._id === user._id)
+   if (memberIdx !== -1) {
+      return
+   } else {
+      if (user) this.task.members.push(user)
+      this.addActivity(`joined this task`)
+      this.updateTask()
    }
+},
+updateTask() {
+   const { groupId } = this.$route.params
+   this.$store.dispatch({ type: 'updateTask', groupId, task: this.task })
+},
+addActivity(txt) {
+   const activity = {
+      txt,
+      byMember: this.loggedInUser,
+      createdAt: Date.now()
+   }
+   this.task.activities.unshift(activity)
+},
+addTaskMember(user) {
+   const memberIdx = this.task.members.findIndex(member => member._id === user._id)
+   if (memberIdx !== -1) {
+      return
+   } else {
+      if (user) this.task.members.push(user)
+      this.addActivity(`added ${user.fullname} to this task`)
+      this.updateTask()
+   }
+},
+removeTaskMember(user) {
+   const memberIdx = this.task.members.findIndex(member => member._id === user._id)
+   if (memberIdx !== -1) {
+      if (user) this.task.members.splice(memberIdx, 1)
+      this.addActivity(`removed ${user.fullname} from this task`)
+      this.updateTask()
+   } else {
+      return
+   }
+},
+addTaskLabel(label) {
+   const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id)
+   if (labelIdx !== -1) {
+      return
+   } else {
+      if (label) this.task.labels.push(label)
+      this.addActivity(`Labeled this task as ${label.title}`)
+      this.updateTask()
+   }
+},
+removeTaskLabel(label) {
+   const labelIdx = this.task.labels.findIndex(currLabel => currLabel.id === label.id)
+   if (labelIdx !== -1) {
+      if (label) this.task.labels.splice(labelIdx, 1)
+      this.addActivity(`Removed label ${label.title} from this task`)
+      this.updateTask()
+   } else {
+      return
+   }
+},
+removeAttachment(attachment) {
+   const attachmentIdx = this.task.attachments.findIndex(currAttach => currAttach.id === attachment.id)
+   if (attachmentIdx !== -1) {
+      if (attachment) this.task.attachments.splice(attachmentIdx, 1)
+      this.addActivity(`Removed attachment ${attachment.title}`)
+      this.updateTask()
+   } else {
+      return
+   }
+},
+toggleTaskCover(color) {
+   if (color) {
+      this.task.style.bgColor = color
+      this.addActivity(`Changed this task cover`)
+   } else {
+      this.task.style.bgColor = '#ffffff'
+      this.task.style.url = ''
+      this.addActivity(`Removed this task cover`)
+   }
+   this.updateTask()
+},
+toggleTaskImg(ev, url = '') {
+   if (url) this.task.style.url = url
+   else this.task.style.url = ''
+   this.updateTask()
+},
+changeTaskTitle(ev) {
+   this.task.title = ev.target.value
+   this.addActivity(`Changed this task title`)
+   this.updateTask()
+},
+saveTaskDesc() {
+   this.isEditing = false
+   this.task.description = this.taskDesc
+   this.addActivity(`Updated the description`)
+   this.updateTask()
+},
+toggleEdit() {
+   this.isEditing = !this.isEditing
+   this.$nextTick(() => {
+      this.$refs.descinput.$el.focus()
+   })
+},
+		async saveComment() {
+   try {
+      if (!this.newCommentTxt.length) {
+         this.$refs.commentinput.focus()
+         return
+      }
+      var newComment = await this.$store.dispatch({ type: 'getEmptyComment' })
+      newComment.txt = this.newCommentTxt
+      newComment.byMember.fullname = this.loggedInUser.fullname
+      this.task.comments.push(newComment)
+      this.addActivity(`Added new comment '${newComment.txt}'`)
+      this.newCommentTxt = ''
+      this.updateTask()
+   } catch (err) {
+      console.log(err)
+   }
+},
+removeComment(comment) {
+   const commentIdx = this.task.comments.findIndex(currComment => currComment.id === comment.id)
+   if (commentIdx !== -1) {
+      this.task.comments.splice(commentIdx, 1)
+      this.addActivity(`Removed comment '${comment.txt}'`)
+      this.updateTask()
+   } else {
+      return
+   }
+},
+		async addTodo(todo, checklistId) {
+   try {
+      var newTodo = await this.$store.dispatch({ type: 'getEmptyTodo' })
+      newTodo.text = todo.text
+      const checklist = this.task.checklists.find(currChecklist => currChecklist.id === checklistId)
+      checklist.todos.push(newTodo)
+      this.updateTask()
+   } catch (err) {
+      console.log(err)
+   }
+},
+		async addCheckList(title) {
+   try {
+      var newCheckList = await this.$store.dispatch({ type: 'getEmptyChecklist' })
+      newCheckList.title = title
+      this.addActivity(`Added new '${title}' checklist to this task`)
+      this.task.checklists.push(newCheckList)
+      this.updateTask()
+   } catch (err) {
+      console.log(err)
+   }
+},
+		async archiveTask(task) {
+   try {
+      task.isArchived = true
+      this.addActivity(`Archived this task`)
+      await this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task })
+   } catch (err) {
+      console.log(err)
+   }
+},
+		async restoreTask(task) {
+   try {
+      task.isArchived = false
+      this.addActivity(`Restored this task from archive`)
+      await this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task })
+   } catch (err) {
+      console.log(err)
+   }
+},
+		async removeTask(task) {
+   try {
+      await this.$store.dispatch({ type: 'removeTask', groupId: this.info.groupId, task })
+      this.closeDetails()
+   } catch (err) {
+      console.log(err)
+   }
+}
+	},
+computed: {
+   taskCover() {
+      const cover = this.task.style
+      var style = ''
+      if (cover.bgColor !== '#ffffff') style += `background-color:${cover.bgColor}; `
+      if (cover.url) style += `background-image: url('${cover.url}');`
+      return style
+   },
+   dateToShow() {
+      if (this.task.startDate.date && this.task.dueDate.date) {
+         const from = this.task.startDate.date.slice(0, 6)
+         const to = this.task.dueDate.date.slice(0, 6)
+         return `${from} - ${to}`
+      } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
+      return this.task.dueDate.date.slice(0, 6)
+   },
+   showSuggested() {
+      const loggedInUserId = this.loggedInUser._id
+      var isShowSuggest = false
+      this.task.members.forEach(member => {
+         if (member._id === loggedInUserId) {
+            isShowSuggest = true
+         }
+      })
+      return isShowSuggest
+   },
+   checkLists() {
+      return this.task.checklists.length
+   },
+   taskIsArchived() {
+      return this.task.isArchived
+   }
+}
 };
 </script>

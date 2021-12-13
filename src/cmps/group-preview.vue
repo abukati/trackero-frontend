@@ -2,6 +2,7 @@
    <section class="group-preview-container">
       <section class="group-header-section">
          <h2
+            @mousedown="closeOptions"
             v-if="isEditable === false"
             @mouseup="toggleEditing"
             class="group-header-title-assist"
@@ -83,8 +84,7 @@
                </div>
             </div>
          </div>
-      </Container>
-
+     </Container>
       <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
          <a class="card-composer">
             <span class="add-task-plus-icon">
@@ -128,8 +128,8 @@ export default {
          isDragging: false,
          dropPlaceholderOptions: {
             className: "drop-preview",
-            animationDuration: "500",
-            showOnTop: true
+            animationDuration: "0",
+            showOnTop: false
          },
       }
    },
@@ -139,6 +139,9 @@ export default {
       },
       toggleInput() {
          this.isTaskInputOpen = !this.isTaskInputOpen
+         this.isOptionsListOpen = false
+      },
+      closeOptions(){
          this.isOptionsListOpen = false
       },
       async addTask() {
@@ -167,6 +170,7 @@ export default {
       },
       async updateGroupTitle(ev) {
          try {
+            this.closeOptions()
             this.isTitleInputOpen = false
             this.isEditable = false
             ev.target.blur()
@@ -186,6 +190,7 @@ export default {
          this.$emit('toggleModal', ev)
       },
       toggleEditing(ev) {
+         this.closeOptions()
          this.isEditable = true
          ev.target.style.display = 'none'
          this.$nextTick(() => {
