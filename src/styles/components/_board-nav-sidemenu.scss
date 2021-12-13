@@ -7,7 +7,8 @@ $menuDiveders: #091e4221;
 }
 
 .board-menu {
-   &, .board-menu-container {
+   &,
+   .board-menu-container {
       position: absolute;
       bottom: 0;
       right: 0;
@@ -17,8 +18,8 @@ $menuDiveders: #091e4221;
    background-color: $boardMenuBgc;
 
    transform: translateX(339px);
-   transition-duration: .1s;
-   transition-property: transform,width;
+   transition-duration: 0.3s;
+   transition-property: transform, width;
    transition-timing-function: ease-in;
    width: 339px;
    z-index: 5;
@@ -70,10 +71,10 @@ $menuDiveders: #091e4221;
          overflow: hidden;
          position: absolute;
          top: 8px;
-         transition: transform .12s ease-in;
+         transition: transform 0.12s ease-in;
 
          &::before {
-            content: "\e90a";
+            content: '\e90a';
          }
       }
 
@@ -84,7 +85,7 @@ $menuDiveders: #091e4221;
          overflow: hidden;
          text-align: center;
          text-overflow: ellipsis;
-         transition: margin .12s ease-in;
+         transition: margin 0.12s ease-in;
          white-space: nowrap;
       }
 
@@ -95,7 +96,7 @@ $menuDiveders: #091e4221;
          top: 8px;
 
          &::before {
-            content: "\e91c";
+            content: '\e91c';
          }
       }
    }
@@ -110,7 +111,8 @@ $menuDiveders: #091e4221;
    }
 }
 
-.board-menu-navigation-item-block, .board-menu-navigation-item-link {
+.board-menu-navigation-item-block,
+.board-menu-navigation-item-link {
    padding: 6px 6px 6px 40px;
    position: relative;
 }
@@ -128,8 +130,8 @@ $menuDiveders: #091e4221;
    .board-menu-content-container {
       flex: 1 auto;
       transform: translateX(0);
-      transition-duration: .12s;
-      transition-property: transform,opacity;
+      transition-duration: 0.12s;
+      transition-property: transform, opacity;
       transition-timing-function: ease-in;
       width: 100%;
    }
@@ -183,16 +185,16 @@ $menuDiveders: #091e4221;
             width: 20px;
 
             &.icon-board::before {
-               content: "\e90b";
+               content: '\e90b';
             }
             &.icon-overflow-menu-horizontal::before {
-               content: "\e952";
+               content: '\e952';
             }
             &.icon-label::before {
-               content: "\e93f";
+               content: '\e93f';
             }
             &.icon-archive::before {
-               content: "\e907";
+               content: '\e907';
             }
          }
 
@@ -230,9 +232,9 @@ $menuDiveders: #091e4221;
       position: absolute;
       top: 6px;
       width: 20px;
-      
+
       &.icon-activity::before {
-         content: "\e900";
+         content: '\e900';
       }
    }
 
@@ -258,16 +260,19 @@ $menuDiveders: #091e4221;
    }
 }
 
-.activity-meta a.date:hover, .activity-meta a.quiet:hover {
+.activity-meta a.date:hover,
+.activity-meta a.quiet:hover {
    text-decoration: underline;
 }
 .quiet a:not(.disabled):hover {
    color: #172b4d;
 }
-.activity-meta a.date, .activity-meta a.quiet {
+.activity-meta a.date,
+.activity-meta a.quiet {
    text-decoration: none;
 }
-.quiet, .quiet a {
+.quiet,
+.quiet a {
    color: #5e6c84;
 }
 
@@ -324,7 +329,7 @@ $menuDiveders: #091e4221;
 }
 
 .icon-organization-visible:before {
-   content: "\e951";
+   content: '\e951';
 }
 
 .board-backgrounds-section-tile.board-backgrounds-section-tile-large {
@@ -345,12 +350,12 @@ $menuDiveders: #091e4221;
 }
 
 .board-backgrounds-section-tile .image:hover {
-   opacity: .7;
+   opacity: 0.7;
 }
 
 .board-background-select .background-box:hover {
    cursor: pointer;
-   opacity: .8;
+   opacity: 0.8;
 }
 
 .board-backgrounds-photos {
@@ -389,13 +394,14 @@ $menuDiveders: #091e4221;
    z-index: 1;
 }
 
-.board-menu-content input[type=search], .board-menu-content input[type=text] {
+.board-menu-content input[type='search'],
+.board-menu-content input[type='text'] {
    background: #fafbfc;
    width: 100%;
 }
 
 .icon-search:before {
-   content: "\e960";
+   content: '\e960';
 }
 
 .board-backgrounds-photos .search-photos .icon-search {
@@ -408,7 +414,7 @@ $menuDiveders: #091e4221;
    margin: 1px;
    position: relative;
 
-   & input[type=text] {
+   & input[type='text'] {
       -webkit-appearance: none;
       background-color: #fafbfc;
       border: none;
@@ -421,7 +427,7 @@ $menuDiveders: #091e4221;
       outline: none;
       padding: 8px 12px;
       transition-duration: 85ms;
-      transition-property: background-color,border-color,box-shadow;
+      transition-property: background-color, border-color, box-shadow;
       transition-timing-function: ease;
       padding-left: 32px;
    }

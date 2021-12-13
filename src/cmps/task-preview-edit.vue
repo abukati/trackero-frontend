@@ -225,14 +225,14 @@
                   Change cover
                </span>
             </a>
-            <a class="quick-card-editor-buttons-item js-move-card">
+            <!-- <a class="quick-card-editor-buttons-item js-move-card">
                <span class="icon-sm icon-move light"></span>
                <span class="quick-card-editor-buttons-item-text"> Move </span>
             </a>
             <a class="quick-card-editor-buttons-item js-copy-card">
                <span class="icon-sm icon-card light"></span>
                <span class="quick-card-editor-buttons-item-text"> Copy</span>
-            </a>
+            </a> -->
             <a
                @click="toggleListCmp($event, 'date-picker')"
                class="quick-card-editor-buttons-item js-edit-due-date"
@@ -396,11 +396,11 @@ export default {
       },
       organizedDates() {
          if (this.taskToEdit.startDate.date && this.taskToEdit.dueDate.date) {
-            const from = this.taskToEdit.startDate.date.slice(0, 5)
-            const to = this.taskToEdit.dueDate.date.slice(0, 5)
+            const from = this.taskToEdit.startDate.date.slice(0, 6)
+            const to = this.taskToEdit.dueDate.date.slice(0, 6)
             return `${from}-${to}`
-         } else if (this.taskToEdit.startDate) return this.taskToEdit.startDate.date.slice(0, 5)
-         return this.taskToEdit.dueDate.date.slice(0, 5)
+         } else if (this.taskToEdit.startDate) return this.taskToEdit.startDate.date.slice(0, 6)
+         return this.taskToEdit.dueDate.date.slice(0, 6)
       },
       checklistItems() {
          // Currently checks only the first checklist and not all checklists in TODO

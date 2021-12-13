@@ -52,6 +52,7 @@
 
 <script>
 import { uploadImg } from '@/services/imgUpload.service.js'
+import utilService from '../../../services/util-service.js'
 
 export default {
    name: "attachment-list",
@@ -97,26 +98,34 @@ export default {
       closeList() {
          this.$emit('closeList')
       },
-      addActivity(txt){
-			const activity = {
-				txt,
-				byMember:this.$store.getters.currLoggedUser,
-				createdAt:Date.now(),
-			}
-			this.task.activities.unshift(activity);
-		},
+      addActivity(txt) {
+         const activity = {
+            txt,
+            byMember: this.$store.getters.currLoggedUser,
+            createdAt: Date.now(),
+         }
+         this.task.activities.unshift(activity)
+      },
       saveImg(res) {
          this.task.attachments.push({ id: res.asset_id, url: res.url, title: res.original_filename + '.' + res.format })
-         this.addActivity(`Added new attachment ${ res.original_filename}`)
+         this.addActivity(`Added new attachment ${res.original_filename}`)
          this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
       },
       saveLink() {
-         // const id = 'f' + this.task.attachments.length + 1
+         const id = this.makeId()
          this.task.attachments.push({ id, url: this.linkUrl, title: this.linkUrlName })
          this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
       },
       changeIsEmpty() {
          this.linkIsEmpty = !this.linkIsEmpty
+      },
+      makeId(length = 12) {
+         var txt = ''
+         var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+         for (var i = 0; i < length; i++) {
+            txt += possible.charAt(Math.floor(Math.random() * possible.length))
+         }
+         return txt
       }
 
    },

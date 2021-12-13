@@ -206,11 +206,11 @@ export default {
       },
       organizedDates(task) {
          if (task.startDate.date && task.dueDate.date) {
-            const from = task.startDate.date.slice(0, 5)
-            const to = task.dueDate.date.slice(0, 5)
+            const from = task.startDate.date.slice(0, 6)
+            const to = task.dueDate.date.slice(0, 6)
             return `${from}-${to}`
-         } else if (task.startDate) return task.startDate.date.slice(0, 5)
-         return task.dueDate.date.slice(0, 5)
+         } else if (task.startDate) return task.startDate.date.slice(0, 6)
+         return task.dueDate.date.slice(0, 6)
       },
       checklistItems(task) {
          let count = 0

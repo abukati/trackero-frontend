@@ -84,7 +84,7 @@
 								<div class="start-date-badge">
 									<div class="content-container">
 										<button class="dates-btn">
-											<span>{{ task.startDate.date.slice(0, 5) }}</span>
+											<span>{{ task.startDate.date.slice(0, 6) }}</span>
 											<span class="icon-container">
 												<span class="open-dates-icon">
 													<svg
@@ -810,11 +810,11 @@ export default {
 		},
 		dateToShow() {
 			if (this.task.startDate.date && this.task.dueDate.date) {
-				const from = this.task.startDate.date.slice(0, 5);
-				const to = this.task.dueDate.date.slice(0, 5);
+				const from = this.task.startDate.date.slice(0, 6);
+				const to = this.task.dueDate.date.slice(0, 6);
 				return `${from} - ${to}`;
-			} else if (this.task.startDate) return this.task.startDate.date.slice(0, 5);
-			return this.task.dueDate.date.slice(0, 5);
+			} else if (this.task.startDate) return this.task.startDate.date.slice(0, 6);
+			return this.task.dueDate.date.slice(0, 6);
 		},
 		showSuggested() {
 			const loggedInUserId = this.loggedInUser._id;

@@ -105,6 +105,8 @@
                                        class="add-list-title-input"
                                        v-model="newListTitleInput"
                                        placeholder="Enter list title..."
+                                       @keydown.enter.exact.prevent
+                                       @keyup.enter.exact="addGroup"
                                     />
                                  </div>
                                  <div class="add-list-control-section">
@@ -203,7 +205,7 @@ export default {
    methods: {
       async addGroup() {
          try {
-            if(!this.newListTitleInput) return
+            if (!this.newListTitleInput) return
             var group = JSON.parse(JSON.stringify(this.$store.getters.getEmptyGroup))
             group.title = this.newListTitleInput
             await this.$store.dispatch({ type: 'addGroup', group })
