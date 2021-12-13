@@ -67,7 +67,7 @@
 <script>
 import { Locale } from "v-calendar"
 const locale = new Locale()
-const mask = "MM/DD/YYYY"
+const mask = "MMM DD YYYY"
 export default {
    name: 'datePicker',
    props: ['info'],
@@ -81,7 +81,7 @@ export default {
    data() {
       return {
          task: this.info.task,
-         valueString: this.info.task.dueDate.date || "MM/DD/YYYY",
+         valueString: this.info.task.dueDate.date || "MMM DD YYYY",
          // valueString: this.info.task.dueDate.date || "12/14/2021",
          masks: {
             input: mask
@@ -152,10 +152,10 @@ export default {
          if (this.isStartShow) {
             this.task.startDate.date = val
             this.addActivity(`Added new start date ${val}`)
-         }else{
+         } else {
             this.task.dueDate.date = val
             this.addActivity(`Added new due date ${val}`)
-         } 
+         }
          this.$store.dispatch({ type: 'updateTask', groupId: this.info.groupId, task: this.task })
       }
    }

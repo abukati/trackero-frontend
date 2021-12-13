@@ -15,5 +15,5 @@ const apiClient = axios.create({
 })
 
 function getPhotos() {
-   return apiClient.get(`/collections/17098/photos?client_id=${API_KEY}`)
+   return apiClient.get(`/collections/11649432/photos?client_id=${API_KEY}`)
 }

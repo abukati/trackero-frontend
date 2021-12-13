@@ -34,38 +34,41 @@
       </section>
 
       <Container
-       	orientation="vertical"
+         orientation="vertical"
          class="group-tasks-section"
-			drag-class="card-ghost"
-			drop-class="card-ghost-drop"
-			group-name="2"
+         drag-class="card-ghost"
+         drop-class="card-ghost-drop"
+         group-name="2"
          :get-child-payload="getChildPayload"
-			@drop="onDrop(group.tasks, $event)"
-			:drop-placeholder="dropPlaceholderOptions"
-		   drag-handle-selector=".list-card" 
+         @drop="onDrop(group.tasks, $event)"
+         :drop-placeholder="dropPlaceholderOptions"
+         drag-handle-selector=".list-card"
       >
-      <Draggable v-for="task in group.tasks" :key="task.id" >
-            <task-preview 
-            @openPreviewEdit="openPreviewEdit"
-            :task="task"
-            :board="board"
-            :group="group" />
-       </Draggable>
-      <!-- <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
+         <Draggable v-for="task in group.tasks" :key="task.id">
+            <task-preview
+               @openPreviewEdit="openPreviewEdit"
+               :task="task"
+               :board="board"
+               :group="group"
+            />
+         </Draggable>
+         <!-- <draggable class="group-tasks-section" v-model="tasksList" group="group" draggable=".list-card">
          <template v-for="task in group.tasks">
             <task-preview @openPreviewEdit="openPreviewEdit" :task="task" :board="board" :group="group" :key="task.id"> </task-preview>
          </template> -->
-      
+
          <div class="task-composer-container">
             <div v-if="isTaskInputOpen" class="card-composer-open">
                <div class="add-task-input-section">
                   <div class="add-task-input-details group-task-link">
                      <!-- <textarea type="text" class="add-task-input"
                         v-model="taskInput" placeholder="Enter a title for this card..." /> -->
-                     <textarea-autosize
+                     <textarea
                         class="add-task-input"
                         v-model="taskInput"
                         type="text"
+                        @keydown.enter.exact.prevent
+                        @keyup.enter.exact="addTask"
                         placeholder="Enter a title for this card..."
                      />
                   </div>
@@ -80,8 +83,8 @@
                </div>
             </div>
          </div>
-     </Container>
-         
+      </Container>
+
       <div v-if="!isTaskInputOpen" @click="toggleInput" class="add-task-button">
          <a class="card-composer">
             <span class="add-task-plus-icon">
@@ -90,7 +93,6 @@
             <span class="add-task-span">Add a card</span>
          </a>
       </div>
-       
    </section>
 </template>
 
@@ -141,7 +143,7 @@ export default {
       },
       async addTask() {
          try {
-            if(!this.taskInput) return
+            if (!this.taskInput) return
             const groupId = this.group.id
             const newTask = await this.$store.dispatch('addTask', { groupId, title: this.taskInput })
             this.isTaskInputOpen = false

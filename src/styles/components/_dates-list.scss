@@ -33,6 +33,7 @@
                .btn-due-date {
                   height: 32px;
                   margin-right: 10px;
+                  width: 90px;
                   color: #172b4d;
                   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
                   font-size: 14px;
@@ -48,11 +49,12 @@
                   text-decoration: none;
                   background-color: rgba(9, 30, 66, 0.04);
                   box-shadow: none;
-                  border: none;
+                  // border: none;
+                  border: 1px solid #909399;
                   &:active {
                      background-color: #0079bf;
                      box-shadow: none;
-                     border: none;
+                     border: 1px solid #909399;
                      color: #ffffff;
                   }
                   &:hover {
@@ -141,7 +143,7 @@
                         color: #a5adba;
                         cursor: text;
                         user-select: none;
-                        width: 90px;
+                        width: 100px;
                         margin: 0;
                         padding: 6px;
                         outline: none;

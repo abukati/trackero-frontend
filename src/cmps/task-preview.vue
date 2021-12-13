@@ -213,11 +213,11 @@ export default {
       },
       organizedDates() {
          if (this.task.startDate.date && this.task.dueDate.date) {
-            const from = this.task.startDate.date.slice(0, 5)
-            const to = this.task.dueDate.date.slice(0, 5)
+            const from = this.task.startDate.date.slice(0, 6)
+            const to = this.task.dueDate.date.slice(0, 6)
             return `${from}-${to}`
-         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 5)
-         return this.task.dueDate.date.slice(0, 5)
+         } else if (this.task.startDate) return this.task.startDate.date.slice(0, 6)
+         return this.task.dueDate.date.slice(0, 6)
       },
       checklistItems() {
          let count = 0
